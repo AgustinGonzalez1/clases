@@ -1,0 +1,57 @@
+---
+titulo: "Clase 6 - Extensión Lápiz"
+---
+
+# Extensión Lápiz ✏️
+
+Activamos la extensión Lápiz de Scratch y creamos un cursor dinámico que deja rastro al moverse.
+
+## Contenido
+
+### 1. ¿Qué es la extensión Lápiz?
+
+Scratch tiene bloques extra que no aparecen por defecto. La extensión Lápiz permite dibujar en el escenario usando un sprite como pincel.
+
+Para activarla: clic en el botón **"+"** abajo a la izquierda en Scratch → elegir **Lápiz**. Aparecen nuevos bloques verdes.
+
+### 2. Bloques de la extensión — uno por uno
+
+| Bloque                          | Qué hace                                                                                       |
+| ------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `fijar tamaño de lápiz a [ ]`   | Define el grosor del trazo. Siempre pone el mismo número sin importar lo que había antes       |
+| `cambiar color de lápiz en [ ]` | Cambia el color del lápiz sumando un valor — dentro del `por siempre` hace el efecto arco iris |
+| `borrar todo`                   | Limpia todo lo dibujado en el escenario                                                        |
+| `subir lápiz`                   | El sprite deja de dibujar aunque siga moviéndose                                               |
+| `bajar lápiz`                   | El sprite empieza a dejar rastro al moverse                                                    |
+
+> **Fijar** vs **Cambiar:** `fijar tamaño` siempre pone el mismo número. `cambiar tamaño` suma o resta al valor actual — si se usa muchas veces sin control el lápiz se vuelve gigante.
+
+### 3. Código completo
+
+```
+al presionar 🏴
+fijar tamaño de lápiz a [3]
+por siempre
+   ir a [puntero del ratón]
+   cambiar color de lápiz en [10]
+
+al presionar tecla [espacio]
+borrar todo
+
+al presionar tecla [a]
+subir lápiz
+
+al presionar tecla [d]
+bajar lápiz
+```
+
+### 4. ¿Cómo funciona cada parte?
+
+- **Al presionar la bandera** — fija el tamaño y arranca el bucle. El sprite sigue al mouse y el color cambia solo en cada frame dando el efecto arco iris.
+- **Espacio** — borra todo el dibujo y empieza de nuevo.
+- **Tecla "a"** — sube el lápiz para mover el cursor sin dibujar.
+- **Tecla "d"** — baja el lápiz para volver a dibujar.
+
+## Misión
+
+> Activar la extensión Lápiz, armar el cursor dinámico y probarlo. Personalizar el tamaño del trazo y explorar qué pasa si cambiás el número del `cambiar color de lápiz en`.

@@ -1,0 +1,71 @@
+---
+title: "Clase 2: Creamos el encabezado 🛠️"
+modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
+mision: "Crear un encabezado con logo y navegación, y dejar creadas al menos 2 páginas más para que los links funcionen de verdad."
+---
+
+# Clase 2: Creamos el encabezado 🛠️
+
+## ¿Por qué el encabezado es tan importante?
+
+Es lo primero que ve alguien al entrar a un sitio. Ahí suele estar el logo, el nombre y la navegación entre páginas.
+
+## Analizando encabezados conocidos
+
+Antes de programar, miramos encabezados de sitios reales (por ejemplo Amazon, Netflix, una tienda). ¿Qué tienen en común? Casi siempre: un logo a la izquierda y links de navegación a la derecha.
+
+## La etiqueta `<nav>`
+
+Agrupa los links de navegación del sitio.
+
+```html
+<nav>
+  <a href="#">Inicio</a>
+  <a href="#">Proyectos</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+## La etiqueta `<a>` y el atributo `href`
+
+`<a>` crea un link. `href` indica a dónde lleva.
+
+```html
+<a href="https://google.com">Ir a Google</a>
+```
+
+Para páginas del mismo sitio, se pone el nombre del archivo:
+
+```html
+<a href="contacto.html">Contacto</a>
+```
+
+## El encabezado completo
+
+```html
+<header>
+  <h1>Mi Sitio</h1>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="contacto.html">Contacto</a>
+  </nav>
+</header>
+```
+
+## Creando varias páginas
+
+Para que la navegación funcione de verdad, necesitamos más de un archivo HTML:
+
+```
+mi-sitio/
+├── index.html
+├── proyectos.html
+└── contacto.html
+```
+
+Cada archivo tiene su propia estructura completa (con `<!DOCTYPE html>`, `<head>`, etc.) y el mismo `<header>` copiado en los tres.
+
+## 📥 Misión de la clase
+
+Crear el encabezado con logo y navegación, y dejar creadas al menos 2 páginas más (por ejemplo `proyectos.html` y `contacto.html`) para que los links funcionen de verdad.

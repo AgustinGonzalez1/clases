@@ -1,0 +1,106 @@
+---
+titulo: "Clase 12 - Wick Editor 3"
+---
+
+# Wick Editor 3 🖱️
+
+Agregamos interactividad a nuestras animaciones — los objetos reaccionan cuando el usuario hace clic.
+
+## Contenido
+
+### 1. ¿Qué es un botón en Wick Editor?
+
+Un botón es un objeto que puede detectar clics del usuario. Para convertir un objeto en botón:
+
+1. Seleccionar el objeto
+2. Clic derecho → **Create Button**
+3. En el Inspector aparece la sección **Scripts**
+4. Hacer clic en **Mouseclick** para abrir el editor de código
+
+> El editor dice **"Code Editor | editing button"** — eso confirma que el script está en el lugar correcto.
+
+### 2. Efectos con clic — uno por uno
+
+**Agrandarse:**
+
+```javascript
+this.scaleX = this.scaleX + 0.1;
+this.scaleY = this.scaleY + 0.1;
+```
+
+**Achicarse:**
+
+```javascript
+this.scaleX = this.scaleX - 0.1;
+this.scaleY = this.scaleY - 0.1;
+```
+
+**Rotar:**
+
+```javascript
+this.rotation = this.rotation + 30;
+```
+
+**Volverse transparente:**
+
+```javascript
+this.opacity = this.opacity - 0.1;
+```
+
+**Aparecer (volver opaco):**
+
+```javascript
+this.opacity = this.opacity + 0.1;
+```
+
+**Moverse:**
+
+```javascript
+this.x = this.x + 20;
+this.y = this.y - 20;
+```
+
+### 3. Cambio de color con frames
+
+Para cambiar el color de un objeto con clic, el truco es dibujar el mismo objeto en 2 frames distintos con colores distintos y alternar entre ellos con código.
+
+1. Entrar al timeline del botón → **Edit Timeline**
+2. Frame 1 → dibujar el objeto en rojo
+3. Frame 2 → dibujar el objeto en azul
+4. En el script Mouseclick escribir:
+
+```javascript
+this.gotoAndStop(2);
+```
+
+Para que alterne entre los dos colores:
+
+```javascript
+if (this.currentFrameNumber === 1) {
+  this.gotoAndStop(2);
+} else {
+  this.gotoAndStop(1);
+}
+```
+
+### 4. Combinar efectos
+
+Se pueden combinar varios efectos en el mismo script:
+
+```javascript
+this.scaleX = this.scaleX + 0.1;
+this.scaleY = this.scaleY + 0.1;
+this.rotation = this.rotation + 30;
+```
+
+### 5. Exportar y cerrar Wick Editor
+
+Al terminar, exportar la animación como gif o video:
+
+1. Clic en **Export** arriba a la derecha
+2. Elegir **Animated GIF**
+3. Descargar el archivo
+
+## Misión
+
+> Crear un objeto interactivo que reaccione al clic con al menos 2 efectos combinados. Exportar el proyecto al terminar. Es la última clase en Wick Editor — la semana que viene volvemos a Scratch para hacer juegos con reglas.

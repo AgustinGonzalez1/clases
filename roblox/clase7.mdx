@@ -1,0 +1,100 @@
+---
+titulo: "Clase 7 - Bloque de la muerte y bloque de supersalto"
+---
+
+# Bloque de la muerte y bloque de supersalto 💀🦘
+
+Con lo aprendido en la clase anterior, accedemos a las propiedades del Humanoid para crear bloques que afectan al jugador.
+
+---
+
+## ¿Qué es el Humanoid?
+
+Cada personaje en Roblox tiene un objeto **Humanoid** que controla su salud, velocidad y salto. Se accede desde el personaje que tocó el bloque.
+
+Cuando algo toca el bloque, el evento `Touched` recibe como parámetro la parte que tocó (`mano`). Subiendo un nivel con `.Parent` llegamos al personaje, y dentro del personaje está el Humanoid.
+
+```lua
+bloque.Touched:Connect(function(mano)
+    local personaje = mano.Parent       -- el personaje que toco el bloque
+    local humanoid = personaje.Humanoid -- el Humanoid dentro del personaje
+end)
+```
+
+---
+
+## Propiedades del Humanoid
+
+| Propiedad | Qué controla | Valor default |
+|---|---|---|
+| `Health` | Salud actual del personaje | 100 |
+| `MaxHealth` | Salud máxima | 100 |
+| `WalkSpeed` | Velocidad de caminar | 16 |
+| `JumpHeight` | Altura del salto | 7.2 |
+| `Jump` | Si es true, hace saltar al personaje | false |
+
+---
+
+## Bloque de la muerte
+
+Al tocar el bloque la salud del jugador se pone en 0 y muere.
+
+```lua
+local bloque = script.Parent
+
+bloque.Touched:Connect(function(mano)
+    local personaje = mano.Parent        -- el personaje que toco el bloque
+    local humanoid = personaje.Humanoid  -- el Humanoid del personaje
+    humanoid.Health = 0                  -- pone la salud en 0
+end)
+```
+
+> ⚠️ El script va dentro del bloque (Part) en el Workspace.
+
+---
+
+## Bloque de supersalto
+
+Al tocar el bloque el jugador salta muy alto y luego vuelve al salto normal.
+
+```lua
+local bloque = script.Parent
+
+bloque.Touched:Connect(function(mano)
+    local personaje = mano.Parent
+    local humanoid = personaje.Humanoid
+    humanoid.Jump = true        -- hace saltar al personaje
+    humanoid.JumpHeight = 100   -- aumenta la altura del salto
+    wait(0.5)                   -- espera medio segundo
+    humanoid.JumpHeight = 7.2   -- vuelve al valor normal
+end)
+```
+
+---
+
+## ¿Dónde va el script?
+
+Dentro del bloque (Part) en el Workspace:
+
+```
+Workspace
+  └── Part (el bloque)
+        └── Script
+```
+
+---
+
+## Misión
+
+> Crear tu bloque de la muerte.
+
+**Lo que debe tener tu bloque:**
+- Un bloque visible en el mapa con un color llamativo
+- Un Script adentro que mate al jugador al tocarlo
+- Probarlo y verificar que funciona
+
+---
+
+## Tarea
+
+Creá un bloque que en vez de matar al jugador, le baje solo 20 de vida cada vez que lo toca. ¿Qué propiedad tenés que modificar?

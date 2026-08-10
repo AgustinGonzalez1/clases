@@ -1,0 +1,78 @@
+---
+titulo: "Clase 9 - Pacman 2"
+---
+
+# Pacman 2 👻
+
+Agregamos funciones para organizar el código, un fondo negro y los fantasmas que rebotan solos.
+
+## Contenido
+
+### 1. Funciones — Mis bloques
+
+Una función es un bloque con nombre propio que agrupa instrucciones. En vez de escribir todo el código de movimiento dentro del `por siempre`, lo metemos en una función llamada "mover Pacman".
+
+**Analogía:** Es como una receta con nombre. En vez de escribir todos los pasos cada vez, simplemente decís "hacer la receta" y Scratch sabe qué hacer.
+
+Para crear una función: categoría **Mis bloques** → **Crear un bloque** → escribir el nombre.
+
+### 2. Refactorizar el movimiento
+
+El código de movimiento de la clase anterior dentro de una función:
+
+```
+definir [mover Pacman]
+si <tecla [flecha derecha] presionada?> entonces
+   apuntar en dirección [90]
+si <tecla [flecha izquierda] presionada?> entonces
+   apuntar en dirección [-90]
+si <tecla [flecha arriba] presionada?> entonces
+   apuntar en dirección [0]
+si <tecla [flecha abajo] presionada?> entonces
+   apuntar en dirección [180]
+mover [5] pasos
+```
+
+El script principal queda así de limpio:
+
+```
+al hacer clic en 🏴
+por siempre
+   mover Pacman
+```
+
+### 3. Fondo negro
+
+Ir al escenario → Fondos → pintar el fondo de negro. Se ve exactamente como el Pacman real. Si sobra tiempo se pueden agregar líneas blancas para simular un laberinto.
+
+### 4. Los fantasmas
+
+Cada fantasma es un sprite nuevo dibujado en el editor de disfraces. Forma simple: semicírculo arriba con la base ondulada abajo. Cada uno elige un color distinto.
+
+**Código de cada fantasma:**
+
+```
+al hacer clic en 🏴
+ir a [posición aleatoria]
+apuntar en dirección (número aleatorio entre [1] y [360])
+por siempre
+   mover [3] pasos
+   rebotar si toca un borde
+```
+
+> **número aleatorio entre 1 y 360** — cada vez que se presiona la bandera los fantasmas salen para lados distintos. El bloque está en la categoría **Operadores**.
+
+> Para tener varios fantasmas: clic derecho sobre el sprite del fantasma → **Duplicar**. Cada copia tiene su propio código independiente.
+
+### 5. Bloques que usamos
+
+| Bloque                             | Qué hace                                          |
+| ---------------------------------- | ------------------------------------------------- |
+| `definir [ ]`                      | Crea una función con ese nombre                   |
+| `ir a [posición aleatoria]`        | El fantasma aparece en un lugar distinto cada vez |
+| `número aleatorio entre [ ] y [ ]` | Elige un número al azar                           |
+| `rebotar si toca un borde`         | El fantasma rebota solo al llegar al borde        |
+
+## Misión
+
+> Organizar el código de Pacman con funciones, poner el fondo negro y agregar al menos 2 fantasmas que rebotan solos con dirección aleatoria.

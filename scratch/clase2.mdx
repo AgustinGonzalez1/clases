@@ -1,0 +1,61 @@
+---
+titulo: "Clase 2 - Preguntas y respuestas"
+---
+
+# Preguntas y respuestas ❓
+
+Aprendemos a trabajar con condiciones — el sprite reacciona distinto según lo que escribís.
+
+## Contenido
+
+### 1. ¿Qué es una condición?
+
+Una condición es una pregunta que tiene dos posibles respuestas: sí o no. Según la respuesta, el programa hace una cosa u otra.
+
+**Analogía:** Si afuera llueve → agarro paraguas. Si no llueve → no agarro nada. Eso es exactamente un si/entonces.
+
+### 2. Bloques que usamos
+
+| Bloque                    | Qué hace                                           |
+| ------------------------- | -------------------------------------------------- |
+| `preguntar [ ] y esperar` | Hace una pregunta y guarda la respuesta            |
+| `respuesta`               | Contiene lo que el usuario escribió                |
+| `si < > entonces`         | Ejecuta algo solo si la condición es verdadera     |
+| `si < > entonces / si no` | Ejecuta una cosa si es verdadero, otra si es falso |
+
+### 3. Estructura básica
+
+```
+al hacer clic en 🏴
+preguntar [¿Cómo te llamás?] y esperar
+si <respuesta = "Pedro"> entonces
+   decir [¡Hola Pedro!]
+si no
+   decir [No te conozco]
+```
+
+### 4. Ejemplos para practicar
+
+**El sprite adivina tu edad**
+
+```
+preguntar [¿Cuántos años tenés?] y esperar
+si <respuesta > 10> entonces
+   decir [¡Sos grande!]
+si no
+   decir [¡Sos chico!]
+```
+
+**La contraseña secreta**
+
+```
+preguntar [¿Cuál es la contraseña?] y esperar
+si <respuesta = "banana"> entonces
+   decir [¡Acceso permitido! 🟢]
+si no
+   decir [¡Acceso denegado! 🔴]
+```
+
+## Misión
+
+> Crear un sprite que haga al menos una pregunta y reaccione distinto según la respuesta. La contraseña la elige cada uno.

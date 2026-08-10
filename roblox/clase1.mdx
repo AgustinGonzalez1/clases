@@ -1,0 +1,104 @@
+---
+title: "Clase 1: Nuestro primer sitio 🌍"
+modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
+mision: "Instalar Visual Studio Code y Live Server, y crear index.html con header, main y footer, cada una con contenido propio."
+---
+
+# Clase 1: Nuestro primer sitio 🌍
+
+## ¿Qué es HTML?
+
+HTML es el lenguaje que usamos para darle estructura a una página web. Cada cosa que ves en una página (títulos, textos, imágenes) está definida con HTML.
+
+```html
+<h1>¡Hola, mundo!</h1>
+```
+
+## Instalando Visual Studio Code
+
+Es el editor que vamos a usar durante todo el curso.
+
+1. Entrar a [code.visualstudio.com](https://code.visualstudio.com)
+2. Descargar la versión para tu sistema operativo
+3. Instalar con las opciones por defecto
+
+## Instalando la extensión Live Server
+
+Permite ver los cambios del código reflejados automáticamente en el navegador.
+
+1. Ícono de extensiones en la barra lateral de VS Code
+2. Buscar "Live Server"
+3. Instalar
+
+## Creando el primer archivo
+
+Toda página web arranca con un archivo llamado `index.html`. Ese nombre es especial: es el que se abre primero.
+
+```
+mi-primer-sitio/
+└── index.html
+```
+
+## La estructura base
+
+Al crear el archivo y escribir `!` + Tab, VS Code genera esto automáticamente:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+```
+
+- `<!DOCTYPE html>` indica que es HTML5.
+- `<html lang="en">` envuelve todo el documento (lo cambiamos a `"es"`).
+- `<head>` tiene información que no se ve en la página.
+- `<meta charset="UTF-8">` hace que tildes y ñ se vean bien.
+- `<meta name="viewport"...>` permite que la página sea responsive.
+- `<title>` es el texto que aparece en la pestaña del navegador.
+- `<body>` es donde va todo el contenido visible.
+
+## La etiqueta `<header>`
+
+Sección de encabezado: donde suele ir el logo y la navegación.
+
+```html
+<header>
+  <h1>Mi Sitio</h1>
+</header>
+```
+
+## La etiqueta `<main>`
+
+El contenido principal de la página.
+
+```html
+<main>
+  <p>Bienvenido a mi primer sitio web.</p>
+</main>
+```
+
+## La etiqueta `<footer>`
+
+El pie de página.
+
+```html
+<footer>
+  <p>© 2026 Mi Sitio</p>
+</footer>
+```
+
+## Viendo el resultado
+
+Clic derecho sobre `index.html` → "Open with Live Server". Cada vez que guardás, la página se actualiza sola.
+
+## 📥 Misión de la clase
+
+Instalar VS Code y Live Server, y crear `index.html` con `header`, `main` y `footer`, cada una con contenido propio.

@@ -1,0 +1,167 @@
+---
+titulo: "Clase 15 - Cutscenes en Roblox"
+---
+
+# Cutscenes en Roblox 🎬
+
+En esta clase creamos una cinemática básica controlando la cámara del jugador con código usando puntos de referencia en el mapa.
+
+---
+
+## Diferencia entre Script y LocalScript
+
+| Tipo | Dónde corre | Para qué sirve |
+|---|---|---|
+| **Script** | En el servidor | Lógica del juego, daño, NPCs, datos |
+| **LocalScript** | En el cliente de cada jugador | Cámara, GUI, input, efectos visuales |
+
+La cinemática va en **LocalScript** porque la cámara es algo que cada jugador ve en su propia pantalla.
+
+---
+
+## Los servicios principales
+
+| Servicio | Qué contiene | Tipo de script |
+|---|---|---|
+| **StarterGui** | GUIs y scripts de interfaz | LocalScript |
+| **StarterPack** | Tools que el jugador recibe al spawnear | LocalScript |
+| **StarterPlayer → StarterPlayerScripts** | Scripts que corren una vez al entrar | LocalScript |
+| **StarterPlayer → StarterCharacterScripts** | Scripts que corren cada vez que reaparece | LocalScript |
+| **ServerScriptService** | Scripts del servidor | Script |
+
+---
+
+## ¿Cómo funciona la cámara en Roblox?
+
+Por defecto Roblox controla la cámara automáticamente siguiendo al personaje. Para una cinemática necesitamos **tomar el control manualmente**:
+
+| CameraType | Qué hace |
+|---|---|
+| `Enum.CameraType.Custom` | Modo normal de Roblox, sigue al personaje |
+| `Enum.CameraType.Scriptable` | Modo manual, el script controla la cámara |
+
+---
+
+## Preparar los puntos de cámara en el mapa
+
+La forma más práctica es con **Parts invisibles** que marcan las posiciones de la cámara. Así podés moverlas en el mapa sin tocar el código.
+
+1. Creás una **Folder** en el Workspace llamada `Cinematica`
+2. Dentro agregás una Part y la nombrás `Punto1`
+3. La posicionás y rotás donde querés que esté la cámara
+4. La hacés invisible: **Transparency = 1** y **CanCollide = false**
+
+```
+Workspace
+  └── Cinematica (Folder)
+        └── Punto1  (Part invisible)
+```
+
+> ⚠️ La orientación de la Part importa: la cámara va a mirar hacia donde apunta la Part.
+
+---
+
+## ¿Dónde va el script?
+
+Va en un **LocalScript** dentro de **StarterGui**.
+
+```
+StarterGui
+  └── LocalScript
+```
+
+---
+
+## El script básico (sin texto)
+
+La cámara arranca desde donde spawnea el jugador y se mueve suavemente hasta el Punto1.
+
+```lua
+local camera = workspace.CurrentCamera               -- la camara del jugador
+local TweenService = game:GetService("TweenService") -- para mover la camara suavemente
+local jugador = game.Players.LocalPlayer             -- el jugador
+local personaje = jugador.Character or jugador.CharacterAdded:Wait() -- espera al personaje
+local humanoid = personaje:WaitForChild("Humanoid")  -- humanoid del personaje
+
+wait(1)                                              -- espera a que todo cargue
+
+-- Bloquea el movimiento del jugador durante la cinematica
+humanoid.WalkSpeed = 0                               -- no puede caminar
+humanoid.JumpHeight = 0                              -- no puede saltar
+
+-- Toma el control de la camara
+camera.CameraType = Enum.CameraType.Scriptable       -- modo manual
+
+local puntoDestino = workspace.Cinematica.Punto1     -- referencia al punto del mapa
+
+-- Mueve la camara suavemente hacia el punto destino
+local tween = TweenService:Create(camera, TweenInfo.new(3), {CFrame = puntoDestino.CFrame})
+tween:Play()                                         -- arranca la animacion
+tween.Completed:Wait()                               -- espera a que termine
+
+-- Devuelve el control al jugador
+camera.CameraType = Enum.CameraType.Custom           -- camara normal de Roblox
+humanoid.WalkSpeed = 16                              -- puede caminar de nuevo
+humanoid.JumpHeight = 7.2                            -- puede saltar de nuevo
+```
+
+---
+
+## El script con texto en pantalla
+
+Para mostrar texto durante la cinemática agregás una **ScreenGui** con un **TextLabel** en StarterGui:
+
+1. Click derecho sobre **StarterGui** → Insert Object → **ScreenGui**
+2. Dentro de ScreenGui → Insert Object → **TextLabel**
+3. Configurás el TextLabel:
+   - **TextScaled** → true
+   - **BackgroundTransparency** → 1
+   - **Size** → `{1, 0}, {0.1, 0}`
+   - **Position** → `{0, 0}, {0.45, 0}`
+
+Luego en el mismo script agregás estas tres líneas:
+
+```lua
+-- Captura el TextLabel
+local gui = jugador.PlayerGui:WaitForChild("ScreenGui")   -- espera a que la GUI este lista
+local texto = gui:WaitForChild("TextLabel")               -- captura el TextLabel
+
+-- Muestra el texto al arrancar la cinematica
+texto.Text = "Bienvenido al juego..."
+
+-- ... (el tween va acá) ...
+
+-- Oculta el texto al terminar
+texto.Text = ""
+```
+
+---
+
+## Extra: hacer que la cámara mire hacia un objeto
+
+En vez de usar la orientación de la Part, podés hacer que la cámara mire hacia un objeto específico:
+
+```lua
+camera.CFrame = CFrame.lookAt(
+    punto1.Position,                 -- desde donde esta la camara
+    workspace.Objetivo.Position      -- hacia donde mira
+)
+```
+
+---
+
+## Misión
+
+> Crear tu primera cinemática.
+
+**Lo que debe tener tu cinemática:**
+- Un punto de cámara en la carpeta Cinematica
+- La cámara se mueve suavemente desde el spawn hasta el punto
+- El jugador no puede moverse durante la cinemática
+- Al terminar el jugador recupera el control
+
+---
+
+## Tarea
+
+Agregá un segundo punto y hacé que la cámara pase por dos posiciones antes de devolver el control al jugador. ¿Podés agregar un texto diferente en cada punto?

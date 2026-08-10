@@ -1,0 +1,110 @@
+---
+title: "Clase 3: CSS en el encabezado con Flexbox 🐸"
+modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
+mision: "Dejar el encabezado con estilos completos: color de fondo, tipografía y Flexbox aplicado, de modo que el logo y la navegación queden alineados profesionalmente."
+---
+
+# Clase 3: CSS en el encabezado con Flexbox 🐸
+
+## ¿Qué es CSS?
+
+Hasta ahora el encabezado tiene estructura pero no estilo: todo apilado, sin colores. CSS es el lenguaje que controla cómo se ve.
+
+## Vinculando el CSS
+
+Creamos un archivo separado `styles.css` y lo conectamos desde el HTML:
+
+```html
+<head>
+  <link rel="stylesheet" href="styles.css">
+</head>
+```
+
+## Dándole color al encabezado
+
+```css
+header {
+  background-color: #1a1a2e;
+  color: white;
+}
+```
+
+## Agregando espacio interno
+
+Sin espacio, el contenido queda pegado a los bordes.
+
+```css
+header {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 16px 24px;
+}
+```
+
+## El problema del layout
+
+El logo y la navegación siguen apilados verticalmente. Necesitamos que queden en fila: logo a la izquierda, nav a la derecha. Ahí entra Flexbox.
+
+## `display: flex`
+
+Pone los elementos hijos en fila automáticamente.
+
+```css
+header {
+  display: flex;
+}
+```
+
+## `justify-content: space-between`
+
+Empuja el primer elemento a la izquierda y el último a la derecha.
+
+```css
+header {
+  display: flex;
+  justify-content: space-between;
+}
+```
+
+## `align-items: center`
+
+Centra los elementos verticalmente, para que no queden desalineados.
+
+```css
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+```
+
+## El encabezado completo
+
+```css
+header {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav {
+  display: flex;
+  gap: 20px;
+}
+
+header nav a {
+  color: #ccc;
+  text-decoration: none;
+}
+```
+
+## Jugando con Flexbox Froggy
+
+Para reforzar lo aprendido, entramos a [flexboxfroggy.com](https://flexboxfroggy.com) y probamos los niveles 1 al 6, que son exactamente `justify-content` y `align-items`.
+
+## 📥 Misión de la clase
+
+Dejar el encabezado con estilos completos: color de fondo, tipografía y Flexbox aplicado, de modo que el logo y la navegación queden alineados profesionalmente.

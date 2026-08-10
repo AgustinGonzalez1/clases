@@ -1,0 +1,40 @@
+---
+titulo: "Clase 5 - Juego de carreras 2"
+---
+
+# Juego de carreras 2 🏁
+
+Agregamos el segundo auto y terminamos el juego.
+
+## Contenido
+
+### 1. El segundo auto
+
+El segundo auto funciona exactamente igual que el primero — misma estructura, distinta tecla y distinta posición en Y para estar en su propio carril.
+
+```
+al presionar 🏴
+ir a x: [-226] y: [50]
+apuntar en dirección [90]
+por siempre
+   si <¿tocando el color [rojo]?> entonces
+      decir [¡Gané!] durante [2] segundos
+      tocar sonido [aufitonaranja] hasta que termine
+
+al presionar tecla [w]
+cambiar x en [10]
+```
+
+### 2. Bloques que usamos
+
+| Bloque                               | Qué hace                        |
+| ------------------------------------ | ------------------------------- |
+| `ir a x: [ ] y: [ ]`                 | Posiciona el auto en su carril  |
+| `al presionar tecla [ ]`             | Tecla del segundo jugador       |
+| `cambiar x en [10]`                  | Mueve el auto hacia la derecha  |
+| `tocando el color [ ]?`              | Detecta si llegó a la meta roja |
+| `tocar sonido [ ] hasta que termine` | Sonido del ganador              |
+
+## Misión
+
+> Agregar el segundo auto con su propia tecla, su propio carril y su propio sonido de victoria. Probar el juego completo con dos jugadores.

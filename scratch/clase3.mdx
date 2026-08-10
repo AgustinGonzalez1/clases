@@ -1,0 +1,66 @@
+---
+titulo: "Clase 3 - Preguntas y respuestas 2"
+---
+
+# Preguntas y respuestas 2 🏆
+
+Agregamos variables, sonidos y un resultado final al proyecto de la clase anterior.
+
+## Contenido
+
+### 1. ¿Qué es una variable?
+
+Una variable es una cajita con un nombre que guarda un valor. Scratch la recuerda mientras el juego corre.
+
+**Analogía:** Es como anotar el puntaje en un papel durante un juego de mesa. Cada vez que alguien acierta, sumás un punto al papel.
+
+| Bloque                    | Qué hace                              |
+| ------------------------- | ------------------------------------- |
+| `fijar [puntos] a [0]`    | Le pone un valor exacto a la variable |
+| `cambiar [puntos] en [1]` | Le suma 1 al valor actual             |
+
+> **Fijar** vs **Cambiar:** `fijar` siempre pone el mismo número sin importar lo que había antes. `cambiar` suma o resta al valor actual.
+
+### 2. Bloques que usamos
+
+| Bloque                            | Qué hace                            |
+| --------------------------------- | ----------------------------------- |
+| `fijar [puntos] a [0]`            | Reinicia el puntaje al empezar      |
+| `cambiar [puntos] en [1]`         | Suma 1 punto por respuesta correcta |
+| `tocar sonido [ ]`                | Reproduce un sonido                 |
+| `decir (puntos) por [ ] segundos` | Muestra el resultado final          |
+
+### 3. Estructura completa
+
+```
+al hacer clic en 🏴
+fijar [puntos] a [0]
+
+preguntar [¿Cuál es la capital de Argentina?] y esperar
+si <respuesta = "Buenos Aires"> entonces
+   cambiar [puntos] en [1]
+   tocar sonido [¡Correcto!]
+   decir [¡Bien! 🟢] por [2] segundos
+si no
+   tocar sonido [Boing]
+   decir [Era Buenos Aires 🔴] por [2] segundos
+
+preguntar [¿Cuánto es 5 x 3?] y esperar
+si <respuesta = "15"> entonces
+   cambiar [puntos] en [1]
+   tocar sonido [¡Correcto!]
+   decir [¡Bien! 🟢] por [2] segundos
+si no
+   tocar sonido [Boing]
+   decir [Era 15 🔴] por [2] segundos
+
+decir (puntos) por [3] segundos
+```
+
+### 4. Resultado final
+
+Al terminar todas las preguntas el sprite muestra cuántos puntos hizo el jugador usando `decir (puntos)`. La variable guardó el puntaje durante todo el juego.
+
+## Misión
+
+> Crear un juego de al menos 2 preguntas con puntaje, sonido de acierto y sonido de error. Las preguntas las elige cada uno.

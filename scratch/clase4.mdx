@@ -1,0 +1,76 @@
+---
+titulo: "Clase 4 - Juego de carreras"
+---
+
+# Juego de carreras 🏎️
+
+Ponemos el fondo de la pista, los autos y programamos el primer auto.
+
+## Contenido
+
+### 1. Preparar el escenario
+
+- Elegir o dibujar un fondo con la pista y los carriles
+- Dibujar una línea de meta en color rojo al final de la pista
+- Agregar los sprites de los autos y ubicarlos al inicio de la pista
+
+### 2. Posicionar el auto
+
+Al presionar la bandera el auto arranca siempre desde el mismo lugar:
+
+```
+al presionar 🏴
+ir a x: [-226] y: [-93]
+apuntar en dirección [90]
+```
+
+### 3. Mover el auto con una tecla
+
+El movimiento va en un script separado — cada vez que se presiona la tecla, el auto avanza:
+
+```
+al presionar tecla [d]
+cambiar x en [10]
+```
+
+### 4. Detectar el ganador
+
+Dentro del bucle `por siempre`, el auto detecta si tocó el color rojo de la línea de meta:
+
+```
+por siempre
+   si <¿tocando el color [rojo]?> entonces
+      decir [¡Gané!] durante [2] segundos
+      tocar sonido [aufitovioleta] hasta que termine
+```
+
+### 5. Código completo del auto
+
+```
+al presionar 🏴
+ir a x: [-226] y: [-93]
+apuntar en dirección [90]
+por siempre
+   si <¿tocando el color [rojo]?> entonces
+      decir [¡Gané!] durante [2] segundos
+      tocar sonido [aufitovioleta] hasta que termine
+
+al presionar tecla [d]
+cambiar x en [10]
+```
+
+### 6. Bloques que usamos
+
+| Bloque                               | Qué hace                                         |
+| ------------------------------------ | ------------------------------------------------ |
+| `ir a x: [ ] y: [ ]`                 | Posiciona el auto al inicio                      |
+| `apuntar en dirección [90]`          | El auto mira hacia la derecha                    |
+| `por siempre`                        | Revisa constantemente si el auto llegó a la meta |
+| `al presionar tecla [ ]`             | Detecta la tecla del jugador                     |
+| `cambiar x en [10]`                  | Mueve el auto hacia la derecha                   |
+| `tocando el color [ ]?`              | Detecta si el auto tocó la línea de meta roja    |
+| `tocar sonido [ ] hasta que termine` | Reproduce el sonido del ganador                  |
+
+## Misión
+
+> Poner el fondo con la pista, agregar el sprite del auto, posicionarlo y programar el movimiento y la detección de meta. Solo un auto por ahora.

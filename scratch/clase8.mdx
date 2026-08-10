@@ -1,0 +1,73 @@
+---
+titulo: "Clase 8 - Pacman 1"
+---
+
+# Pacman 1 👾
+
+Dibujamos el sprite de Pacman con dos disfraces y lo hacemos mover con las flechas del teclado. La boca se abre y cierra sola.
+
+## Contenido
+
+### 1. Dibujar el sprite
+
+En el editor de disfraces creamos dos disfraces:
+
+- **Disfraz 1** — Pacman con la boca abierta: círculo amarillo con una cuña blanca
+- **Disfraz 2** — Pacman con la boca cerrada: círculo amarillo entero
+
+> Para el disfraz 2: duplicar el disfraz 1 y tapar la boca. Importante que el centro del sprite quede en el mismo lugar en ambos disfraces — si no, Pacman va a "saltar" al cambiar disfraz.
+
+### 2. Movimiento con flechas
+
+Las teclas cambian la dirección y Pacman se mueve solo en esa dirección dentro del `por siempre`.
+
+```
+al hacer clic en 🏴
+por siempre
+   si <tecla [flecha derecha] presionada?> entonces
+      apuntar en dirección [90]
+   si <tecla [flecha izquierda] presionada?> entonces
+      apuntar en dirección [-90]
+   si <tecla [flecha arriba] presionada?> entonces
+      apuntar en dirección [0]
+   si <tecla [flecha abajo] presionada?> entonces
+      apuntar en dirección [180]
+   mover [5] pasos
+```
+
+### 3. Animación de la boca
+
+Un segundo script corre al mismo tiempo y anima la boca en bucle independientemente del movimiento.
+
+```
+al hacer clic en 🏴
+por siempre
+   cambiar disfraz a [disfraz1]
+   esperar [0.2] segundos
+   cambiar disfraz a [disfraz2]
+   esperar [0.2] segundos
+```
+
+> **Concepto clave:** Scratch puede correr dos scripts al mismo tiempo. Uno maneja el movimiento y otro la animación — cada uno hace su trabajo de forma independiente.
+
+### 4. Bloques que usamos
+
+| Bloque                     | Qué hace                            |
+| -------------------------- | ----------------------------------- |
+| `apuntar en dirección [ ]` | Cambia hacia dónde mira Pacman      |
+| `mover [5] pasos`          | Avanza en la dirección actual       |
+| `cambiar disfraz a [ ]`    | Cambia entre boca abierta y cerrada |
+| `esperar [0.2] segundos`   | Pausa entre cambios de disfraz      |
+
+### 5. Referencia de direcciones
+
+| Tecla            | Dirección |
+| ---------------- | --------- |
+| Flecha derecha   | 90        |
+| Flecha izquierda | -90       |
+| Flecha arriba    | 0         |
+| Flecha abajo     | 180       |
+
+## Misión
+
+> Dibujar los dos disfraces de Pacman y programar el movimiento con flechas y la animación de la boca. Al final Pacman se mueve solo en la dirección elegida y abre y cierra la boca mientras se mueve.

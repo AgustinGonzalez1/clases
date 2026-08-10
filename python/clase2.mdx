@@ -1,0 +1,133 @@
+---
+title: "Clase 2 — Guardando Información (Variables) 📦"
+description: "Aprendemos sobre tipos de datos (números, texto) y cómo guardarlos en variables."
+---
+
+## ¿Qué es una variable?
+
+Una variable es un espacio donde guardamos información para usarla más adelante. En vez de escribir el mismo dato una y otra vez, lo guardamos una vez con un nombre y lo reutilizamos cuantas veces queramos.
+
+**Ejemplo:**
+
+```python
+nombre = "Lucas"   # guarda el texto "Lucas" en la variable nombre
+print(nombre)       # muestra lo que está guardado en nombre
+```
+
+La analogía que funciona bien: *"una variable es como una caja con una etiqueta. Adentro guardás algo, y cada vez que necesitás eso, buscás la caja por su etiqueta"*.
+
+---
+
+## Tipos de datos básicos
+
+Python distingue entre distintos tipos de información. Por ahora nos importan tres:
+
+**Ejemplo — texto (string):**
+
+```python
+nombre = "Lucas"       # el texto siempre va entre comillas
+print(nombre)
+```
+
+**Ejemplo — números enteros (int):**
+
+```python
+edad = 12               # los números NO llevan comillas
+print(edad)
+```
+
+**Ejemplo — números decimales (float):**
+
+```python
+altura = 1.55            # los decimales usan punto, no coma
+print(altura)
+```
+
+La regla clave para remarcar: el texto siempre lleva comillas, los números nunca las llevan.
+
+---
+
+## Nombres de variables
+
+No cualquier nombre sirve para una variable — hay algunas reglas simples.
+
+**Ejemplo — nombres válidos:**
+
+```python
+nombre = "Ana"
+edad_alumno = 10
+comidaFavorita = "pizza"
+```
+
+**Ejemplo — nombres que NO funcionan:**
+
+```python
+2nombre = "Ana"       # ❌ no puede empezar con número
+nombre-alumno = "Ana" # ❌ no se puede usar guión medio
+```
+
+Buena práctica para remarcar: los nombres de variables deben ser descriptivos — `edad` es mejor que `x`, porque cuando el código crece, ayuda a entender qué guarda cada una.
+
+---
+
+## Combinando variables en un print
+
+**Ejemplo — con comas:**
+
+```python
+nombre = "Lucas"
+edad = 12
+print("Me llamo", nombre, "y tengo", edad, "años")
+```
+
+**Ejemplo — con f-strings (la forma más prolija):**
+
+```python
+nombre = "Lucas"
+edad = 12
+print(f"Me llamo {nombre} y tengo {edad} años")   # la f antes de las comillas activa esto
+```
+
+Los f-strings suelen ser el momento en que a los alumnos "les cae la ficha" de por qué las variables son tan útiles — el texto se arma solo, combinando lo fijo con lo guardado.
+
+---
+
+## Las variables se pueden reemplazar
+
+**Ejemplo:**
+
+```python
+edad = 12          # guarda 12
+print(edad)         # 12
+
+edad = 13          # ahora guarda 13, reemplaza el valor anterior
+print(edad)         # 13
+```
+
+Esto es clave: una variable no es fija, se puede actualizar en cualquier momento del programa.
+
+---
+
+## 📥 La misión — variables con tus propios datos
+
+**Enunciado para los alumnos:**
+
+Creá tres variables: una con tu nombre, una con tu edad, y una con tu comida favorita. Mostralas todas juntas en un mensaje usando f-strings.
+
+**Ejemplo de solución:**
+
+```python
+nombre = "Sofía"                  # guarda el nombre
+edad = 11                          # guarda la edad
+comida_favorita = "milanesas"     # guarda la comida favorita
+
+print(f"Me llamo {nombre}, tengo {edad} años y mi comida favorita es {comida_favorita}")
+```
+
+---
+
+## Cierre y anticipación
+
+Hoy guardamos datos que nosotros mismos escribimos en el código. ¿Qué pasaría si quisiéramos que sea el propio usuario quien escriba su nombre y su edad, en vez de que ya estén puestos?
+
+Eso es exactamente lo que vamos a ver en la **Clase 3**, donde aparece `input()`.

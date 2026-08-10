@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clases Codilab</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #111118;
+      --sidebar-bg: #17171f;
+      --border: #26263a;
+      --text: #ccc8be;
+      --muted: #6a6680;
+      --accent: #7a9fbe;
+      --accent-hover: #96b7d4;
+      --active-bg: #1d1d2b;
+      --content-bg: #17171f;
+      --tag-bg: #1c1c2a;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 280px;
+      min-width: 280px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: width 0.25s ease, min-width 0.25s ease;
+    }
+
+    #sidebar.collapsed {
+      width: 0;
+      min-width: 0;
+      border-right: none;
+    }
+
+    #sidebar-header {
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    #sidebar-header-text { flex: 1; min-width: 0; }
+
+    #sidebar-header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    #sidebar-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+
+    #toggle-sidebar {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px 7px;
+      font-size: 14px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    #toggle-sidebar:hover { background: var(--active-bg); color: var(--text); }
+
+    #sidebar-open-btn {
+      display: none;
+      position: fixed;
+      top: 14px;
+      left: 12px;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 5px 8px;
+      font-size: 14px;
+      z-index: 10;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    #sidebar-open-btn:hover { background: var(--active-bg); color: var(--text); }
+
+    #sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0 16px;
+    }
+
+    #sidebar-nav::-webkit-scrollbar { width: 4px; }
+    #sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+    #sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .curso-section {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+
+    .curso-section:last-child { border-bottom: none; }
+
+    .curso-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px 10px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      user-select: none;
+      transition: color 0.15s;
+    }
+
+    .curso-header:hover { color: var(--text); }
+
+    .curso-arrow {
+      margin-left: auto;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 10px;
+    }
+
+    .curso-arrow.open { transform: rotate(90deg); }
+
+    .curso-modulos {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.24s ease;
+    }
+
+    .curso-modulos.open {
+      max-height: 2000px;
+      opacity: 1;
+    }
+
+    /* Módulo */
+    .modulo-section { margin-bottom: 4px; }
+
+    .modulo-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px 7px 24px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: #908aaa;
+      user-select: none;
+      transition: color 0.15s;
+    }
+
+    .modulo-header:hover { color: var(--text); }
+
+    .modulo-arrow {
+      margin-left: auto;
+      transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 9px;
+      opacity: 0.6;
+    }
+
+    .modulo-arrow.open { transform: rotate(90deg); }
+
+    .modulo-clases {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.26s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.2s ease;
+    }
+
+    .modulo-clases.open {
+      max-height: 600px;
+      opacity: 1;
+    }
+
+    /* Clase */
+    .clase-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 16px 7px 26px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #584f6e;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .clase-item:hover {
+      background: var(--active-bg);
+      color: var(--text);
+    }
+
+    .clase-item.active {
+      background: var(--active-bg);
+      color: var(--text);
+      border-left: 2px solid var(--accent);
+      padding-left: 24px;
+    }
+
+    .clase-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #3a3650;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .clase-item:hover .clase-dot { background: var(--muted); }
+    .clase-item.active .clase-dot { background: var(--accent); }
+
+    /* ── Main content ── */
+    #main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 48px;
+      min-width: 0;
+    }
+
+    #main-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    #main::-webkit-scrollbar { width: 6px; }
+    #main::-webkit-scrollbar-track { background: transparent; }
+    #main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Welcome screen */
+    #main-inner { height: 100%; }
+
+    #welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 80px);
+      text-align: center;
+      color: var(--muted);
+      gap: 12px;
+    }
+
+    #welcome .icon { font-size: 48px; }
+    #welcome h2 { font-size: 20px; color: var(--text); }
+    #welcome p { font-size: 14px; max-width: 340px; line-height: 1.6; }
+
+    /* Frontmatter metadata bar */
+    #meta-bar {
+      display: none;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .meta-tag span { color: var(--text); }
+
+    /* Markdown styles */
+    #content {
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    #content h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.2px;
+    }
+
+    #content h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      color: var(--text);
+      padding-left: 12px;
+      border-left: 3px solid var(--accent);
+    }
+
+    #content h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 24px 0 10px;
+      color: var(--text);
+      opacity: 0.85;
+    }
+
+    #content p { margin-bottom: 14px; color: var(--text); }
+
+    #content ul, #content ol {
+      margin: 0 0 14px 20px;
+      color: var(--text);
+    }
+
+    #content li { margin-bottom: 6px; }
+
+    #content code {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 13px;
+      font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+      color: #b8a07a;
+    }
+
+    #content pre {
+      background: #14141e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 16px 0;
+      position: relative;
+    }
+
+    #content pre .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #1e1e2c;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 4px 10px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, background 0.15s;
+      font-family: inherit;
+    }
+
+    #content pre:hover .copy-btn { opacity: 1; }
+    #content pre .copy-btn:hover { background: var(--active-bg); color: var(--text); }
+    #content pre .copy-btn.copied { color: #7aad8a; border-color: #7aad8a; }
+
+    #content pre code {
+      background: none;
+      border: none;
+      padding: 16px;
+      display: block;
+      font-size: 13px;
+      color: inherit;
+      line-height: 1.6;
+    }
+
+    #content blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 10px 16px;
+      margin: 16px 0;
+      background: var(--tag-bg);
+      border-radius: 0 6px 6px 0;
+      color: var(--muted);
+    }
+
+    #content blockquote p { margin: 0; color: var(--muted); }
+
+    #content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    #content th {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    #content td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      color: var(--muted);
+    }
+
+    #content tr:hover td { background: var(--tag-bg); }
+
+    #content a { color: var(--accent); text-decoration: none; }
+    #content a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+    #content hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    /* Loading/error */
+    #loading {
+      display: none;
+      color: var(--muted);
+      font-size: 14px;
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    #error {
+      display: none;
+      background: #1a1520;
+      border: 1px solid #4a2a3a;
+      border-radius: 8px;
+      padding: 16px;
+      color: #c07080;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<button id="sidebar-open-btn" title="Abrir panel">☰</button>
+
+<aside id="sidebar">
+  <div id="sidebar-header">
+    <div id="sidebar-header-text">
+      <h1>📚 Codilab</h1>
+      <p>Seleccioná una clase para comenzar</p>
+    </div>
+    <button id="toggle-sidebar" title="Colapsar panel">←</button>
+  </div>
+  <nav id="sidebar-nav">
+    <div id="nav-loading" style="padding: 16px; font-size: 13px; color: var(--muted);">Cargando cursos...</div>
+  </nav>
+</aside>
+
+<main id="main">
+  <div id="main-inner">
+    <div id="welcome">
+      <div class="icon">👈</div>
+      <h2>Elegí una clase</h2>
+      <p>Seleccioná un curso y una clase desde el panel izquierdo para ver el contenido.</p>
+    </div>
+    <div id="loading">Cargando clase...</div>
+    <div id="error"></div>
+    <div id="meta-bar"></div>
+    <div id="content"></div>
+  </div>
+</main>
+
+<script>
+  let activeItem = null;
+
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggle-sidebar');
+  const openBtn = document.getElementById('sidebar-open-btn');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.add('collapsed');
+    openBtn.style.display = 'block';
+  });
+
+  openBtn.addEventListener('click', () => {
+    sidebar.classList.remove('collapsed');
+    openBtn.style.display = 'none';
+  });
+
+  // Parse YAML-like frontmatter
+  function parseFrontmatter(text) {
+    const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
+    if (!match) return { meta: {}, body: text };
+    const meta = {};
+    match[1].split('\n').forEach(line => {
+      const [key, ...val] = line.split(':');
+      if (key && val.length) meta[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
+    });
+    return { meta, body: match[2] };
+  }
+
+  // Remove JSX-like tags from MDX (components not supported in browser)
+  function stripJSX(text) {
+    return text.replace(/<[A-Z][^>]*\/>/g, '').replace(/<[A-Z][^>]*>[\s\S]*?<\/[A-Z][^>]*>/g, '');
+  }
+
+  async function loadClase(carpeta, archivo, item) {
+    const welcome = document.getElementById('welcome');
+    const loading = document.getElementById('loading');
+    const error = document.getElementById('error');
+    const metaBar = document.getElementById('meta-bar');
+    const content = document.getElementById('content');
+
+    welcome.style.display = 'none';
+    error.style.display = 'none';
+    metaBar.style.display = 'none';
+    content.innerHTML = '';
+    loading.style.display = 'block';
+
+    if (activeItem) activeItem.classList.remove('active');
+    item.classList.add('active');
+    activeItem = item;
+
+    try {
+      const res = await fetch(`${carpeta}/${archivo}`);
+      if (!res.ok) throw new Error(`No se encontró el archivo (${res.status})`);
+      const raw = await res.text();
+      const { meta, body } = parseFrontmatter(raw);
+      const cleaned = stripJSX(body);
+
+      // Show metadata bar if frontmatter exists
+      if (Object.keys(meta).length > 0) {
+        const labels = { titulo: 'Título' };
+        const skip = new Set(['fecha', 'duracion']);
+        metaBar.innerHTML = Object.entries(meta)
+          .filter(([k]) => !skip.has(k))
+          .map(([k, v]) => `<div class="meta-tag">${labels[k] || k}: <span>${v}</span></div>`)
+          .join('');
+        metaBar.style.display = 'flex';
+      }
+
+      marked.setOptions({ breaks: true, gfm: true });
+      content.innerHTML = marked.parse(cleaned);
+
+      // Syntax highlight + copy button
+      content.querySelectorAll('pre code').forEach(block => {
+        hljs.highlightElement(block);
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.textContent = 'Copiar';
+        btn.addEventListener('click', () => {
+          navigator.clipboard.writeText(block.innerText).then(() => {
+            btn.textContent = '✓ Copiado';
+            btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+          });
+        });
+        block.parentElement.appendChild(btn);
+      });
+
+      // Scroll to top
+      document.getElementById('main').scrollTop = 0;
+
+    } catch (e) {
+      error.textContent = `Error al cargar la clase: ${e.message}`;
+      error.style.display = 'block';
+    } finally {
+      loading.style.display = 'none';
+    }
+  }
+
+  async function loadManifest() {
+    const nav = document.getElementById('sidebar-nav');
+    try {
+      const res = await fetch('manifest.json');
+      if (!res.ok) throw new Error('No se encontró manifest.json');
+      const data = await res.json();
+
+      nav.innerHTML = '';
+      data.cursos.forEach(curso => {
+        const section = document.createElement('div');
+        section.className = 'curso-section';
+
+        const header = document.createElement('div');
+        header.className = 'curso-header';
+        header.innerHTML = `<span>${curso.nombre}</span><span class="curso-arrow">▶</span>`;
+
+        const modulosContainer = document.createElement('div');
+        modulosContainer.className = 'curso-modulos';
+
+        header.addEventListener('click', () => {
+          const isOpen = modulosContainer.classList.contains('open');
+          nav.querySelectorAll('.curso-modulos.open').forEach(el => {
+            el.classList.remove('open');
+            el.previousElementSibling.querySelector('.curso-arrow').classList.remove('open');
+          });
+          if (!isOpen) {
+            modulosContainer.classList.add('open');
+            header.querySelector('.curso-arrow').classList.add('open');
+          }
+        });
+
+        curso.modulos.forEach(modulo => {
+          modulo.clases.forEach(clase => {
+            const item = document.createElement('div');
+            item.className = 'clase-item';
+            item.innerHTML = `<span class="clase-dot"></span>${clase.titulo}`;
+            item.addEventListener('click', () => loadClase(curso.carpeta, clase.archivo, item));
+            modulosContainer.appendChild(item);
+          });
+        });
+
+        section.appendChild(header);
+        section.appendChild(modulosContainer);
+        nav.appendChild(section);
+      });
+
+
+    } catch (e) {
+      nav.innerHTML = `<div style="padding:16px;font-size:13px;color:#f85149;">Error: ${e.message}</div>`;
+    }
+  }
+
+  loadManifest();
+</script>
+</body>
+</html>

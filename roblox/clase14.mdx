@@ -1,0 +1,151 @@
+---
+titulo: "Clase 14 - Animaciones con Código"
+---
+
+# Animaciones con Código 🎬
+
+En esta clase reproducimos animaciones del personaje mediante código al presionar una tecla. Al final vemos cómo conectar la animación al click del Tool.
+
+---
+
+## ¿Qué es UserInputService?
+
+**UserInputService** es un servicio que detecta las teclas y acciones del jugador. Se accede con `game:GetService("UserInputService")`.
+
+- `InputBegan` → se dispara cuando el jugador **presiona** una tecla
+- `InputEnded` → se dispara cuando el jugador **suelta** una tecla
+
+---
+
+## ¿Qué es Enum.KeyCode?
+
+`Enum.KeyCode` es la forma de referirse a una tecla específica en Roblox.
+
+| Tecla | Código |
+|---|---|
+| F | `Enum.KeyCode.F` |
+| E | `Enum.KeyCode.E` |
+| R | `Enum.KeyCode.R` |
+| Q | `Enum.KeyCode.Q` |
+
+---
+
+## ¿Qué es track.Priority?
+
+Define qué animación gana si dos se reproducen al mismo tiempo. Cuando el Tool está equipado Roblox reproduce su propia animación que puede pisar a la nuestra.
+
+```lua
+track.Priority = Enum.AnimationPriority.Action  -- prioridad maxima
+```
+
+> ⚠️ Solo es necesario cuando hay un Tool equipado. Para animaciones con tecla sin Tool no hace falta.
+
+---
+
+## ¿Dónde va el script?
+
+Va en un **LocalScript** dentro de **StarterPlayer → StarterCharacterScripts**.
+
+```
+StarterPlayer
+  └── StarterCharacterScripts
+        └── LocalScript
+```
+
+En StarterCharacterScripts, `script.Parent` es directamente el personaje, siempre listo cuando el script corre.
+
+---
+
+## Parte 1: Animación al presionar una tecla
+
+```lua
+local personaje = script.Parent                        -- script.Parent ES el personaje
+local humanoid = personaje:WaitForChild("Humanoid")    -- espera al Humanoid
+local animator = humanoid:WaitForChild("Animator")     -- componente que maneja animaciones
+
+local animacion = Instance.new("Animation")            -- crea un objeto de tipo Animation
+animacion.AnimationId = "rbxassetid://TU_ID_ACA"       -- ID de la animacion publicada en Clase 4 o 5
+local track = animator:LoadAnimation(animacion)        -- carga la animacion en el personaje
+
+local UIS = game:GetService("UserInputService")        -- servicio para detectar teclas
+
+UIS.InputBegan:Connect(function(input)                 -- se dispara al presionar cualquier tecla
+    if input.KeyCode == Enum.KeyCode.F then            -- si la tecla es F
+        track:Play()                                   -- reproduce la animacion
+    end
+end)
+```
+
+---
+
+## Parte 2 (ejemplo extra): Animación al hacer click con el Tool
+
+### Paso 1: Copiar el Tool dentro del rig para animarlo
+
+Para animar el personaje **con la espada en la mano**, hay que crear la animación con el Tool ya puesto en el rig:
+
+1. En el Explorer buscás el **Tool** (la espada)
+2. Lo **copiás** (Ctrl+C)
+3. Lo **pegás dentro del rig** en el Workspace (Ctrl+V)
+4. Abrís el **Animation Editor**, seleccionás el rig
+5. El editor muestra el personaje con la espada en la mano
+6. Animás el movimiento de ataque
+7. Publicás y anotás el ID
+
+```
+Workspace
+  └── rig (Model)
+        ├── HumanoidRootPart
+        ├── ...
+        └── Tool  ← acá va la espada copiada para animar
+```
+
+### Paso 2: El script completo con ambas partes
+
+```lua
+local personaje = script.Parent                        -- script.Parent ES el personaje
+local humanoid = personaje:WaitForChild("Humanoid")    -- espera al Humanoid
+local animator = humanoid:WaitForChild("Animator")     -- componente que maneja animaciones
+
+local animacion = Instance.new("Animation")            -- crea un objeto de tipo Animation
+animacion.AnimationId = "rbxassetid://TU_ID_ACA"       -- ID de la animacion publicada
+local track = animator:LoadAnimation(animacion)        -- carga la animacion en el personaje
+
+local UIS = game:GetService("UserInputService")        -- servicio para detectar teclas
+
+-- Parte 1: animacion al presionar F
+UIS.InputBegan:Connect(function(input)                 -- se dispara al presionar cualquier tecla
+    if input.KeyCode == Enum.KeyCode.F then            -- si la tecla es F
+        track:Play()                                   -- reproduce la animacion
+    end
+end)
+
+-- Parte 2: animacion al hacer click con el Tool
+personaje.ChildAdded:Connect(function(child)           -- se dispara cuando se equipa algo
+    if child:IsA("Tool") then                          -- si es un Tool
+        track.Priority = Enum.AnimationPriority.Action -- necesario para pisar la animacion del Tool
+        child.Activated:Connect(function()             -- se dispara al hacer click con el Tool
+            track:Play()                               -- reproduce la animacion
+        end)
+    end
+end)
+```
+
+> ⚠️ La funcionalidad completa del arma (daño real a NPCs) viene en la Clase 23 con RemoteEvents.
+
+---
+
+## Misión
+
+> Reproducir una animación al presionar una tecla.
+
+**Lo que debe tener tu script:**
+- Animación cargada con el ID publicado en Clase 4 o 5
+- La animación se reproduce al presionar F
+- Como extra: la misma animación al hacer click con la espada
+
+---
+
+## Tarea
+
+Cambiá la tecla de F a E. ¿Podés agregar una segunda animación que se reproduzca con otra tecla distinta?

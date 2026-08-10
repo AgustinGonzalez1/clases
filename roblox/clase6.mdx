@@ -1,0 +1,121 @@
+---
+titulo: "Clase 6 - Nuestro primer print"
+---
+
+# Nuestro primer print 💻
+
+En esta clase damos nuestros primeros pasos en programación con Lua: hacemos un print, usamos variables y empezamos a programar un bloque.
+
+---
+
+## ¿Qué es un Script en Roblox?
+
+Un **Script** es un archivo de código que le dice a Roblox qué hacer. Se puede insertar dentro de cualquier objeto del Explorer.
+
+Para insertar un Script:
+1. Click derecho sobre el objeto → **Insert Object** → **Script**
+2. Se abre el editor de código
+
+---
+
+## ¿Dónde escribimos el código?
+
+El código se escribe en el editor que aparece al abrir el Script. Para ver los resultados usamos la **consola de salida** (Output):
+
+> **View → Output** para abrirla si no está visible.
+
+---
+
+## El primer print
+
+`print()` muestra un mensaje en la consola. Es la forma más básica de ver qué está haciendo el código.
+
+```lua
+print("Hola mundo")
+```
+
+Al darle Play aparece `Hola mundo` en la consola.
+
+---
+
+## Variables
+
+Una **variable** es un nombre que guarda un valor. Se declara con la palabra `local`.
+
+```lua
+local nombre = "Roblox"
+local numero = 10
+print(nombre)   -- imprime: Roblox
+print(numero)   -- imprime: 10
+```
+
+> 💡 `local` significa que la variable solo existe dentro del script donde se declara.
+
+---
+
+## Referenciar el bloque desde el script
+
+Cuando el Script está dentro de una Part, `script.Parent` es esa Part.
+
+```lua
+local bloque = script.Parent
+print(bloque.Name)  -- imprime el nombre de la Part
+```
+
+---
+
+## Propiedad
+
+Una **propiedad** es una característica del objeto que podés leer o cambiar desde código.
+
+```lua
+local bloque = script.Parent
+bloque.Color = Color3.fromRGB(255, 0, 0)  -- cambia el color a rojo
+bloque.Transparency = 0.5                  -- hace el bloque semitransparente
+```
+
+---
+
+## Método
+
+Un **método** es una acción que hace el objeto. Se llama con `:`.
+
+```lua
+local bloque = script.Parent
+local clon = bloque:Clone()   -- crea una copia del bloque
+clon.Parent = workspace       -- la agrega al mundo
+```
+
+---
+
+## Evento
+
+Un **evento** es algo que ocurre y dispara una función. Se conecta con `:Connect()`.
+
+```lua
+local bloque = script.Parent
+
+bloque.Touched:Connect(function()
+    print("me tocaron!")
+end)
+```
+
+Cada vez que algo toca el bloque, imprime `"me tocaron!"` en la consola.
+
+---
+
+## Misión
+
+> Programar un método, una propiedad y un evento del Part.
+
+**Lo que debe tener tu script:**
+- Una variable que referencie al bloque con `script.Parent`
+- Una propiedad que cambie algo del bloque (color, tamaño, transparencia)
+- Un método que haga algo (Clone, Destroy)
+- Un evento Touched que imprima algo en la consola
+
+---
+
+## Tarea
+
+Agregá un segundo evento `TouchEnded` que imprima `"me soltaron!"` cuando algo deja de tocar el bloque. ¿Qué diferencia notás con `Touched`?

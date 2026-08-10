@@ -1,0 +1,115 @@
+---
+title: "Clase 3 — ¡El Usuario Manda! (Input) 💬"
+description: "Usamos input() para que el usuario pueda ingresar datos y hacemos operaciones matemáticas."
+---
+
+## ¿Qué es input()?
+
+Hasta ahora las variables guardaban datos que nosotros escribíamos directamente en el código. Con `input()`, es el usuario quien escribe el dato mientras el programa está corriendo.
+
+**Ejemplo:**
+
+```python
+nombre = input("¿Cómo te llamás? ")   # espera que el usuario escriba algo
+print("Hola,", nombre)                  # usa lo que el usuario escribió
+```
+
+El programa se detiene en el `input()` hasta que la persona escribe algo y aprieta Enter.
+
+---
+
+## input() siempre devuelve texto
+
+Algo importante para remarcar desde el principio: aunque el usuario escriba un número, `input()` lo guarda como texto (string).
+
+**Ejemplo — el problema:**
+
+```python
+a = input("Número 1: ")   # el usuario escribe 3
+b = input("Número 2: ")   # el usuario escribe 5
+print(a + b)                # ❌ imprime "35", no 8 — está pegando texto, no sumando
+```
+
+**Ejemplo — la solución con int():**
+
+```python
+a = int(input("Número 1: "))   # convierte lo escrito a número entero
+b = int(input("Número 2: "))
+print(a + b)                     # ✅ ahora sí imprime 8
+```
+
+Este es el momento más importante de la clase — vale la pena mostrar el error en vivo antes de dar la solución.
+
+---
+
+## int() vs float()
+
+**Ejemplo — números enteros:**
+
+```python
+edad = int(input("¿Cuántos años tenés? "))   # sin decimales
+print(edad)
+```
+
+**Ejemplo — números con decimales:**
+
+```python
+altura = float(input("¿Cuánto medís? "))      # admite decimales, ej: 1.55
+print(altura)
+```
+
+La regla simple: si el dato puede tener coma o punto decimal, se usa `float()`. Si es un número entero, se usa `int()`.
+
+---
+
+## Operaciones matemáticas con los datos ingresados
+
+**Ejemplo:**
+
+```python
+a = float(input("Primer número: "))
+b = float(input("Segundo número: "))
+
+print("Suma:", a + b)
+print("Resta:", a - b)
+print("Multiplicación:", a * b)
+```
+
+**Ejemplo — con f-strings:**
+
+```python
+a = float(input("Primer número: "))
+b = float(input("Segundo número: "))
+
+print(f"{a} + {b} = {a + b}")
+print(f"{a} - {b} = {a - b}")
+```
+
+---
+
+## 📥 La misión — suma y resta de dos números
+
+**Enunciado para los alumnos:**
+
+Creá un programa que le pida al usuario dos números y muestre en pantalla el resultado de la suma y de la resta entre ellos.
+
+**Ejemplo de solución:**
+
+```python
+a = float(input("Ingresá el primer número: "))    # pide y convierte el primer número
+b = float(input("Ingresá el segundo número: "))   # pide y convierte el segundo número
+
+suma = a + b     # calcula la suma
+resta = a - b    # calcula la resta
+
+print("Suma:", suma)     # muestra la suma
+print("Resta:", resta)   # muestra la resta
+```
+
+---
+
+## Cierre y anticipación
+
+Imaginate que quisiéramos saber si el número que ingresó el usuario es mayor o menor que otro. ¿Cómo le preguntaríamos eso a Python?
+
+Eso es exactamente lo que vamos a ver en la **Clase 4**, donde aparecen los operadores de comparación.
