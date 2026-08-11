@@ -4,41 +4,27 @@ titulo: "Clase 8 - Bloque teletransportador"
 
 # Bloque teletransportador 🔀
 
-En esta clase creamos un bloque teletransportador usando un emisor y un receptor, y además un bloque que se clona, se anima y desaparece.
+---
+
+## Paso 1: Crear el bloque emisor y el receptor
+
+1. Insertás dos Parts en el Workspace
+2. Una la nombrás `Emisor` (con el Script adentro)
+3. La otra la nombrás `Receptor` (marca el destino, sin script)
+
+```
+Workspace
+  ├── Emisor (Part con Script)
+  └── Receptor (Part)
+```
 
 ---
 
-## ¿Qué es TweenService?
-
-**TweenService** es un servicio de Roblox que permite animar propiedades de objetos suavemente entre dos estados. Se accede con `game:GetService("TweenService")`.
-
----
-
-## Métodos nuevos
-
-| Método | Qué hace |
-|---|---|
-| `Clone()` | Crea una copia exacta del objeto |
-| `Destroy()` | Elimina el objeto del juego |
-| `:MoveTo(Vector3)` | Mueve el personaje a una posición en el mundo |
-
----
-
-## ¿Qué es un Vector3?
-
-Un **Vector3** es un conjunto de tres números que representa una posición o dirección en el espacio 3D: `Vector3.new(x, y, z)`.
-
-Por ejemplo `Vector3.new(0, 10, 50)` representa la posición x=0, y=10, z=50 en el mundo.
-
----
-
-## Bloque teletransportador
-
-Hay un **bloque emisor** que al tocarlo mueve al jugador hasta la posición del **bloque receptor**.
+## Paso 2: Programar el teletransporte
 
 ```lua
-local emisor = script.Parent              -- el bloque que se toca
-local receptor = workspace.Receptor       -- el bloque destino
+local emisor = script.Parent
+local receptor = workspace.Receptor
 
 emisor.Touched:Connect(function(mano)
     local personaje = mano.Parent
@@ -46,75 +32,39 @@ emisor.Touched:Connect(function(mano)
 end)
 ```
 
-> ⚠️ El bloque receptor tiene que llamarse exactamente `Receptor` en el Explorer. Si lo movés en el mapa, la teletransportación cambia sola sin tocar el código.
-
-### Estructura en el Explorer
-
-```
-Workspace
-  ├── Emisor (Part con Script adentro)
-  └── Receptor (Part sin script, solo marca el destino)
-```
+> ⚠️ El bloque receptor tiene que llamarse exactamente `Receptor`. Si lo movés en el mapa, la teletransportación cambia sola sin tocar el código.
 
 ---
 
-## Bloque que se clona, se anima y desaparece
-
-Al tocar el bloque se crea una copia, se mueve suavemente y luego desaparece.
+## Paso 3: Crear un bloque que se clona, se anima y desaparece
 
 ```lua
 local bloque = script.Parent
-local TweenService = game:GetService("TweenService")  -- servicio para animar
-local activado = false                                 -- evita que se active varias veces
+local TweenService = game:GetService("TweenService")
+local activado = false
 
 bloque.Touched:Connect(function()
-    if activado then return end   -- si ya se activo, no hace nada
+    if activado then return end
     activado = true
 
-    -- Clona el bloque
-    local clon = bloque:Clone()                        -- crea una copia
-    clon.Color = Color3.fromRGB(255, 0, 0)             -- cambia el color para distinguirlo
-    clon.Parent = workspace                            -- lo agrega al mundo
+    local clon = bloque:Clone()               -- crea una copia
+    clon.Color = Color3.fromRGB(255, 0, 0)
+    clon.Parent = workspace
 
-    -- Lo anima suavemente hacia una nueva posicion
-    local info = TweenInfo.new(2)                      -- duracion: 2 segundos
-    local meta = {Position = clon.Position + Vector3.new(10, 5, 0)} -- posicion destino
+    local info = TweenInfo.new(2)              -- duracion: 2 segundos
+    local meta = {Position = clon.Position + Vector3.new(10, 5, 0)}
     local tween = TweenService:Create(clon, info, meta)
-    tween:Play()                                       -- arranca la animacion
+    tween:Play()
 
-    -- Lo destruye al terminar
     wait(2)
-    clon:Destroy()                                     -- elimina el clon
+    clon:Destroy()
 
-    activado = false  -- permite que se active de nuevo
+    activado = false
 end)
 ```
-
----
-
-## ¿Cómo funciona TweenService?
-
-`TweenService:Create()` recibe tres parámetros:
-
-| Parámetro | Qué es |
-|---|---|
-| El objeto | Qué se anima |
-| TweenInfo | Cómo se anima (duración, curva) |
-| La tabla `{}` | A dónde llega (propiedad y valor final) |
 
 ---
 
 ## Misión
 
 > Tocar un bloque que se clone, se anime y luego desaparezca.
-
-**Lo que debe tener tu bloque:**
-- Un bloque emisor y un bloque receptor en el mapa
-- Al tocar el emisor el jugador aparece en el receptor
-- Un segundo bloque que se clone, se mueva y desaparezca al tocarlo
-
----
-
-## Tarea
-
-Cambiá el color del bloque receptor para que sea visible en el mapa. ¿Podés hacer que al teletransportarte aparezca un mensaje en la consola con `print()`?

@@ -1,110 +1,63 @@
 ---
-title: "Clase 3: CSS en el encabezado con Flexbox 🐸"
-modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
-mision: "Dejar el encabezado con estilos completos: color de fondo, tipografía y Flexbox aplicado, de modo que el logo y la navegación queden alineados profesionalmente."
+titulo: "Clase 3 - Construyendo con Bloques"
 ---
 
-# Clase 3: CSS en el encabezado con Flexbox 🐸
+# Construyendo con Bloques 🧱
 
-## ¿Qué es CSS?
+---
 
-Hasta ahora el encabezado tiene estructura pero no estilo: todo apilado, sin colores. CSS es el lenguaje que controla cómo se ve.
+## Paso 1: Insertar una Part
 
-## Vinculando el CSS
+Desde **Home** → click en **Part**, o click derecho en el Workspace → Insert Object → Part.
 
-Creamos un archivo separado `styles.css` y lo conectamos desde el HTML:
+---
 
-```html
-<head>
-  <link rel="stylesheet" href="styles.css">
-</head>
-```
+## Paso 2: Modificar la Part
 
-## Dándole color al encabezado
+Desde **Properties**:
 
-```css
-header {
-  background-color: #1a1a2e;
-  color: white;
-}
-```
+| Propiedad | Qué controla |
+|---|---|
+| **Size** | El tamaño en los tres ejes (X, Y, Z) |
+| **Color** | El color del bloque |
+| **Material** | La textura |
+| **Anchored** | Si el bloque cae o se queda fijo en el aire |
 
-## Agregando espacio interno
+**Ejemplo:** con **Ctrl + D** duplicás una Part seleccionada. Útil para construir paredes repetidas.
 
-Sin espacio, el contenido queda pegado a los bordes.
+---
 
-```css
-header {
-  background-color: #1a1a2e;
-  color: white;
-  padding: 16px 24px;
-}
-```
+## Paso 3: Cambiar la forma de la Part
 
-## El problema del layout
+1. Seleccionás la Part
+2. Properties → **Shape** → elegís entre **Block**, **Sphere**, **Cylinder**, **Wedge**
 
-El logo y la navegación siguen apilados verticalmente. Necesitamos que queden en fila: logo a la izquierda, nav a la derecha. Ahí entra Flexbox.
+---
 
-## `display: flex`
+## Paso 4: Agrupar las Parts en un Model
 
-Pone los elementos hijos en fila automáticamente.
+1. Seleccionás todas las Parts de tu construcción (Ctrl + click)
+2. Click derecho → **Group** (Ctrl+G)
+3. Se crea un **Model** con todas las Parts adentro
+4. Lo renombrás con un nombre descriptivo
 
-```css
-header {
-  display: flex;
-}
-```
+---
 
-## `justify-content: space-between`
+## Paso 5: Nombrar los objetos
 
-Empuja el primer elemento a la izquierda y el último a la derecha.
+1. Click derecho sobre cada objeto en el Explorer → **Rename**
+2. Le ponés nombres descriptivos como `ParedNorte`, `Puerta`, `Torre`
 
-```css
-header {
-  display: flex;
-  justify-content: space-between;
-}
-```
+> 💡 Nombrar bien los objetos es importante porque en clases futuras los vamos a referenciar desde código.
 
-## `align-items: center`
+---
 
-Centra los elementos verticalmente, para que no queden desalineados.
+## Misión
 
-```css
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-```
+> Armar un castillo o laberinto simple.
 
-## El encabezado completo
-
-```css
-header {
-  background-color: #1a1a2e;
-  color: white;
-  padding: 16px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header nav {
-  display: flex;
-  gap: 20px;
-}
-
-header nav a {
-  color: #ccc;
-  text-decoration: none;
-}
-```
-
-## Jugando con Flexbox Froggy
-
-Para reforzar lo aprendido, entramos a [flexboxfroggy.com](https://flexboxfroggy.com) y probamos los niveles 1 al 6, que son exactamente `justify-content` y `align-items`.
-
-## 📥 Misión de la clase
-
-Dejar el encabezado con estilos completos: color de fondo, tipografía y Flexbox aplicado, de modo que el logo y la navegación queden alineados profesionalmente.
+**Lo que debe tener tu construcción:**
+- Al menos 4 paredes
+- Una entrada o puerta
+- Parts agrupadas en un Model con nombre descriptivo
+- Al menos 2 materiales distintos

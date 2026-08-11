@@ -611,14 +611,12 @@
           }
         });
 
-        curso.modulos.forEach(modulo => {
-          modulo.clases.forEach(clase => {
-            const item = document.createElement('div');
-            item.className = 'clase-item';
-            item.innerHTML = `<span class="clase-dot"></span>${clase.titulo}`;
-            item.addEventListener('click', () => loadClase(curso.carpeta, clase.archivo, item));
-            modulosContainer.appendChild(item);
-          });
+        curso.clases.forEach(clase => {
+          const item = document.createElement('div');
+          item.className = 'clase-item';
+          item.innerHTML = `<span class="clase-dot"></span>${clase.titulo}`;
+          item.addEventListener('click', () => loadClase(curso.carpeta, clase.archivo, item));
+          modulosContainer.appendChild(item);
         });
 
         section.appendChild(header);

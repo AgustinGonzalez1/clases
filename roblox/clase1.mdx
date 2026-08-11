@@ -1,104 +1,74 @@
 ---
-title: "Clase 1: Nuestro primer sitio 🌍"
-modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
-mision: "Instalar Visual Studio Code y Live Server, y crear index.html con header, main y footer, cada una con contenido propio."
+titulo: "Clase 1 - ¡Hola, Roblox Studio!"
 ---
 
-# Clase 1: Nuestro primer sitio 🌍
+# ¡Hola, Roblox Studio! 🤩
 
-## ¿Qué es HTML?
+---
 
-HTML es el lenguaje que usamos para darle estructura a una página web. Cada cosa que ves en una página (títulos, textos, imágenes) está definida con HTML.
+## Paso 1: Instalación
 
-```html
-<h1>¡Hola, mundo!</h1>
-```
+1. Entrás a **roblox.com** y creás una cuenta gratuita
+2. Descargás **Roblox Studio** desde la misma página
+3. Iniciás sesión con tu cuenta y abrís el programa
 
-## Instalando Visual Studio Code
+---
 
-Es el editor que vamos a usar durante todo el curso.
+## Paso 2: Conocer la interfaz
 
-1. Entrar a [code.visualstudio.com](https://code.visualstudio.com)
-2. Descargar la versión para tu sistema operativo
-3. Instalar con las opciones por defecto
+Al abrir Studio vas a ver varias secciones importantes:
 
-## Instalando la extensión Live Server
+| Sección | Qué es |
+|---|---|
+| **Viewport** | El mundo 3D donde construís y ves tu juego |
+| **Explorer** | La jerarquía de todos los objetos del juego |
+| **Properties** | Las propiedades del objeto que tengas seleccionado |
 
-Permite ver los cambios del código reflejados automáticamente en el navegador.
+**Ejemplo:** hacés click en cualquier objeto del Explorer y en el panel Properties vas a ver sus características, como el color, tamaño y posición.
 
-1. Ícono de extensiones en la barra lateral de VS Code
-2. Buscar "Live Server"
-3. Instalar
+---
 
-## Creando el primer archivo
+## Paso 3: Abrir una plantilla Baseplate
 
-Toda página web arranca con un archivo llamado `index.html`. Ese nombre es especial: es el que se abre primero.
+1. Al crear un proyecto nuevo, elegís la plantilla **Baseplate**
+2. Esto te da un mundo vacío con un piso para empezar a construir
 
-```
-mi-primer-sitio/
-└── index.html
-```
+---
 
-## La estructura base
+## Paso 4: Insertar tu primera Part
 
-Al crear el archivo y escribir `!` + Tab, VS Code genera esto automáticamente:
+1. Desde la pestaña **Home** → click en **Part**
+2. Aparece un bloque en el centro del mundo
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
-```
+Con la Part seleccionada, usás las herramientas de la barra superior:
 
-- `<!DOCTYPE html>` indica que es HTML5.
-- `<html lang="en">` envuelve todo el documento (lo cambiamos a `"es"`).
-- `<head>` tiene información que no se ve en la página.
-- `<meta charset="UTF-8">` hace que tildes y ñ se vean bien.
-- `<meta name="viewport"...>` permite que la página sea responsive.
-- `<title>` es el texto que aparece en la pestaña del navegador.
-- `<body>` es donde va todo el contenido visible.
+| Herramienta | Atajo | Qué hace |
+|---|---|---|
+| **Seleccionar** | F1 | Selecciona objetos |
+| **Mover** | F2 | Mueve el objeto en el mundo |
+| **Escalar** | F3 | Cambia el tamaño del objeto |
+| **Girar** | F4 | Rota el objeto |
 
-## La etiqueta `<header>`
+---
 
-Sección de encabezado: donde suele ir el logo y la navegación.
+## Paso 5: Modificar la Part
 
-```html
-<header>
-  <h1>Mi Sitio</h1>
-</header>
-```
+Desde el panel **Properties** podés cambiar cómo se ve tu bloque:
 
-## La etiqueta `<main>`
+| Propiedad | Qué controla |
+|---|---|
+| **Color** | El color del bloque |
+| **Material** | La textura (SmoothPlastic, Metal, Wood...) |
 
-El contenido principal de la página.
+**Ejemplo:** seleccionás la Part, buscás **Color** en Properties y elegís uno nuevo. Después probás cambiar **Material** a **Wood** para ver cómo cambia la textura.
 
-```html
-<main>
-  <p>Bienvenido a mi primer sitio web.</p>
-</main>
-```
+---
 
-## La etiqueta `<footer>`
+## Misión
 
-El pie de página.
+> Crear tu primer mundo usando una plantilla Baseplate.
 
-```html
-<footer>
-  <p>© 2026 Mi Sitio</p>
-</footer>
-```
-
-## Viendo el resultado
-
-Clic derecho sobre `index.html` → "Open with Live Server". Cada vez que guardás, la página se actualiza sola.
-
-## 📥 Misión de la clase
-
-Instalar VS Code y Live Server, y crear `index.html` con `header`, `main` y `footer`, cada una con contenido propio.
+**Lo que debe tener tu entrega:**
+- Un proyecto nuevo con la plantilla Baseplate
+- Al menos 2 Parts insertadas
+- Cada una con un color y material distinto

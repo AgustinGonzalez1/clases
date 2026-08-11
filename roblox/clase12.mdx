@@ -4,78 +4,30 @@ titulo: "Clase 12 - La Pistola de Rayos"
 
 # La Pistola de Rayos 🔫
 
-Construimos una pistola y la programamos para que dispare proyectiles visibles con un contador de disparos en pantalla.
-
 ---
 
-## ¿Qué es tool.Activated?
+## Paso 1: Las partes de la pistola
 
-`Activated` es un evento especial de los Tools que se dispara cuando el jugador hace **click izquierdo** con el Tool equipado. Es la forma de detectar que el jugador usó el arma.
-
-```lua
-tool.Activated:Connect(function()
-    -- esto se ejecuta cada vez que el jugador hace click
-end)
-```
-
----
-
-## ¿Qué es Instance.new?
-
-`Instance.new("Part")` crea una nueva Part desde código en tiempo de ejecución. Es como insertar una Part desde Studio pero de forma programática.
-
-```lua
-local bala = Instance.new("Part")   -- crea una nueva Part
-bala.Size = Vector3.new(0.3, 0.3, 0.3)
-bala.Parent = workspace             -- la agrega al mundo
-```
-
----
-
-## ¿Qué es CFrame.LookVector?
-
-`CFrame.LookVector` es un Vector3 que representa **hacia dónde está mirando** un objeto. En el caso de la cámara, apunta hacia donde el jugador está mirando en pantalla.
-
-```lua
-local camara = workspace.CurrentCamera
-local direccion = camara.CFrame.LookVector  -- hacia donde mira la camara
-```
-
----
-
-## ¿Qué es Debris:AddItem?
-
-`Debris:AddItem(objeto, tiempo)` destruye un objeto después de un tiempo determinado. Es más eficiente que usar `wait()` + `Destroy()`.
-
-```lua
-game:GetService("Debris"):AddItem(bala, 3)  -- destruye la bala en 3 segundos
-```
-
----
-
-## Las partes de la pistola
-
-| Parte | Nombre en Studio |
+| Parte | Nombre |
 |---|---|
 | Mango | `Handle` |
 | Cañón | `Canon` |
 
-Mismos pasos que la Clase 11: Tool en el Workspace, WeldConstraint para unir las partes, Grip para ajustar la orientación.
+Mismos pasos de la Clase 11: Tool en Workspace, WeldConstraint, Grip.
 
 ---
 
-## La GUI del contador
+## Paso 2: La GUI del contador
 
-1. Click derecho sobre **StarterGui** → Insert Object → **ScreenGui**
-2. Dentro de ScreenGui → Insert Object → **TextLabel**
-3. Configurás el TextLabel:
+1. StarterGui → Insert Object → **ScreenGui**
+2. Dentro → Insert Object → **TextLabel**
    - **Text** → `"Disparos: 0"`
-   - **TextScaled** → true
-   - **BackgroundTransparency** → 1
+   - **TextScaled** → `true`
+   - **BackgroundTransparency** → `1`
 
 ---
 
-## El script
+## Paso 3: El script
 
 Va en un **LocalScript** dentro del Tool.
 
@@ -84,35 +36,33 @@ local tool = script.Parent                            -- el Tool (la pistola)
 local jugador = game.Players.LocalPlayer              -- el jugador que ejecuta este script
 local personaje = jugador.Character                   -- personaje fisico del jugador
 local canon = tool:WaitForChild("Canon")              -- espera a que el Canon este listo
-local TweenService = game:GetService("TweenService")  -- para animar la bala en linea recta
+local TweenService = game:GetService("TweenService")  -- para animar la bala
 
-local gui = jugador.PlayerGui:WaitForChild("ScreenGui")  -- espera a que la GUI este lista
-local texto = gui:WaitForChild("TextLabel")              -- el TextLabel del contador
+local gui = jugador.PlayerGui:WaitForChild("ScreenGui")
+local texto = gui:WaitForChild("TextLabel")
 
-local disparos = 0                                    -- contador de disparos, arranca en 0
+local disparos = 0
 
 tool.Activated:Connect(function()                     -- se dispara al hacer click con el Tool
-    disparos = disparos + 1                           -- suma 1 al contador
-    texto.Text = "Disparos: " .. disparos             -- ".." une el texto con el numero
+    disparos = disparos + 1
+    texto.Text = "Disparos: " .. disparos
 
-    local camara = workspace.CurrentCamera            -- la camara del jugador
-    local direccion = camara.CFrame.LookVector        -- direccion hacia donde mira la camara
+    local camara = workspace.CurrentCamera
+    local direccion = camara.CFrame.LookVector         -- hacia donde mira la camara
 
-    -- Crea el proyectil
-    local bala = Instance.new("Part")                 -- crea una nueva Part desde codigo
-    bala.Size = Vector3.new(0.3, 0.3, 0.3)            -- tamaño pequeño
-    bala.Color = Color3.fromRGB(255, 255, 0)          -- color amarillo
-    bala.Anchored = true                              -- la fija para posicionarla correctamente
-    bala.CanCollide = false                           -- no colisiona con nada fisicamente
-    bala.CFrame = CFrame.new(canon.Position)          -- la pone en la posicion del canon
-    bala.Parent = workspace                           -- la agrega al mundo
+    local bala = Instance.new("Part")                  -- crea el proyectil
+    bala.Size = Vector3.new(0.3, 0.3, 0.3)
+    bala.Color = Color3.fromRGB(255, 255, 0)
+    bala.Anchored = true
+    bala.CanCollide = false
+    bala.CFrame = CFrame.new(canon.Position)           -- sale desde el canon
+    bala.Parent = workspace
 
-    -- Anima la bala en linea recta hacia adelante
-    local destino = canon.Position + direccion * 200  -- 200 studs hacia donde mira la camara
+    local destino = canon.Position + direccion * 200   -- 200 studs hacia adelante
     local tween = TweenService:Create(bala, TweenInfo.new(1), {Position = destino})
-    tween:Play()                                      -- arranca la animacion
+    tween:Play()
 
-    game:GetService("Debris"):AddItem(bala, 3)        -- destruye la bala despues de 3 segundos
+    game:GetService("Debris"):AddItem(bala, 3)         -- destruye la bala en 3 segundos
 end)
 ```
 
@@ -124,7 +74,7 @@ end)
 Workspace
   └── Tool
         ├── Handle
-        │     └── WeldConstraint  (Part0=Handle / Part1=Canon)
+        │     └── WeldConstraint (Part0=Handle / Part1=Canon)
         ├── Canon
         └── LocalScript
 
@@ -138,15 +88,3 @@ StarterGui
 ## Misión
 
 > Galería de tiro con conteo de disparos.
-
-**Lo que debe tener tu pistola:**
-- Las 2 partes nombradas correctamente con WeldConstraint
-- Grip ajustado para que quede bien en la mano
-- La bala visible que sale desde el Canon
-- El contador de disparos funcionando en pantalla
-
----
-
-## Tarea
-
-Cambiá el color de la bala y su tamaño. ¿Podés hacer que la bala dure más tiempo antes de desaparecer?

@@ -1,0 +1,129 @@
+---
+titulo: "Clase 21 - Guardando Tesoros en Tablas"
+---
+
+# Guardando Tesoros en Tablas 📦
+
+---
+
+## Paso 1: Conocer las tablas
+
+```lua
+local tesoros = {"Moneda", "Gema", "Rubi"}
+print(tesoros[1])  -- imprime: Moneda
+```
+
+> 💡 En Lua las tablas empiezan a contar desde el número **1**.
+
+---
+
+## Paso 2: Agregar y quitar elementos
+
+```lua
+local tesoros = {"Moneda"}
+
+table.insert(tesoros, "Gema")   -- agrega al final
+table.remove(tesoros, 1)         -- quita el elemento en la posicion 1
+```
+
+---
+
+## Paso 3: Recorrer una tabla
+
+```lua
+local tesoros = {"Moneda", "Gema", "Rubi"}
+
+for i, tesoro in ipairs(tesoros) do
+    print(i, tesoro)
+end
+```
+
+---
+
+## Paso 4: Evitar duplicados con table.find
+
+```lua
+local tesoros = {"Moneda", "Gema"}
+
+print(table.find(tesoros, "Moneda"))  -- imprime: 1
+print(table.find(tesoros, "Rubi"))    -- imprime: nil
+```
+
+---
+
+## Paso 5: Otros usos de las tablas
+
+**Lista de nombres al azar:**
+```lua
+local nombresNPC = {"Guardia", "Mercader", "Aldeano"}
+print(nombresNPC[math.random(1, #nombresNPC)])
+```
+
+**Tabla con nombres (configuración):**
+```lua
+local configuracionEspada = {
+    daño = 20,
+    velocidad = 1.5,
+    nombre = "Espada de Fuego"
+}
+print(configuracionEspada.daño)  -- imprime: 20
+```
+
+---
+
+## Paso 6: Crear los tesoros y el cofre
+
+```
+Workspace
+  ├── Moneda
+  ├── Gema
+  └── Cofre
+```
+
+---
+
+## Paso 7: El script
+
+Va en un **Script** dentro de **ServerScriptService**.
+
+```lua
+local tesoros = {}
+
+local moneda = workspace.Moneda
+local gema = workspace.Gema
+local cofre = workspace.Cofre
+
+moneda.Touched:Connect(function(mano)
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid and not table.find(tesoros, "Moneda") then
+        table.insert(tesoros, "Moneda")
+        print("Encontraste: Moneda")
+        moneda:Destroy()
+    end
+end)
+
+gema.Touched:Connect(function(mano)
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid and not table.find(tesoros, "Gema") then
+        table.insert(tesoros, "Gema")
+        print("Encontraste: Gema")
+        gema:Destroy()
+    end
+end)
+
+cofre.Touched:Connect(function(mano)
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid then
+        print("--- Tesoros recolectados ---")
+        for i, tesoro in ipairs(tesoros) do
+            print(i, tesoro)
+        end
+    end
+end)
+```
+
+---
+
+## Misión
+
+> Inventario simple con agregar/quitar ítems.

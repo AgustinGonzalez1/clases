@@ -4,143 +4,95 @@ titulo: "Clase 9 - Programación creativa"
 
 # Programación creativa 🎨🎮
 
-Clase libre de creación. Con todo lo aprendido, cada alumno crea el bloque que quiera aplicando métodos, propiedades y eventos.
+---
+
+## Paso 1: Repasar los 3 pilares
+
+Cualquier bloque que crees tiene que usar:
+
+| Pilar | Ejemplos |
+|---|---|
+| **Propiedad** | Color, Size, Transparency, WalkSpeed |
+| **Método** | Clone(), Destroy() |
+| **Evento** | Touched, TouchEnded |
 
 ---
 
-## Los 3 pilares que deben aparecer
-
-Independientemente del bloque que elijas, el código tiene que usar los tres:
-
-| Pilar | Qué es | Ejemplos |
-|---|---|---|
-| **Propiedad** | Una característica del objeto que se lee o cambia | `Color`, `Size`, `Transparency`, `WalkSpeed`, `Health`, `JumpHeight` |
-| **Método** | Una acción que hace el objeto | `Clone()`, `Destroy()` |
-| **Evento** | Algo que ocurre y dispara una función | `Touched`, `TouchEnded` |
-
----
-
-## Bloques de ejemplo
-
-### Bloque invisible
-
-Al tocarlo desaparece y vuelve a aparecer al soltarlo.
+## Paso 2: Bloque invisible
 
 ```lua
 local bloque = script.Parent
 
 bloque.Touched:Connect(function()
-    bloque.Transparency = 1   -- propiedad: hace el bloque invisible
+    bloque.Transparency = 1
 end)
 
 bloque.TouchEnded:Connect(function()
-    bloque.Transparency = 0   -- propiedad: lo vuelve visible
+    bloque.Transparency = 0
 end)
 ```
 
 ---
 
-### Bloque que cambia de color
-
-Al tocarlo cambia a rojo y vuelve a blanco al soltarlo.
+## Paso 3: Bloque que se achica
 
 ```lua
 local bloque = script.Parent
 
 bloque.Touched:Connect(function()
-    bloque.Color = Color3.fromRGB(255, 0, 0)      -- propiedad: rojo
-end)
-
-bloque.TouchEnded:Connect(function()
-    bloque.Color = Color3.fromRGB(255, 255, 255)  -- propiedad: blanco
+    bloque.Size = bloque.Size - Vector3.new(0.5, 0.5, 0.5)
 end)
 ```
 
 ---
 
-### Bloque que se achica
-
-Cada vez que lo tocás se hace más pequeño.
-
-```lua
-local bloque = script.Parent
-
-bloque.Touched:Connect(function()
-    bloque.Size = bloque.Size - Vector3.new(0.5, 0.5, 0.5)  -- propiedad: reduce el tamaño
-end)
-```
-
----
-
-### Bloque que clona
-
-Al tocarlo crea una copia al costado.
-
-```lua
-local bloque = script.Parent
-
-bloque.Touched:Connect(function()
-    local clon = bloque:Clone()                              -- método: clona el bloque
-    clon.Parent = workspace
-    clon.Position = bloque.Position + Vector3.new(5, 0, 0)  -- propiedad: nueva posicion
-end)
-```
-
----
-
-### Bloque resbaladizo
-
-Al pisarlo aumenta la velocidad y vuelve a la normal al soltarlo.
+## Paso 4: Bloque que aumenta la velocidad
 
 ```lua
 local bloque = script.Parent
 
 bloque.Touched:Connect(function(mano)
     local humanoid = mano.Parent.Humanoid
-    humanoid.WalkSpeed = 50   -- propiedad: velocidad alta
+    humanoid.WalkSpeed = 50
 end)
 
 bloque.TouchEnded:Connect(function(mano)
     local humanoid = mano.Parent.Humanoid
-    wait(0.5)                 -- espera para evitar el problema del rebote
-    humanoid.WalkSpeed = 16   -- propiedad: velocidad normal
+    wait(0.5)   -- evita el problema del rebote
+    humanoid.WalkSpeed = 16
 end)
 ```
 
 ---
 
-### Bloque que cambia la gravedad
+## Paso 5: Bloque que te empuja hacia un lugar
 
-Al tocarlo la gravedad baja y al soltarlo vuelve a la normal.
+Este bloque mueve al jugador automáticamente en una dirección usando `BodyVelocity`.
 
 ```lua
 local bloque = script.Parent
 
-bloque.Touched:Connect(function()
-    workspace.Gravity = 50    -- propiedad: menos gravedad
-end)
+bloque.Touched:Connect(function(mano)
+    local personaje = mano.Parent
+    local rootPart = personaje.HumanoidRootPart
 
-bloque.TouchEnded:Connect(function()
-    workspace.Gravity = 196.2 -- propiedad: gravedad normal
+    local empuje = Instance.new("BodyVelocity")
+    empuje.Velocity = Vector3.new(50, 0, 0)              -- empuja hacia el eje X
+    empuje.MaxForce = Vector3.new(math.huge, 0, math.huge)
+    empuje.Parent = rootPart
+
+    wait(0.5)
+    empuje:Destroy()   -- deja de empujar
 end)
 ```
 
-> ⚠️ `workspace.Gravity` es global: afecta a todos los jugadores al mismo tiempo.
+- `BodyVelocity` es un objeto que aplica una fuerza constante sobre una Part
+- `Velocity` define la dirección y velocidad del empuje
+- `MaxForce` controla en qué ejes aplica esa fuerza. `math.huge` significa "sin límite de fuerza"
+- Se destruye después de un tiempo para que el empuje no sea infinito
 
 ---
 
 ## Misión
 
 > Aplicar métodos, propiedades y eventos en un bloque propio.
-
-**Lo que debe tener tu bloque:**
-- Al menos una propiedad que cambie algo
-- Al menos un método (Clone o Destroy)
-- Al menos un evento (Touched o TouchEnded)
-- El bloque tiene que hacer algo original, no copiar exactamente los ejemplos
-
----
-
-## Tarea
-
-Combiná dos de los ejemplos anteriores en un solo bloque. Por ejemplo: que al tocarlo se achique Y cambie de color al mismo tiempo.

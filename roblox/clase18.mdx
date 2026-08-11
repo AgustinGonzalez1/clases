@@ -1,0 +1,90 @@
+---
+titulo: "Clase 18 - El ABC del Código: Variables"
+---
+
+# El ABC del Código: Variables 🔤
+
+---
+
+## Paso 1: Conocer los tipos de datos
+
+En Lua todo valor tiene un tipo:
+
+| Tipo | Ejemplo | Para qué |
+|---|---|---|
+| **string** | `"Hola"` | Texto |
+| **number** | `10`, `3.14` | Números enteros y decimales |
+| **boolean** | `true`, `false` | Verdadero o falso |
+| **nil** | `nil` | Ausencia de valor |
+
+```lua
+local nombre = "Roblox"   -- string
+local edad = 10            -- number
+local activo = true        -- boolean
+```
+
+---
+
+## Paso 2: Trabajar con variables y operaciones
+
+```lua
+local x = 5
+local y = 10
+local resultado = x + y
+print(resultado)  -- imprime: 15
+```
+
+| Operación | Símbolo | Ejemplo |
+|---|---|---|
+| Suma | `+` | `5 + 3 = 8` |
+| Resta | `-` | `5 - 3 = 2` |
+| Multiplicación | `*` | `5 * 3 = 15` |
+| División | `/` | `10 / 2 = 5` |
+
+---
+
+## Paso 3: Concatenar texto
+
+```lua
+local nombre = "Roblox"
+local mensaje = "Hola " .. nombre   -- resultado: "Hola Roblox"
+print(mensaje)
+
+local puntos = 100
+print("Tus puntos: " .. puntos)     -- imprime: Tus puntos: 100
+```
+
+---
+
+## Paso 4: Entender el scope
+
+```lua
+local x = 10   -- existe en todo el script
+
+local function ejemplo()
+    local y = 20   -- existe solo dentro de esta funcion
+    print(x)       -- funciona: x existe acá
+end
+
+-- print(y)  -- esto fallaria: y no existe acá afuera
+```
+
+---
+
+## Paso 5: Armar la mini calculadora
+
+```lua
+local a = 20
+local b = 4
+
+print("Suma: " .. a + b)
+print("Resta: " .. a - b)
+print("Multiplicacion: " .. a * b)
+print("Division: " .. a / b)
+```
+
+---
+
+## Misión
+
+> Mini calculadora en la consola.

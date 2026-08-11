@@ -4,103 +4,43 @@ titulo: "Clase 16 - Cutscenes 2"
 
 # Cutscenes 2 📜
 
-En esta clase creamos un menú principal con botones de "Jugar" y "Opciones" con una transición animada al nivel.
-
----
-
-## ¿Qué es una ScreenGui?
-
-Una **ScreenGui** es una interfaz que se muestra en la pantalla del jugador. Puede contener botones, textos, imágenes y otros elementos visuales.
-
-Se crea en **StarterGui**:
-1. Click derecho sobre **StarterGui** → Insert Object → **ScreenGui**
-
----
-
-## Elementos de la GUI
-
-| Elemento | Para qué sirve |
-|---|---|
-| **TextLabel** | Muestra texto estático en pantalla |
-| **TextButton** | Botón que el jugador puede clickear |
-| **Frame** | Contenedor para organizar otros elementos |
-
----
-
-## ¿Qué es MouseButton1Click?
-
-Es el evento de los botones que se dispara cuando el jugador hace **click izquierdo** sobre el botón.
-
-```lua
-boton.MouseButton1Click:Connect(function()
-    -- esto se ejecuta al hacer click
-end)
-```
-
----
-
-## ¿Qué es TextTransparency?
-
-Es una propiedad de los TextLabel y TextButton que controla qué tan transparente es el texto:
-- `0` → texto completamente visible
-- `1` → texto completamente invisible
-
-Se puede animar con TweenService igual que cualquier otra propiedad.
-
 ---
 
 ## Paso 1: Crear la ScreenGui
 
-1. Click derecho sobre **StarterGui** → Insert Object → **ScreenGui**
-2. En Properties de la ScreenGui:
-   - **IgnoreGuiInset** → `true` (evita que la barra de Roblox empuje el menú hacia abajo)
+1. StarterGui → Insert Object → **ScreenGui**
+2. Properties → **IgnoreGuiInset** → `true` (evita que la barra de Roblox empuje el menú hacia abajo)
 
 ---
 
 ## Paso 2: Crear el Frame
 
 1. Dentro de la ScreenGui → Insert Object → **Frame**
-2. Configurás el Frame:
 
-| Propiedad | Valor | Para qué sirve |
+| Propiedad | Valor |
+|---|---|
+| **AnchorPoint** | `0.5, 0.5` |
+| **Position** | `{0.5, 0}, {0.5, 0}` |
+| **Size** | `{1, 0}, {1, 0}` |
+| **BackgroundColor3** | el color que quieras |
+
+---
+
+## Paso 3: Crear el título y los botones
+
+Dentro del Frame, tres elementos:
+
+| Elemento | Nombre | Text |
 |---|---|---|
-| **AnchorPoint** | `0.5, 0.5` | El punto de referencia es el centro del Frame |
-| **Position** | `{0.5, 0}, {0.5, 0}` | Lo centra en la pantalla |
-| **Size** | `{1, 0}, {1, 0}` | Ocupa toda la pantalla |
-| **BackgroundColor3** | El color que quieras | Color de fondo del menú |
+| TextLabel | `TextLabel` | "Mi Juego" |
+| TextButton | `Jugar` | "Jugar" |
+| TextButton | `Opciones` | "Opciones" |
+
+Todos con **TextScaled = true** y **BackgroundTransparency = 1** (menos el Frame).
 
 ---
 
-## Paso 3: Crear el título
-
-1. Dentro del Frame → Insert Object → **TextLabel**
-2. Lo renombrás `Titulo`
-3. Configurás:
-   - **Text** → `"Mi Juego"`
-   - **TextScaled** → true
-   - **BackgroundTransparency** → `1`
-   - **Size** → `{0.5, 0}, {0.15, 0}`
-   - **Position** → `{0.25, 0}, {0.1, 0}`
-
----
-
-## Paso 4: Crear los botones
-
-**Botón Jugar:**
-1. Dentro del Frame → Insert Object → **TextButton**
-2. Lo renombrás `Jugar`
-3. Configurás:
-   - **Text** → `"Jugar"`
-   - **TextScaled** → true
-   - **BackgroundTransparency** → `1`
-   - **Size** → `{0.3, 0}, {0.12, 0}`
-   - **Position** → `{0.35, 0}, {0.4, 0}`
-
-**Botón Opciones:** igual pero con **Text** → `"Opciones"` y **Position** → `{0.35, 0}, {0.55, 0}`.
-
----
-
-## Paso 5: El script
+## Paso 4: El script
 
 Va en un **LocalScript** dentro de la ScreenGui.
 
@@ -109,50 +49,34 @@ local screenGui = script.Parent                      -- la ScreenGui del menu
 local frame = screenGui:WaitForChild("Frame")        -- el frame del menu
 local botonJugar = frame:WaitForChild("Jugar")       -- el boton Jugar
 local botonOpciones = frame:WaitForChild("Opciones") -- el boton Opciones
-local titulo = frame:WaitForChild("Titulo")          -- el TextLabel del titulo
-
+local titulo = frame:WaitForChild("TextLabel")       -- el TextLabel del titulo
 local TweenService = game:GetService("TweenService") -- para animar la transicion
 
 botonJugar.MouseButton1Click:Connect(function()      -- se dispara al hacer click en Jugar
-
-    -- Paso 1: el fondo del frame desaparece suavemente
+    -- Crea todos los tweens al mismo tiempo
     local tweenFondo = TweenService:Create(frame, TweenInfo.new(1), {
         BackgroundTransparency = 1                   -- el fondo se hace transparente
     })
+    local tweenJugar = TweenService:Create(botonJugar, TweenInfo.new(1), {
+        TextTransparency = 1,                        -- el boton Jugar desaparece
+    })
+    local tweenOpciones = TweenService:Create(botonOpciones, TweenInfo.new(1), {
+        TextTransparency = 1,                        -- el boton Opciones desaparece
+    })
+    local tweenTitulo = TweenService:Create(titulo, TweenInfo.new(1), {
+        TextTransparency = 1,                        -- el titulo desaparece
+    })
+
+    -- Arranca todos al mismo tiempo
     tweenFondo:Play()
-    tweenFondo.Completed:Wait()                      -- espera a que el fondo desaparezca
-
-    -- Paso 2: los textos desaparecen suavemente
-    local tweenTitulo = TweenService:Create(titulo, TweenInfo.new(0.5), {
-        TextTransparency = 1                         -- el titulo desaparece
-    })
-    local tweenJugar = TweenService:Create(botonJugar, TweenInfo.new(0.5), {
-        TextTransparency = 1                         -- el boton Jugar desaparece
-    })
-    local tweenOpciones = TweenService:Create(botonOpciones, TweenInfo.new(0.5), {
-        TextTransparency = 1                         -- el boton Opciones desaparece
-    })
-
-    tweenTitulo:Play()
     tweenJugar:Play()
     tweenOpciones:Play()
-    tweenTitulo.Completed:Wait()                     -- espera a que terminen los textos
+    tweenTitulo:Play()
 
+    tweenTitulo.Completed:Wait()                     -- espera a que terminen
     screenGui.Enabled = false                        -- oculta toda la GUI
 end)
-
-botonOpciones.MouseButton1Click:Connect(function()   -- se dispara al hacer click en Opciones
-    print("Opciones clickeado")                      -- por ahora solo imprime en consola
-end)
 ```
-
----
-
-## Secuencia de la transición
-
-1. Click en **Jugar** → el fondo desaparece en 1 segundo
-2. Al terminar → el título y los botones desaparecen en 0.5 segundos
-3. Al terminar → la GUI se deshabilita completamente y el jugador puede jugar
 
 ---
 
@@ -163,7 +87,7 @@ StarterGui
   └── ScreenGui  (IgnoreGuiInset = true)
         ├── LocalScript
         └── Frame
-              ├── Titulo    (TextLabel)
+              ├── TextLabel
               ├── Jugar     (TextButton)
               └── Opciones  (TextButton)
 ```
@@ -173,15 +97,3 @@ StarterGui
 ## Misión
 
 > Flujo de inicio con transición a nivel.
-
-**Lo que debe tener tu menú:**
-- Frame que ocupe toda la pantalla con IgnoreGuiInset activado
-- Título con el nombre de tu juego
-- Botón Jugar con transición animada en dos pasos
-- Botón Opciones
-
----
-
-## Tarea
-
-Cambiá los colores y el estilo del menú para que se vea con la temática de tu juego. ¿Podés hacer que el fondo tarde más en desaparecer para que la transición se vea más épica?

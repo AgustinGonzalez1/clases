@@ -4,70 +4,47 @@ titulo: "Clase 11 - Tu Primera Arma: La Espada"
 
 # Tu Primera Arma: La Espada ⚔️
 
-Clase 100% visual, sin código. Construimos y personalizamos una espada usando Parts, la convertimos en Tool y la ajustamos para que quede bien en la mano del personaje.
-
----
-
-## ¿Qué es un Tool?
-
-Un **Tool** es un tipo especial de objeto en Roblox que el jugador puede agarrar y equipar. Cuando está en el **Workspace**, el jugador lo agarra al acercarse. Cuando está en el **StarterPack**, aparece directo en su inventario al spawnear.
-
----
-
-## Las 3 partes de la espada
-
-| Parte | Nombre en Studio | Descripción |
-|---|---|---|
-| Mango | `Handle` | Part corta, donde el personaje agarra la espada |
-| Guardia | `Guardia` | Part ancha y corta entre el mango y la hoja |
-| Hoja | `Hoja` | Part larga y fina, la parte principal |
-
-> ⚠️ El nombre `Handle` es obligatorio. Roblox lo usa como punto de agarre del Tool. Sin él el personaje no sabe dónde agarrarla.
-
 ---
 
 ## Paso 1: Construir las 3 partes
 
-1. Insertás 3 Parts en el Workspace
-2. Las nombrás `Handle`, `Guardia` y `Hoja`
-3. Las escalás y posicionás para formar la espada
-4. Les cambiás color y material a gusto
+| Parte | Nombre en Studio |
+|---|---|
+| Mango | `Handle` |
+| Guardia | `Guardia` |
+| Hoja | `Hoja` |
+
+> ⚠️ El nombre `Handle` es obligatorio, Roblox lo usa como punto de agarre.
 
 ---
 
 ## Paso 2: Crear el Tool en el Workspace
 
-1. Click derecho sobre **Workspace** → Insert Object → **Tool**
+1. Click derecho sobre Workspace → Insert Object → **Tool**
 2. Arrastrás las 3 Parts dentro del Tool
 
 ```
 Workspace
   └── Tool
-        ├── Handle   (mango)
+        ├── Handle
         ├── Guardia
         └── Hoja
 ```
 
-Al estar en el Workspace, la espada aparece en el mundo y el jugador la agarra al acercarse.
-
 ---
 
-## Paso 3: Unir las partes con WeldConstraint
+## Paso 3: Unir con WeldConstraint
 
-Sin Weld las partes se desarman al agarrar la espada. Cada WeldConstraint une las partes que físicamente están en contacto:
-
-1. Click derecho sobre **Handle** → Insert Object → **WeldConstraint**
-   - `Part0` = Handle / `Part1` = Guardia
-2. Click derecho sobre **Guardia** → Insert Object → **WeldConstraint**
-   - `Part0` = Guardia / `Part1` = Hoja
+1. **Handle** → Insert Object → **WeldConstraint** → `Part0=Handle` / `Part1=Guardia`
+2. **Guardia** → Insert Object → **WeldConstraint** → `Part0=Guardia` / `Part1=Hoja`
 
 ```
 Workspace
   └── Tool
         ├── Handle
-        │     └── WeldConstraint  (Part0=Handle / Part1=Guardia)
+        │     └── WeldConstraint (Part0=Handle / Part1=Guardia)
         ├── Guardia
-        │     └── WeldConstraint  (Part0=Guardia / Part1=Hoja)
+        │     └── WeldConstraint (Part0=Guardia / Part1=Hoja)
         └── Hoja
 ```
 
@@ -75,29 +52,16 @@ Workspace
 
 ## Paso 4: Ajustar el Grip
 
-Al agarrar la espada puede quedar torcida. Se corrige desde las propiedades del Tool:
+En Properties del Tool:
 
-| Propiedad | Qué controla |
+| Propiedad | Valor recomendado |
 |---|---|
-| **Grip → Orientation** | La rotación de la espada en la mano |
-| **Grip → Position** | Dónde exactamente el personaje la agarra |
+| **Grip → Orientation** | `0, 0, -90` |
 
-Valor recomendado para que quede vertical: **Orientation 0, 0, -90**. Ajustar hasta que se vea natural en la mano.
+Ajustás hasta que se vea natural en la mano del personaje.
 
 ---
 
 ## Misión
 
 > Diseñar tu espada con estilo propio.
-
-**Lo que debe tener tu espada:**
-- Las 3 partes nombradas correctamente
-- WeldConstraints configurados
-- Grip ajustado para que quede bien en la mano
-- Colores y materiales personalizados
-
----
-
-## Tarea
-
-Agregale un efecto visual a la hoja: Insert Object → **Fire** o **Sparkles** dentro de la Hoja. Ajustá el color y la intensidad del efecto.

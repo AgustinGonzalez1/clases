@@ -4,126 +4,72 @@ titulo: "Clase 13 - Tu Primer Auto"
 
 # Tu Primer Auto 🚗
 
-Construimos un auto usando Attachments y HingeConstraints para conectar las ruedas al chasis, y un script para controlarlo con el teclado.
+---
+
+## Paso 1: Construir las partes sin nombrarlas todavía
+
+1. Insertás el **Chasis** (Part rectangular)
+2. Insertás 4 Parts cilíndricas para las ruedas, sin nombrarlas aún
+3. Las rotás **Orientation → 0, 0, 90** para que queden horizontales
+4. Las ubicás en las 4 esquinas del Chasis
+
+> ⚠️ **Anchored = true** en todas mientras construís.
 
 ---
 
-## Paso 1: Crear las partes
+## Paso 2: Agregar el VehicleSeat para definir la orientación
 
-Insertás las siguientes Parts en el Workspace:
+1. Insert Object → **VehicleSeat**, lo ubicás encima del Chasis
+2. El **frente** del VehicleSeat (la flecha que se ve al seleccionarlo) define hacia dónde "mira" el auto
 
-| Part | Nombre | Forma |
-|---|---|---|
-| Cuerpo del auto | `Chasis` | Part rectangular |
-| Rueda frontal derecha | `RFD` | Part cilíndrica |
-| Rueda frontal izquierda | `RFI` | Part cilíndrica |
-| Rueda trasera derecha | `RTD` | Part cilíndrica |
-| Rueda trasera izquierda | `RTI` | Part cilíndrica |
-
-> ⚠️ Activá **Anchored = true** en el Chasis mientras construís para que no caiga.
+> 💡 Con el VehicleSeat ya orientado, ahora es fácil saber cuál rueda es cuál: mirando hacia adelante desde el asiento, la izquierda y derecha quedan claras.
 
 ---
 
-## Paso 2: Posicionar las ruedas correctamente
+## Paso 3: Recién ahora, nombrar las ruedas correctamente
 
-Las ruedas cilíndricas por defecto están paradas verticalmente. Hay que rotarlas 90 grados para que queden horizontales como ruedas reales:
+Según la orientación del VehicleSeat:
 
-1. Seleccionás cada rueda
-2. En Properties → **Orientation** → cambiás a `0, 0, 90`
-3. Las posicionás en las esquinas del Chasis
-
-> ⚠️ Si las ruedas no están rotadas correctamente el auto va a quedar al revés o las ruedas van a girar en la dirección equivocada.
-
----
-
-## Paso 3: Agregar el VehicleSeat
-
-1. Click derecho sobre el Workspace → Insert Object → **VehicleSeat**
-2. Lo posicionás encima del Chasis donde se va a sentar el jugador
-3. Lo escalás para que tenga sentido visualmente
-
----
-
-## Paso 4: Agrupar en un Model
-
-1. Seleccionás todas las Parts y el VehicleSeat (Ctrl + click)
-2. Click derecho → **Group** (Ctrl+G)
-3. Renombrás el Model `Autito`
-4. En Properties del Model → **PrimaryPart** → seleccionás **Chasis**
-
----
-
-## Paso 5: Crear la carpeta Uniones con los HingeConstraints
-
-1. Click derecho sobre **Autito** → Insert Object → **Folder**
-2. La nombrás `Uniones`
-3. Dentro de Uniones agregás 4 **HingeConstraint** con estos nombres:
-
-| HingeConstraint | Rueda que conecta |
+| Rueda | Nombre |
 |---|---|
-| `ejeRFD` | Rueda frontal derecha |
-| `ejeRFI` | Rueda frontal izquierda |
-| `ejeRTD` | Rueda trasera derecha |
-| `ejeRTI` | Rueda trasera izquierda |
-
-En cada HingeConstraint configurás:
-- **ActuatorType** → **Motor**
-- **MotorMaxTorque** → `409600`
-- **AngularVelocity** → `0`
+| Adelante-derecha | `RFD` |
+| Adelante-izquierda | `RFI` |
+| Atrás-derecha | `RTD` |
+| Atrás-izquierda | `RTI` |
 
 ---
 
-## Paso 6: Agregar Attachments al Chasis
+## Paso 4: Agrupar
 
-Dentro del **Chasis** agregás 4 Attachments:
+1. Seleccionás todo (Chasis, las 4 ruedas y el VehicleSeat) y **Group** (Ctrl+G)
+2. Renombrás el Model `Autito`
+3. **PrimaryPart** del Model → `Chasis`
 
-1. Click derecho sobre **Chasis** → Insert Object → **Attachment**
-2. Lo nombrás según la rueda que le corresponde
+---
 
-| Attachment | Nombre |
+## Paso 5: Crear la carpeta Uniones
+
+Dentro de `Autito` → Insert Object → **Folder** → `Uniones`. Dentro, 4 **HingeConstraint**:
+
+| HingeConstraint | Config |
 |---|---|
-| Para RFD | `pivoteChasisRFD` |
-| Para RFI | `pivoteChasisRFI` |
-| Para RTD | `pivoteChasisRTD` |
-| Para RTI | `pivoteChasisRTI` |
+| `ejeRFD`, `ejeRFI`, `ejeRTD`, `ejeRTI` | ActuatorType=Motor, MotorMaxTorque=409600, AngularVelocity=0 |
 
 ---
 
-## Paso 7: Agregar Attachments en cada rueda
+## Paso 6: Attachments
 
-Dentro de **cada rueda** agregás 1 Attachment:
+**En el Chasis:** `pivoteChasisRFD`, `pivoteChasisRFI`, `pivoteChasisRTD`, `pivoteChasisRTI`
 
-1. Click derecho sobre la rueda → Insert Object → **Attachment**
-2. Lo nombrás según la rueda
+**En cada rueda:** `pivoteRuedaRFD`, `pivoteRuedaRFI`, `pivoteRuedaRTD`, `pivoteRuedaRTI`
 
-| Rueda | Attachment |
-|---|---|
-| RFD | `pivoteRuedaRFD` |
-| RFI | `pivoteRuedaRFI` |
-| RTD | `pivoteRuedaRTD` |
-| RTI | `pivoteRuedaRTI` |
+Mové cada `pivoteChasis` a la misma posición que su `pivoteRueda` correspondiente.
 
 ---
 
-## Paso 8: Mover los pivotes del Chasis a la posición de cada rueda
+## Paso 7: Configurar los HingeConstraints
 
-Este es el paso más importante. Cada `pivoteChasis` tiene que estar en la **misma posición** que el `pivoteRueda` de su rueda correspondiente.
-
-Para cada rueda:
-1. Seleccionás el **pivoteRuedaRFD** (el de la rueda)
-2. En Properties copiás su **WorldCFrame** o **WorldPosition**
-3. Seleccionás el **pivoteChasisRFD** (el del Chasis)
-4. En Properties pegás esa misma posición
-
-> ⚠️ Si los pivotes no están alineados la rueda va a quedar desplazada o torcida al conectarla.
-
----
-
-## Paso 9: Configurar los HingeConstraints
-
-Para cada HingeConstraint en la carpeta Uniones:
-
-| HingeConstraint | Attachment0 (Chasis) | Attachment1 (Rueda) |
+| HingeConstraint | Attachment0 | Attachment1 |
 |---|---|---|
 | ejeRFD | pivoteChasisRFD | pivoteRuedaRFD |
 | ejeRFI | pivoteChasisRFI | pivoteRuedaRFI |
@@ -132,52 +78,65 @@ Para cada HingeConstraint en la carpeta Uniones:
 
 ---
 
-## Paso 10: Unir el VehicleSeat al Chasis
+## Paso 8: WeldConstraint del VehicleSeat
 
-1. Click derecho sobre **VehicleSeat** → Insert Object → **WeldConstraint**
-2. `Part0` = VehicleSeat / `Part1` = Chasis
+VehicleSeat → Insert Object → **WeldConstraint** → `Part0=VehicleSeat` / `Part1=Chasis`
 
 ---
 
-## Paso 11: El script
+## Paso 9: Estructura final en el Explorer
 
-Va en un **Script** dentro del VehicleSeat.
+```
+Autito
+  ├── Uniones
+  │     ├── ejeRFD
+  │     ├── ejeRFI
+  │     ├── ejeRTD
+  │     └── ejeRTI
+  ├── VehicleSeat
+  │     ├── Script
+  │     └── WeldConstraint
+  ├── Chasis
+  │     ├── pivoteChasisRFD
+  │     ├── pivoteChasisRFI
+  │     ├── pivoteChasisRTD
+  │     └── pivoteChasisRTI
+  ├── RFD
+  │     └── pivoteRuedaRFD
+  ├── RFI
+  │     └── pivoteRuedaRFI
+  ├── RTD
+  │     └── pivoteRuedaRTD
+  └── RTI
+        └── pivoteRuedaRTI
+```
+
+---
+
+## Paso 10: El script
+
+Va dentro del **Script** que está en VehicleSeat.
 
 ```lua
--- Script para mover el autito con el asiento del vehiculo
--- Este Script va dentro de: Autito > VehicleSeat > Script
+local asiento = script.Parent
+local auto = asiento.Parent
 
-local asiento = script.Parent            -- el asiento donde se sienta el jugador
-local auto = asiento.Parent              -- el modelo completo del auto
+local motoresDerecha = {auto.Uniones.ejeRFD, auto.Uniones.ejeRTD}
+local motoresIzquierda = {auto.Uniones.ejeRFI, auto.Uniones.ejeRTI}
 
--- Motores del lado derecho del auto
-local motoresDerecha = {
-    auto.Uniones.ejeRFD,  -- rueda frontal derecha
-    auto.Uniones.ejeRTD,  -- rueda trasera derecha
-}
+local VELOCIDAD_AVANCE = 50
+local FUERZA_GIRO_LENTO = 40
+local FUERZA_GIRO_RAPIDO = 10
 
--- Motores del lado izquierdo del auto
-local motoresIzquierda = {
-    auto.Uniones.ejeRFI,  -- rueda frontal izquierda
-    auto.Uniones.ejeRTI,  -- rueda trasera izquierda
-}
-
--- Parametros ajustables
-local VELOCIDAD_AVANCE = 50         -- que tan rapido avanza el auto
-local FUERZA_GIRO_LENTO = 40        -- giro maximo cuando va lento
-local FUERZA_GIRO_RAPIDO = 10       -- giro maximo cuando va rapido
-
--- Pone la misma velocidad a todos los motores de una lista
 local function establecerVelocidad(listaMotores, velocidad)
     for _, motor in ipairs(listaMotores) do
-        motor.AngularVelocity = velocidad   -- hace girar la rueda
+        motor.AngularVelocity = velocidad
     end
 end
 
--- Funcion principal: se llama cada vez que cambia el avance o el giro
 local function actualizarMotores()
-    local acelerador = -asiento.ThrottleFloat  -- W=adelante / S=atras
-    local giro = -asiento.SteerFloat           -- A=izquierda / D=derecha
+    local acelerador = -asiento.ThrottleFloat
+    local giro = -asiento.SteerFloat
 
     local factorVelocidad = math.abs(acelerador)
     local fuerzaGiro = FUERZA_GIRO_LENTO - (FUERZA_GIRO_LENTO - FUERZA_GIRO_RAPIDO) * factorVelocidad
@@ -191,79 +150,18 @@ local function actualizarMotores()
     establecerVelocidad(motoresDerecha,  velocidadDerecha)
 end
 
--- Se actualiza cuando el jugador presiona W/S o A/D
 asiento:GetPropertyChangedSignal("ThrottleFloat"):Connect(actualizarMotores)
 asiento:GetPropertyChangedSignal("SteerFloat"):Connect(actualizarMotores)
 ```
 
 ---
 
-## Paso 12: Desactivar Anchored
+## Paso 11: Desactivar Anchored
 
-1. Seleccionás el **Chasis**
-2. En Properties → **Anchored** → `false`
-
----
-
-## Estructura final en el Explorer
-
-```
-Autito (Model)
-  ├── Uniones (Folder)
-  │     ├── ejeRFD  (HingeConstraint - ActuatorType=Motor)
-  │     ├── ejeRFI  (HingeConstraint - ActuatorType=Motor)
-  │     ├── ejeRTD  (HingeConstraint - ActuatorType=Motor)
-  │     └── ejeRTI  (HingeConstraint - ActuatorType=Motor)
-  ├── VehicleSeat
-  │     ├── Script
-  │     └── WeldConstraint (Part0=VehicleSeat / Part1=Chasis)
-  ├── Chasis
-  │     ├── pivoteChasisRFD  (Attachment)
-  │     ├── pivoteChasisRFI  (Attachment)
-  │     ├── pivoteChasisRTD  (Attachment)
-  │     └── pivoteChasisRTI  (Attachment)
-  ├── RFD
-  │     └── pivoteRuedaRFD  (Attachment)
-  ├── RFI
-  │     └── pivoteRuedaRFI  (Attachment)
-  ├── RTD
-  │     └── pivoteRuedaRTD  (Attachment)
-  └── RTI
-        └── pivoteRuedaRTI  (Attachment)
-```
-
----
-
-## ¿Qué es un HingeConstraint?
-
-Un **HingeConstraint** es una unión entre dos Attachments que permite rotación en un solo eje, como una bisagra. Es lo que hace que las ruedas puedan girar. Sin él la rueda estaría pegada rígidamente al Chasis.
-
-## ¿Qué es un Attachment?
-
-Un **Attachment** es un punto de anclaje dentro de una Part. Por sí solo no hace nada, es el HingeConstraint el que los conecta. El Attachment de la rueda marca el punto en la rueda, el Attachment del Chasis marca el punto en el Chasis, y el HingeConstraint los une permitiendo rotación.
-
-## ¿Qué es un VehicleSeat?
-
-El **VehicleSeat** detecta las teclas del jugador y las expone como propiedades que el script lee:
-
-| Propiedad | Qué devuelve |
-|---|---|
-| `ThrottleFloat` | 1 (W), -1 (S), 0 (sin tecla) |
-| `SteerFloat` | 1 (D), -1 (A), 0 (sin tecla) |
+Chasis → **Anchored** → `false`
 
 ---
 
 ## Misión
 
 > Crear un auto de carreras.
-
-**Lo que debe tener tu auto:**
-- Las 4 ruedas rotadas correctamente y conectadas con HingeConstraints
-- VehicleSeat unido al Chasis con WeldConstraint
-- El script funcionando con W/S para avanzar y A/D para girar
-
----
-
-## Tarea
-
-Cambiá el valor de `VELOCIDAD_AVANCE` para que el auto vaya más rápido. ¿Qué pasa si subís demasiado ese valor?

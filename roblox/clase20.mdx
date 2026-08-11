@@ -1,0 +1,125 @@
+---
+titulo: "Clase 20 - ¡Repite, Repite! (Bucles)"
+---
+
+# ¡Repite, Repite! (Bucles) 🔄
+
+---
+
+## Paso 1: Usar while
+
+```lua
+local contador = 0
+
+while contador < 5 do
+    contador = contador + 1
+    print(contador)
+    wait(1)
+end
+```
+
+> ⚠️ Un `while` siempre necesita un `wait()` adentro, sino Roblox se cuelga intentando repetirlo infinitas veces por segundo.
+
+**Ejemplo en Roblox:**
+```lua
+local bloque = script.Parent
+local tocando = false
+
+bloque.Touched:Connect(function(mano)
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid and not tocando then
+        tocando = true
+        while tocando and humanoid.Health > 0 do
+            humanoid.Health = humanoid.Health - 10
+            wait(0.5)
+        end
+    end
+end)
+
+bloque.TouchEnded:Connect(function()
+    tocando = false
+end)
+```
+
+---
+
+## Paso 2: Usar for
+
+```lua
+for i = 1, 5 do
+    print(i)
+    wait(1)
+end
+```
+
+También se puede ir al revés: `for i = 5, 1, -1 do`
+
+**Ejemplo en Roblox:**
+```lua
+local bloque = script.Parent
+local TweenService = game:GetService("TweenService")
+
+for i = 1, 100 do
+    bloque.Color = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255))
+    local tween = TweenService:Create(bloque, TweenInfo.new(0.5), {Color = Color3.fromRGB(255, 255, 255)})
+    tween:Play()
+    wait(0.5)
+end
+```
+
+---
+
+## Paso 3: Temporizadores y ciclos de juego con while true do
+
+```lua
+local Lighting = game:GetService("Lighting")
+
+while true do                      -- se repite para siempre
+    for hora = 0, 24, 0.1 do       -- avanza la hora de a poquito
+        Lighting.ClockTime = hora  -- cambia la hora del dia
+        wait(1)
+    end
+end
+```
+
+- `while true do` nunca termina solo, se usa para cosas que corren todo el tiempo mientras el juego está activo
+- `Lighting.ClockTime` va de 0 (medianoche) a 24 (vuelve a medianoche)
+
+---
+
+## Paso 4: Crear el bloque contador
+
+1. Insertás una Part en el Workspace, la nombrás `Contador`
+2. Le agregás un **BillboardGui** con **TextLabel** adentro
+
+```
+Workspace
+  └── Contador (Part)
+        ├── BillboardGui
+        │     └── TextLabel
+        └── Script
+```
+
+---
+
+## Paso 5: El script de la cuenta regresiva
+
+```lua
+local bloque = script.Parent
+local texto = bloque.BillboardGui.TextLabel
+
+for i = 10, 1, -1 do
+    texto.Text = tostring(i)  -- convierte el numero en texto
+    wait(1)
+end
+
+texto.Text = "¡GO!"
+wait(1)
+texto.Text = ""
+```
+
+---
+
+## Misión
+
+> Cuenta regresiva para carrera.

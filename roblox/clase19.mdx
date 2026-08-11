@@ -1,0 +1,126 @@
+---
+titulo: "Clase 19 - Tomando Decisiones con Lógica"
+---
+
+# Tomando Decisiones con Lógica 🤔
+
+---
+
+## Paso 1: Entender el condicional if/elseif/else
+
+```lua
+if condicion then
+    -- se ejecuta si la condicion es true
+elseif otraCondicion then
+    -- se ejecuta si la segunda condicion es true
+else
+    -- se ejecuta si ninguna fue true
+end
+```
+
+**Ejemplo:**
+```lua
+local edad = 18
+
+if edad >= 18 then
+    print("Sos mayor de edad")
+elseif edad >= 13 then
+    print("Sos adolescente")
+else
+    print("Sos un niño")
+end
+```
+
+---
+
+## Paso 2: Usar comparadores
+
+| Operador | Significado | Ejemplo |
+|---|---|---|
+| `==` | Igual a | `5 == 5` |
+| `~=` | Distinto de | `5 ~= 3` |
+| `>` `<` `>=` `<=` | Mayor, menor, mayor o igual, menor o igual | `10 > 5` |
+
+**Ejemplo:**
+```lua
+local puntos = 50
+
+if puntos > 100 then
+    print("Ganaste!")
+elseif puntos > 50 then
+    print("Casi!")
+else
+    print("Segui intentando")
+end
+```
+
+---
+
+## Paso 3: Usar operadores lógicos
+
+| Operador | Significado | Ejemplo |
+|---|---|---|
+| `and` | Las dos deben ser true | `x > 0 and x < 10` |
+| `or` | Al menos una debe ser true | `x == 1 or x == 2` |
+| `not` | Invierte el resultado | `not true → false` |
+
+**Ejemplo:**
+```lua
+local vida = 80
+local escudo = true
+
+if vida > 50 and escudo then
+    print("Estas bien protegido")
+end
+```
+
+---
+
+## Paso 4: Crear la puerta y los bloques
+
+Insertás en el Workspace: `Puerta`, `BloqueVerde`, `BloqueRojo`.
+
+```
+Workspace
+  ├── Puerta
+  ├── BloqueVerde
+  └── BloqueRojo
+```
+
+---
+
+## Paso 5: El script
+
+Va en un **Script** dentro de **ServerScriptService**.
+
+```lua
+local puerta = workspace.Puerta
+local bloqueVerde = workspace.BloqueVerde
+local bloqueRojo = workspace.BloqueRojo
+
+bloqueVerde.Touched:Connect(function(mano)
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid then
+        puerta.CanCollide = false
+        puerta.Transparency = 0.5
+        print("Puerta abierta!")
+    end
+end)
+
+bloqueRojo.Touched:Connect(function(mano)
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid then
+        puerta.CanCollide = true
+        puerta.Transparency = 0
+        print("Acceso denegado")
+    end
+end)
+```
+
+> 💡 Como el sistema modifica objetos del mundo para todos los jugadores, va en **ServerScriptService** como Script normal.
+
+---
+
+## Misión
+
+> Puerta con contraseña secreta.

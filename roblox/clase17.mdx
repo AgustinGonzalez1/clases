@@ -4,107 +4,46 @@ titulo: "Clase 17 - Efectos y Pulido Visual"
 
 # Efectos y Pulido Visual ✨
 
-En esta clase agregamos partículas, luces y efectos visuales para darle vida al juego.
-
 ---
 
-## ¿Qué son los efectos visuales en Roblox?
+## Paso 1: Agregar Fire
 
-Son objetos que se insertan dentro de una Part y generan efectos visuales sin necesitar código. Se configuran desde el panel Properties.
-
----
-
-## Fire (Fuego)
-
-Genera llamas sobre la Part.
-
-1. Seleccionás la Part → Insert Object → **Fire**
-2. Propiedades principales:
+1. Seleccionás una Part → Insert Object → **Fire**
 
 | Propiedad | Qué controla |
 |---|---|
-| **Heat** | Intensidad del fuego (más alto = llamas más grandes) |
+| **Heat** | Intensidad del fuego |
 | **Size** | Tamaño de las llamas |
-| **Color** | Color de la base del fuego |
-| **SecondaryColor** | Color de la punta del fuego |
-
-> 💡 Con `Color = azul` y `SecondaryColor = blanco` hacés fuego mágico.
+| **Color / SecondaryColor** | Colores base y punta del fuego |
 
 ---
 
-## Smoke (Humo)
+## Paso 2: Agregar Sparkles y PointLight
 
-Genera humo sobre la Part.
+1. Insert Object → **Sparkles** (**SparkleColor** controla el color)
+2. Insert Object → **PointLight** (**Brightness**, **Range**, **Color**)
 
-1. Seleccionás la Part → Insert Object → **Smoke**
-2. Propiedades principales:
-
-| Propiedad | Qué controla |
-|---|---|
-| **Color** | Color del humo |
-| **Opacity** | Qué tan denso es el humo |
-| **RiseVelocity** | Qué tan rápido sube |
-| **Size** | Tamaño de las partículas |
+**Ejemplo:** Fire + PointLight naranja = antorcha realista.
 
 ---
 
-## Sparkles (Chispas)
+## Paso 3: Agregar un ParticleEmitter
 
-Genera chispas brillantes alrededor de la Part.
-
-1. Seleccionás la Part → Insert Object → **Sparkles**
-2. Propiedades principales:
+1. Insert Object → **ParticleEmitter**
 
 | Propiedad | Qué controla |
 |---|---|
-| **SparkleColor** | Color de las chispas |
-| **TimeScale** | Velocidad de las chispas |
-
----
-
-## PointLight (Luz puntual)
-
-Genera una luz que ilumina el entorno alrededor de la Part.
-
-1. Seleccionás la Part → Insert Object → **PointLight**
-2. Propiedades principales:
-
-| Propiedad | Qué controla |
-|---|---|
-| **Brightness** | Intensidad de la luz |
-| **Range** | Alcance de la luz en studs |
-| **Color** | Color de la luz |
-
-> 💡 Combiná PointLight con Fire para hacer una antorcha realista.
-
----
-
-## ParticleEmitter (Partículas personalizadas)
-
-Es el efecto más flexible. Genera partículas configurables en muchos aspectos.
-
-1. Seleccionás la Part → Insert Object → **ParticleEmitter**
-2. Propiedades principales:
-
-| Propiedad | Qué controla |
-|---|---|
-| **Texture** | La imagen de cada partícula |
-| **Rate** | Cuántas partículas por segundo |
+| **Rate** | Partículas por segundo |
 | **Lifetime** | Cuánto dura cada partícula |
 | **Speed** | Velocidad de las partículas |
-| **Color** | Color a lo largo de la vida de la partícula |
-| **Size** | Tamaño a lo largo de la vida de la partícula |
-| **EmissionDirection** | Hacia dónde salen las partículas |
 
 ---
 
-## Activar y desactivar efectos con código
-
-Podés controlar los efectos desde un Script:
+## Paso 4: Controlar efectos con código
 
 ```lua
 local bloque = script.Parent
-local fuego = bloque:FindFirstChild("Fire")   -- referencia al efecto Fire
+local fuego = bloque:FindFirstChild("Fire")  -- referencia al efecto Fire
 
 bloque.Touched:Connect(function()
     fuego.Enabled = true    -- activa el fuego al tocar el bloque
@@ -117,29 +56,6 @@ end)
 
 ---
 
-## Combinaciones recomendadas
-
-| Efecto | Combinación |
-|---|---|
-| Antorcha | Fire + PointLight (color naranja) |
-| Portal mágico | Sparkles + PointLight (color violeta) |
-| Volcán | Fire + Smoke + ParticleEmitter |
-| Estrella coleccionable | Sparkles + PointLight (color amarillo) |
-
----
-
 ## Misión
 
 > Aplicar 3 efectos para acciones clave del juego.
-
-**Lo que debe tener tu entrega:**
-- Fire o Sparkles en un objeto del mapa
-- PointLight en al menos un objeto
-- Un ParticleEmitter configurado
-- Al menos un efecto controlado desde código (Enabled = true/false)
-
----
-
-## Tarea
-
-Agregá un **PointLight** a la espada de la Clase 11 para que ilumine el entorno cuando el jugador la lleva. ¿Qué color le pondrías?

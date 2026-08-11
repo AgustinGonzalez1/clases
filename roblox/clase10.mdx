@@ -4,146 +4,63 @@ titulo: "Clase 10 - ¡Hola, Amigo NPC!"
 
 # ¡Hola, Amigo NPC! 👋
 
-En esta clase creamos un NPC que detecta la distancia del jugador y muestra distintos diálogos con una animación de saludo.
+---
+
+## Paso 1: Crear el NPC
+
+Reutilizás el rig de la Clase 5, o armás uno nuevo con Humanoid. Lo nombrás `rig` y lo ubicás en el Workspace.
 
 ---
 
-## ¿Qué es un NPC?
+## Paso 2: Agregar el BillboardGui
 
-Un **NPC** (Non-Player Character) es un personaje no jugador. Es un modelo con Humanoid pero sin jugador que lo controle. Puede tener animaciones y comportamientos programados.
-
----
-
-## ¿Qué es un BillboardGui?
-
-Es una interfaz que **flota sobre un objeto en el mundo 3D**. Se usa para mostrar texto encima del NPC que el jugador puede ver desde cualquier ángulo.
-
-Para agregarlo:
 1. Click derecho sobre la **Head** del NPC → Insert Object → **BillboardGui**
 2. Dentro del BillboardGui → Insert Object → **TextLabel**
 
-Propiedades importantes del BillboardGui:
-
-| Propiedad | Valor recomendado | Para qué sirve |
-|---|---|---|
-| **StudsOffset** | 0, 2, 0 | Sube el texto sobre la cabeza |
-
-Propiedades del TextLabel:
-
 | Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| **TextScaled** | true | El texto se ajusta al tamaño del BillboardGui |
-| **BackgroundTransparency** | 1 | Fondo transparente, solo se ve el texto |
-
----
-
-## ¿Qué es un LocalScript?
-
-Un **LocalScript** corre en el cliente de cada jugador, no en el servidor. Es necesario para acceder a `LocalPlayer` y a la cámara.
-
-| Tipo | Dónde corre | Acceso a LocalPlayer |
-|---|---|---|
-| **Script** | Servidor | No |
-| **LocalScript** | Cliente (cada jugador) | Sí |
-
----
-
-## ¿Qué es Magnitude?
-
-Cada posición en Roblox es un **Vector3** con tres números (x, y, z). Al restar dos posiciones obtenés la diferencia en los tres ejes. **Magnitude** convierte esa diferencia en un único número que representa la distancia real entre los dos puntos.
-
-```lua
-local distancia = (cabeza.Position - rootPart.Position).Magnitude
--- resultado: un numero, por ejemplo 15.3
-```
-
----
-
-## ¿Qué es RunService.Heartbeat?
-
-Es un evento que se dispara **60 veces por segundo**, como un bucle constante. Es perfecto para chequear la distancia continuamente mientras el jugador se mueve.
-
----
-
-## ¿Qué es WaitForChild?
-
-`WaitForChild()` busca un objeto y **espera a que exista** antes de continuar. Evita errores cuando el script corre antes de que todo cargue.
-
-```lua
-local cabeza = npc:WaitForChild("Head")  -- espera a que la cabeza exista
-```
-
----
-
-## Estructura en el Explorer
+| BillboardGui → **StudsOffset** | `0, 2, 0` | Sube el texto sobre la cabeza |
+| TextLabel → **TextScaled** | `true` | El texto se ajusta al tamaño |
+| TextLabel → **BackgroundTransparency** | `1` | Fondo transparente |
 
 ```
 Workspace
-  └── rig (Model - el NPC)
+  └── rig (Model)
         └── Head
               └── BillboardGui
                     └── TextLabel
-
-StarterPlayer
-  └── StarterPlayerScripts
-        └── LocalScript
 ```
 
 ---
 
-## El script
+## Paso 3: El LocalScript
 
-Va en un **LocalScript** dentro de **StarterPlayer → StarterPlayerScripts**.
+Va en **StarterPlayer → StarterPlayerScripts**.
 
 ```lua
-local npc = workspace:WaitForChild("rig")           -- espera a que el NPC aparezca en el Workspace
-local cabeza = npc:WaitForChild("Head")              -- espera a que la cabeza del NPC este lista
+local npc = workspace:WaitForChild("rig")           -- espera a que el NPC aparezca
+local cabeza = npc:WaitForChild("Head")              -- espera a que la cabeza este lista
 local texto = cabeza.BillboardGui.TextLabel          -- texto que flota sobre la cabeza
 
 local jugador = game.Players.LocalPlayer             -- el jugador que ejecuta este script
-local personaje = jugador.Character                  -- personaje fisico del jugador en el Workspace
-local rootPart = personaje.HumanoidRootPart          -- parte central del jugador (tiene su posicion)
+local personaje = jugador.Character                  -- personaje fisico del jugador
+local rootPart = personaje.HumanoidRootPart          -- parte central del jugador
 
-local animacion = Instance.new("Animation")          -- crea un objeto de tipo Animation
-animacion.AnimationId = "rbxassetid://TU_ID_ACA"     -- ID de la animacion publicada en Clase 4 o 5
-local animator = npc.Humanoid:FindFirstChild("Animator") -- componente que maneja animaciones
-local track = animator:LoadAnimation(animacion)      -- carga la animacion en el NPC
+game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces por segundo
+    local distancia = (cabeza.Position - rootPart.Position).Magnitude  -- distancia real
 
--- Heartbeat se ejecuta 60 veces por segundo, como un bucle constante
-game:GetService("RunService").Heartbeat:Connect(function()
-    -- Magnitude convierte la diferencia de posiciones en un numero de distancia real
-    local distancia = (cabeza.Position - rootPart.Position).Magnitude
-
-    if distancia < 10 then                  -- si el jugador esta muy cerca
+    if distancia < 10 then
         texto.Text = "¡Hola! Estás muy cerca 👋"
-        if not track.IsPlaying then         -- evita reiniciar la animacion cada frame
-            track:Play()
-        end
-    elseif distancia < 20 then             -- si el jugador esta a distancia media
+    elseif distancia < 20 then
         texto.Text = "Te veo por ahí..."
-        track:Stop()
-    else                                   -- si el jugador esta lejos
-        texto.Text = ""                    -- oculta el texto
-        track:Stop()
+    else
+        texto.Text = ""
     end
 end)
 ```
-
-> ⚠️ Reemplazá `TU_ID_ACA` por el ID de la animación de saludo que publicaste en la Clase 4.
 
 ---
 
 ## Misión
 
 > NPC con diálogos distintos según la cercanía del jugador.
-
-**Lo que debe tener tu NPC:**
-- BillboardGui con TextLabel sobre la cabeza
-- Al menos 2 diálogos distintos según la distancia
-- Animación de saludo al acercarse
-
----
-
-## Tarea
-
-Cambiá los textos del NPC para que diga algo relacionado con tu juego. Podés agregar un tercer mensaje para una distancia intermedia diferente.

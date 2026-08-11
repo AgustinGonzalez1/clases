@@ -1,71 +1,80 @@
 ---
-title: "Clase 2: Creamos el encabezado 🛠️"
-modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
-mision: "Crear un encabezado con logo y navegación, y dejar creadas al menos 2 páginas más para que los links funcionen de verdad."
+titulo: "Clase 2 - El Arte de Crear Paisajes"
 ---
 
-# Clase 2: Creamos el encabezado 🛠️
+# El Arte de Crear Paisajes 🏞️
 
-## ¿Por qué el encabezado es tan importante?
+---
 
-Es lo primero que ve alguien al entrar a un sitio. Ahí suele estar el logo, el nombre y la navegación entre páginas.
+## Paso 1: Abrir el Terrain Editor
 
-## Analizando encabezados conocidos
+Se abre desde **Home → Editor → Terrain Editor**. Es la herramienta principal para crear paisajes naturales.
 
-Antes de programar, miramos encabezados de sitios reales (por ejemplo Amazon, Netflix, una tienda). ¿Qué tienen en común? Casi siempre: un logo a la izquierda y links de navegación a la derecha.
+---
 
-## La etiqueta `<nav>`
+## Paso 2: Generar una base con Generate
 
-Agrupa los links de navegación del sitio.
+1. Dentro del Terrain Editor → **Generate**
+2. Configurás **Biome** (Plains, Mountains, Arctic, etc.) y **Size**
+3. Genera un terreno automático como punto de partida
 
-```html
-<nav>
-  <a href="#">Inicio</a>
-  <a href="#">Proyectos</a>
-  <a href="#">Contacto</a>
-</nav>
-```
+---
 
-## La etiqueta `<a>` y el atributo `href`
+## Paso 3: Modelar el terreno con Add, Subtract y Smooth
 
-`<a>` crea un link. `href` indica a dónde lleva.
+| Herramienta | Qué hace |
+|---|---|
+| **Add** | Agrega tierra donde pintás con el mouse |
+| **Subtract** | Excava el terreno, hace hoyos o depresiones |
+| **Smooth** | Suaviza los bordes bruscos |
 
-```html
-<a href="https://google.com">Ir a Google</a>
-```
+**Ejemplo — hacer una colina:**
+1. **Add** con material **Grass**, pintás hacia arriba para levantar tierra
+2. **Smooth** para suavizar los bordes
 
-Para páginas del mismo sitio, se pone el nombre del archivo:
+**Ejemplo — hacer un lago:**
+1. **Subtract** para hacer una depresión en el terreno
+2. **Add** con material **Water** para rellenarla
 
-```html
-<a href="contacto.html">Contacto</a>
-```
+---
 
-## El encabezado completo
+## Paso 4: Aplicar materiales con Paint
 
-```html
-<header>
-  <h1>Mi Sitio</h1>
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a href="proyectos.html">Proyectos</a>
-    <a href="contacto.html">Contacto</a>
-  </nav>
-</header>
-```
+**Paint** cambia el material del terreno sin modificar su forma.
 
-## Creando varias páginas
+| Material | Para qué se usa |
+|---|---|
+| **Grass** | Llanuras y colinas |
+| **Rock** | Montañas y acantilados |
+| **Sand** | Playas y desiertos |
+| **Snow** | Cimas nevadas |
 
-Para que la navegación funcione de verdad, necesitamos más de un archivo HTML:
+---
 
-```
-mi-sitio/
-├── index.html
-├── proyectos.html
-└── contacto.html
-```
+## Paso 5: Ajustar luces y cielo
 
-Cada archivo tiene su propia estructura completa (con `<!DOCTYPE html>`, `<head>`, etc.) y el mismo `<header>` copiado en los tres.
+Se configuran desde el objeto **Lighting** en el Explorer:
 
-## 📥 Misión de la clase
+| Propiedad | Qué controla |
+|---|---|
+| **Ambient** | Color de luz general del mundo |
+| **Brightness** | Intensidad de la luz |
+| **TimeOfDay** | Hora del día (formato HH:MM:SS) |
 
-Crear el encabezado con logo y navegación, y dejar creadas al menos 2 páginas más (por ejemplo `proyectos.html` y `contacto.html`) para que los links funcionen de verdad.
+Para cambiar el cielo:
+1. Seleccionás **Lighting** → Insert Object → **Sky**
+2. Podés cambiar las texturas de cada cara del skybox
+
+**Ejemplo:** probá `TimeOfDay = 06:00:00` para un amanecer.
+
+---
+
+## Misión
+
+> Diseñar un mapa natural con colinas y un lago.
+
+**Lo que debe tener tu mapa:**
+- Al menos 2 colinas con Smooth aplicado
+- Un lago hecho con Subtract + Water
+- Un material diferente en cada zona
+- TimeOfDay distinto al default

@@ -3,163 +3,66 @@
     {
       "nombre": "Desarrollo Web",
       "carpeta": "desarrollo",
-      "modulos": [
-        {
-          "titulo": "Módulo 1 - Fundamentos",
-          "clases": [
-            {
-              "titulo": "Clase 1 - Nuestro primer sitio",
-              "archivo": "clase1.mdx"
-            },
-            {
-              "titulo": "Clase 2 - Creamos el encabezado",
-              "archivo": "clase2.mdx"
-            },
-            {
-              "titulo": "Clase 3 - CSS con Flexbox",
-              "archivo": "clase3.mdx"
-            }
-          ]
-        }
+      "clases": [
+        { "titulo": "Clase 1 - Nuestro primer sitio", "archivo": "clase1.mdx" },
+        { "titulo": "Clase 2 - Creamos el encabezado", "archivo": "clase2.mdx" },
+        { "titulo": "Clase 3 - CSS con Flexbox", "archivo": "clase3.mdx" }
       ]
     },
     {
       "nombre": "Python",
       "carpeta": "python",
-      "modulos": [
-        {
-          "titulo": "Módulo 1 - Fundamentos",
-          "clases": [
-            { "titulo": "Clase 1 - ¡Bienvenido a Python!", "archivo": "clase1.mdx" },
-            { "titulo": "Clase 2 - Variables", "archivo": "clase2.mdx" },
-            { "titulo": "Clase 3 - Input del usuario", "archivo": "clase3.mdx" },
-            { "titulo": "Clase 4", "archivo": "clase4.mdx" }
-          ]
-        }
+      "clases": [
+        { "titulo": "Clase 1 - ¡Bienvenido a Python!", "archivo": "clase1.mdx" },
+        { "titulo": "Clase 2 - Variables", "archivo": "clase2.mdx" },
+        { "titulo": "Clase 3 - Input del usuario", "archivo": "clase3.mdx" },
+        { "titulo": "Clase 4", "archivo": "clase4.mdx" }
       ]
     },
     {
       "nombre": "Roblox",
       "carpeta": "roblox",
-      "modulos": [
-        {
-          "titulo": "Módulo 1: ¡Despegue! Fundamentos, Animaciones y Personajes",
-          "clases": [
-            {
-              "titulo": "Clase 1 - ¡Hola, Roblox Studio!",
-              "archivo": "clase1.mdx"
-            },
-            {
-              "titulo": "Clase 2 - El Arte de Crear Paisajes",
-              "archivo": "clase2.mdx"
-            },
-            {
-              "titulo": "Clase 3 - Construyendo con Bloques",
-              "archivo": "clase3.mdx"
-            },
-            {
-              "titulo": "Clase 4 - ¡A Mover el Esqueleto!",
-              "archivo": "clase4.mdx"
-            },
-            {
-              "titulo": "Clase 5 - Tu Propio Personaje: Rig Personalizado + Animación",
-              "archivo": "clase5.mdx"
-            }
-          ]
-        },
-        {
-          "titulo": "Módulo 2: Fundamentos de Programación para Roblox",
-          "clases": [
-            {
-              "titulo": "Clase 6 - Nuestro primer print",
-              "archivo": "clase6.mdx"
-            },
-            {
-              "titulo": "Clase 7 - Bloque de la muerte y bloque de supersalto",
-              "archivo": "clase7.mdx"
-            },
-            {
-              "titulo": "Clase 8 - Bloque teletransportador",
-              "archivo": "clase8.mdx"
-            },
-            {
-              "titulo": "Clase 9 - Programación creativa",
-              "archivo": "clase9.mdx"
-            }
-          ]
-        },
-        {
-          "titulo": "Módulo 3: Diseño Visual y Objetos Geniales",
-          "clases": [
-            {
-              "titulo": "Clase 10 - ¡Hola, Amigo NPC!",
-              "archivo": "clase10.mdx"
-            },
-            {
-              "titulo": "Clase 11 - Tu Primera Arma: La Espada",
-              "archivo": "clase11.mdx"
-            },
-            {
-              "titulo": "Clase 12 - La Pistola de Rayos",
-              "archivo": "clase12.mdx"
-            },
-            { "titulo": "Clase 13 - Tu Primer Auto", "archivo": "clase13.mdx" },
-            {
-              "titulo": "Clase 14 - Animaciones con Código",
-              "archivo": "clase14.mdx"
-            },
-            { "titulo": "Clase 15 - Cutscenes en Roblox", "archivo": "clase15.mdx" },
-            { "titulo": "Clase 16 - Cutscenes 2", "archivo": "clase16.mdx" },
-{ "titulo": "Clase 17 - Efectos y Pulido Visual", "archivo": "clase17.mdx" }
-          ]
-        }
+      "clases": [
+       { "titulo": "Clase 1 - ¡Hola, Roblox Studio!", "archivo": "clase1.mdx" },
+{ "titulo": "Clase 2 - El Arte de Crear Paisajes", "archivo": "clase2.mdx" },
+{ "titulo": "Clase 3 - Construyendo con Bloques", "archivo": "clase3.mdx" },
+        { "titulo": "Clase 4 - ¡A Mover el Esqueleto!", "archivo": "clase4.mdx" },
+{ "titulo": "Clase 5 - Tu Propio Personaje: Rig Personalizado + Animación", "archivo": "clase5.mdx" },
+{ "titulo": "Clase 6 - Nuestro primer print", "archivo": "clase6.mdx" },
+        { "titulo": "Clase 7 - Bloque de la muerte y bloque de supersalto", "archivo": "clase7.mdx" },
+        { "titulo": "Clase 8 - Bloque teletransportador", "archivo": "clase8.mdx" },
+        { "titulo": "Clase 9 - Programación creativa", "archivo": "clase9.mdx" },
+        { "titulo": "Clase 10 - ¡Hola, Amigo NPC!", "archivo": "clase10.mdx" },
+        { "titulo": "Clase 11 - Tu Primera Arma: La Espada", "archivo": "clase11.mdx" },
+        { "titulo": "Clase 12 - La Pistola de Rayos", "archivo": "clase12.mdx" },
+        { "titulo": "Clase 13 - Tu Primer Auto", "archivo": "clase13.mdx" },
+        { "titulo": "Clase 14 - Animaciones con Código", "archivo": "clase14.mdx" },
+        { "titulo": "Clase 15 - Cutscenes en Roblox", "archivo": "clase15.mdx" },
+        { "titulo": "Clase 16 - Cutscenes 2", "archivo": "clase16.mdx" },
+{ "titulo": "Clase 17 - Efectos y Pulido Visual", "archivo": "clase17.mdx" },
+{ "titulo": "Clase 18 - El ABC del Código: Variables", "archivo": "clase18.mdx" },
+{ "titulo": "Clase 19 - Tomando Decisiones con Lógica", "archivo": "clase19.mdx" },
+{ "titulo": "Clase 20 - ¡Repite, Repite! (Bucles)", "archivo": "clase20.mdx" },
+{ "titulo": "Clase 21 - Guardando Tesoros en Tablas", "archivo": "clase21.mdx" }
       ]
     },
     {
       "nombre": "Scratch",
       "carpeta": "scratch",
-      "modulos": [
-        {
-          "titulo": "Módulo 1 · ¡Manos a la compu! & Primeros pasos en Scratch",
-          "clases": [
-            {
-              "titulo": "Clase 1 - Coordenadas, eje X e Y",
-              "archivo": "clase1.mdx"
-            },
-            {
-              "titulo": "Clase 2 - Preguntas y respuestas",
-              "archivo": "clase2.mdx"
-            },
-            {
-              "titulo": "Clase 3 - Preguntas y respuestas 2",
-              "archivo": "clase3.mdx"
-            },
-            {
-              "titulo": "Clase 4 - Juego de carreras",
-              "archivo": "clase4.mdx"
-            },
-            {
-              "titulo": "Clase 5 - Juego de carreras 2",
-              "archivo": "clase5.mdx"
-            },
-            { "titulo": "Clase 6 - Extensión Lápiz", "archivo": "clase6.mdx" }
-          ]
-        },
-        {
-          "titulo": "Módulo 2 · Arte, música y animación (Semanas 7-12)",
-          "clases": [
-            {
-              "titulo": "Clase 7 - Historia de 3 escenas",
-              "archivo": "clase7.mdx"
-            },
-            { "titulo": "Clase 8 - Pacman 1", "archivo": "clase8.mdx" },
-            { "titulo": "Clase 9 - Pacman 2", "archivo": "clase9.mdx" },
-            { "titulo": "Clase 10 - Wick Editor 1", "archivo": "clase10.mdx" },
-            { "titulo": "Clase 11 - Wick Editor 2", "archivo": "clase11.mdx" },
-            { "titulo": "Clase 12 - Wick Editor 3", "archivo": "clase12.mdx" },
-            { "titulo": "Clase 13", "archivo": "clase13.mdx" }
-          ]
-        }
+      "clases": [
+        { "titulo": "Clase 1 - Coordenadas, eje X e Y", "archivo": "clase1.mdx" },
+        { "titulo": "Clase 2 - Preguntas y respuestas", "archivo": "clase2.mdx" },
+        { "titulo": "Clase 3 - Preguntas y respuestas 2", "archivo": "clase3.mdx" },
+        { "titulo": "Clase 4 - Juego de carreras", "archivo": "clase4.mdx" },
+        { "titulo": "Clase 5 - Juego de carreras 2", "archivo": "clase5.mdx" },
+        { "titulo": "Clase 6 - Extensión Lápiz", "archivo": "clase6.mdx" },
+        { "titulo": "Clase 7 - Historia de 3 escenas", "archivo": "clase7.mdx" },
+        { "titulo": "Clase 8 - Pacman 1", "archivo": "clase8.mdx" },
+        { "titulo": "Clase 9 - Pacman 2", "archivo": "clase9.mdx" },
+        { "titulo": "Clase 10 - Wick Editor 1", "archivo": "clase10.mdx" },
+        { "titulo": "Clase 11 - Wick Editor 2", "archivo": "clase11.mdx" },
+        { "titulo": "Clase 12 - Wick Editor 3", "archivo": "clase12.mdx" },
+        { "titulo": "Clase 13", "archivo": "clase13.mdx" }
       ]
     }
   ]

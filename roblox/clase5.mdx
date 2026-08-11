@@ -4,17 +4,11 @@ titulo: "Clase 5 - Tu Propio Personaje: Rig Personalizado + Animación"
 
 # Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨
 
-En esta clase tomamos un personaje armado con Parts, lo convertimos en un rig y lo animamos con el Animation Editor.
-
 ---
 
-## ¿Qué es un Rig?
+## Paso 1: Construir las 6 partes
 
-Un **rig** es un modelo con partes conectadas entre sí mediante uniones (**Motor6D**) que permiten al Animation Editor moverlas. Sin Motor6D el editor no tiene huesos que animar.
-
----
-
-## Las 6 partes del personaje (R6)
+Creás las siguientes Parts y las nombrás exactamente así:
 
 | Parte | Nombre en Studio |
 |---|---|
@@ -25,30 +19,20 @@ Un **rig** es un modelo con partes conectadas entre sí mediante uniones (**Moto
 | Pierna izquierda | `LeftLeg` |
 | Pierna derecha | `RightLeg` |
 
-> 💡 Si querés más detalle podés dividir brazos y piernas en dos partes cada uno, siguiendo la nomenclatura R15: `LeftUpperArm`, `LeftLowerArm`, `LeftUpperLeg`, `LeftLowerLeg`.
-
----
-
-## Paso 1: Construir las partes
-
-Creás las 6 Parts, las nombrás correctamente y las posicionás para armar la silueta del personaje.
-
-> ⚠️ Activá **Anchored = true** en todas las Parts mientras construís para que no caigan.
+> ⚠️ Activá **Anchored = true** en todas mientras construís.
 
 ---
 
 ## Paso 2: Agregar el Humanoid
 
 1. Agrupás todas las Parts en un **Model** (Ctrl+G)
-2. Click derecho sobre el **Model** → Insert Object → **Humanoid**
-
-Sin el Humanoid el Animation Editor no reconoce el modelo como personaje animable.
+2. Click derecho sobre el Model → Insert Object → **Humanoid**
 
 ---
 
 ## Paso 3: Conectar las partes con Motor6D
 
-Cada unión entre dos partes necesita un **Motor6D**. La regla es: el Motor6D va en la parte **desde donde sale la conexión**.
+El Motor6D va en la parte **desde donde sale la conexión**.
 
 | Motor6D va en... | Part0 | Part1 |
 |---|---|---|
@@ -58,30 +42,25 @@ Cada unión entre dos partes necesita un **Motor6D**. La regla es: el Motor6D va
 | HumanoidRootPart | HumanoidRootPart | LeftLeg |
 | HumanoidRootPart | HumanoidRootPart | RightLeg |
 
-Para agregar un Motor6D:
-1. Seleccionás el **HumanoidRootPart**
-2. Insert Object → **Motor6D**
-3. En Properties: `Part0` = HumanoidRootPart / `Part1` = la parte correspondiente
-4. Repetís para cada parte
+**Ejemplo:** para conectar la cabeza, seleccionás **HumanoidRootPart** → Insert Object → **Motor6D** → `Part0 = HumanoidRootPart` / `Part1 = Head`.
+
+> 💡 **Motor6D es el método vigente para rigs personalizados armados con Parts.** Roblox introdujo un sistema nuevo llamado AnimationConstraint, pero ese solo reemplaza a Motor6D en el personaje estándar del jugador (R15). Para un rig propio como este, Motor6D sigue siendo el método correcto y recomendado por la documentación oficial.
 
 ---
 
 ## Paso 4: Asignar el PrimaryPart
 
 1. Seleccionás el **Model**
-2. En Properties → **PrimaryPart** → seleccionás **HumanoidRootPart**
-
-Esto le dice a Roblox cuál es la parte central del modelo.
+2. Properties → **PrimaryPart** → seleccionás **HumanoidRootPart**
 
 ---
 
-## Paso 5: Animar en el Animation Editor
+## Paso 5: Animar el rig
 
 1. **Avatar → Animation Editor**
 2. Seleccionás el Model
 3. El editor detecta las uniones y te deja mover cada parte
-4. Creás los keyframes para tu animación
-5. Publicás para obtener el ID
+4. Creás los keyframes y publicás
 
 ---
 
@@ -91,23 +70,9 @@ Esto le dice a Roblox cuál es la parte central del modelo.
 |---|---|
 | Animation Editor no muestra las partes | Falta el Humanoid o Motor6D mal configurados |
 | El modelo no se posiciona bien | PrimaryPart no asignado |
-| La animación no se publica | No hay conexión o no estás logueado en Studio |
 
 ---
 
 ## Misión
 
 > Crear un rig personalizado y hacer al menos 1 animación funcional (idle, caminar o saludo).
-
-**Lo que debe tener tu rig:**
-- Las 6 partes nombradas correctamente
-- Humanoid agregado al Model
-- Motor6D en cada unión correctamente configurado
-- PrimaryPart asignado
-- Al menos 1 animación publicada con su ID anotado
-
----
-
-## Tarea
-
-Agregale detalles visuales a tu personaje: cambiale los colores, los materiales o el tamaño de cada parte para que tenga un estilo propio. Luego animalo con una segunda animación.
