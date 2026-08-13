@@ -533,7 +533,7 @@
     activeItem = item;
 
     try {
-      const res = await fetch(`${carpeta}/${archivo}`);
+      const res = await fetch(`${carpeta}/${archivo}`, { cache: 'no-store' });
       if (!res.ok) throw new Error(`No se encontró el archivo (${res.status})`);
       const raw = await res.text();
       const { meta, body } = parseFrontmatter(raw);
