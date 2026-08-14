@@ -1,19 +1,27 @@
 ---
 title: "Clase 15: Cutscenes en Roblox 🎬"
-mision: "Preparar puntos de cámara y crear nuestra primera cutscene."
+mision: "Crear tu primera cinemática moviendo la cámara con código."
 ---
 
 # Clase 15: Cutscenes en Roblox 🎬
 
-## Paso 1: Preparar el punto de cámara
+Creamos una cinemática básica controlando la cámara del jugador con código, usando un punto de referencia en el mapa.
+
+## Objetivos
+
+- Tomar el control de la cámara desde código
+- Animar la cámara con TweenService
+- Bloquear y devolver el control del jugador durante la cinemática
+
+## Contenido
+
+### 1. Preparar el punto de cámara
 
 1. Workspace → Insert Object → **Folder** → `Cinematica`
 2. Dentro, una Part `Punto1`, con **Transparency=1** y **CanCollide=false**
 3. La posicionás y orientás donde querés que mire la cámara
 
----
-
-## Paso 2: El LocalScript
+### 2. El LocalScript
 
 Va en **StarterGui**.
 
@@ -42,9 +50,7 @@ humanoid.WalkSpeed = 16
 humanoid.JumpHeight = 7.2
 ```
 
----
-
-## Paso 3 (extra): texto en pantalla
+### 3. Extra: texto en pantalla
 
 1. StarterGui → Insert Object → **ScreenGui** → **TextLabel**
 2. Agregás al script:
@@ -58,8 +64,15 @@ texto.Text = "Bienvenido al juego..."
 texto.Text = ""
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Creá tu primera cinemática moviendo la cámara desde el spawn hasta un punto del mapa.
 
-> Crear tu primera cinemática.
+**Pistas:**
+1. `Enum.CameraType.Scriptable` es lo que te da control manual sobre la cámara
+2. No olvides devolver `Enum.CameraType.Custom` al terminar, sino el jugador queda sin control de cámara
+3. `WalkSpeed = 0` bloquea el movimiento del jugador durante la cinemática
+
+## Recursos
+
+- [Documentación oficial de Camera](https://create.roblox.com/docs/reference/engine/classes/Camera)

@@ -1,11 +1,21 @@
 ---
 title: "Clase 7: Bloque de la muerte y bloque de supersalto 💀🦘"
-mision: "Programar bloques que interactúan con el Humanoid para matar y dar supersalto al jugador."
+mision: "Crear tu bloque de la muerte."
 ---
 
 # Clase 7: Bloque de la muerte y bloque de supersalto 💀🦘
 
-## Paso 1: Conocer el Humanoid
+Accedemos a las propiedades del Humanoid para crear bloques que afectan al jugador.
+
+## Objetivos
+
+- Conocer las propiedades principales del Humanoid
+- Programar un bloque que quita toda la vida
+- Programar un bloque que aumenta el salto temporalmente
+
+## Contenido
+
+### 1. Conocer el Humanoid
 
 Cada personaje tiene un objeto **Humanoid** con propiedades que podés modificar desde código.
 
@@ -16,9 +26,7 @@ Cada personaje tiene un objeto **Humanoid** con propiedades que podés modificar
 | `JumpHeight` | Altura del salto | 7.2 |
 | `Jump` | Hace saltar al personaje | false |
 
----
-
-## Paso 2: Crear el bloque de la muerte
+### 2. Crear el bloque de la muerte
 
 1. Insertás una Part en el Workspace y le agregás un **Script**
 2. El código accede al personaje que tocó el bloque y le pone la salud en 0
@@ -33,9 +41,7 @@ bloque.Touched:Connect(function(mano)
 end)
 ```
 
----
-
-## Paso 3: Crear el bloque de supersalto
+### 3. Crear el bloque de supersalto
 
 ```lua
 local bloque = script.Parent
@@ -50,9 +56,7 @@ bloque.Touched:Connect(function(mano)
 end)
 ```
 
----
-
-## Paso 4: Dónde va el script
+### 4. Dónde va el script
 
 El script va **dentro del bloque** (Part) en el Workspace:
 
@@ -62,8 +66,15 @@ Workspace
         └── Script
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Creá tu bloque de la muerte.
 
-> Crear tu bloque de la muerte.
+**Pistas:**
+1. Recordá acceder al Humanoid a través de `mano.Parent.Humanoid`
+2. Probá también armar el bloque de supersalto como práctica extra
+3. Testealo entrando al juego y tocando el bloque con tu personaje
+
+## Recursos
+
+- [Documentación oficial de Humanoid](https://create.roblox.com/docs/reference/engine/classes/Humanoid)

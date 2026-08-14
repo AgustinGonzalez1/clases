@@ -1,11 +1,21 @@
 ---
 title: "Clase 19: Tomando Decisiones con Lógica 🤔"
-mision: "Usar condicionales if/elseif/else para tomar decisiones en el código."
+mision: "Programar una puerta que se abre o se cierra según qué bloque toque el jugador."
 ---
 
 # Clase 19: Tomando Decisiones con Lógica 🤔
 
-## Paso 1: Entender el condicional if/elseif/else
+Aprendemos a usar if/elseif/else, comparadores y operadores lógicos para que nuestro código tome decisiones.
+
+## Objetivos
+
+- Entender el condicional if/elseif/else
+- Usar comparadores y operadores lógicos
+- Aplicar condiciones para controlar objetos del mundo
+
+## Contenido
+
+### 1. El condicional if/elseif/else
 
 ```lua
 if condicion then
@@ -30,9 +40,7 @@ else
 end
 ```
 
----
-
-## Paso 2: Usar comparadores
+### 2. Comparadores
 
 | Operador | Significado | Ejemplo |
 |---|---|---|
@@ -53,9 +61,7 @@ else
 end
 ```
 
----
-
-## Paso 3: Usar operadores lógicos
+### 3. Operadores lógicos
 
 | Operador | Significado | Ejemplo |
 |---|---|---|
@@ -63,7 +69,7 @@ end
 | `or` | Al menos una debe ser true | `x == 1 or x == 2` |
 | `not` | Invierte el resultado | `not true → false` |
 
-**Ejemplo:**
+**Ejemplo con `and`:**
 ```lua
 local vida = 80
 local escudo = true
@@ -73,9 +79,17 @@ if vida > 50 and escudo then
 end
 ```
 
----
+**Ejemplo con `not`:**
+```lua
+local puertaAbierta = false
 
-## Paso 4: Crear la puerta y los bloques
+if not puertaAbierta then
+    print("La puerta esta cerrada, no podes pasar")
+end
+```
+`not puertaAbierta` invierte el valor: como `puertaAbierta` es `false`, `not puertaAbierta` se convierte en `true`, y el mensaje se imprime. Es muy útil para preguntar "si NO pasó tal cosa".
+
+### 4. Crear la puerta y los bloques
 
 Insertás en el Workspace: `Puerta`, `BloqueVerde`, `BloqueRojo`.
 
@@ -86,9 +100,7 @@ Workspace
   └── BloqueRojo
 ```
 
----
-
-## Paso 5: El script
+### 5. El script
 
 Va en un **Script** dentro de **ServerScriptService**.
 
@@ -118,8 +130,15 @@ end)
 
 > 💡 Como el sistema modifica objetos del mundo para todos los jugadores, va en **ServerScriptService** como Script normal.
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Programá una puerta con contraseña secreta usando el sistema de bloques verde/rojo.
 
-> Puerta con contraseña secreta.
+**Pistas:**
+1. El bloque verde abre la puerta, el rojo la cierra
+2. Usá `if humanoid then` para verificar que quien tocó es un jugador
+3. Probá agregar un tercer bloque con otra condición usando `and` u `or`
+
+## Recursos
+
+- [Documentación oficial de operadores en Lua](https://create.roblox.com/docs/luau/operators)

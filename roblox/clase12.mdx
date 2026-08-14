@@ -1,89 +1,81 @@
 ---
-title: "Clase 12: La Pistola de Rayos 🔫"
-mision: "Construir y programar una pistola de rayos."
+title: "Clase 11: Tu Primera Arma: La Espada ⚔️"
+mision: "Diseñar tu espada con estilo propio."
 ---
 
-# Clase 12: La Pistola de Rayos 🔫
+# Clase 11: Tu Primera Arma: La Espada ⚔️
 
-## Paso 1: Las partes de la pistola
+Clase 100% visual, sin código. Construimos y personalizamos una espada usando Parts, la convertimos en Tool y la ajustamos para que quede bien en la mano del personaje.
 
-| Parte | Nombre |
-|---|---|
-| Mango | `Handle` |
-| Cañón | `Canon` |
+## Objetivos
 
-Mismos pasos de la Clase 11: Tool en Workspace, WeldConstraint, Grip.
+- Construir una espada con 3 partes
+- Convertirla en un Tool agarrable
+- Unir las partes con WeldConstraint y ajustar el Grip
 
----
+## Contenido
 
-## Paso 2: La GUI del contador
+### 1. ¿Qué es un Tool?
 
-1. StarterGui → Insert Object → **ScreenGui**
-2. Dentro → Insert Object → **TextLabel**
-   - **Text** → `"Disparos: 0"`
-   - **TextScaled** → `true`
-   - **BackgroundTransparency** → `1`
+Un **Tool** es un tipo especial de objeto en Roblox que el jugador puede agarrar y equipar. Cuando está en el **Workspace**, el jugador lo agarra al acercarse. Cuando está en el **StarterPack**, aparece directo en su inventario al spawnear.
 
----
+### 2. Las 3 partes de la espada
 
-## Paso 3: El script
+| Parte | Nombre en Studio | Descripción |
+|---|---|---|
+| Mango | `Handle` | Part corta, donde el personaje agarra la espada |
+| Guardia | `Guardia` | Part ancha y corta entre el mango y la hoja |
+| Hoja | `Hoja` | Part larga y fina, la parte principal |
 
-Va en un **LocalScript** dentro del Tool.
+> ⚠️ El nombre `Handle` es obligatorio. Roblox lo usa como punto de agarre del Tool.
 
-```lua
-local tool = script.Parent                            -- el Tool (la pistola)
-local jugador = game.Players.LocalPlayer              -- el jugador que ejecuta este script
-local personaje = jugador.Character                   -- personaje fisico del jugador
-local canon = tool:WaitForChild("Canon")              -- espera a que el Canon este listo
-local TweenService = game:GetService("TweenService")  -- para animar la bala
+### 3. Crear el Tool en el Workspace
 
-local gui = jugador.PlayerGui:WaitForChild("ScreenGui")
-local texto = gui:WaitForChild("TextLabel")
-
-local disparos = 0
-
-tool.Activated:Connect(function()                     -- se dispara al hacer click con el Tool
-    disparos = disparos + 1
-    texto.Text = "Disparos: " .. disparos
-
-    local camara = workspace.CurrentCamera
-    local direccion = camara.CFrame.LookVector         -- hacia donde mira la camara
-
-    local bala = Instance.new("Part")                  -- crea el proyectil
-    bala.Size = Vector3.new(0.3, 0.3, 0.3)
-    bala.Color = Color3.fromRGB(255, 255, 0)
-    bala.Anchored = true
-    bala.CanCollide = false
-    bala.CFrame = CFrame.new(canon.Position)           -- sale desde el canon
-    bala.Parent = workspace
-
-    local destino = canon.Position + direccion * 200   -- 200 studs hacia adelante
-    local tween = TweenService:Create(bala, TweenInfo.new(1), {Position = destino})
-    tween:Play()
-
-    game:GetService("Debris"):AddItem(bala, 3)         -- destruye la bala en 3 segundos
-end)
-```
-
----
-
-## Estructura en el Explorer
+1. Click derecho sobre **Workspace** → Insert Object → **Tool**
+2. Arrastrás las 3 Parts dentro del Tool
 
 ```
 Workspace
   └── Tool
         ├── Handle
-        │     └── WeldConstraint (Part0=Handle / Part1=Canon)
-        ├── Canon
-        └── LocalScript
-
-StarterGui
-  └── ScreenGui
-        └── TextLabel
+        ├── Guardia
+        └── Hoja
 ```
 
----
+### 4. Unir las partes con WeldConstraint
 
-## Misión
+1. **Handle** → Insert Object → **WeldConstraint** → `Part0=Handle` / `Part1=Guardia`
+2. **Guardia** → Insert Object → **WeldConstraint** → `Part0=Guardia` / `Part1=Hoja`
 
-> Galería de tiro con conteo de disparos.
+```
+Workspace
+  └── Tool
+        ├── Handle
+        │     └── WeldConstraint (Part0=Handle / Part1=Guardia)
+        ├── Guardia
+        │     └── WeldConstraint (Part0=Guardia / Part1=Hoja)
+        └── Hoja
+```
+
+### 5. Ajustar el Grip
+
+En Properties del Tool:
+
+| Propiedad | Valor recomendado |
+|---|---|
+| **Grip → Orientation** | `0, 0, -90` |
+
+Ajustás hasta que se vea natural en la mano del personaje.
+
+## Ejercicio
+
+> Consigna: Diseñá tu espada con estilo propio, con colores y materiales personalizados.
+
+**Pistas:**
+1. Recordá nombrar el mango exactamente `Handle`
+2. Sin WeldConstraint la espada se desarma al agarrarla
+3. Si queda torcida en la mano, ajustá `Grip → Orientation`
+
+## Recursos
+
+- [Documentación oficial de Tool](https://create.roblox.com/docs/reference/engine/classes/Tool)

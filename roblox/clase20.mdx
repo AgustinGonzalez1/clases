@@ -1,11 +1,22 @@
 ---
 title: "Clase 20: ¡Repite, Repite! (Bucles) 🔄"
-mision: "Usar bucles while y for para repetir acciones automáticamente."
+mision: "Armar una cuenta regresiva para una carrera."
 ---
 
 # Clase 20: ¡Repite, Repite! (Bucles) 🔄
 
-## Paso 1: Usar while
+Aprendemos a usar for, while, temporizadores y ciclos de juego para repetir acciones en el tiempo.
+
+## Objetivos
+
+- Usar el bucle while con una condición
+- Usar el bucle for para repeticiones fijas
+- Crear un ciclo de juego con while true do
+- Programar una cuenta regresiva
+
+## Contenido
+
+### 1. Usar while
 
 ```lua
 local contador = 0
@@ -40,9 +51,7 @@ bloque.TouchEnded:Connect(function()
 end)
 ```
 
----
-
-## Paso 2: Usar for
+### 2. Usar for
 
 ```lua
 for i = 1, 5 do
@@ -66,9 +75,7 @@ for i = 1, 100 do
 end
 ```
 
----
-
-## Paso 3: Temporizadores y ciclos de juego con while true do
+### 3. Temporizadores y ciclos de juego con while true do
 
 ```lua
 local Lighting = game:GetService("Lighting")
@@ -84,9 +91,7 @@ end
 - `while true do` nunca termina solo, se usa para cosas que corren todo el tiempo mientras el juego está activo
 - `Lighting.ClockTime` va de 0 (medianoche) a 24 (vuelve a medianoche)
 
----
-
-## Paso 4: Crear el bloque contador
+### 4. Crear el bloque contador
 
 1. Insertás una Part en el Workspace, la nombrás `Contador`
 2. Le agregás un **BillboardGui** con **TextLabel** adentro
@@ -99,9 +104,7 @@ Workspace
         └── Script
 ```
 
----
-
-## Paso 5: El script de la cuenta regresiva
+### 5. El script de la cuenta regresiva
 
 ```lua
 local bloque = script.Parent
@@ -117,8 +120,15 @@ wait(1)
 texto.Text = ""
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Programá una cuenta regresiva de 10 a 1 para el inicio de una carrera.
 
-> Cuenta regresiva para carrera.
+**Pistas:**
+1. Usá `for i = 10, 1, -1 do` para contar hacia atrás
+2. `tostring()` convierte un número en texto para poder mostrarlo
+3. Probá agregar un mensaje final como "¡GO!" cuando termine la cuenta
+
+## Recursos
+
+- [Documentación oficial de bucles en Luau](https://create.roblox.com/docs/luau/control-structures)

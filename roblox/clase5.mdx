@@ -1,11 +1,21 @@
 ---
 title: "Clase 5: Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨"
-mision: "Construir un rig personalizado de 6 partes y animarlo."
+mision: "Crear un rig personalizado y hacer al menos 1 animación funcional."
 ---
 
 # Clase 5: Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨
 
-## Paso 1: Construir las 6 partes
+Construimos un personaje propio con Parts, lo convertimos en un rig animable y lo animamos con el Animation Editor.
+
+## Objetivos
+
+- Construir un personaje con las 6 partes básicas
+- Conectar las partes con Motor6D para armar un rig
+- Animar el rig propio con el Animation Editor
+
+## Contenido
+
+### 1. Construir las 6 partes
 
 Creás las siguientes Parts y las nombrás exactamente así:
 
@@ -20,16 +30,12 @@ Creás las siguientes Parts y las nombrás exactamente así:
 
 > ⚠️ Activá **Anchored = true** en todas mientras construís.
 
----
-
-## Paso 2: Agregar el Humanoid
+### 2. Agregar el Humanoid
 
 1. Agrupás todas las Parts en un **Model** (Ctrl+G)
 2. Click derecho sobre el Model → Insert Object → **Humanoid**
 
----
-
-## Paso 3: Conectar las partes con Motor6D
+### 3. Conectar las partes con Motor6D
 
 El Motor6D va en la parte **desde donde sale la conexión**.
 
@@ -45,33 +51,34 @@ El Motor6D va en la parte **desde donde sale la conexión**.
 
 > 💡 **Motor6D es el método vigente para rigs personalizados armados con Parts.** Roblox introdujo un sistema nuevo llamado AnimationConstraint, pero ese solo reemplaza a Motor6D en el personaje estándar del jugador (R15). Para un rig propio como este, Motor6D sigue siendo el método correcto y recomendado por la documentación oficial.
 
----
-
-## Paso 4: Asignar el PrimaryPart
+### 4. Asignar el PrimaryPart
 
 1. Seleccionás el **Model**
 2. Properties → **PrimaryPart** → seleccionás **HumanoidRootPart**
 
----
-
-## Paso 5: Animar el rig
+### 5. Animar el rig
 
 1. **Avatar → Animation Editor**
 2. Seleccionás el Model
 3. El editor detecta las uniones y te deja mover cada parte
 4. Creás los keyframes y publicás
 
----
-
-## Problemas comunes
+### 6. Problemas comunes
 
 | Problema | Causa |
 |---|---|
 | Animation Editor no muestra las partes | Falta el Humanoid o Motor6D mal configurados |
 | El modelo no se posiciona bien | PrimaryPart no asignado |
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Creá un rig personalizado y hacé al menos 1 animación funcional (idle, caminar o saludo).
 
-> Crear un rig personalizado y hacer al menos 1 animación funcional (idle, caminar o saludo).
+**Pistas:**
+1. Nombrá las 6 partes exactamente como en la tabla, Roblox depende de esos nombres
+2. Verificá que cada Motor6D tenga Part0 y Part1 bien configurados antes de animar
+3. Si el Animation Editor no muestra las partes, revisá que el Humanoid esté agregado
+
+## Recursos
+
+- [Documentación oficial de Motor6D](https://create.roblox.com/docs/reference/engine/classes/Motor6D)

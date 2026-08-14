@@ -1,17 +1,25 @@
 ---
 title: "Clase 10: ¡Hola, Amigo NPC! 👋"
-mision: "Crear un NPC y darle comportamiento con código."
+mision: "Crear un NPC con diálogos distintos según la cercanía del jugador."
 ---
 
 # Clase 10: ¡Hola, Amigo NPC! 👋
 
-## Paso 1: Crear el NPC
+Creamos un NPC que detecta la distancia del jugador y muestra distintos diálogos con un BillboardGui.
+
+## Objetivos
+
+- Agregar un BillboardGui a un NPC
+- Medir distancias con Magnitude
+- Actualizar texto en tiempo real con RunService.Heartbeat
+
+## Contenido
+
+### 1. Crear el NPC
 
 Reutilizás el rig de la Clase 5, o armás uno nuevo con Humanoid. Lo nombrás `rig` y lo ubicás en el Workspace.
 
----
-
-## Paso 2: Agregar el BillboardGui
+### 2. Agregar el BillboardGui
 
 1. Click derecho sobre la **Head** del NPC → Insert Object → **BillboardGui**
 2. Dentro del BillboardGui → Insert Object → **TextLabel**
@@ -30,9 +38,7 @@ Workspace
                     └── TextLabel
 ```
 
----
-
-## Paso 3: El LocalScript
+### 3. El LocalScript
 
 Va en **StarterPlayer → StarterPlayerScripts**.
 
@@ -58,8 +64,15 @@ game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces po
 end)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Creá un NPC con al menos 2 diálogos distintos según qué tan cerca esté el jugador.
 
-> NPC con diálogos distintos según la cercanía del jugador.
+**Pistas:**
+1. `Magnitude` calcula la distancia real entre dos posiciones en 3D
+2. `RunService.Heartbeat` corre constantemente, ideal para chequear distancia
+3. Probá agregar un tercer mensaje para una distancia intermedia
+
+## Recursos
+
+- [Documentación oficial de BillboardGui](https://create.roblox.com/docs/reference/engine/classes/BillboardGui)

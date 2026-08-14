@@ -1,11 +1,22 @@
 ---
 title: "Clase 21: Guardando Tesoros en Tablas 📦"
-mision: "Conocer las tablas y usarlas para guardar colecciones de datos."
+mision: "Armar un sistema de inventario simple donde el jugador recolecta y consulta tesoros."
 ---
 
 # Clase 21: Guardando Tesoros en Tablas 📦
 
-## Paso 1: Conocer las tablas
+Usamos tablas para guardar listas de cosas, como un inventario de tesoros recolectados.
+
+## Objetivos
+
+- Entender qué es una tabla y cómo se accede a sus elementos
+- Agregar, quitar y recorrer elementos de una tabla
+- Evitar duplicados con table.find
+- Saber dónde ubicar cada tipo de script según su función
+
+## Contenido
+
+### 1. Conocer las tablas
 
 ```lua
 local tesoros = {"Moneda", "Gema", "Rubi"}
@@ -14,9 +25,7 @@ print(tesoros[1])  -- imprime: Moneda
 
 > 💡 En Lua las tablas empiezan a contar desde el número **1**.
 
----
-
-## Paso 2: Agregar y quitar elementos
+### 2. Agregar y quitar elementos
 
 ```lua
 local tesoros = {"Moneda"}
@@ -25,9 +34,7 @@ table.insert(tesoros, "Gema")   -- agrega al final
 table.remove(tesoros, 1)         -- quita el elemento en la posicion 1
 ```
 
----
-
-## Paso 3: Recorrer una tabla
+### 3. Recorrer una tabla
 
 ```lua
 local tesoros = {"Moneda", "Gema", "Rubi"}
@@ -37,9 +44,7 @@ for i, tesoro in ipairs(tesoros) do
 end
 ```
 
----
-
-## Paso 4: Evitar duplicados con table.find
+### 4. Evitar duplicados con table.find
 
 ```lua
 local tesoros = {"Moneda", "Gema"}
@@ -48,9 +53,7 @@ print(table.find(tesoros, "Moneda"))  -- imprime: 1
 print(table.find(tesoros, "Rubi"))    -- imprime: nil
 ```
 
----
-
-## Paso 5: Otros usos de las tablas
+### 5. Otros usos de las tablas
 
 **Lista de nombres al azar:**
 ```lua
@@ -68,9 +71,26 @@ local configuracionEspada = {
 print(configuracionEspada.daño)  -- imprime: 20
 ```
 
----
+### 6. ¿Dónde va cada script?
 
-## Paso 6: Crear los tesoros y el cofre
+Antes de programar el sistema completo, conviene tener clara esta guía de referencia:
+
+| Ubicación | Tipo de script | Qué va acá | Ejemplo |
+|---|---|---|---|
+| **ServerScriptService** | Script | Lógica general del juego, afecta a todos los jugadores por igual | Sistema de inventario, puertas, tienda, daño de NPCs |
+| **Workspace** (dentro de una Part) | Script | Comportamiento propio de ese objeto específico | Bloque de la muerte, NPC |
+| **StarterGui** | LocalScript | Interfaz que ve cada jugador (menús, HUD, contadores) | Menú principal, contador de disparos |
+| **StarterPlayer → StarterPlayerScripts** | LocalScript | Corre una vez cuando el jugador entra al juego | Cinemática de inicio, detectar distancia a un NPC |
+| **StarterPlayer → StarterCharacterScripts** | LocalScript | Corre cada vez que el personaje aparece o reaparece | Animaciones del personaje, reproducir animación con tecla |
+
+**La pregunta clave para elegir dónde va:**
+1. ¿Necesita LocalPlayer o la cámara? → LocalScript
+2. ¿Tiene que ser igual para todos los jugadores (mundo, NPCs, daño real)? → Script en ServerScriptService
+3. ¿Es el comportamiento de un objeto específico del mapa? → Script dentro de esa Part
+
+Como el sistema de tesoros modifica objetos del mundo (los destruye) y tiene que ser igual para todos los jugadores, va en **ServerScriptService**.
+
+### 7. Crear los tesoros y el cofre
 
 ```
 Workspace
@@ -79,9 +99,7 @@ Workspace
   └── Cofre
 ```
 
----
-
-## Paso 7: El script
+### 8. El script
 
 Va en un **Script** dentro de **ServerScriptService**.
 
@@ -121,8 +139,15 @@ cofre.Touched:Connect(function(mano)
 end)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Armá un sistema de inventario simple donde el jugador recolecte al menos 2 tesoros distintos y pueda consultarlos tocando un cofre.
 
-> Inventario simple con agregar/quitar ítems.
+**Pistas:**
+1. Usá `table.find` para que un tesoro no se agregue dos veces
+2. El script del sistema va en **ServerScriptService**
+3. Podés agregar más tesoros solo copiando el patrón del `Touched` de Moneda o Gema
+
+## Recursos
+
+- [Documentación oficial de tablas en Luau](https://create.roblox.com/docs/luau/tables)

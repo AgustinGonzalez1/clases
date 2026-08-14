@@ -1,17 +1,27 @@
 ---
 title: "Clase 4: ¡A Mover el Esqueleto! 🕺"
-mision: "Usar el Animation Editor para crear nuestra primera animación."
+mision: "Publicar y previsualizar 2 animaciones propias hechas con el Animation Editor."
 ---
 
 # Clase 4: ¡A Mover el Esqueleto! 🕺
 
-## Paso 1: Abrir el Animation Editor
+Creamos animaciones con el Animation Editor usando el personaje estándar de Roblox.
+
+## Objetivos
+
+- Conocer el Animation Editor y sus conceptos clave
+- Crear una animación con Loop y otra sin Loop
+- Publicar una animación y obtener su ID
+
+## Contenido
+
+### 1. Abrir el Animation Editor
 
 Se abre desde la pestaña **Avatar → Animation Editor**. Viene integrado en Studio, no requiere plugins. Seleccionás el personaje en el Workspace y aparece la línea de tiempo.
 
----
+> ⚠️ Roblox lanzó el **Avatar Joint Upgrade**, que reemplaza las uniones Motor6D del personaje estándar por un sistema nuevo (AnimationConstraint + BallSocketConstraint) para permitir física más realista. Es el comportamiento **default en experiencias nuevas** desde 2026. El flujo de trabajo del Animation Editor (crear keyframes, mover partes, publicar) sigue siendo el mismo para vos, pero si algo se ve raro al animar el personaje estándar (por ejemplo el modo IK), puede estar relacionado con esta actualización.
 
-## Paso 2: Entender los conceptos clave
+### 2. Conceptos clave
 
 | Concepto | Qué es |
 |---|---|
@@ -21,18 +31,14 @@ Se abre desde la pestaña **Avatar → Animation Editor**. Viene integrado en St
 
 **Ejemplo:** un keyframe en el segundo 0 con el brazo abajo, y otro en el segundo 1 con el brazo arriba, crea un movimiento de saludo entre esos dos puntos.
 
----
-
-## Paso 3: Crear la animación de caminar (con Loop)
+### 3. Crear la animación de caminar (con Loop)
 
 1. Keyframe en 0 → pose neutral
 2. Keyframe en 0.5s → pierna derecha adelante, brazo izquierdo adelante
 3. Keyframe en 1s → vuelve a neutral
 4. Activás **Loop**
 
----
-
-## Paso 4: Crear la animación de saludar (sin Loop)
+### 4. Crear la animación de saludar (sin Loop)
 
 1. Keyframe en 0 → pose neutral
 2. Keyframe en 0.3s → brazo derecho levantado
@@ -40,9 +46,7 @@ Se abre desde la pestaña **Avatar → Animation Editor**. Viene integrado en St
 4. Keyframe en 0.9s → brazo arriba de nuevo
 5. Keyframe en 1.2s → pose neutral
 
----
-
-## Paso 5: Previsualizar y publicar
+### 5. Previsualizar y publicar
 
 | Acción | Cómo | Para qué |
 |---|---|---|
@@ -51,8 +55,15 @@ Se abre desde la pestaña **Avatar → Animation Editor**. Viene integrado en St
 
 > ⚠️ Anotá el ID de cada animación publicada. Lo vas a necesitar más adelante.
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Exportá (publicá) y previsualizá 2 animaciones propias: una con Loop (caminar) y otra sin Loop (saludo).
 
-> Exportar (publicar) y previsualizar 2 animaciones propias.
+**Pistas:**
+1. Usá al menos 3 keyframes por animación para que se note el movimiento
+2. No olvides activar **Loop** solo en la animación de caminar
+3. Anotá el ID de cada animación publicada, lo vas a necesitar en la Clase 14
+
+## Recursos
+
+- [Documentación oficial del Animation Editor](https://create.roblox.com/docs/animation/editor)

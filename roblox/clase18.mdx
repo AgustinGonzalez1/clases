@@ -1,11 +1,21 @@
 ---
 title: "Clase 18: El ABC del Código: Variables 🔤"
-mision: "Conocer los tipos de datos y usar variables en Lua."
+mision: "Armar una mini calculadora en la consola."
 ---
 
 # Clase 18: El ABC del Código: Variables 🔤
 
-## Paso 1: Conocer los tipos de datos
+Formalizamos los tipos de datos, la concatenación y el scope de las variables en Lua.
+
+## Objetivos
+
+- Conocer los tipos de datos básicos de Lua
+- Trabajar con operaciones matemáticas y concatenación
+- Entender el scope (alcance) de una variable
+
+## Contenido
+
+### 1. Conocer los tipos de datos
 
 En Lua todo valor tiene un tipo:
 
@@ -22,9 +32,7 @@ local edad = 10            -- number
 local activo = true        -- boolean
 ```
 
----
-
-## Paso 2: Trabajar con variables y operaciones
+### 2. Trabajar con variables y operaciones
 
 ```lua
 local x = 5
@@ -40,9 +48,7 @@ print(resultado)  -- imprime: 15
 | Multiplicación | `*` | `5 * 3 = 15` |
 | División | `/` | `10 / 2 = 5` |
 
----
-
-## Paso 3: Concatenar texto
+### 3. Concatenar texto
 
 ```lua
 local nombre = "Roblox"
@@ -53,9 +59,7 @@ local puntos = 100
 print("Tus puntos: " .. puntos)     -- imprime: Tus puntos: 100
 ```
 
----
-
-## Paso 4: Entender el scope
+### 4. Entender el scope
 
 ```lua
 local x = 10   -- existe en todo el script
@@ -68,9 +72,7 @@ end
 -- print(y)  -- esto fallaria: y no existe acá afuera
 ```
 
----
-
-## Paso 5: Armar la mini calculadora
+### 5. Armar la mini calculadora
 
 ```lua
 local a = 20
@@ -82,8 +84,15 @@ print("Multiplicacion: " .. a * b)
 print("Division: " .. a / b)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Armá una mini calculadora que imprima en la consola la suma, resta, multiplicación y división de dos números.
 
-> Mini calculadora en la consola.
+**Pistas:**
+1. Usá `..` para concatenar el texto con el resultado numérico
+2. Declará tus dos números como variables `local` al inicio
+3. Probá cambiar los valores de `a` y `b` para verificar que todo funciona bien
+
+## Recursos
+
+- [Documentación oficial de tipos en Luau](https://create.roblox.com/docs/luau/type-checking)

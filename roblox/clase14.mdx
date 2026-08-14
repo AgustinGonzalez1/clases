@@ -1,11 +1,21 @@
 ---
 title: "Clase 14: Animaciones con Código 🎬"
-mision: "Disparar animaciones desde código con la tecla F."
+mision: "Reproducir una animación al presionar una tecla."
 ---
 
 # Clase 14: Animaciones con Código 🎬
 
-## Paso 1: El script principal (tecla F)
+Reproducimos animaciones del personaje mediante código al presionar una tecla. Como ejemplo extra, vemos cómo hacer una animación con el Tool equipado.
+
+## Objetivos
+
+- Cargar y reproducir una animación desde código
+- Detectar teclas con UserInputService
+- Combinar animación con el evento Activated de un Tool
+
+## Contenido
+
+### 1. El script principal (tecla F)
 
 Va en **StarterPlayer → StarterCharacterScripts**.
 
@@ -27,9 +37,7 @@ UIS.InputBegan:Connect(function(input)
 end)
 ```
 
----
-
-## Paso 2 (extra): Animación con el Tool
+### 2. Extra: Animación con el Tool
 
 1. Copiás el Tool y lo pegás **dentro del rig** en el Workspace
 2. Abrís el Animation Editor con el rig + Tool y animás el ataque
@@ -47,8 +55,15 @@ personaje.ChildAdded:Connect(function(child)
 end)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Programá una animación que se reproduzca al presionar la tecla F.
 
-> Reproducir una animación al presionar una tecla.
+**Pistas:**
+1. Recordá reemplazar `TU_ID_ACA` con el ID que publicaste en la Clase 4 o 5
+2. `WaitForChild` evita errores por timing al cargar el Humanoid
+3. Como extra, probá conectar la misma animación al click con un Tool equipado
+
+## Recursos
+
+- [Documentación oficial de UserInputService](https://create.roblox.com/docs/reference/engine/classes/UserInputService)

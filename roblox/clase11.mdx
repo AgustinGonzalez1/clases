@@ -1,25 +1,37 @@
 ---
 title: "Clase 11: Tu Primera Arma: La Espada ⚔️"
-mision: "Construir una espada de 3 partes y programarla como herramienta."
+mision: "Diseñar tu espada con estilo propio."
 ---
 
 # Clase 11: Tu Primera Arma: La Espada ⚔️
 
-## Paso 1: Construir las 3 partes
+Clase 100% visual, sin código. Construimos y personalizamos una espada usando Parts, la convertimos en Tool y la ajustamos para que quede bien en la mano del personaje.
 
-| Parte | Nombre en Studio |
-|---|---|
-| Mango | `Handle` |
-| Guardia | `Guardia` |
-| Hoja | `Hoja` |
+## Objetivos
 
-> ⚠️ El nombre `Handle` es obligatorio, Roblox lo usa como punto de agarre.
+- Construir una espada con 3 partes
+- Convertirla en un Tool agarrable
+- Unir las partes con WeldConstraint y ajustar el Grip
 
----
+## Contenido
 
-## Paso 2: Crear el Tool en el Workspace
+### 1. ¿Qué es un Tool?
 
-1. Click derecho sobre Workspace → Insert Object → **Tool**
+Un **Tool** es un tipo especial de objeto en Roblox que el jugador puede agarrar y equipar. Cuando está en el **Workspace**, el jugador lo agarra al acercarse. Cuando está en el **StarterPack**, aparece directo en su inventario al spawnear.
+
+### 2. Las 3 partes de la espada
+
+| Parte | Nombre en Studio | Descripción |
+|---|---|---|
+| Mango | `Handle` | Part corta, donde el personaje agarra la espada |
+| Guardia | `Guardia` | Part ancha y corta entre el mango y la hoja |
+| Hoja | `Hoja` | Part larga y fina, la parte principal |
+
+> ⚠️ El nombre `Handle` es obligatorio. Roblox lo usa como punto de agarre del Tool.
+
+### 3. Crear el Tool en el Workspace
+
+1. Click derecho sobre **Workspace** → Insert Object → **Tool**
 2. Arrastrás las 3 Parts dentro del Tool
 
 ```
@@ -30,9 +42,7 @@ Workspace
         └── Hoja
 ```
 
----
-
-## Paso 3: Unir con WeldConstraint
+### 4. Unir las partes con WeldConstraint
 
 1. **Handle** → Insert Object → **WeldConstraint** → `Part0=Handle` / `Part1=Guardia`
 2. **Guardia** → Insert Object → **WeldConstraint** → `Part0=Guardia` / `Part1=Hoja`
@@ -47,9 +57,7 @@ Workspace
         └── Hoja
 ```
 
----
-
-## Paso 4: Ajustar el Grip
+### 5. Ajustar el Grip
 
 En Properties del Tool:
 
@@ -59,8 +67,15 @@ En Properties del Tool:
 
 Ajustás hasta que se vea natural en la mano del personaje.
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Diseñá tu espada con estilo propio, con colores y materiales personalizados.
 
-> Diseñar tu espada con estilo propio.
+**Pistas:**
+1. Recordá nombrar el mango exactamente `Handle`
+2. Sin WeldConstraint la espada se desarma al agarrarla
+3. Si queda torcida en la mano, ajustá `Grip → Orientation`
+
+## Recursos
+
+- [Documentación oficial de Tool](https://create.roblox.com/docs/reference/engine/classes/Tool)

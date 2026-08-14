@@ -1,11 +1,21 @@
 ---
 title: "Clase 13: Tu Primer Auto 🚗"
-mision: "Construir y programar un auto manejable."
+mision: "Crear un auto de carreras funcional controlado con el teclado."
 ---
 
 # Clase 13: Tu Primer Auto 🚗
 
-## Paso 1: Construir las partes sin nombrarlas todavía
+Construimos un auto usando Attachments y HingeConstraints para conectar las ruedas al chasis, y un script para controlarlo con el teclado.
+
+## Objetivos
+
+- Construir un auto y definir su orientación con VehicleSeat
+- Conectar las ruedas con Attachments y HingeConstraints
+- Programar el control del auto con el teclado
+
+## Contenido
+
+### 1. Construir las partes sin nombrarlas todavía
 
 1. Insertás el **Chasis** (Part rectangular)
 2. Insertás 4 Parts cilíndricas para las ruedas, sin nombrarlas aún
@@ -14,18 +24,14 @@ mision: "Construir y programar un auto manejable."
 
 > ⚠️ **Anchored = true** en todas mientras construís.
 
----
-
-## Paso 2: Agregar el VehicleSeat para definir la orientación
+### 2. Agregar el VehicleSeat para definir la orientación
 
 1. Insert Object → **VehicleSeat**, lo ubicás encima del Chasis
 2. El **frente** del VehicleSeat (la flecha que se ve al seleccionarlo) define hacia dónde "mira" el auto
 
 > 💡 Con el VehicleSeat ya orientado, ahora es fácil saber cuál rueda es cuál: mirando hacia adelante desde el asiento, la izquierda y derecha quedan claras.
 
----
-
-## Paso 3: Recién ahora, nombrar las ruedas correctamente
+### 3. Nombrar las ruedas correctamente
 
 Según la orientación del VehicleSeat:
 
@@ -36,17 +42,13 @@ Según la orientación del VehicleSeat:
 | Atrás-derecha | `RTD` |
 | Atrás-izquierda | `RTI` |
 
----
-
-## Paso 4: Agrupar
+### 4. Agrupar
 
 1. Seleccionás todo (Chasis, las 4 ruedas y el VehicleSeat) y **Group** (Ctrl+G)
 2. Renombrás el Model `Autito`
 3. **PrimaryPart** del Model → `Chasis`
 
----
-
-## Paso 5: Crear la carpeta Uniones
+### 5. Crear la carpeta Uniones
 
 Dentro de `Autito` → Insert Object → **Folder** → `Uniones`. Dentro, 4 **HingeConstraint**:
 
@@ -54,9 +56,7 @@ Dentro de `Autito` → Insert Object → **Folder** → `Uniones`. Dentro, 4 **H
 |---|---|
 | `ejeRFD`, `ejeRFI`, `ejeRTD`, `ejeRTI` | ActuatorType=Motor, MotorMaxTorque=409600, AngularVelocity=0 |
 
----
-
-## Paso 6: Attachments
+### 6. Attachments
 
 **En el Chasis:** `pivoteChasisRFD`, `pivoteChasisRFI`, `pivoteChasisRTD`, `pivoteChasisRTI`
 
@@ -64,9 +64,7 @@ Dentro de `Autito` → Insert Object → **Folder** → `Uniones`. Dentro, 4 **H
 
 Mové cada `pivoteChasis` a la misma posición que su `pivoteRueda` correspondiente.
 
----
-
-## Paso 7: Configurar los HingeConstraints
+### 7. Configurar los HingeConstraints
 
 | HingeConstraint | Attachment0 | Attachment1 |
 |---|---|---|
@@ -75,15 +73,11 @@ Mové cada `pivoteChasis` a la misma posición que su `pivoteRueda` correspondie
 | ejeRTD | pivoteChasisRTD | pivoteRuedaRTD |
 | ejeRTI | pivoteChasisRTI | pivoteRuedaRTI |
 
----
-
-## Paso 8: WeldConstraint del VehicleSeat
+### 8. WeldConstraint del VehicleSeat
 
 VehicleSeat → Insert Object → **WeldConstraint** → `Part0=VehicleSeat` / `Part1=Chasis`
 
----
-
-## Paso 9: Estructura final en el Explorer
+### 9. Estructura final en el Explorer
 
 ```
 Autito
@@ -110,9 +104,7 @@ Autito
         └── pivoteRuedaRTI
 ```
 
----
-
-## Paso 10: El script
+### 10. El script
 
 Va dentro del **Script** que está en VehicleSeat.
 
@@ -153,14 +145,20 @@ asiento:GetPropertyChangedSignal("ThrottleFloat"):Connect(actualizarMotores)
 asiento:GetPropertyChangedSignal("SteerFloat"):Connect(actualizarMotores)
 ```
 
----
-
-## Paso 11: Desactivar Anchored
+### 11. Desactivar Anchored
 
 Chasis → **Anchored** → `false`
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Creá un auto de carreras que se pueda manejar con W/S para avanzar y A/D para girar.
 
-> Crear un auto de carreras.
+**Pistas:**
+1. Definí primero la orientación con el VehicleSeat antes de nombrar las ruedas
+2. Los Attachments del Chasis y de cada rueda deben quedar en la misma posición exacta
+3. No olvides desactivar `Anchored` del Chasis al final, sino el auto no se va a mover
+
+## Recursos
+
+- [Documentación oficial de VehicleSeat](https://create.roblox.com/docs/reference/engine/classes/VehicleSeat)
+- [Documentación oficial de HingeConstraint](https://create.roblox.com/docs/reference/engine/classes/HingeConstraint)

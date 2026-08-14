@@ -1,11 +1,21 @@
 ---
 title: "Clase 9: Programación creativa 🎨🎮"
-mision: "Repasar los 3 pilares de la programación y combinarlos en un proyecto creativo."
+mision: "Aplicar métodos, propiedades y eventos en un bloque propio."
 ---
 
 # Clase 9: Programación creativa 🎨🎮
 
-## Paso 1: Repasar los 3 pilares
+Con todo lo aprendido, esta clase es libre: cada alumno crea el bloque que quiera aplicando métodos, propiedades y eventos.
+
+## Objetivos
+
+- Repasar los 3 pilares del scripting: propiedad, método y evento
+- Crear distintos tipos de bloques interactivos
+- Aplicar `BodyVelocity` para mover al jugador
+
+## Contenido
+
+### 1. Repasar los 3 pilares
 
 Cualquier bloque que crees tiene que usar:
 
@@ -15,9 +25,7 @@ Cualquier bloque que crees tiene que usar:
 | **Método** | Clone(), Destroy() |
 | **Evento** | Touched, TouchEnded |
 
----
-
-## Paso 2: Bloque invisible
+### 2. Bloque invisible
 
 ```lua
 local bloque = script.Parent
@@ -31,9 +39,7 @@ bloque.TouchEnded:Connect(function()
 end)
 ```
 
----
-
-## Paso 3: Bloque que se achica
+### 3. Bloque que se achica
 
 ```lua
 local bloque = script.Parent
@@ -43,9 +49,7 @@ bloque.Touched:Connect(function()
 end)
 ```
 
----
-
-## Paso 4: Bloque que aumenta la velocidad
+### 4. Bloque que aumenta la velocidad
 
 ```lua
 local bloque = script.Parent
@@ -62,9 +66,7 @@ bloque.TouchEnded:Connect(function(mano)
 end)
 ```
 
----
-
-## Paso 5: Bloque que te empuja hacia un lugar
+### 5. Bloque que te empuja hacia un lugar
 
 Este bloque mueve al jugador automáticamente en una dirección usando `BodyVelocity`.
 
@@ -90,8 +92,15 @@ end)
 - `MaxForce` controla en qué ejes aplica esa fuerza. `math.huge` significa "sin límite de fuerza"
 - Se destruye después de un tiempo para que el empuje no sea infinito
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Aplicá métodos, propiedades y eventos en un bloque propio, original y distinto a los ejemplos vistos.
 
-> Aplicar métodos, propiedades y eventos en un bloque propio.
+**Pistas:**
+1. Combiná al menos una propiedad, un método y un evento en tu bloque
+2. Podés mezclar ideas de los ejemplos (por ejemplo invisible + empuje)
+3. Probá tu bloque varias veces para asegurarte que no se rompe al tocarlo repetidas veces
+
+## Recursos
+
+- [Documentación oficial de BodyVelocity](https://create.roblox.com/docs/reference/engine/classes/BodyVelocity)

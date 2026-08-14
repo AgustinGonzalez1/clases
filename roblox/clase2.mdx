@@ -1,25 +1,31 @@
 ---
 title: "Clase 2: El Arte de Crear Paisajes 🏞️"
-mision: "Usar el Terrain Editor para esculpir y pintar un paisaje."
+mision: "Diseñar un mapa natural con colinas y un lago usando el Terrain Editor."
 ---
 
 # Clase 2: El Arte de Crear Paisajes 🏞️
 
-## Paso 1: Abrir el Terrain Editor
+Esculpimos terrenos, montañas y ríos, y ajustamos las luces y el cielo de nuestro mundo.
+
+## Objetivos
+
+- Usar el Terrain Editor para generar y modelar terreno
+- Crear colinas y un lago
+- Ajustar la iluminación y el cielo del mapa
+
+## Contenido
+
+### 1. Abrir el Terrain Editor
 
 Se abre desde **Home → Editor → Terrain Editor**. Es la herramienta principal para crear paisajes naturales.
 
----
-
-## Paso 2: Generar una base con Generate
+### 2. Generar una base con Generate
 
 1. Dentro del Terrain Editor → **Generate**
 2. Configurás **Biome** (Plains, Mountains, Arctic, etc.) y **Size**
 3. Genera un terreno automático como punto de partida
 
----
-
-## Paso 3: Modelar el terreno con Add, Subtract y Smooth
+### 3. Modelar el terreno con Add, Subtract y Smooth
 
 | Herramienta | Qué hace |
 |---|---|
@@ -35,9 +41,7 @@ Se abre desde **Home → Editor → Terrain Editor**. Es la herramienta principa
 1. **Subtract** para hacer una depresión en el terreno
 2. **Add** con material **Water** para rellenarla
 
----
-
-## Paso 4: Aplicar materiales con Paint
+### 4. Aplicar materiales con Paint
 
 **Paint** cambia el material del terreno sin modificar su forma.
 
@@ -48,9 +52,7 @@ Se abre desde **Home → Editor → Terrain Editor**. Es la herramienta principa
 | **Sand** | Playas y desiertos |
 | **Snow** | Cimas nevadas |
 
----
-
-## Paso 5: Ajustar luces y cielo
+### 5. Ajustar luces y cielo
 
 Se configuran desde el objeto **Lighting** en el Explorer:
 
@@ -66,14 +68,15 @@ Para cambiar el cielo:
 
 **Ejemplo:** probá `TimeOfDay = 06:00:00` para un amanecer.
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Diseñá un mapa natural con al menos 2 colinas y un lago.
 
-> Diseñar un mapa natural con colinas y un lago.
+**Pistas:**
+1. Usá `Smooth` después de `Add` para que las colinas no queden con picos irregulares
+2. Combiná `Subtract` + `Water` para el lago
+3. Probá distintos materiales en cada zona del mapa
 
-**Lo que debe tener tu mapa:**
-- Al menos 2 colinas con Smooth aplicado
-- Un lago hecho con Subtract + Water
-- Un material diferente en cada zona
-- TimeOfDay distinto al default
+## Recursos
+
+- [Documentación oficial del Terrain Editor](https://create.roblox.com/docs/studio/terrain-editor)

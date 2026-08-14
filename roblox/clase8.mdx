@@ -1,11 +1,21 @@
 ---
 title: "Clase 8: Bloque teletransportador 🔀"
-mision: "Crear un bloque emisor y uno receptor para teletransportar al jugador."
+mision: "Tocar un bloque que se clone, se anime y luego desaparezca."
 ---
 
 # Clase 8: Bloque teletransportador 🔀
 
-## Paso 1: Crear el bloque emisor y el receptor
+Programamos un bloque teletransportador con un emisor y un receptor, y además un bloque que se clona, se anima y desaparece.
+
+## Objetivos
+
+- Teletransportar al jugador de un bloque a otro
+- Usar Clone() y Destroy()
+- Animar un objeto con TweenService
+
+## Contenido
+
+### 1. Crear el bloque emisor y el receptor
 
 1. Insertás dos Parts en el Workspace
 2. Una la nombrás `Emisor` (con el Script adentro)
@@ -17,9 +27,7 @@ Workspace
   └── Receptor (Part)
 ```
 
----
-
-## Paso 2: Programar el teletransporte
+### 2. Programar el teletransporte
 
 ```lua
 local emisor = script.Parent
@@ -33,9 +41,7 @@ end)
 
 > ⚠️ El bloque receptor tiene que llamarse exactamente `Receptor`. Si lo movés en el mapa, la teletransportación cambia sola sin tocar el código.
 
----
-
-## Paso 3: Crear un bloque que se clona, se anima y desaparece
+### 3. Crear un bloque que se clona, se anima y desaparece
 
 ```lua
 local bloque = script.Parent
@@ -62,8 +68,15 @@ bloque.Touched:Connect(function()
 end)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Programá un bloque que se clone, se anime y luego desaparezca al ser tocado.
 
-> Tocar un bloque que se clone, se anime y luego desaparezca.
+**Pistas:**
+1. Usá una variable `activado` para que no se creen varios clones a la vez
+2. `TweenInfo.new(segundos)` define cuánto dura la animación
+3. No olvides destruir el clon al final para no llenar el mapa
+
+## Recursos
+
+- [Documentación oficial de TweenService](https://create.roblox.com/docs/reference/engine/classes/TweenService)

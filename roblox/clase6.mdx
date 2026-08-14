@@ -1,18 +1,26 @@
 ---
 title: "Clase 6: Nuestro primer print 💻"
-mision: "Insertar un Script y escribir nuestro primer print en Lua."
+mision: "Programar un método, una propiedad y un evento en un Part."
 ---
 
 # Clase 6: Nuestro primer print 💻
 
-## Paso 1: Insertar un Script
+Damos nuestros primeros pasos en programación con Lua: hacemos un print, usamos variables y empezamos a programar un bloque.
+
+## Objetivos
+
+- Hacer tu primer print en la consola
+- Usar variables
+- Aplicar una propiedad, un método y un evento sobre un Part
+
+## Contenido
+
+### 1. Insertar un Script
 
 1. Click derecho sobre una Part → Insert Object → **Script**
 2. Se abre el editor de código
 
----
-
-## Paso 2: Hacer tu primer print
+### 2. Hacer tu primer print
 
 ```lua
 print("Hola mundo")
@@ -20,9 +28,7 @@ print("Hola mundo")
 
 Al darle Play, `"Hola mundo"` aparece en la consola (Output).
 
----
-
-## Paso 3: Usar variables
+### 3. Usar variables
 
 ```lua
 local nombre = "Roblox"
@@ -33,27 +39,21 @@ print(numero)   -- imprime: 10
 
 > 💡 `local` significa que la variable solo existe dentro del script donde se declara.
 
----
-
-## Paso 4: Referenciar el bloque y usar una propiedad
+### 4. Referenciar el bloque y usar una propiedad
 
 ```lua
 local bloque = script.Parent                -- el Part que contiene el script
 bloque.Color = Color3.fromRGB(255, 0, 0)    -- propiedad: cambia el color
 ```
 
----
-
-## Paso 5: Usar un método
+### 5. Usar un método
 
 ```lua
 local clon = bloque:Clone()   -- metodo: crea una copia del bloque
 clon.Parent = workspace       -- la agrega al mundo
 ```
 
----
-
-## Paso 6: Usar un evento
+### 6. Usar un evento
 
 ```lua
 bloque.Touched:Connect(function()
@@ -63,8 +63,15 @@ end)
 
 **Ejemplo:** cada vez que algo toca el bloque, imprime `"me tocaron!"` en la consola.
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Programá un método, una propiedad y un evento del Part.
 
-> Programar un método, una propiedad y un evento del Part.
+**Pistas:**
+1. Empezá siempre con `local bloque = script.Parent` para referenciar tu Part
+2. Probá combinar el evento `Touched` con un cambio de propiedad
+3. Usá la consola (Output) para verificar que tu código corre bien
+
+## Recursos
+
+- [Documentación oficial de eventos y propiedades](https://create.roblox.com/docs/scripting)

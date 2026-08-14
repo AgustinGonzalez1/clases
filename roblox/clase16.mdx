@@ -1,33 +1,52 @@
 ---
 title: "Clase 16: Cutscenes 2 📜"
-mision: "Crear una ScreenGui y sumar texto e interfaz a las cutscenes."
+mision: "Armar un menú principal con Jugar y Opciones, con una transición animada al entrar al nivel."
 ---
 
 # Clase 16: Cutscenes 2 📜
 
-## Paso 1: Crear la ScreenGui
+Armamos un menú principal con botones de "Jugar" y "Opciones", y le agregamos una transición animada que lo hace desaparecer suavemente al arrancar el juego.
 
-1. StarterGui → Insert Object → **ScreenGui**
-2. Properties → **IgnoreGuiInset** → `true` (evita que la barra de Roblox empuje el menú hacia abajo)
+## Objetivos
 
----
+- Entender qué es una ScreenGui y para qué sirve un Frame
+- Crear un menú con título y botones
+- Detectar clicks con `MouseButton1Click`
+- Animar la desaparición del menú con TweenService
 
-## Paso 2: Crear el Frame
+## Contenido
+
+### 1. Crear la ScreenGui
+
+Una **ScreenGui** es el contenedor principal de cualquier interfaz en Roblox, vive dentro de **StarterGui** y se copia automáticamente a la pantalla de cada jugador.
+
+1. Click derecho sobre **StarterGui** → Insert Object → **ScreenGui**
+2. En Properties → **IgnoreGuiInset** → `true`
+
+> 💡 `IgnoreGuiInset` evita que la barra superior de Roblox empuje tu menú hacia abajo al entrar al juego.
+
+### 2. ¿Qué es un Frame?
+
+Un **Frame** es un contenedor rectangular vacío, la pieza básica de cualquier GUI en Roblox. Por sí solo no muestra texto ni imagen, solo un rectángulo de color. Sirve para:
+
+- **Agrupar** varios elementos (título, botones) como una sola unidad
+- Poder animarlos o moverlos todos juntos moviendo el Frame
+- Servir de **fondo** para el menú, separándolo visualmente del mundo 3D detrás
+
+Se crea así:
 
 1. Dentro de la ScreenGui → Insert Object → **Frame**
 
-| Propiedad | Valor |
-|---|---|
-| **AnchorPoint** | `0.5, 0.5` |
-| **Position** | `{0.5, 0}, {0.5, 0}` |
-| **Size** | `{1, 0}, {1, 0}` |
-| **BackgroundColor3** | el color que quieras |
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **AnchorPoint** | `0.5, 0.5` | El punto de referencia del Frame pasa a ser su centro |
+| **Position** | `{0.5, 0}, {0.5, 0}` | Junto con el AnchorPoint, centra el Frame en la pantalla |
+| **Size** | `{1, 0}, {1, 0}` | El Frame ocupa el 100% del ancho y alto de la pantalla |
+| **BackgroundColor3** | el color que quieras | El color de fondo del menú completo |
 
----
+### 3. Crear el título y los botones
 
-## Paso 3: Crear el título y los botones
-
-Dentro del Frame, tres elementos:
+Dentro del Frame, insertás tres elementos:
 
 | Elemento | Nombre | Text |
 |---|---|---|
@@ -35,11 +54,19 @@ Dentro del Frame, tres elementos:
 | TextButton | `Jugar` | "Jugar" |
 | TextButton | `Opciones` | "Opciones" |
 
-Todos con **TextScaled = true** y **BackgroundTransparency = 1** (menos el Frame).
+Todos con **TextScaled = true** y **BackgroundTransparency = 1** (menos el Frame, que mantiene su color de fondo).
 
----
+### 4. Detectar el click con MouseButton1Click
 
-## Paso 4: El script
+`MouseButton1Click` es el evento que se dispara cuando el jugador hace click izquierdo sobre un botón:
+
+```lua
+boton.MouseButton1Click:Connect(function()
+    print("Se hizo click")
+end)
+```
+
+### 5. El script completo
 
 Va en un **LocalScript** dentro de la ScreenGui.
 
@@ -77,9 +104,7 @@ botonJugar.MouseButton1Click:Connect(function()      -- se dispara al hacer clic
 end)
 ```
 
----
-
-## Estructura en el Explorer
+### 6. Estructura en el Explorer
 
 ```
 StarterGui
@@ -91,8 +116,16 @@ StarterGui
               └── Opciones  (TextButton)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Armá el menú principal con título, botón Jugar y botón Opciones, con la transición animada al presionar Jugar.
 
-> Flujo de inicio con transición a nivel.
+**Pistas:**
+1. Recordá activar `IgnoreGuiInset` en la ScreenGui para que el menú no se desplace
+2. El `AnchorPoint` en `0.5, 0.5` es clave para que el Frame quede centrado
+3. Todos los tweens se pueden arrancar juntos con `:Play()` sin esperar entre ellos
+
+## Recursos
+
+- [Documentación oficial de GUI en Roblox](https://create.roblox.com/docs/ui)
+- [Documentación de TweenService](https://create.roblox.com/docs/reference/engine/classes/TweenService)

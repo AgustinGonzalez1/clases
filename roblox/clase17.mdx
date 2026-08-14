@@ -1,11 +1,21 @@
 ---
 title: "Clase 17: Efectos y Pulido Visual ✨"
-mision: "Agregar efectos como Fire y pulir visualmente el juego."
+mision: "Aplicar 3 efectos visuales (partículas, luces) para acciones clave del juego."
 ---
 
 # Clase 17: Efectos y Pulido Visual ✨
 
-## Paso 1: Agregar Fire
+Agregamos partículas, luces y efectos visuales para darle vida al juego.
+
+## Objetivos
+
+- Conocer los efectos visuales disponibles en Roblox: Fire, Smoke, Sparkles, PointLight, ParticleEmitter
+- Combinar efectos para lograr resultados realistas
+- Controlar efectos desde código con la propiedad Enabled
+
+## Contenido
+
+### 1. Agregar Fire
 
 1. Seleccionás una Part → Insert Object → **Fire**
 
@@ -15,18 +25,25 @@ mision: "Agregar efectos como Fire y pulir visualmente el juego."
 | **Size** | Tamaño de las llamas |
 | **Color / SecondaryColor** | Colores base y punta del fuego |
 
----
+### 2. Agregar Smoke
 
-## Paso 2: Agregar Sparkles y PointLight
+1. Seleccionás una Part → Insert Object → **Smoke**
+
+| Propiedad | Qué controla |
+|---|---|
+| **Color** | Color del humo |
+| **Opacity** | Qué tan denso es |
+| **RiseVelocity** | Qué tan rápido sube |
+| **Size** | Tamaño de las partículas |
+
+### 3. Agregar Sparkles y PointLight
 
 1. Insert Object → **Sparkles** (**SparkleColor** controla el color)
 2. Insert Object → **PointLight** (**Brightness**, **Range**, **Color**)
 
-**Ejemplo:** Fire + PointLight naranja = antorcha realista.
+**Ejemplo:** Fire + PointLight naranja = antorcha realista. Fire + Smoke = fogón o volcán.
 
----
-
-## Paso 3: Agregar un ParticleEmitter
+### 4. Agregar un ParticleEmitter
 
 1. Insert Object → **ParticleEmitter**
 
@@ -36,9 +53,7 @@ mision: "Agregar efectos como Fire y pulir visualmente el juego."
 | **Lifetime** | Cuánto dura cada partícula |
 | **Speed** | Velocidad de las partículas |
 
----
-
-## Paso 4: Controlar efectos con código
+### 5. Controlar efectos con código
 
 ```lua
 local bloque = script.Parent
@@ -53,8 +68,16 @@ bloque.TouchEnded:Connect(function()
 end)
 ```
 
----
+## Ejercicio
 
-## Misión
+> Consigna: Aplicá 3 efectos visuales distintos para acciones clave de tu juego (por ejemplo una antorcha, un portal mágico, o un objeto coleccionable).
 
-> Aplicar 3 efectos para acciones clave del juego.
+**Pistas:**
+1. Combiná al menos un efecto de partículas con un PointLight
+2. Probá controlar uno de los efectos con código usando `Enabled`
+3. Ajustá Color y Size hasta que se vea bien en tu mapa
+
+## Recursos
+
+- [Documentación oficial de Fire](https://create.roblox.com/docs/reference/engine/classes/Fire)
+- [Documentación oficial de ParticleEmitter](https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter)
