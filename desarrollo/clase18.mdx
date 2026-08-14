@@ -1,12 +1,22 @@
 ---
 title: "Clase 18: Bucles y Listas (Arrays) 🔄"
-modulo: "Módulo 3 - ¡Dando Vida a la Web! (JavaScript)"
-mision: "Crear un array con las comidas favoritas y mostrarlas una por una en la consola, usando for...of."
+mision: "Crear un array con las comidas favoritas y mostrarlas una por una en la consola, usando un bucle."
 ---
 
 # Clase 18: Bucles y Listas (Arrays) 🔄
 
-## ¿Qué es un array?
+En esta clase aprendemos a guardar varios valores juntos en una sola variable (arrays) y a repetir acciones automáticamente (bucles). Son dos herramientas que casi siempre van de la mano.
+
+## Objetivos
+
+- Entender qué es un array y cómo acceder a sus elementos
+- Aprender a agregar y quitar elementos de un array
+- Aprender a buscar valores dentro de un array
+- Usar bucles para recorrer arrays automáticamente
+
+## Contenido
+
+### 1. ¿Qué es un array?
 
 Un array es una lista de valores guardados en una sola variable.
 
@@ -16,9 +26,9 @@ let comidas = ["pizza", "helado", "asado"];
 console.log(comidas);
 ```
 
-## Accediendo a un elemento del array
+### 2. Accediendo a un elemento por índice
 
-Cada elemento tiene una posición, llamada **índice**, que arranca en 0.
+Cada elemento tiene una posición, llamada **índice**, que arranca en 0 (no en 1).
 
 ```js
 let comidas = ["pizza", "helado", "asado"];
@@ -28,9 +38,9 @@ console.log(comidas[1]); // "helado"
 console.log(comidas[2]); // "asado"
 ```
 
-## El largo de un array
+### 3. El largo de un array
 
-`.length` nos dice cuántos elementos tiene.
+`.length` nos dice cuántos elementos tiene el array.
 
 ```js
 let comidas = ["pizza", "helado", "asado"];
@@ -38,7 +48,81 @@ let comidas = ["pizza", "helado", "asado"];
 console.log(comidas.length); // 3
 ```
 
-## ¿Qué es un bucle?
+### 4. Agregando elementos: push()
+
+`push()` agrega un elemento **al final** del array.
+
+```js
+let comidas = ["pizza", "helado"];
+
+comidas.push("asado");
+
+console.log(comidas); // ["pizza", "helado", "asado"]
+```
+
+### 5. Agregando elementos al principio: unshift()
+
+`unshift()` agrega un elemento **al principio** del array.
+
+```js
+let comidas = ["helado", "asado"];
+
+comidas.unshift("pizza");
+
+console.log(comidas); // ["pizza", "helado", "asado"]
+```
+
+### 6. Quitando el último elemento: pop()
+
+`pop()` quita el **último** elemento del array. También nos devuelve el valor que sacó.
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+let sacado = comidas.pop();
+
+console.log(sacado);  // "asado"
+console.log(comidas); // ["pizza", "helado"]
+```
+
+### 7. Quitando el primer elemento: shift()
+
+`shift()` quita el **primer** elemento del array.
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+let sacado = comidas.shift();
+
+console.log(sacado);  // "pizza"
+console.log(comidas); // ["helado", "asado"]
+```
+
+Truco para recordarlos: `push` y `pop` trabajan en el **final** del array. `unshift` y `shift` trabajan en el **principio**.
+
+### 8. Buscando valores: includes()
+
+`includes()` nos dice si un valor está en el array (devuelve `true` o `false`).
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+console.log(comidas.includes("pizza"));    // true
+console.log(comidas.includes("sushi"));    // false
+```
+
+### 9. Buscando la posición: indexOf()
+
+`indexOf()` nos devuelve el índice (posición) de un valor. Si no lo encuentra, devuelve `-1`.
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+console.log(comidas.indexOf("helado")); // 1
+console.log(comidas.indexOf("sushi"));  // -1
+```
+
+### 10. ¿Qué es un bucle?
 
 Un bucle repite una acción varias veces, sin tener que escribir el código una y otra vez.
 
@@ -49,19 +133,12 @@ for (let i = 0; i < 5; i++) {
 // 0, 1, 2, 3, 4
 ```
 
-## Las 3 partes del `for`
-
-```js
-for (inicio; condición; incremento) {
-  // código a repetir
-}
-```
-
+Las 3 partes del `for`:
 - **Inicio**: `let i = 0` → arranca en 0
 - **Condición**: `i < 5` → se repite mientras esto sea verdadero
 - **Incremento**: `i++` → suma 1 en cada vuelta
 
-## Recorriendo un array con `for`
+### 11. Recorriendo un array con for
 
 Acá se combinan los dos conceptos de la clase:
 
@@ -75,9 +152,9 @@ for (let i = 0; i < comidas.length; i++) {
 
 Usar `comidas.length` en vez de un número fijo es clave: si el array cambia de tamaño, el bucle se adapta solo.
 
-## La forma moderna: `for...of`
+### 12. La forma moderna: for...of
 
-Cuando solo necesitamos los **valores** del array (y no nos importa la posición), `for...of` es más corto y es la forma más usada en código actual:
+Cuando solo necesitamos los **valores** del array (y no la posición), `for...of` es más corto y es la forma más usada en el código actual:
 
 ```js
 let comidas = ["pizza", "helado", "asado"];
@@ -89,20 +166,29 @@ for (const comida of comidas) {
 
 No hace falta `comidas.length` ni un índice `i`: JavaScript recorre el array solo, elemento por elemento.
 
-**¿Cuándo usar cada uno?**
-- `for` clásico → cuando necesitás saber en qué posición está cada elemento (el índice).
-- `for...of` → cuando solo te interesa el valor, sin importar la posición. Es la opción más simple para la mayoría de los casos.
+### 13. ¿Cuándo usar cada uno?
 
-## Agregando elementos a un array
+| Método/bucle | Para qué sirve |
+|---|---|
+| `push()` | Agregar un elemento al final |
+| `unshift()` | Agregar un elemento al principio |
+| `pop()` | Quitar el último elemento |
+| `shift()` | Quitar el primer elemento |
+| `includes()` | Saber si un valor está en el array |
+| `indexOf()` | Saber en qué posición está un valor |
+| `for` clásico | Recorrer el array cuando necesito el índice |
+| `for...of` | Recorrer el array cuando solo necesito los valores |
 
-```js
-let comidas = ["pizza", "helado"];
+## Ejercicio
 
-comidas.push("asado");
+> Consigna: Crear un array con tus comidas favoritas y mostrarlas una por una en la consola usando un bucle.
 
-console.log(comidas); // ["pizza", "helado", "asado"]
-```
+**Pistas:**
+1. Declará el array con `let comidas = [...]`
+2. Agregá una comida más con `push()`
+3. Recorré el array con `for...of` y mostrá cada comida con `console.log()`
 
-## 📥 Misión de la clase
+## Recursos
 
-Crear un array con las comidas favoritas y mostrarlas una por una en la consola, usando `for...of`.
+- [MDN - Array (documentación oficial)](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array)
+- [W3Schools - JavaScript Array Methods](https://www.w3schools.com/js/js_array_methods.asp)
