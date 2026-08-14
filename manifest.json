@@ -6,7 +6,8 @@
       "clases": [
         { "titulo": "Clase 1 - Nuestro primer sitio", "archivo": "clase1.mdx" },
         { "titulo": "Clase 2 - Creamos el encabezado", "archivo": "clase2.mdx" },
-        { "titulo": "Clase 3 - CSS con Flexbox", "archivo": "clase3.mdx" }
+        { "titulo": "Clase 3 - CSS con Flexbox", "archivo": "clase3.mdx" },
+        { "titulo": "Clase 18 - Bucles y Listas (Arrays)", "archivo": "clase18.mdx" }
       ]
     },
     {

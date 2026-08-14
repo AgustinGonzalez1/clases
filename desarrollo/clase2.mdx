@@ -1,5 +1,6 @@
 ---
 title: "Clase 2: Creamos el encabezado 🛠️"
+modulo: "Módulo 1 - Los Cimientos de la Web (HTML)"
 mision: "Crear un encabezado con logo y navegación, y dejar creadas al menos 2 páginas más para que los links funcionen de verdad."
 ---
 
@@ -15,13 +16,15 @@ Antes de programar, miramos encabezados de sitios reales (por ejemplo Amazon, Ne
 
 ## La etiqueta `<nav>`
 
-Agrupa los links de navegación del sitio.
+Agrupa los links de navegación del sitio. La forma actual y recomendada es envolver los links en una lista `<ul>`, no ponerlos sueltos. Esto ayuda a la accesibilidad (lectores de pantalla) y ordena mejor el código:
 
 ```html
 <nav>
-  <a href="#">Inicio</a>
-  <a href="#">Proyectos</a>
-  <a href="#">Contacto</a>
+  <ul>
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Proyectos</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
 </nav>
 ```
 
@@ -39,15 +42,30 @@ Para páginas del mismo sitio, se pone el nombre del archivo:
 <a href="contacto.html">Contacto</a>
 ```
 
+## Abrir un link en una pestaña nueva
+
+Cuando el link lleva a otro sitio (no una página propia), suele convenir abrirlo en una pestaña nueva para no perder al usuario. Eso se hace con `target="_blank"`:
+
+```html
+<a href="https://instagram.com" target="_blank">Instagram</a>
+```
+
+Sin `target="_blank"`, el link se abre en la misma pestaña y el usuario sale de nuestro sitio. Con `target="_blank"`, se abre una pestaña nueva y el sitio original sigue abierto.
+
+Importante: para links internos entre nuestras propias páginas (como `contacto.html`) no se usa, porque ahí sí queremos que navegue dentro del mismo sitio.
+
 ## El encabezado completo
 
 ```html
 <header>
   <h1>Mi Sitio</h1>
   <nav>
-    <a href="index.html">Inicio</a>
-    <a href="proyectos.html">Proyectos</a>
-    <a href="contacto.html">Contacto</a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+    </ul>
   </nav>
 </header>
 ```

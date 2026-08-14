@@ -1,0 +1,108 @@
+---
+title: "Clase 18: Bucles y Listas (Arrays) 🔄"
+modulo: "Módulo 3 - ¡Dando Vida a la Web! (JavaScript)"
+mision: "Crear un array con las comidas favoritas y mostrarlas una por una en la consola, usando for...of."
+---
+
+# Clase 18: Bucles y Listas (Arrays) 🔄
+
+## ¿Qué es un array?
+
+Un array es una lista de valores guardados en una sola variable.
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+console.log(comidas);
+```
+
+## Accediendo a un elemento del array
+
+Cada elemento tiene una posición, llamada **índice**, que arranca en 0.
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+console.log(comidas[0]); // "pizza"
+console.log(comidas[1]); // "helado"
+console.log(comidas[2]); // "asado"
+```
+
+## El largo de un array
+
+`.length` nos dice cuántos elementos tiene.
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+console.log(comidas.length); // 3
+```
+
+## ¿Qué es un bucle?
+
+Un bucle repite una acción varias veces, sin tener que escribir el código una y otra vez.
+
+```js
+for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+// 0, 1, 2, 3, 4
+```
+
+## Las 3 partes del `for`
+
+```js
+for (inicio; condición; incremento) {
+  // código a repetir
+}
+```
+
+- **Inicio**: `let i = 0` → arranca en 0
+- **Condición**: `i < 5` → se repite mientras esto sea verdadero
+- **Incremento**: `i++` → suma 1 en cada vuelta
+
+## Recorriendo un array con `for`
+
+Acá se combinan los dos conceptos de la clase:
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+for (let i = 0; i < comidas.length; i++) {
+  console.log(comidas[i]);
+}
+```
+
+Usar `comidas.length` en vez de un número fijo es clave: si el array cambia de tamaño, el bucle se adapta solo.
+
+## La forma moderna: `for...of`
+
+Cuando solo necesitamos los **valores** del array (y no nos importa la posición), `for...of` es más corto y es la forma más usada en código actual:
+
+```js
+let comidas = ["pizza", "helado", "asado"];
+
+for (const comida of comidas) {
+  console.log(comida);
+}
+```
+
+No hace falta `comidas.length` ni un índice `i`: JavaScript recorre el array solo, elemento por elemento.
+
+**¿Cuándo usar cada uno?**
+- `for` clásico → cuando necesitás saber en qué posición está cada elemento (el índice).
+- `for...of` → cuando solo te interesa el valor, sin importar la posición. Es la opción más simple para la mayoría de los casos.
+
+## Agregando elementos a un array
+
+```js
+let comidas = ["pizza", "helado"];
+
+comidas.push("asado");
+
+console.log(comidas); // ["pizza", "helado", "asado"]
+```
+
+## 📥 Misión de la clase
+
+Crear un array con las comidas favoritas y mostrarlas una por una en la consola, usando `for...of`.
