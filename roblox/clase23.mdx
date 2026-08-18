@@ -12,6 +12,7 @@ Aprendemos a comunicar el cliente con el servidor usando ReplicatedStorage y Rem
 - Entender por qué el cliente no puede modificar el mundo directamente
 - Crear y usar un RemoteEvent
 - Programar un botón de GUI que active una trampa a través del servidor
+- Evitar que el daño se multiplique por clicks repetidos o por varias partes del cuerpo
 
 ## Contenido
 
@@ -69,7 +70,20 @@ boton.MouseButton1Click:Connect(function()   -- se dispara cuando el jugador hac
 end)
 ```
 
-### 6. La trampa (Script normal, servidor)
+### 6. Dos problemas comunes al hacer daño con Touched
+
+Al conectar `trampa.Touched` para hacer daño, aparecen dos bugs típicos si no se manejan bien:
+
+| Problema | Por qué pasa |
+|---|---|
+| Clicks repetidos multiplican el daño | Cada click crea una **nueva** conexión Touched. Si el jugador hace varios clicks mientras la trampa está activa, quedan varias conexiones sumando daño al mismo tiempo |
+| Un jugador recibe más daño del esperado | `Touched` se dispara **por cada parte del cuerpo** que toca la trampa (pie, pierna, HumanoidRootPart, etc.), no una sola vez por personaje |
+
+La solución es usar dos protecciones:
+- Una variable `activada` para ignorar clicks mientras la trampa ya está funcionando
+- Una tabla `dañados` para registrar qué personajes ya recibieron daño en esa activación, y no repetirlo
+
+### 7. La trampa (Script normal, servidor)
 
 Va en **ServerScriptService**.
 
@@ -78,15 +92,23 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")  -- accede al ser
 local evento = ReplicatedStorage:WaitForChild("ActivarTrampa")  -- espera a que el RemoteEvent exista
 local trampa = workspace.Trampa                                 -- referencia a la trampa en el mapa
 
+local activada = false   -- evita que clicks repetidos activen la trampa de nuevo
+
 evento.OnServerEvent:Connect(function(jugador)   -- se dispara cuando cualquier cliente llama FireServer
-                                                  -- "jugador" llega automatico, es quien disparo el evento
+    if activada then return end                   -- si ya esta activa, ignora el click
+    activada = true
+
     trampa.Color = Color3.fromRGB(255, 0, 0)      -- pinta la trampa de rojo como aviso visual
 
-    local conexion                                -- variable para guardar la conexion del evento
+    local dañados = {}                             -- registra que personajes ya recibieron daño en esta activacion
+
+    local conexion                                 -- variable para guardar la conexion del evento
     conexion = trampa.Touched:Connect(function(mano)   -- detecta quien toca la trampa mientras esta activa
-        local humanoid = mano.Parent:FindFirstChild("Humanoid")  -- busca si es un personaje
-        if humanoid then
-            humanoid.Health = humanoid.Health - 20    -- le quita 20 de vida
+        local personaje = mano.Parent
+        local humanoid = personaje:FindFirstChild("Humanoid")   -- busca si es un personaje
+        if humanoid and not dañados[personaje] then    -- solo si es un personaje y no fue dañado todavia
+            dañados[personaje] = true                    -- lo marca como ya dañado
+            humanoid.Health = humanoid.Health - 20        -- le quita 20 de vida, una sola vez
         end
     end)
 
@@ -94,19 +116,21 @@ evento.OnServerEvent:Connect(function(jugador)   -- se dispara cuando cualquier 
 
     trampa.Color = Color3.fromRGB(255, 255, 255)   -- vuelve a su color normal
     conexion:Disconnect()                           -- deja de escuchar toques, ya no hace mas daño
+    activada = false                                -- permite que se vuelva a activar con un nuevo click
 end)
 ```
 
 > ⚠️ La trampa mantiene su **CanCollide en true**: si se pusiera en false, el jugador caería a través de ella en vez de quedarse parado recibiendo daño.
 
-### 7. Probar con varios clientes
+### 8. Probar con varios clientes
 
 Para ver la comunicación cliente-servidor en acción:
 1. Pestaña **Test** → **Clientes: 2** (o más)
 2. Al darle Play, Studio abre 2 ventanas simulando 2 jugadores conectados al mismo servidor
 3. Un jugador presiona el botón en su pantalla, y la trampa se activa **en las dos ventanas al mismo tiempo**
+4. Con varios jugadores parados en la trampa, cada uno debería perder exactamente 20 de vida, no más
 
-### 8. Estructura en el Explorer
+### 9. Estructura en el Explorer
 
 ```
 ReplicatedStorage
@@ -126,12 +150,13 @@ ServerScriptService
 
 ## Ejercicio
 
-> Consigna: Programá un botón que active una trampa en otra zona del mapa, usando un RemoteEvent.
+> Consigna: Programá un botón que active una trampa en otra zona del mapa, usando un RemoteEvent, y asegurate de que el daño no se multiplique por clicks repetidos ni por varios jugadores tocándola al mismo tiempo.
 
 **Pistas:**
 1. El click solo lo detecta el cliente, pero el daño real tiene que aplicarse en el servidor
-2. Usá `Test → Clientes: 2` para comprobar que el efecto se ve en todas las pantallas
-3. No hagas `CanCollide = false` en la trampa si querés que el jugador se quede parado recibiendo daño
+2. Usá la variable `activada` para que un click no pise a otro mientras la trampa ya está funcionando
+3. Usá la tabla `dañados` para que un mismo personaje no reciba varios golpes por sus distintas partes del cuerpo
+4. Probá con `Test → Clientes: 2` que cada jugador reciba el daño correcto
 
 ## Recursos
 
