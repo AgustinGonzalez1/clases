@@ -17,7 +17,13 @@
         { "titulo": "Clase 1 - ¡Bienvenido a Python!", "archivo": "clase1.mdx" },
         { "titulo": "Clase 2 - Variables", "archivo": "clase2.mdx" },
         { "titulo": "Clase 3 - Input del usuario", "archivo": "clase3.mdx" },
-        { "titulo": "Clase 4", "archivo": "clase4.mdx" }
+        { "titulo": "Clase 4 - Comparando Números", "archivo": "clase4.mdx" },
+        { "titulo": "Clase 5 - Condicionales", "archivo": "clase5.mdx" },
+        { "titulo": "Clase 6 - Condicionales anidados: elif", "archivo": "clase6.mdx" },
+        { "titulo": "Clase 7 - Listas y conjuntos", "archivo": "clase7.mdx" },
+        { "titulo": "Clase 8 - Diccionarios y Tuplas", "archivo": "clase8.mdx" },
+        { "titulo": "Clase 9 - Métodos útiles", "archivo": "clase9.mdx" },
+        { "titulo": "Clase 10 - Bucles con for", "archivo": "clase10.mdx" }
       ]
     },
     {

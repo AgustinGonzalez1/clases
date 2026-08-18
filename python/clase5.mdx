@@ -1,0 +1,210 @@
+---
+title: "Clase 5: Tomando Decisiones (Condicionales) 🧠"
+mision: "Aprender a usar if y else para que nuestros programas elijan su propio camino."
+---
+
+# Clase 5: Tomando Decisiones (Condicionales) 🧠
+
+## ¿Qué es un condicional?
+
+Hasta hoy, nuestro código siempre ejecutaba todas las líneas de arriba hacia abajo. Ahora el programa puede analizar una condición y decidir qué líneas ejecutar y cuáles ignorar.
+
+Un condicional es una estructura que permite que el programa tome decisiones. Para hacerlo, usamos una comparación que devuelve `True` o `False`.
+
+**Ejemplo:**
+
+```python
+puntos = 120
+
+if puntos > 100:
+	print("¡Pasaste de nivel!")
+```
+
+En este ejemplo, el mensaje solo aparece si `puntos > 100` es verdadero. Si la condición es falsa, Python salta el bloque que está dentro del `if` y continúa con la siguiente línea.
+
+---
+
+## El flujo de un programa
+
+Hay dos formas de recorrer un programa:
+
+- **Camino lineal:** las instrucciones se ejecutan obligatoriamente una tras otra, como una receta rígida.
+- **Camino ramificado:** el código se divide y, dependiendo de si una evaluación lógica es verdadera o falsa, se toma una ruta diferente.
+
+Los condicionales nos permiten pasar del camino lineal al camino ramificado.
+
+---
+
+## La estructura de `if`
+
+Un `if` tiene tres partes importantes:
+
+1. **La palabra clave:** iniciamos la decisión con la instrucción reservada `if`, que significa “si” en inglés.
+2. **La condición:** escribimos una comparación que produce `True` o `False`.
+3. **Los dos puntos:** terminamos la línea con `:` para indicar que comienza el bloque de acción.
+
+**Ejemplo:**
+
+```python
+llueve = True
+
+if llueve:
+	print("Llevar paraguas")
+```
+
+La acción se ejecuta porque `llueve` vale `True`. Si `llueve` vale `False`, Python no ejecuta el `print()` que está dentro del bloque.
+
+---
+
+## La sangría (indentation)
+
+En Python, los espacios al principio de una línea no son solo estéticos: son obligatorios. La sangría, normalmente de cuatro espacios o una tecla `Tab`, le indica al intérprete qué instrucciones están dentro de la decisión.
+
+```python
+llueve = True
+
+if llueve:
+	print("Llevar paraguas")  # Esta línea tiene sangría: está dentro del if
+
+print("Salir de casa")        # Esta línea no tiene sangría: se ejecuta siempre
+```
+
+La línea `print("Llevar paraguas")` solo se ejecuta si llueve. En cambio, `print("Salir de casa")` se ejecuta siempre porque está fuera del bloque.
+
+---
+
+## ¿Qué pasa en caso contrario? `else`
+
+Muchas veces necesitamos indicar qué debe hacer el programa cuando la condición no se cumple. Para eso usamos `else`, que significa “si no”.
+
+La instrucción `else:` define el camino alternativo. Se ejecuta automáticamente cuando la condición del `if` da como resultado `False`.
+
+**Regla clave:** `else` nunca lleva una condición escrita al lado. Solo lleva `else:` y su propia sangría.
+
+```python
+tengo_llave = False
+
+if tengo_llave:
+	print("Puerta abierta")
+else:
+	print("Puerta bloqueada")
+```
+
+En cada ejecución se toma un solo camino: el bloque del `if` o el bloque del `else`, nunca los dos.
+
+---
+
+## Ejemplo completo: una altura mínima
+
+Podemos combinar `input()`, `int()` y los operadores de comparación para resolver una situación real. Supongamos que una montaña rusa exige una altura mínima de 140 cm.
+
+```python
+altura = int(input("¿Cuánto medís en cm? "))
+
+if altura >= 140:
+	print("¡Buen viaje! Que te diviertas")
+else:
+	print("Lo siento, eres muy bajito aún")
+```
+
+El operador `>=` significa “mayor o igual que”. Por eso una persona que mide exactamente 140 cm también puede subir.
+
+---
+
+## Analizando el flujo
+
+Antes de ejecutar un programa, podemos seguir mentalmente el camino que tomará:
+
+| Entrada (altura) | ¿altura >= 140? | Camino tomado | Mensaje en pantalla              |
+| ---------------- | --------------- | ------------- | -------------------------------- |
+| `155`            | `True`          | Bloque `if`   | “¡Buen viaje! Que te diviertas”  |
+| `120`            | `False`         | Bloque `else` | “Lo siento, eres muy bajito aún” |
+| `140`            | `True`          | Bloque `if`   | “¡Buen viaje! Que te diviertas”  |
+
+La condición se evalúa primero. Después, Python ejecuta únicamente el bloque correspondiente al resultado.
+
+---
+
+## Otro ejemplo: un detector de fiebre
+
+También podemos usar `float()` cuando el dato puede tener decimales. Una temperatura corporal de 37.5 °C o más se considera fiebre alta en este ejercicio.
+
+```python
+temp = float(input("Temperatura (°C): "))
+
+if temp >= 37.5:
+	print("Alerta: Tienes fiebre")
+else:
+	print("Estás sano, ¡todo bien!")
+```
+
+La decisión cambia según el valor que ingrese el usuario, pero la estructura sigue siendo la misma: condición, dos puntos, sangría y una alternativa con `else`.
+
+---
+
+## 📥 Actividad 1 — El portal secreto
+
+Pedile al usuario que introduzca una contraseña en texto. Si introduce exactamente `"python123"`, dale la bienvenida al sistema de seguridad. En caso contrario, indicále `"Acceso Denegado"`.
+
+**Solución sugerida:**
+
+```python
+clave = input("Contraseña: ")
+
+if clave == "python123":
+	print("Acceso Autorizado")
+else:
+	print("¡Alerta! Acceso Denegado")
+```
+
+Para comparar textos usamos `==`. En este caso no necesitamos transformar la entrada con `int()`, porque la contraseña es texto.
+
+---
+
+## 📥 Actividad 2 — Detector de fiebre
+
+Una temperatura corporal de 37.5 °C o más se considera fiebre alta. Pedile al usuario su temperatura actual, transformala usando `float()` y avisale si tiene fiebre o está sano.
+
+**Solución sugerida:**
+
+```python
+temp = float(input("Temperatura (°C): "))
+
+if temp >= 37.5:
+	print("Alerta: Tienes fiebre")
+else:
+	print("Estás sano, ¡todo bien!")
+```
+
+---
+
+## Desafíos de código
+
+Es momento de integrar lo aprendido en las clases anteriores: variables, entradas de usuario, operadores matemáticos y lógica de comparación.
+
+Podés intentar estos desafíos antes de mirar las soluciones:
+
+1. Pedí una edad y avisá si la persona puede entrar a una función para mayores de 13 años.
+2. Pedí dos números y avisá si son iguales o si son diferentes.
+3. Pedí una cantidad de puntos y mostrale al jugador un mensaje de premio si tiene al menos 100 puntos.
+
+**Ejemplo de solución para el primer desafío:**
+
+```python
+edad = int(input("¿Cuántos años tenés? "))
+
+if edad >= 13:
+	print("Puedes entrar")
+else:
+	print("Todavía no puedes entrar")
+```
+
+---
+
+## Cierre y anticipación
+
+Hoy aprendimos a darle un cerebro lógico a nuestro código. Con `if`, el programa ejecuta una acción cuando una condición es verdadera; con `else`, tiene un camino alternativo cuando la condición es falsa.
+
+También aprendimos que los dos puntos y la sangría son obligatorios, y que en cada decisión se ejecuta un solo bloque.
+
+En la **Clase 6** vamos a aprender a encadenar varias decisiones con `elif`, para resolver casos con más de dos posibilidades sin tener que escribir condicionales innecesarios.

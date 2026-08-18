@@ -1,0 +1,271 @@
+---
+title: "Clase 6: Más Decisiones (elif y Condicionales Anidados) 🧠"
+mision: "Aprender a usar elif y condicionales anidados para que nuestros programas elijan entre muchos caminos."
+---
+
+# Clase 6: Más Decisiones (elif y Condicionales Anidados) 🧠
+
+## ¿Qué aprendimos hasta ahora?
+
+En las clases anteriores aprendimos a guardar información en variables, pedir datos al usuario con `input()` y comparar valores con operadores como `>`, `<` y `==`.
+
+También aprendimos a tomar decisiones binarias con `if` y `else`:
+
+```python
+if condicion:
+	print("Hacemos A")
+else:
+	print("Hacemos B")
+```
+
+Esta estructura sirve cuando solo existen dos caminos posibles: sí o no, verdadero o falso, encendido o apagado.
+
+---
+
+## El límite de tener solo dos opciones
+
+En la vida real muchas situaciones tienen más de dos posibilidades. El clima, por ejemplo, no es solamente “llueve” o “no llueve”. Puede hacer frío, calor, estar nublado, llover o nevar.
+
+Si intentáramos resolver todas esas posibilidades usando únicamente `if` y `else`, el código podría volverse difícil de leer. Para agregar alternativas intermedias usamos `elif`.
+
+---
+
+## Conocé la palabra clave `elif`
+
+`elif` significa **“else if”**, es decir, “si no, si...”. Nos permite agregar una nueva condición cuando el `if` anterior fue falso.
+
+```python
+clima = input("¿Cómo está el clima? ")
+
+if clima == "lluvia":
+	print("Lleva paraguas")
+elif clima == "frio":
+	print("Lleva abrigo")
+else:
+	print("Ropa normal")
+```
+
+El programa primero pregunta si el clima es lluvia. Si no lo es, pregunta si es frío. Si ninguna de esas condiciones se cumple, ejecuta el bloque `else`.
+
+---
+
+## ¿Cómo funciona la evaluación?
+
+Python evalúa las condiciones de arriba hacia abajo y se detiene en la **primera condición verdadera**.
+
+```python
+clima = "frio"
+
+if clima == "lluvia":
+	print("Lleva paraguas")
+elif clima == "frio":
+	print("Lleva abrigo")
+elif clima == "calor":
+	print("Usa ropa liviana")
+else:
+	print("Clima no reconocido")
+```
+
+En este ejemplo, la primera pregunta es falsa. Python continúa hasta el primer `elif` verdadero, muestra `"Lleva abrigo"` y salta el resto de las alternativas.
+
+Aunque hubiera otras condiciones verdaderas más abajo, Python no las revisaría después de encontrar una respuesta verdadera.
+
+---
+
+## Reglas de oro para usar `elif`
+
+1. **Siempre empieza con `if`:** no se puede usar `elif` sin un `if` inicial.
+2. **Podés usar varios `elif`:** podés agregar dos, tres o todos los que necesites.
+3. **La evaluación es en orden:** Python revisa de arriba hacia abajo y se detiene en la primera condición verdadera.
+4. **Los dos puntos son obligatorios:** `if`, `elif` y `else` terminan con `:`.
+5. **`else` es opcional:** podés terminar la estructura con un `elif` si no necesitás un caso general.
+
+**Ejemplo con varias alternativas:**
+
+```python
+nota = int(input("¿Qué nota obtuviste? "))
+
+if nota == 10:
+	print("Sobresaliente")
+elif nota >= 6:
+	print("Aprobado")
+else:
+	print("Reprobado")
+```
+
+---
+
+## `if`, `elif` y `else`: ¿cuándo usar cada uno?
+
+| Estructura             | ¿Para qué sirve?                                | Ejemplo                            |
+| ---------------------- | ----------------------------------------------- | ---------------------------------- |
+| `if ... else`          | Elegir entre dos alternativas                   | ¿Eres mayor de edad o no?          |
+| `if ... elif ... else` | Elegir entre múltiples opciones exclusivas      | Semáforo: rojo, amarillo o verde   |
+| `if` anidado           | Tomar una decisión que depende de otra anterior | ¿Tiene entrada? ¿Es VIP o general? |
+
+---
+
+## 📥 Misión de la clase: Asistente virtual de vestuario
+
+Vamos a crear un programa que le pregunte al usuario cómo está el clima y le recomiende automáticamente qué ropa ponerse.
+
+El programa debe aceptar estas opciones:
+
+- `"calor"`
+- `"frio"`
+- `"lluvia"`
+- `"nieve"`
+
+Si el usuario escribe otra opción, el programa debe avisar que el clima no fue reconocido.
+
+**Entrada:** `"calor"`, `"frio"`, `"lluvia"` o `"nieve"`.
+
+**Salida:** una recomendación personalizada.
+
+**Solución sugerida:**
+
+```python
+clima = input("¿Cómo está el clima? ")
+
+if clima == "lluvia":
+	print("Usa piloto y botas")
+elif clima == "frio":
+	print("Usa campera pesada")
+elif clima == "calor":
+	print("Usa remera y shorts")
+elif clima == "nieve":
+	print("Usa abrigo, guantes y gorro")
+else:
+	print("Clima no reconocido")
+```
+
+Este programa tiene varios caminos, pero solo ejecuta uno por cada respuesta del usuario.
+
+---
+
+## ¿Por qué importa el orden?
+
+El orden de las condiciones puede cambiar el resultado. Python no busca todas las respuestas correctas: ejecuta la primera que encuentra.
+
+Por eso conviene escribir las condiciones con cuidado y colocar primero los casos más específicos cuando una condición puede incluir a otra.
+
+```python
+puntaje = 95
+
+if puntaje >= 90:
+	print("Nivel excelente")
+elif puntaje >= 60:
+	print("Nivel aprobado")
+else:
+	print("Necesitas practicar")
+```
+
+Como `95` cumple también `puntaje >= 60`, es importante que la condición más específica aparezca primero. De lo contrario, el programa podría mostrar un mensaje demasiado general.
+
+---
+
+## ¿Qué es un condicional anidado?
+
+Un condicional anidado es una decisión dentro de otra decisión. Es como tomar una decisión secundaria solo después de que se cumplió una condición principal.
+
+**Ejemplo:**
+
+```python
+tiene_entrada = True
+
+if tiene_entrada:
+	tipo_entrada = input("¿Tu entrada es VIP o general? ")
+
+	if tipo_entrada == "VIP":
+		print("Puedes pasar a la zona VIP")
+	else:
+		print("Puedes pasar a la zona general")
+else:
+	print("No puedes ingresar")
+```
+
+Primero se pregunta si la persona tiene entrada. Solo si la respuesta es verdadera se realiza la segunda pregunta: si la entrada es VIP o general.
+
+---
+
+## Anidado en acción: clima y viento
+
+Podemos combinar `elif` con un condicional anidado. En este ejemplo, solo preguntamos por el viento si el clima es frío.
+
+```python
+clima = input("¿Cómo está el clima? ")
+
+if clima == "frio":
+	viento = input("¿Hay mucho viento? (si/no) ")
+
+	if viento == "si":
+		print("Lleva campera rompevientos")
+	else:
+		print("Lleva un buzo cómodo")
+elif clima == "lluvia":
+	print("Lleva paraguas")
+else:
+	print("No hace falta abrigarse tanto")
+```
+
+### La sangría es la clave
+
+Observá los espacios a la izquierda: el segundo `if` está dentro del primero. Python sabe que pertenece al bloque superior gracias a los cuatro espacios de indentación.
+
+Si la sangría es incorrecta, el programa puede producir un error o tomar una decisión diferente de la que imaginamos.
+
+---
+
+## 📥 Desafío de código extra
+
+Elegí uno o varios niveles para practicar:
+
+### Nivel 1: Temperatura
+
+Pedí la temperatura en grados. Si es menor que 10, mostrale `"Frío"`; si está entre 10 y 25, mostrale `"Templado"`; si es mayor que 25, mostrale `"Calor"`.
+
+```python
+temperatura = float(input("Temperatura: "))
+
+if temperatura < 10:
+	print("Frío")
+elif temperatura <= 25:
+	print("Templado")
+else:
+	print("Calor")
+```
+
+### Nivel 2: Sistema de notas
+
+Convertí una nota del 1 al 10 en un mensaje: 10 es `"Sobresaliente"`, de 6 a 9 es `"Aprobado"` y menor que 6 es `"Reprobado"`.
+
+```python
+nota = int(input("Nota del 1 al 10: "))
+
+if nota == 10:
+	print("Sobresaliente")
+elif nota >= 6:
+	print("Aprobado")
+else:
+	print("Reprobado")
+```
+
+### Nivel 3: Aventura RPG
+
+Creá una mini aventura conversacional con decisiones anidadas según las respuestas del usuario. Por ejemplo, primero preguntá si quiere entrar al castillo y después, si entra, preguntá si desea explorar la torre o el calabozo.
+
+---
+
+## Cierre y anticipación
+
+Hoy aprendimos a enseñarles a nuestros programas a tomar múltiples caminos inteligentes. Con `elif` podemos representar varias opciones exclusivas y con los condicionales anidados podemos hacer que una decisión dependa de otra.
+
+Recordá estas ideas:
+
+- `if` inicia la decisión.
+- `elif` agrega alternativas intermedias.
+- `else` resuelve el caso restante.
+- Python evalúa de arriba hacia abajo y se detiene en la primera condición verdadera.
+- La sangría indica qué instrucciones pertenecen a cada bloque.
+
+En las próximas clases vamos a seguir construyendo programas más completos con nuevas estructuras de Python.

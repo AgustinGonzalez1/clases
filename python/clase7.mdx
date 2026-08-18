@@ -1,0 +1,335 @@
+---
+title: "Clase 7: Listas y Conjuntos 📦"
+mision: "Aprender a guardar, ordenar y manipular colecciones de información en tus programas."
+---
+
+# Clase 7: Listas y Conjuntos 📦
+
+## Nuestro camino hasta ahora
+
+En las primeras clases aprendimos a mostrar mensajes, guardar datos en variables, pedir información con `input()` y tomar decisiones usando `if`, `elif` y `else`.
+
+Hasta ahora cada variable guardaba un solo dato. Pero ¿qué pasa si queremos guardar 10, 50 o 100 elementos sin crear cientos de variables?
+
+Para eso existen las colecciones. En esta clase vamos a conocer dos estructuras muy útiles: las **listas** y los **conjuntos**.
+
+---
+
+## ¿Qué es una lista en Python?
+
+Una lista es una estructura de datos que permite guardar múltiples valores dentro de una sola variable, en un orden específico.
+
+Las listas se crean usando corchetes `[ ]` y separando cada elemento con una coma.
+
+```python
+frutas = ["manzana", "banana", "uva"]
+
+print(frutas)
+```
+
+Una lista puede guardar textos, números, valores booleanos e incluso distintos tipos de datos juntos.
+
+```python
+lista_mixta = ["manzana", 42, 3.14, True]
+
+print(lista_mixta)
+```
+
+Una lista mantiene el orden en el que agregamos sus elementos y permite que existan valores repetidos.
+
+---
+
+## Índices y posiciones
+
+Cada elemento de una lista tiene una posición llamada **índice**. Python empieza a contar los índices desde `0`, no desde `1`.
+
+```python
+frutas = ["manzana", "banana", "uva"]
+
+print(frutas[0])
+print(frutas[1])
+```
+
+La salida es:
+
+```text
+manzana
+banana
+```
+
+La primera fruta está en la posición `0`, la segunda en la posición `1` y la tercera en la posición `2`.
+
+### Una forma de recordarlo
+
+```text
+Índice:  0          1         2
+Valor:   manzana    banana    uva
+```
+
+Si intentamos usar un índice que no existe, Python mostrará un error porque no hay ningún elemento en esa posición.
+
+---
+
+## Índices negativos
+
+También podemos contar desde el final de la lista usando números negativos. El índice `-1` representa el último elemento.
+
+```python
+frutas = ["manzana", "banana", "uva"]
+
+print(frutas[-1])
+print(frutas[-2])
+```
+
+La salida es:
+
+```text
+uva
+banana
+```
+
+Los índices negativos son útiles cuando queremos obtener el último elemento sin saber cuántos elementos tiene la lista.
+
+---
+
+## Cambiar un elemento de la lista
+
+Las listas se pueden modificar después de crearlas. Para cambiar un valor, elegimos su índice y le asignamos otro dato.
+
+```python
+colores = ["rojo", "azul", "verde"]
+
+colores[1] = "amarillo"
+
+print(colores)
+```
+
+La lista ahora queda así:
+
+```text
+["rojo", "amarillo", "verde"]
+```
+
+---
+
+## Métodos básicos de listas
+
+Python incluye métodos que nos permiten agregar, quitar y contar elementos fácilmente.
+
+### `append()` — agregar al final
+
+`append()` agrega un nuevo elemento al final de la lista.
+
+```python
+lista = ["pan", "leche"]
+
+lista.append("jugo")
+
+print(lista)
+```
+
+La lista queda `['pan', 'leche', 'jugo']`.
+
+### `remove()` — quitar por valor
+
+`remove()` busca y elimina el primer elemento que coincide exactamente con el valor indicado.
+
+```python
+lista = ["pan", "leche", "jugo"]
+
+lista.remove("pan")
+
+print(lista)
+```
+
+Si el valor no existe, `remove()` produce un error. Por eso conviene comprobar antes si el elemento está en la lista.
+
+```python
+if "pan" in lista:
+	lista.remove("pan")
+```
+
+### `pop()` — quitar por posición
+
+`pop()` elimina un elemento usando su índice. Si no indicamos un índice, elimina el último elemento.
+
+```python
+lista = ["pan", "leche", "jugo"]
+
+lista.pop(1)
+
+print(lista)
+```
+
+### `len()` — conocer el tamaño
+
+`len()` devuelve cuántos elementos hay guardados.
+
+```python
+lista = ["pan", "leche", "jugo"]
+
+total = len(lista)
+print(total)
+```
+
+La salida es `3`.
+
+---
+
+## Tabla rápida de operaciones con listas
+
+| Operación           | ¿Qué hace?                        | Ejemplo                 |
+| ------------------- | --------------------------------- | ----------------------- |
+| Acceder             | Obtiene un elemento por índice    | `lista[0]`              |
+| Cambiar             | Reemplaza un elemento             | `lista[1] = "nuevo"`    |
+| Agregar             | Añade un elemento al final        | `lista.append("nuevo")` |
+| Quitar              | Elimina un valor específico       | `lista.remove("nuevo")` |
+| Quitar por posición | Elimina un índice                 | `lista.pop(0)`          |
+| Contar              | Devuelve la cantidad de elementos | `len(lista)`            |
+
+---
+
+## ¿Qué es un conjunto (`set`)?
+
+Un conjunto es una colección de valores que se crea usando llaves `{ }`.
+
+Los conjuntos tienen dos reglas importantes:
+
+1. **No permiten duplicados:** si agregamos un valor repetido, Python lo ignora automáticamente.
+2. **No tienen un orden fijo:** no se accede a sus elementos usando índices numéricos como `[0]`.
+
+```python
+numeros = {1, 2, 2, 3}
+
+print(numeros)
+```
+
+El resultado contiene cada número una sola vez: `{1, 2, 3}`.
+
+No podemos escribir `numeros[0]`, porque los conjuntos no tienen posiciones ordenadas.
+
+---
+
+## Operaciones con conjuntos
+
+### `add()` — incorporar un valor
+
+```python
+amigos = {"Ana", "Luis"}
+
+amigos.add("Sofia")
+
+print(amigos)
+```
+
+Si agregamos otra vez `"Sofia"`, el conjunto no crea un duplicado.
+
+### `discard()` — quitar sin generar error
+
+`discard()` elimina un elemento si existe. Si no existe, no detiene el programa con un error.
+
+```python
+amigos = {"Ana", "Luis", "Sofia"}
+
+amigos.discard("Ana")
+amigos.discard("Pedro")
+
+print(amigos)
+```
+
+### `in` — comprobar pertenencia
+
+La palabra `in` permite verificar rápidamente si un elemento pertenece a un conjunto.
+
+```python
+amigos = {"Ana", "Luis", "Sofia"}
+
+if "Sofia" in amigos:
+	print("Sofia está invitada")
+```
+
+La expresión `"Sofia" in amigos` devuelve `True` si el nombre está en el conjunto y `False` si no está.
+
+---
+
+## Listas frente a conjuntos
+
+| Característica     | Listas (`list`)         | Conjuntos (`set`)          |
+| ------------------ | ----------------------- | -------------------------- |
+| Sintaxis           | `["a", "b", "c"]`       | `{"a", "b", "c"}`          |
+| Permite duplicados | Sí, guarda todos        | No, filtra repetidos       |
+| Mantiene el orden  | Sí, en orden de ingreso | No tiene orden fijo        |
+| Acceso por índice  | Sí: `lista[0]`          | No: `set[0]` produce error |
+| Ideal para         | Colecciones ordenadas   | Valores únicos y búsquedas |
+
+Elegimos una lista cuando el orden importa o puede haber repetidos. Elegimos un conjunto cuando necesitamos evitar duplicados o comprobar pertenencia rápidamente.
+
+---
+
+## 📥 Misión: lista de compras
+
+Creá un programa interactivo en Python para gestionar una lista de compras.
+
+### Requisitos de la misión
+
+1. Iniciá el programa con una lista vacía: `compras = []`.
+2. Pedí al usuario que ingrese un nuevo ítem con `input()`.
+3. Permití agregar un ítem usando `append()` o quitarlo usando `remove()`.
+4. Mostrá en pantalla el total de elementos con `len()`.
+
+**Solución sugerida:**
+
+```python
+compras = []
+
+item = input("¿Qué producto quieres gestionar? ")
+accion = input("¿Quieres agregarlo o quitarlo? ")
+
+if accion == "agregar":
+	compras.append(item)
+	print("Producto agregado")
+elif accion == "quitar":
+	if item in compras:
+		compras.remove(item)
+		print("Producto quitado")
+	else:
+		print("Ese producto no está en la lista")
+else:
+	print("Acción no reconocida")
+
+print("Lista de compras:", compras)
+print("Total de productos:", len(compras))
+```
+
+La comprobación `if item in compras` evita que `remove()` intente borrar un producto que no existe.
+
+---
+
+## Más ideas para practicar
+
+Podés ampliar la misión con estas funciones:
+
+1. Mostrar todos los productos de la lista.
+2. Cambiar un producto por otro usando su índice.
+3. Eliminar el último producto con `pop()`.
+4. Crear una lista de invitados y comprobar si una persona está incluida.
+5. Convertir una lista con nombres repetidos en un conjunto para dejar un solo nombre de cada tipo.
+
+**Ejemplo: eliminar duplicados:**
+
+```python
+nombres = ["Ana", "Luis", "Ana", "Sofia", "Luis"]
+unicos = set(nombres)
+
+print(unicos)
+```
+
+---
+
+## Cierre y anticipación
+
+Hoy aprendimos a usar una sola variable para guardar muchos elementos. Las listas mantienen el orden, permiten duplicados y usan índices. Los conjuntos eliminan duplicados, no tienen un orden fijo y son muy útiles para comprobar pertenencia.
+
+También practicamos operaciones esenciales como `append()`, `remove()`, `pop()`, `len()`, `add()`, `discard()` e `in`.
+
+En la **Clase 8** vamos a conocer los **diccionarios y las tuplas**, dos estructuras que nos permitirán organizar información de nuevas maneras.
