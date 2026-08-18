@@ -1,4 +1,146 @@
 ---
-title: "Clase 4"
-mision: ""
+title: "Clase 4: Comparando Números (Operadores de Comparación) 🔍"
+mision: "Aprender a comparar números con operadores como >, <, == y != para tomar decisiones simples."
 ---
+
+# Clase 4: Comparando Números (Operadores de Comparación) 🔍
+
+## ¿Qué son los operadores de comparación?
+
+Hasta ahora aprendimos a guardar información y a pedir datos al usuario. Pero también necesitamos saber cómo comparar esos datos. Por ejemplo: ¿es un número mayor que 10? ¿es igual a 5? ¿es distinto de 0?
+
+Python tiene operadores de comparación que nos ayudan a responder esas preguntas. Cuando comparamos algo, el resultado siempre es un valor booleano: `True` o `False`.
+
+**Ejemplo:**
+
+```python
+print(5 > 3)   # True
+print(2 < 1)   # False
+```
+
+En palabras simples: si la comparación es correcta, Python responde `True`; si no lo es, responde `False`.
+
+---
+
+## Los operadores más importantes
+
+Estos son los que más usamos en la clase:
+
+- `>`: mayor que
+- `<`: menor que
+- `>=`: mayor o igual que
+- `<=`: menor o igual que
+- `==`: igual que
+- `!=`: distinto de
+
+**Ejemplo — comparando números:**
+
+```python
+print(10 > 7)    # True
+print(10 < 7)    # False
+print(10 == 10)  # True
+print(10 != 7)   # True
+```
+
+**Ejemplo — con variables:**
+
+```python
+edad = 12
+print(edad > 10)   # True
+print(edad == 12)  # True
+```
+
+Estos operadores son la base para tomar decisiones en el programa, porque nos permiten preguntar: “¿se cumple esta condición?”
+
+---
+
+## ¿Qué significa `==` y por qué no se usa `=`?
+
+Esto suele confundir a los alumnos al principio. La diferencia es clave:
+
+- `=` se usa para asignar un valor a una variable
+- `==` se usa para comparar si dos valores son iguales
+
+**Ejemplo — asignación:**
+
+```python
+numero = 5
+```
+
+**Ejemplo — comparación:**
+
+```python
+print(numero == 5)   # True
+```
+
+Si escribimos `numero = 5`, estamos guardando el valor 5 en la variable. Si escribimos `numero == 5`, estamos preguntando si esa variable vale 5.
+
+---
+
+## Comparaciones con textos también se pueden hacer
+
+Aunque en esta clase el foco principal son los números, también se pueden comparar textos.
+
+**Ejemplo:**
+
+```python
+print("hola" == "hola")   # True
+print("hola" != "adios")  # True
+```
+
+Para este curso, lo más importante es entender que Python responde con `True` o `False` según la comparación.
+
+---
+
+## Comparación práctica: ¿es mayor o menor que 10?
+
+Una de las mejores formas de entender esto es comparar un número con 10.
+
+**Ejemplo:**
+
+```python
+numero = 7
+
+print(numero > 10)    # False
+print(numero < 10)    # True
+print(numero == 10)   # False
+```
+
+Esto nos dice inmediatamente si el número es menor, mayor o igual a 10.
+
+---
+
+## 📥 La misión — escribir un programa que diga si un número es mayor o menor que 10
+
+**Enunciado para los alumnos:**
+
+Escribí un programa que pida al usuario un número y diga si ese número es mayor, menor o igual que 10.
+
+**Ejemplo de solución:**
+
+```python
+numero = int(input("Ingresá un número: "))
+
+if numero > 10:
+    print("El número es mayor que 10")
+elif numero < 10:
+    print("El número es menor que 10")
+else:
+    print("El número es igual a 10")
+```
+
+> Este ejemplo ya muestra un vistazo de lo que viene en la siguiente clase: usar condiciones para decidir qué mensaje mostrar.
+
+---
+
+## Cierre y anticipación
+
+Con los operadores de comparación ya podemos preguntar cosas como “¿es mayor?”, “¿es menor?”, “¿es igual?”. Eso es exactamente lo que necesitamos para empezar a tomar decisiones dentro de un programa.
+
+En la **Clase 5** vamos a aprender a usar `if`, `elif` y `else` para decidir qué hacer según el resultado de esa comparación.
+
+Luego, en la **Clase 6**, veremos decisiones más complejas con condicionales anidados, donde una condición puede depender de otra.
+
+Después, en la **Clase 7**, entraremos en **Listas y Conjuntos**, que nos permiten guardar varios valores juntos.
+
+Y en la **Clase 8** vamos a estudiar **Diccionarios y Tuplas**, estructuras muy útiles para organizar información en programas más grandes.
