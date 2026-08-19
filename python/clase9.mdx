@@ -1,0 +1,573 @@
+---
+title: "Clase 9: Métodos Útiles 🛠️"
+mision: "Aprender a usar métodos de textos y listas para transformar datos escribiendo menos código."
+---
+
+# Clase 9: Métodos Útiles 🛠️
+
+## El camino recorrido
+
+En las clases anteriores aprendimos a trabajar con variables, decisiones, listas, conjuntos, tuplas y diccionarios.
+
+Muchas de esas estructuras ya tienen acciones preparadas que podemos usar directamente. Por ejemplo, una lista puede agregar elementos y un texto puede convertirse a mayúsculas. Estas acciones se llaman **métodos**.
+
+En esta clase vamos a descubrir métodos que nos ayudarán a trabajar con textos y listas de forma rápida y ordenada.
+
+---
+
+## ¿Qué es un método en Python?
+
+Un método es una acción especial que pertenece a un objeto o tipo de dato. Se ejecuta escribiendo un punto `.` después del objeto y luego el nombre del método con paréntesis.
+
+```python
+texto = "Hola"
+
+mayusculas = texto.upper()
+
+print(mayusculas)
+```
+
+La salida es:
+
+```text
+HOLA
+```
+
+En este ejemplo, `upper()` es un método de los textos. Recibe el contenido de `texto`, lo transforma y devuelve un nuevo resultado.
+
+---
+
+## Funciones y métodos
+
+Las funciones y los métodos pueden realizar tareas parecidas, pero se escriben de maneras diferentes.
+
+### Funciones globales
+
+Una función global es independiente del dato. Recibe el dato como argumento dentro de sus paréntesis.
+
+```python
+texto = "Hola"
+
+largo = len(texto)
+
+print(largo)
+```
+
+`len()` es una función global que recibe `texto` como argumento.
+
+### Métodos de objeto
+
+Un método pertenece al objeto y se invoca usando un punto.
+
+```python
+texto = "Hola"
+
+mayusculas = texto.upper()
+
+print(mayusculas)
+```
+
+`upper()` pertenece al texto, por eso se escribe `texto.upper()`.
+
+| Tipo    | Sintaxis        | Ejemplo         |
+| ------- | --------------- | --------------- |
+| Función | `funcion(dato)` | `len(texto)`    |
+| Método  | `dato.metodo()` | `texto.upper()` |
+
+---
+
+## Los métodos no siempre modifican el objeto
+
+Los textos son inmutables. Esto significa que sus métodos no cambian el texto original: devuelven un texto nuevo.
+
+```python
+mensaje = "hola"
+
+mayusculas = mensaje.upper()
+
+print(mensaje)
+print(mayusculas)
+```
+
+La salida es:
+
+```text
+hola
+HOLA
+```
+
+Si queremos conservar el resultado, debemos guardarlo en una variable o mostrarlo directamente.
+
+```python
+mensaje = mensaje.upper()
+print(mensaje)
+```
+
+Las listas sí pueden ser modificadas por algunos de sus métodos, como `append()` y `sort()`.
+
+---
+
+## Métodos esenciales de textos
+
+Los textos, también llamados cadenas o `strings`, tienen muchos métodos para limpiar, transformar y dividir información.
+
+### `upper()` — convertir a mayúsculas
+
+`upper()` devuelve una copia del texto con todas sus letras en mayúsculas.
+
+```python
+saludo = "hola mundo"
+
+print(saludo.upper())
+```
+
+La salida es `HOLA MUNDO`.
+
+### `lower()` — convertir a minúsculas
+
+`lower()` devuelve una copia del texto con todas sus letras en minúsculas.
+
+```python
+mensaje = "HOLA MUNDO"
+
+print(mensaje.lower())
+```
+
+La salida es `hola mundo`.
+
+Estos métodos son muy útiles para comparar entradas sin preocuparnos por si la persona escribió en mayúsculas o minúsculas.
+
+```python
+respuesta = input("¿Quieres continuar? ").lower()
+
+if respuesta == "si":
+	print("Continuamos")
+```
+
+---
+
+### `strip()` — limpiar espacios sobrantes
+
+`strip()` elimina los espacios en blanco que aparecen al principio y al final de un texto.
+
+```python
+nombre = "   Sofia   "
+
+nombre_limpio = nombre.strip()
+
+print(nombre_limpio)
+```
+
+La salida es `Sofia`, sin los espacios exteriores.
+
+Esto resulta especialmente útil para limpiar datos ingresados por el usuario.
+
+```python
+nombre = input("Escribe tu nombre: ").strip()
+print(f"Hola, {nombre}")
+```
+
+`strip()` no elimina los espacios que están entre palabras.
+
+```python
+texto = "  Python es genial  "
+print(texto.strip())
+```
+
+---
+
+### `replace()` — reemplazar texto
+
+`replace()` sustituye una parte del texto por otra.
+
+```python
+mensaje = "Python es dificil"
+
+mensaje = mensaje.replace("dificil", "genial")
+
+print(mensaje)
+```
+
+La salida es `Python es genial`.
+
+El método recibe dos argumentos: primero indicamos qué queremos buscar y después escribimos el reemplazo.
+
+```python
+palabra = "sol"
+resultado = palabra.replace("o", "a")
+
+print(resultado)
+```
+
+La salida es `sal`.
+
+También podemos usar `replace()` para censurar una palabra:
+
+```python
+comentario = "Este mensaje contiene una palabra"
+comentario = comentario.replace("palabra", "***")
+
+print(comentario)
+```
+
+---
+
+### `split()` — convertir un texto en lista
+
+`split()` divide un texto y devuelve una lista. Si no indicamos un separador, divide usando los espacios.
+
+```python
+frase = "Python es genial"
+
+palabras = frase.split()
+
+print(palabras)
+```
+
+La salida es:
+
+```text
+['Python', 'es', 'genial']
+```
+
+También podemos indicar otro separador.
+
+```python
+fecha = "2026-08-19"
+partes = fecha.split("-")
+
+print(partes)
+```
+
+La salida es `['2026', '08', '19']`.
+
+---
+
+### `join()` — unir una lista en un texto
+
+`join()` hace la operación inversa a `split()`: une los elementos de una lista usando el texto indicado como separador.
+
+```python
+palabras = ["Python", "es", "genial"]
+
+frase = " ".join(palabras)
+
+print(frase)
+```
+
+La salida es `Python es genial`.
+
+Podemos usar cualquier separador:
+
+```python
+partes = ["2026", "08", "19"]
+fecha = "-".join(partes)
+
+print(fecha)
+```
+
+La salida es `2026-08-19`.
+
+Los elementos de la lista deben ser textos para poder usar `join()` directamente.
+
+---
+
+## Métodos esenciales de listas
+
+Las listas son mutables, por eso sus métodos pueden agregar, quitar, ordenar o modificar elementos.
+
+### `append()` — agregar al final
+
+`append()` agrega un elemento al final de la lista.
+
+```python
+numeros = [1, 2]
+
+numeros.append(3)
+
+print(numeros)
+```
+
+La salida es `[1, 2, 3]`.
+
+### `pop()` — quitar por posición
+
+`pop()` elimina un elemento usando su índice. Si no indicamos un índice, elimina y devuelve el último elemento.
+
+```python
+numeros = [10, 20, 30]
+
+ultimo = numeros.pop()
+
+print(ultimo)
+print(numeros)
+```
+
+La salida es:
+
+```text
+30
+[10, 20]
+```
+
+También podemos indicar una posición:
+
+```python
+numeros = [10, 20, 30]
+eliminado = numeros.pop(1)
+
+print(eliminado)
+print(numeros)
+```
+
+### `remove()` — quitar por valor
+
+`remove()` elimina la primera aparición del valor indicado.
+
+```python
+numeros = [1, 2, 3, 2]
+
+numeros.remove(2)
+
+print(numeros)
+```
+
+La salida es `[1, 3, 2]`. Si el valor no existe, `remove()` produce un error, por lo que podemos comprobar antes con `in`.
+
+```python
+if 5 in numeros:
+	numeros.remove(5)
+```
+
+---
+
+### `sort()` — ordenar una lista
+
+`sort()` ordena los elementos de menor a mayor o en orden alfabético.
+
+```python
+letras = ["b", "a", "c"]
+
+letras.sort()
+
+print(letras)
+```
+
+La salida es `['a', 'b', 'c']`.
+
+También podemos ordenar de mayor a menor usando `reverse=True`.
+
+```python
+notas = [7, 10, 6, 9]
+
+notas.sort(reverse=True)
+
+print(notas)
+```
+
+### `reverse()` — invertir el orden
+
+`reverse()` invierte el orden actual de los elementos.
+
+```python
+colores = ["rojo", "verde", "azul"]
+
+colores.reverse()
+
+print(colores)
+```
+
+La salida es `['azul', 'verde', 'rojo']`.
+
+### `count()` — contar apariciones
+
+`count()` cuenta cuántas veces aparece un valor.
+
+```python
+votos = ["A", "B", "A", "A", "C"]
+
+cantidad = votos.count("A")
+
+print(cantidad)
+```
+
+La salida es `3`.
+
+---
+
+## Tabla comparativa de métodos
+
+| Método           | Se aplica a     | ¿Qué hace?                             | Ejemplo de resultado                 |
+| ---------------- | --------------- | -------------------------------------- | ------------------------------------ |
+| `.upper()`       | Textos          | Transforma a mayúsculas                | `"python"` → `"PYTHON"`              |
+| `.lower()`       | Textos          | Transforma a minúsculas                | `"PYTHON"` → `"python"`              |
+| `.strip()`       | Textos          | Quita espacios al inicio y al final    | `" texto "` → `"texto"`              |
+| `.replace(a, b)` | Textos          | Reemplaza un texto por otro            | `"sol"` → `"sal"`                    |
+| `.split()`       | Textos          | Divide el texto en una lista           | `"Hola Mundo"` → `['Hola', 'Mundo']` |
+| `.join(lista)`   | Textos          | Une una lista en un texto              | `"-".join(...)`                      |
+| `.append(x)`     | Listas          | Agrega un elemento al final            | `[1, 2]` → `[1, 2, 3]`               |
+| `.pop()`         | Listas          | Quita y devuelve un elemento           | `[1, 2]` → `2`                       |
+| `.remove(x)`     | Listas          | Quita la primera aparición de un valor | `[1, 2]` → `[1]`                     |
+| `.sort()`        | Listas          | Ordena los elementos                   | `['b', 'a']` → `['a', 'b']`          |
+| `.reverse()`     | Listas          | Invierte el orden                      | `[1, 2]` → `[2, 1]`                  |
+| `.count(x)`      | Listas y textos | Cuenta apariciones                     | `"a".count("a")` → `1`               |
+
+---
+
+## El poder de los métodos encadenados
+
+Python permite conectar un método detrás de otro de forma secuencial. Cada método devuelve un resultado que puede recibir el siguiente.
+
+```python
+texto = "  hola mundo  "
+
+limpio = texto.strip().upper().replace("MUNDO", "PYTHON")
+
+print(limpio)
+```
+
+La salida es:
+
+```text
+HOLA PYTHON
+```
+
+El programa realiza tres pasos:
+
+1. `strip()` elimina los espacios exteriores.
+2. `upper()` transforma el texto a mayúsculas.
+3. `replace()` cambia `MUNDO` por `PYTHON`.
+
+El encadenamiento puede ahorrar muchas líneas, pero conviene separar los pasos en variables cuando la expresión se vuelve difícil de leer.
+
+```python
+texto = "  hola mundo  "
+texto_limpio = texto.strip()
+texto_mayusculas = texto_limpio.upper()
+resultado = texto_mayusculas.replace("MUNDO", "PYTHON")
+
+print(resultado)
+```
+
+Ambas versiones producen el mismo resultado.
+
+---
+
+## 📥 Misión de la clase: contador de palabras
+
+Creá un programa interactivo que reciba una frase, la transforme y cuente cuántas palabras contiene.
+
+### Requisitos de la misión
+
+1. Pedí al usuario que ingrese una frase o texto.
+2. Mostrá la frase completa en mayúsculas.
+3. Separá la frase en palabras usando `split()`.
+4. Contá la cantidad de palabras usando `len()`.
+5. Informá el resultado con un mensaje claro.
+
+**Solución sugerida:**
+
+```python
+frase = input("Ingresa una frase: ").strip()
+
+frase_mayusculas = frase.upper()
+palabras = frase.split()
+total = len(palabras)
+
+print("Frase en mayúsculas:", frase_mayusculas)
+print("Cantidad de palabras:", total)
+```
+
+El método `strip()` limpia los espacios exteriores, `upper()` transforma la frase, `split()` la convierte en una lista y `len()` cuenta sus elementos.
+
+---
+
+## Versión ampliada de la misión
+
+Podemos mostrar también cada palabra numerada y construir una frase limpia con `join()`.
+
+```python
+frase = input("Ingresa una frase: ").strip()
+palabras = frase.split()
+
+print("Frase en mayúsculas:", frase.upper())
+print("Cantidad de palabras:", len(palabras))
+print("Frase limpia:", " ".join(palabras))
+
+for numero, palabra in enumerate(palabras, start=1):
+	print(f"{numero}. {palabra}")
+```
+
+`enumerate()` permite recorrer una lista obteniendo al mismo tiempo la posición y el valor.
+
+---
+
+## Desafíos extra
+
+Podés ampliar la misión con estos desafíos:
+
+1. **Censura de palabras:** usá `replace()` para cambiar una palabra secreta por `"***"`.
+2. **Cazador de vocales:** usá `count("a")` para contar cuántas letras `a` hay en la frase.
+3. **Ordenador de nombres:** pedí tres nombres, agregalos a una lista con `append()` y ordenalos con `sort()`.
+4. **Frase al revés:** convertí la frase en una lista con `split()`, invertí la lista con `reverse()` y unila con `join()`.
+5. **Normalizador:** combiná `strip()`, `lower()` y `replace()` para limpiar una frase ingresada por el usuario.
+
+**Ejemplo de solución para ordenar nombres:**
+
+```python
+nombres = []
+
+for numero in range(3):
+	nombre = input("Ingresa un nombre: ").strip()
+	nombres.append(nombre)
+
+nombres.sort()
+
+print("Nombres ordenados:", nombres)
+```
+
+---
+
+## Buenas prácticas al usar métodos
+
+### Revisá a qué tipo de dato pertenece cada método
+
+`upper()` pertenece a los textos y `append()` pertenece a las listas. No podemos usar un método de lista sobre un texto.
+
+```python
+texto = "hola"
+# texto.append(" mundo")  # AttributeError
+```
+
+### Guardá los resultados cuando los necesites
+
+Los métodos de texto devuelven un nuevo valor. Si no lo guardamos o mostramos, podemos perder ese resultado.
+
+```python
+nombre = "sofia"
+nombre = nombre.capitalize()
+print(nombre)
+```
+
+### Evitá encadenamientos demasiado largos
+
+Encadenar métodos es útil, pero dividir el proceso en pasos puede hacer que el programa sea más fácil de leer y corregir.
+
+### Comprobá antes de eliminar
+
+Antes de usar `remove()`, verificá que el valor se encuentre en la lista.
+
+```python
+if "Ana" in nombres:
+	nombres.remove("Ana")
+```
+
+---
+
+## Cierre y anticipación
+
+Hoy aprendimos que un método es una acción que pertenece a un tipo de dato y se invoca usando un punto. Usamos métodos de textos como `upper()`, `lower()`, `strip()`, `replace()`, `split()` y `join()`.
+
+También practicamos métodos de listas como `append()`, `pop()`, `remove()`, `sort()`, `reverse()` y `count()`. Finalmente, combinamos varios métodos en una misma expresión para resolver la misión del contador de palabras.
+
+En la próxima clase vamos a integrar estas herramientas con más lógica y estructuras para crear programas cada vez más completos utilizando bucles "for".
