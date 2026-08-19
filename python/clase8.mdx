@@ -1,0 +1,440 @@
+---
+title: "Clase 8: Diccionarios y Tuplas 🗂️"
+mision: "Aprender a organizar información relacionada con tuplas y diccionarios para construir fichas de datos completas."
+---
+
+# Clase 8: Diccionarios y Tuplas 🗂️
+
+## El camino recorrido
+
+En las clases anteriores aprendimos a guardar datos en variables, pedir información con `input()`, tomar decisiones con `if`, `elif` y `else`, y organizar colecciones usando listas y conjuntos.
+
+Hoy vamos a conocer dos estructuras nuevas: las **tuplas** y los **diccionarios**. Las tuplas sirven para guardar grupos ordenados de datos que no deberían cambiar. Los diccionarios permiten organizar información mediante pares de **clave** y **valor**.
+
+---
+
+## ¿Qué es una tupla?
+
+Una tupla es una colección ordenada e **inmutable** de elementos. Inmutable significa que no podemos cambiar sus elementos después de crearla.
+
+Las tuplas normalmente se escriben usando paréntesis `()` y separando los elementos con comas.
+
+```python
+coordenadas = (10.5, -12.3)
+colores_rgb = (255, 128, 0)
+
+print(coordenadas)
+print(colores_rgb)
+```
+
+Una tupla puede contener textos, números, valores booleanos o incluso otras colecciones.
+
+---
+
+## Acceder a los elementos de una tupla
+
+Al igual que las listas, las tuplas tienen índices que empiezan en `0`.
+
+```python
+coordenadas = (10.5, -12.3)
+
+print(coordenadas[0])
+print(coordenadas[1])
+```
+
+La salida es:
+
+```text
+10.5
+-12.3
+```
+
+También podemos usar índices negativos para contar desde el final.
+
+```python
+colores_rgb = (255, 128, 0)
+
+print(colores_rgb[-1])
+```
+
+La salida es `0`, porque `-1` representa el último elemento.
+
+---
+
+## La inmutabilidad en acción
+
+No podemos cambiar un elemento de una tupla usando su índice.
+
+```python
+coordenadas = (10.5, -12.3)
+
+# coordenadas[0] = 5.0  # TypeError
+```
+
+La línea anterior produciría un `TypeError`. Si necesitamos modificar los datos, podemos crear una tupla nueva o convertir temporalmente la tupla en una lista.
+
+```python
+coordenadas = (10.5, -12.3)
+coordenadas_lista = list(coordenadas)
+
+coordenadas_lista[0] = 5.0
+coordenadas = tuple(coordenadas_lista)
+
+print(coordenadas)
+```
+
+La inmutabilidad es útil para proteger información que no debería cambiar por accidente, como coordenadas, colores o configuraciones fijas.
+
+---
+
+## Tuplas de un solo elemento
+
+Para crear una tupla con un solo elemento, la coma es obligatoria.
+
+```python
+numero = (8)
+tupla = (8,)
+
+print(type(numero))
+print(type(tupla))
+```
+
+`(8)` se interpreta como un número entre paréntesis. En cambio, `(8,)` es una tupla.
+
+---
+
+## Desempaquetar una tupla
+
+Podemos guardar cada elemento de una tupla en una variable diferente. Esta operación se llama **desempaquetado**.
+
+```python
+punto = (4, 9)
+x, y = punto
+
+print(x)
+print(y)
+```
+
+La cantidad de variables debe coincidir con la cantidad de elementos.
+
+También podemos usar una tupla para intercambiar dos valores:
+
+```python
+nombre = "Ana"
+apellido = "Lopez"
+
+nombre, apellido = apellido, nombre
+
+print(nombre)
+print(apellido)
+```
+
+---
+
+## Métodos y operaciones con tuplas
+
+Las tuplas no tienen métodos para agregar o quitar elementos, pero sí podemos consultar sus datos.
+
+```python
+numeros = (2, 4, 2, 8, 2)
+
+print(len(numeros))
+print(numeros.count(2))
+print(numeros.index(8))
+```
+
+| Operación | ¿Qué hace?                            | Ejemplo          |
+| --------- | ------------------------------------- | ---------------- |
+| `len()`   | Cuenta los elementos                  | `len(tupla)`     |
+| `count()` | Cuenta cuántas veces aparece un valor | `tupla.count(2)` |
+| `index()` | Busca el índice de un valor           | `tupla.index(8)` |
+| `in`      | Comprueba si un valor pertenece       | `8 in tupla`     |
+
+---
+
+## ¿Qué es un diccionario?
+
+Un diccionario es una estructura que organiza información mediante pares de **clave** y **valor**.
+
+Las claves funcionan como etiquetas para encontrar rápidamente sus valores. Los diccionarios se crean usando llaves `{}`.
+
+```python
+usuario = {
+	"nombre": "Sofia",
+	"edad": 22,
+	"activo": True
+}
+
+print(usuario)
+```
+
+En este ejemplo, `"nombre"`, `"edad"` y `"activo"` son claves. Sus valores son `"Sofia"`, `22` y `True`.
+
+Una clave debe ser única dentro del diccionario. Los valores, en cambio, pueden repetirse y pueden ser de distintos tipos.
+
+---
+
+## Obtener valores mediante sus claves
+
+Para acceder a un valor, escribimos el nombre del diccionario y la clave entre corchetes.
+
+```python
+usuario = {
+	"nombre": "Sofia",
+	"edad": 22,
+	"activo": True
+}
+
+print(usuario["nombre"])
+print(usuario["edad"])
+```
+
+La salida es:
+
+```text
+Sofia
+22
+```
+
+Si usamos una clave que no existe con corchetes, Python produce un `KeyError`.
+
+---
+
+## La operación segura `get()`
+
+El método `get()` permite buscar una clave sin producir un error si no existe. También podemos indicar un valor alternativo.
+
+```python
+superheroe = {
+	"nombre": "Spiderman",
+	"poder": "Aracnido"
+}
+
+poder = superheroe.get("poder", "Desconocido")
+debilidad = superheroe.get("debilidad", "No registrada")
+
+print(poder)
+print(debilidad)
+```
+
+Usá `get()` cuando la clave pueda faltar y quieras que el programa continúe funcionando.
+
+---
+
+## Agregar, modificar y eliminar datos
+
+Los diccionarios son mutables: después de crearlos podemos agregar, cambiar y eliminar pares de clave y valor.
+
+### Agregar o modificar una clave
+
+Si la clave no existe, se agrega. Si ya existe, se actualiza su valor.
+
+```python
+superheroe = {"nombre": "Spiderman", "poder": "Aracnido"}
+
+superheroe["nivel"] = 99
+superheroe["poder"] = "Telarañas"
+
+print(superheroe)
+```
+
+### Eliminar una clave
+
+`del` elimina una clave junto con su valor.
+
+```python
+superheroe = {
+	"nombre": "Spiderman",
+	"poder": "Aracnido",
+	"debilidad": "Fuego"
+}
+
+del superheroe["debilidad"]
+
+print(superheroe)
+```
+
+También existe `pop()`, que elimina una clave y devuelve el valor eliminado.
+
+```python
+edad = superheroe.pop("edad", None)
+print(edad)
+```
+
+El segundo argumento evita un error si la clave no existe.
+
+---
+
+## Recorrer un diccionario
+
+Podemos usar un ciclo `for` para recorrer sus claves, sus valores o ambas cosas.
+
+```python
+usuario = {
+	"nombre": "Sofia",
+	"edad": 22,
+	"activo": True
+}
+
+for clave in usuario:
+	print(clave)
+```
+
+Para recorrer claves y valores juntos usamos `items()`:
+
+```python
+for clave, valor in usuario.items():
+	print(f"{clave}: {valor}")
+```
+
+También podemos obtener solo las claves con `keys()` o solo los valores con `values()`.
+
+```python
+print(usuario.keys())
+print(usuario.values())
+```
+
+En Python moderno, los diccionarios conservan el orden en que agregamos sus claves. Aun así, su utilidad principal es encontrar valores por su clave, no acceder por posición.
+
+---
+
+## Diccionarios con listas y tuplas
+
+Un valor de un diccionario puede ser otra colección. Esto permite representar información más completa.
+
+```python
+superheroe = {
+	"nombre": "Spiderman",
+	"identidad_secreta": "Peter Parker",
+	"poderes": ["Aracnido", "Agilidad"],
+	"origen": ("Nueva York", "Tierra-616")
+}
+
+print(superheroe["poderes"][0])
+print(superheroe["origen"][1])
+```
+
+En este caso, `"poderes"` guarda una lista y `"origen"` guarda una tupla.
+
+---
+
+## Comparativa de estructuras
+
+| Estructura  | Sintaxis    | ¿Mutable? | ¿Ordenada? | Uso principal                      |
+| ----------- | ----------- | --------- | ---------- | ---------------------------------- |
+| Lista       | `[1, 2, 3]` | Sí        | Sí         | Colecciones dinámicas de elementos |
+| Tupla       | `(1, 2, 3)` | No        | Sí         | Datos fijos e inmutables           |
+| Conjunto    | `{1, 2, 3}` | Sí        | No         | Valores únicos sin duplicados      |
+| Diccionario | `{"a": 1}`  | Sí        | Sí\*       | Registros con pares clave-valor    |
+
+`*` Los diccionarios conservan el orden de inserción en Python moderno, pero se consultan mediante claves.
+
+Elegí una lista cuando el orden y los cambios importan. Elegí una tupla cuando querés proteger un grupo de valores. Usá un conjunto para evitar duplicados y un diccionario para describir objetos con propiedades.
+
+---
+
+## Operaciones frecuentes
+
+### Con tuplas
+
+```python
+punto = (4, 9)
+x, y = punto
+
+mi_lista = [1, 2, 3]
+mi_tupla = tuple(mi_lista)
+
+print(x, y)
+print(mi_tupla)
+```
+
+### Con diccionarios
+
+```python
+superheroe = {"nombre": "Spiderman", "poder": "Aracnido"}
+
+superheroe["nivel"] = 99
+poder = superheroe.get("poder", "Desconocido")
+del superheroe["nivel"]
+
+print(poder)
+```
+
+---
+
+## 📥 Misión de la clase: ficha técnica de un superhéroe
+
+Creá una ficha técnica completa para guardar los datos de tu superhéroe favorito usando un diccionario de Python.
+
+### Requisitos de la misión
+
+1. Creá un diccionario llamado `superheroe`.
+2. Guardá su nombre, identidad secreta, poderes y origen.
+3. Usá una lista para guardar al menos dos poderes.
+4. Usá una tupla para guardar la ciudad y el universo de origen.
+5. Mostrá el nombre del superhéroe usando su clave.
+6. Agregá un nivel al diccionario y modificá algún dato.
+7. Usá `get()` para consultar una clave que podría no existir.
+
+**Solución sugerida:**
+
+```python
+superheroe = {
+	"nombre": "Spiderman",
+	"identidad_secreta": "Peter Parker",
+	"poderes": ["Aracnido", "Agilidad"],
+	"origen": ("Nueva York", "Tierra-616")
+}
+
+print(f"Heroe: {superheroe['nombre']}")
+print(f"Identidad: {superheroe['identidad_secreta']}")
+print(f"Poderes: {superheroe['poderes']}")
+
+superheroe["nivel"] = 99
+superheroe["poderes"].append("Sentido aracnido")
+
+debilidad = superheroe.get("debilidad", "No registrada")
+print(f"Debilidad: {debilidad}")
+
+print("Ficha completa:", superheroe)
+```
+
+---
+
+## Buenas prácticas
+
+### Protegé los datos que no deben cambiar
+
+Usá tuplas para coordenadas, configuraciones y otros datos fijos. Así evitás modificaciones accidentales durante la ejecución.
+
+### Elegí claves claras y únicas
+
+Las claves deben explicar qué contiene cada valor. Preferí `"identidad_secreta"` antes que nombres ambiguos como `"dato2"`.
+
+### Usá `get()` cuando una clave sea opcional
+
+`get()` permite elegir un valor por defecto y evita que una consulta incompleta detenga el programa.
+
+### No mezcles estructuras sin una razón
+
+Cada estructura resuelve un problema diferente: listas para elementos ordenados y modificables, tuplas para datos fijos, conjuntos para valores únicos y diccionarios para pares clave-valor.
+
+---
+
+## Más desafíos para practicar
+
+1. Pedí al usuario el nombre de un superhéroe y guardalo en el diccionario.
+2. Agregá una clave llamada `"villanos"` con una lista de enemigos.
+3. Mostrá cada poder usando un ciclo `for`.
+4. Consultá la clave `"debilidad"` con `get()` y mostrá `"No registrada"` si falta.
+5. Creá un segundo diccionario para otro superhéroe y compará sus niveles.
+
+---
+
+## Cierre y anticipación
+
+Hoy aprendimos que las **tuplas** son colecciones ordenadas e inmutables, ideales para proteger datos que no deberían cambiar. También aprendimos que los **diccionarios** organizan información mediante claves y valores, y que podemos agregar, modificar, eliminar y recorrer sus datos.
+
+Además, combinamos diccionarios con listas y tuplas para representar fichas de información más completas.
+
+En la próxima clase vamos a seguir construyendo programas que trabajen con colecciones y lógica para resolver desafíos más grandes.
