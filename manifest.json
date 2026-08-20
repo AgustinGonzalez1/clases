@@ -65,6 +65,14 @@
         {
           "titulo": "Clase 10 - Bucles con for",
           "archivo": "clase10.mdx"
+        },
+        {
+          "titulo": "Clase 19 - Creamos la pantalla de Pygame",
+          "archivo": "clase19.mdx"
+        },
+        {
+          "titulo": "Clase 20 - Dibujando un personaje",
+          "archivo": "clase20.mdx"
         }
       ]
     },

@@ -1,0 +1,221 @@
+---
+title: "Clase 20: ¡Dibujando un personaje! ⌨️"
+mision: "Crear formas con el método draw del módulo pygame."
+---
+
+# Clase 20: ¡Dibujando un personaje! ⌨️
+
+Aprendemos a dibujar distintas formas geométricas dentro de la ventana de Pygame, y definimos cómo va a ser nuestro personaje de acá en adelante.
+
+## Objetivos
+
+- Conocer el módulo `pygame.draw` y su estructura general
+- Dibujar rectángulos, círculos, líneas, polígonos y elipses
+- Entender la diferencia entre formas rellenas y formas con contorno
+- Combinar varias formas en una misma ventana
+- Definir el personaje como una forma simple para las próximas clases
+
+## Contenido
+
+### 1. El módulo `pygame.draw`
+
+Pygame trae un conjunto de funciones para dibujar formas geométricas — rectángulos, círculos, líneas, polígonos, elipses. Todas siguen un patrón parecido: primero la superficie donde dibujar, después el color, y después la posición y el tamaño.
+
+```python
+pygame.draw.rect(pantalla, color, (x, y, ancho, alto))
+```
+
+- `pantalla` → la superficie donde se dibuja (la ventana que creamos con `set_mode`)
+- `color` → una tupla de tres números `(rojo, verde, azul)`, cada uno entre 0 y 255
+- `(x, y, ancho, alto)` → una tupla con la posición y el tamaño de la forma
+
+Todas estas líneas van **dentro del bucle**, justo después del `fill()` y antes del `flip()` — porque cada vuelta del bucle vuelve a pintar el fondo, así que también hay que volver a dibujar la forma encima.
+
+### 2. Rectángulos
+
+```python
+pygame.draw.rect(pantalla, (255, 0, 0), (100, 100, 50, 50))
+```
+
+- `pantalla` → dibuja sobre la ventana del juego
+- `(255, 0, 0)` → color rojo
+- `100` (primer número) → posición **x** — a cuántos píxeles de la izquierda arranca
+- `100` (segundo número) → posición **y** — a cuántos píxeles de arriba arranca
+- `50` (tercer número) → **ancho**, en píxeles
+- `50` (cuarto número) → **alto**, en píxeles
+
+Importante: `x` e `y` marcan la esquina **superior izquierda**, no el centro.
+
+### 3. Círculos
+
+```python
+pygame.draw.circle(pantalla, (0, 255, 0), (400, 300), 40)
+```
+
+- `pantalla` → dibuja sobre la ventana del juego
+- `(0, 255, 0)` → color verde
+- `(400, 300)` → posición del **centro** del círculo (x, y)
+- `40` → **radio**, en píxeles
+
+### 4. Líneas
+
+```python
+pygame.draw.line(pantalla, (0, 0, 0), (0, 0), (800, 600), 3)
+```
+
+- `pantalla` → dibuja sobre la ventana del juego
+- `(0, 0, 0)` → color negro
+- `(0, 0)` → punto donde **empieza** la línea
+- `(800, 600)` → punto donde **termina** la línea
+- `3` → **grosor** de la línea, en píxeles
+
+### 5. Polígonos
+
+Un polígono se dibuja indicando una lista de puntos — Python conecta cada punto con el siguiente, y al final cierra la figura uniendo el último punto con el primero.
+
+```python
+pygame.draw.polygon(pantalla, (255, 165, 0), [(400, 100), (300, 250), (500, 250)])
+```
+
+- `pantalla` → dibuja sobre la ventana del juego
+- `(255, 165, 0)` → color naranja
+- `[(400, 100), (300, 250), (500, 250)]` → una **lista** (Clase 7) de tuplas, cada una un punto x,y. Con tres puntos se forma un triángulo
+
+Con más puntos en la lista se pueden dibujar figuras más complejas — un pentágono, una estrella, o cualquier forma con lados rectos.
+
+### 6. Elipses
+
+Una elipse es como un círculo "estirado" — se dibuja igual que un rectángulo, pero en vez de un rectángulo relleno, Pygame dibuja un óvalo que entra justo adentro de ese rectángulo.
+
+```python
+pygame.draw.ellipse(pantalla, (100, 50, 200), (250, 400, 140, 70))
+```
+
+- `pantalla` → dibuja sobre la ventana del juego
+- `(100, 50, 200)` → color violeta
+- `(250, 400, 140, 70)` → el rectángulo invisible donde entra la elipse: arranca en x=250, y=400, mide 140 de ancho y 70 de alto (por eso queda "achatada")
+
+### 7. Contornos sin relleno
+
+Todas las formas de arriba salen **rellenas** por defecto. Si se agrega un último número (el **grosor**), la forma se dibuja solo con el borde, sin relleno.
+
+```python
+pygame.draw.rect(pantalla, (0, 0, 0), (100, 100, 80, 80), 3)     # rectángulo solo con borde, grosor 3
+pygame.draw.circle(pantalla, (0, 0, 0), (400, 300), 40, 3)        # círculo solo con borde, grosor 3
+```
+
+Sin ese último número, la forma sale completamente rellena del color elegido.
+
+### 8. Combinando varias formas en una sola ventana
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+pygame.display.set_caption("Dibujando formas")  # título de la ventana
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal — se repite mientras corriendo sea True
+    for evento in pygame.event.get():  # revisa todos los eventos que pasaron
+        if evento.type == pygame.QUIT:  # si el usuario cerró la ventana
+            corriendo = False  # corta el bucle
+
+    pantalla.fill((135, 206, 235))   # pinta el fondo celeste — se hace primero para que quede detrás
+
+    pygame.draw.rect(pantalla, (139, 69, 19), (100, 400, 150, 100))
+    # tronco marrón: x=100, y=400 — 150 de ancho, 100 de alto
+
+    pygame.draw.circle(pantalla, (34, 139, 34), (175, 350), 80)
+    # copa verde: centro en x=175, y=350 — radio 80
+
+    pygame.display.flip()  # actualiza la ventana mostrando todo lo dibujado en esta vuelta
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+El orden importa: como el tronco se dibuja antes que la copa, si se solaparan, la copa quedaría por encima — cada forma nueva se dibuja "arriba" de las anteriores, como apilar hojas.
+
+### 9. El personaje — una forma simple
+
+De acá en adelante, en las próximas clases, nuestro "personaje" va a ser una sola forma — un rectángulo o un círculo. Esto nos va a facilitar mucho moverlo (Clase 21) y detectar choques (Clase 22).
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+pygame.display.set_caption("Mi personaje")  # título de la ventana
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal del juego
+    for evento in pygame.event.get():  # revisa todos los eventos que pasaron
+        if evento.type == pygame.QUIT:  # si el usuario cerró la ventana
+            corriendo = False  # corta el bucle
+
+    pantalla.fill((255, 255, 255))   # pinta el fondo blanco
+
+    pygame.draw.circle(pantalla, (255, 165, 0), (400, 300), 30)
+    # el personaje: círculo naranja, centrado en x=400, y=300 — radio 30
+
+    pygame.display.flip()  # muestra los cambios en la ventana
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+### 10. Tabla de referencia
+
+| Función | Forma que dibuja | Se posiciona por |
+|---|---|---|
+| `pygame.draw.rect()` | Rectángulo | Esquina superior izquierda |
+| `pygame.draw.circle()` | Círculo | Centro |
+| `pygame.draw.line()` | Línea | Punto de inicio y fin |
+| `pygame.draw.polygon()` | Polígono (forma libre) | Lista de puntos |
+| `pygame.draw.ellipse()` | Elipse (óvalo) | Rectángulo contenedor |
+
+## Ejercicio
+
+> Consigna: Creá una ventana de Pygame y dibujá al menos cuatro formas distintas usando `pygame.draw` (por ejemplo un rectángulo, un círculo, una línea y un polígono o una elipse). Elegí colores y posiciones a tu gusto.
+
+**Pistas:**
+1. Recordá que cada forma se dibuja dentro del bucle, después del `fill()` y antes del `flip()`
+2. Para el polígono, probá primero con tres puntos (triángulo) antes de animarte con más
+
+**Ejemplo de solución:**
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+pygame.display.set_caption("Mis formas")  # título de la ventana
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal del juego
+    for evento in pygame.event.get():  # revisa todos los eventos que pasaron
+        if evento.type == pygame.QUIT:  # si el usuario cerró la ventana
+            corriendo = False  # corta el bucle
+
+    pantalla.fill((240, 240, 240))   # pinta el fondo gris claro
+
+    pygame.draw.rect(pantalla, (200, 30, 30), (100, 100, 120, 80))
+    # rectángulo rojo: x=100, y=100 — 120 de ancho, 80 de alto
+
+    pygame.draw.circle(pantalla, (30, 100, 200), (500, 200), 60)
+    # círculo azul: centro en x=500, y=200 — radio 60
+
+    pygame.draw.line(pantalla, (0, 0, 0), (100, 400), (700, 400), 5)
+    # línea negra: de x=100,y=400 a x=700,y=400 — grosor 5
+
+    pygame.draw.polygon(pantalla, (255, 165, 0), [(650, 350), (600, 450), (700, 450)])
+    # triángulo naranja formado por tres puntos
+
+    pygame.display.flip()  # muestra todo lo dibujado en esta vuelta
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+## Recursos
+
+- [pygame.draw — referencia completa](https://www.pygame.org/docs/ref/draw.html)
+- [Documentación oficial de Pygame](https://www.pygame.org/docs/)

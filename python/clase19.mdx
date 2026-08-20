@@ -1,0 +1,202 @@
+---
+title: "Clase 19: Creamos la pantalla de Pygame 🕹️🎨"
+mision: "Crear una ventana de Pygame que se pueda cerrar correctamente."
+---
+
+# Clase 19: Creamos la pantalla de Pygame 🕹️🎨
+
+Instalamos Pygame, creamos nuestra primera ventana de juego y trabajamos con el evento QUIT para poder cerrarla correctamente.
+
+## Objetivos
+
+- Instalar Pygame con `pip`
+- Entender qué es Pygame y para qué sirve
+- Crear una ventana con `pygame.display.set_mode()`
+- Armar el bucle principal del juego (game loop)
+- Detectar el evento QUIT para cerrar la ventana correctamente
+- Pintar el fondo de la ventana con un color
+
+## Contenido
+
+### 1. Instalando Pygame
+
+Pygame no viene incluido con Python — hay que instalarlo con `pip`, la herramienta que ya mencionamos en la Clase 16.
+
+```bash
+pip install pygame
+```
+
+Para confirmar que se instaló bien:
+
+```python
+import pygame  # si no tira error, Pygame está instalado
+print(pygame.ver)  # muestra la versión instalada
+```
+
+Si no tira error y muestra un número de versión, está listo para usar.
+
+#### ⚠️ Problema común — Pygame no instala con Python 3.14
+
+Si al correr `pip install pygame` aparece un error, puede deberse a que Pygame todavía no tiene soporte completo para versiones muy nuevas de Python (como 3.14). La solución más simple es bajar a **Python 3.13**, que es totalmente compatible.
+
+**Desinstalar Python 3.14 (desde la terminal, con winget):**
+
+```bash
+winget uninstall Python.Python.3.14
+```
+
+También se puede hacer desde `Configuración → Aplicaciones → Aplicaciones instaladas`, buscando "Python 3.14" y desinstalando desde ahí.
+
+**Instalar Python 3.13:**
+
+```bash
+winget install Python.Python.3.13
+```
+
+**Verificar que quedó bien** (abriendo una terminal **nueva**, no la que ya tenían abierta):
+
+```bash
+python --version
+```
+
+Recién ahí volver a intentar la instalación de Pygame:
+
+```bash
+pip install pygame
+```
+
+### 2. ¿Qué es Pygame?
+
+Pygame es una librería que nos permite crear videojuegos con Python — abrir ventanas, dibujar formas, mover personajes, reproducir sonidos. Hasta ahora todo lo que hicimos aparecía en la consola, como texto. Pygame nos da una ventana gráfica de verdad, como la de cualquier juego.
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame (gráficos, sonido, eventos)
+pantalla = pygame.display.set_mode((800, 600))  # crea una ventana de 800x600 píxeles
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+Con esas líneas ya se abre y se cierra una ventana, aunque todavía no hace nada interesante — eso viene a continuación.
+
+### 3. El bucle del juego (game loop)
+
+Todo videojuego funciona con un bucle que se repite sin parar, revisando constantemente qué está pasando: si se apretó una tecla, si se cerró la ventana, qué hay que dibujar. A esto se lo llama **game loop**.
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal — se repite mientras corriendo sea True
+    pass   # acá va a ir toda la lógica del juego
+
+pygame.quit()  # cierra Pygame cuando el bucle termina
+```
+
+Este bucle usa el `while` que ya vimos en la Clase 11 — la única diferencia es que ahora repite todo el tiempo mientras el juego está activo, en vez de esperar una respuesta del usuario.
+
+### 4. El evento QUIT
+
+Si corremos el código de arriba tal cual, la ventana **no se puede cerrar** — el botón de la X no responde a nada. Esto pasa porque nunca le dijimos a Python qué hacer cuando el usuario intenta cerrarla. Para eso existen los **eventos**.
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal del juego
+    for evento in pygame.event.get():          # revisa todos los eventos que pasaron desde la última vuelta
+        if evento.type == pygame.QUIT:          # si el evento es "cerrar ventana"
+            corriendo = False                    # termina el bucle
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+`pygame.event.get()` devuelve una lista con todo lo que pasó desde la última vuelta del bucle — clics, teclas, y también el intento de cerrar la ventana. Recorremos esa lista con un `for` (Clase 10) buscando si apareció el evento `QUIT`.
+
+### 5. Dándole color a la ventana
+
+Una ventana vacía se ve negra o en blanco por defecto. Para pintarla de un color hay que hacerlo **dentro del bucle**, porque Pygame redibuja la pantalla constantemente.
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal del juego
+    for evento in pygame.event.get():  # revisa todos los eventos que pasaron
+        if evento.type == pygame.QUIT:  # si el usuario cerró la ventana
+            corriendo = False  # corta el bucle
+
+    pantalla.fill((135, 206, 235))   # pinta el fondo — colores en formato RGB (rojo, verde, azul)
+    pygame.display.flip()             # actualiza lo que se ve en pantalla
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+Dos cosas importantes acá:
+- `fill()` recibe una tupla de tres números (rojo, verde, azul) entre 0 y 255 — justo lo que vimos con tuplas en la Clase 8
+- `pygame.display.flip()` es lo que hace que los cambios se vean realmente en la ventana — sin esta línea, el color nunca aparece
+
+### 6. Ponerle título a la ventana
+
+```python
+pygame.display.set_caption("Mi primer juego")  # cambia el texto de la barra superior de la ventana
+```
+
+Esta línea va después de crear la pantalla y antes del bucle — solo hace falta ejecutarla una vez.
+
+### 7. Tabla de referencia
+
+| Función | Descripción | Ejemplo |
+|---|---|---|
+| `pygame.init()` | Inicializa todos los módulos internos de Pygame | `pygame.init()` |
+| `pygame.display.set_mode()` | Crea la ventana del juego | `pygame.display.set_mode((800, 600))` |
+| `pygame.display.set_caption()` | Cambia el título de la ventana | `pygame.display.set_caption("Mi juego")` |
+| `pygame.event.get()` | Devuelve la lista de eventos ocurridos | `for evento in pygame.event.get():` |
+| `pantalla.fill()` | Pinta el fondo de un color | `pantalla.fill((135, 206, 235))` |
+| `pygame.display.flip()` | Actualiza lo que se ve en la ventana | `pygame.display.flip()` |
+| `pygame.quit()` | Cierra Pygame correctamente | `pygame.quit()` |
+
+## Ejercicio
+
+> Consigna: Creá una ventana de Pygame de 800x600 píxeles, con un título a elección y un color de fondo distinto al celeste del ejemplo. La ventana tiene que poder cerrarse correctamente al apretar la X.
+
+**Pistas:**
+1. No te olvides de `pygame.display.flip()` después del `fill()`, o el color no se va a ver
+2. El `fill()` va dentro del bucle `while`, no afuera
+
+**Ejemplo de solución:**
+
+```python
+import pygame  # importa la librería de Pygame
+
+pygame.init()  # inicializa todos los módulos internos de Pygame
+pantalla = pygame.display.set_mode((800, 600))  # crea la ventana de 800x600 píxeles
+pygame.display.set_caption("El juego de Lucas")  # título de la ventana
+
+corriendo = True  # variable que controla si el juego sigue activo
+while corriendo:  # bucle principal del juego
+    for evento in pygame.event.get():  # revisa todos los eventos que pasaron
+        if evento.type == pygame.QUIT:  # si el usuario cerró la ventana
+            corriendo = False  # corta el bucle, el juego termina
+
+    pantalla.fill((50, 168, 82))   # pinta el fondo de verde
+    pygame.display.flip()  # actualiza la ventana con los cambios
+
+pygame.quit()  # cierra Pygame correctamente
+```
+
+## Recursos
+
+- [Documentación oficial de Pygame](https://www.pygame.org/docs/)
+- [pygame.display — referencia completa](https://www.pygame.org/docs/ref/display.html)
+- [pygame.event — referencia completa](https://www.pygame.org/docs/ref/event.html)
