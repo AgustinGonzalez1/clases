@@ -5,13 +5,14 @@ mision: "Publicar y previsualizar 2 animaciones propias hechas con el Animation 
 
 # Clase 4: ¡A Mover el Esqueleto! 🕺
 
-Creamos animaciones con el Animation Editor usando el personaje estándar de Roblox.
+Creamos animaciones con el Animation Editor usando el personaje estándar de Roblox, y exploramos la edición de expresiones faciales.
 
 ## Objetivos
 
 - Conocer el Animation Editor y sus conceptos clave
 - Crear una animación con Loop y otra sin Loop
 - Publicar una animación y obtener su ID
+- Explorar el Face Animation Editor para crear expresiones faciales
 
 ## Contenido
 
@@ -55,15 +56,30 @@ Se abre desde la pestaña **Avatar → Animation Editor**. Viene integrado en St
 
 > ⚠️ Anotá el ID de cada animación publicada. Lo vas a necesitar más adelante.
 
+### 6. Extra: edición facial con el Face Animation Editor
+
+Además de animar el cuerpo, Roblox permite animar la **cara** del personaje con el **Face Animation Editor**, integrado en el mismo Animation Editor.
+
+1. Con el personaje seleccionado y el Animation Editor abierto, buscás el botón **Face** en la lista de tracks
+2. Se abren **sliders** (controles deslizantes) para cada parte de la cara: ojos, cejas, boca, etc.
+3. Movés los sliders hasta lograr la expresión que quieras (por ejemplo sonrisa, sorpresa, enojo)
+4. Cada ajuste se guarda automáticamente como un keyframe en la línea de tiempo, igual que con el cuerpo
+
+> ⚠️ No todos los personajes soportan esto. Necesitás una cabeza compatible (**Animatable Head**), como las que vienen en ciertos avatares del Marketplace. Si tu personaje no tiene esa opción, el botón **Face** no va a aparecer.
+
+**Ejemplo:** combinar una animación de saludo del cuerpo con una expresión de sonrisa en la cara al mismo tiempo, en la misma línea de tiempo, da como resultado un saludo mucho más expresivo.
+
 ## Ejercicio
 
-> Consigna: Exportá (publicá) y previsualizá 2 animaciones propias: una con Loop (caminar) y otra sin Loop (saludo).
+> Consigna: Exportá (publicá) y previsualizá 2 animaciones propias: una con Loop (caminar) y otra sin Loop (saludo). Si tu personaje soporta cabeza animable, agregale una expresión facial a alguna de las dos.
 
 **Pistas:**
 1. Usá al menos 3 keyframes por animación para que se note el movimiento
 2. No olvides activar **Loop** solo en la animación de caminar
 3. Anotá el ID de cada animación publicada, lo vas a necesitar en la Clase 14
+4. Si el botón **Face** no aparece, probá con un personaje que tenga cabeza animable del Marketplace
 
 ## Recursos
 
 - [Documentación oficial del Animation Editor](https://create.roblox.com/docs/animation/editor)
+- [Documentación oficial de animación facial](https://create.roblox.com/docs/art/characters/facial-animation/animate-heads)
