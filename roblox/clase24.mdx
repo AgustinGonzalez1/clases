@@ -1,4 +1,189 @@
 ---
-title: "Clase 24"
-mision: ""
+title: "Clase 24: Proyecto Intermedio 1 🏆"
+mision: "Encontrar la idea para tu proyecto propio y, si hace falta, armar un obby con cronómetro guiado paso a paso como base."
 ---
+
+# Clase 24: Proyecto Intermedio 1 🏆
+
+Esta clase es de **integración**: no hay conceptos nuevos, se trata de combinar todo lo visto hasta ahora en un proyecto jugable. Primero exploramos cómo encontrar tu propia idea (Opción A). Si te cuesta arrancar solo, seguís con un proyecto guiado completo (Opción B).
+
+## Objetivos
+
+- Repasar todo lo aprendido en el curso hasta ahora
+- Elegir un tipo de juego adecuado para tu nivel actual
+- Como alternativa, armar un proyecto guiado combinando GUI, cronómetro, eventos y condicionales
+
+## Contenido
+
+### Opción A: Encontrando tu propio camino
+
+#### 1. Repaso general de lo que ya sabés hacer
+
+| Herramienta | De qué clase | Para qué sirve en un juego |
+|---|---|---|
+| Terreno y construcción | Clases 2-3 | El escenario de tu juego |
+| Animaciones | Clases 4-5, 14 | Personajes y objetos que se mueven |
+| Propiedades, métodos, eventos | Clases 6-9 | La base de cualquier interacción |
+| NPCs, armas, vehículos | Clases 10-13 | Personajes y objetos jugables |
+| Cinemáticas y menús | Clases 15-16 | Presentación de tu juego |
+| Efectos visuales | Clase 17 | Pulido y ambientación |
+| Variables, condicionales, bucles | Clases 18-20 | La lógica de tu juego |
+| Tablas | Clase 21 | Inventarios, listas, puntajes |
+| IA de enemigos | Clase 22 | Desafíos y oposición |
+| RemoteEvents | Clase 23 | Multijugador real |
+
+#### 2. Ideas de juegos para arrancar (de más simple a más completo)
+
+| Nivel | Tipo de juego | En qué consiste | Qué usarías |
+|---|---|---|---|
+| 🟢 Muy simple | **Obby clásico** | Recorrido con obstáculos y bloques de la muerte hasta una meta | Clases 3, 7 |
+| 🟢 Muy simple | **Dropper** | Caés desde una altura esquivando obstáculos hasta aterrizar | Clases 3, 7 |
+| 🟡 Simple | **Laberinto** | Encontrar la salida de un laberinto, con o sin cronómetro | Clases 3, 20 |
+| 🟡 Simple | **Color run / Carrera** | Recorrido temático por etapas, cada una con su desafío | Clases 3, 7, 20 |
+| 🟠 Intermedio | **Recolección con puntaje** | Juntar ítems contra el tiempo o contra otros jugadores | Clases 12, 20, 21 |
+| 🟠 Intermedio | **Escondidas (hide and seek)** | Un jugador busca, el resto se esconde | Clases 19, 22, 23 |
+| 🔴 Más completo | **Mini-simulador** | Progresión simple (plantar, pescar, juntar recursos) con mejoras | Clase 21 y más adelante |
+
+#### 3. Cómo escalar tu idea
+
+1. Empezá con la versión **más chica posible** que funcione de punta a punta (un obby de 3 obstáculos, por ejemplo)
+2. Una vez que funciona, agregále **una sola cosa nueva** por vez: un menú, un cronómetro, un puntaje
+3. Recién ahí sumá temática visual: colores, efectos, nombres
+
+> 💡 La mayoría de los juegos de Roblox que arrancan de cero fallan por querer hacer demasiado de una vez. Un obby simple y terminado vale más que un juego ambicioso a medio hacer.
+
+---
+
+### Opción B: Proyecto guiado (si te cuesta arrancar solo)
+
+Si después del repaso todavía no tenés una idea clara, armamos juntos un obby con cronómetro de punta a punta, que después podés personalizar a tu gusto.
+
+#### 4. La idea del proyecto
+
+Un obby chico: tocás objetos que te suman tiempo, evitás un bloque de la muerte, y llegás a la meta antes de que el cronómetro llegue a 0. Al perder, todo se reinicia solo (muerte real + respawn). Al ganar, volvés al menú y podés jugar de nuevo.
+
+#### 5. Estructura completa en el Explorer
+
+```
+Workspace
+  ├── Objetos (Folder)
+  │     ├── Objeto1 (Part)
+  │     ├── Objeto2 (Part)
+  │     └── Objeto3 (Part)
+  ├── BloqueMuerte (Part)
+  └── Meta (Part)
+
+StarterGui
+  └── ScreenGui
+        ├── LocalScript          ← TODO el código va acá adentro
+        ├── Frame                (menu inicial, de la Clase 16)
+        │     ├── TextLabel
+        │     └── Jugar          (TextButton)
+        ├── TextoTiempo          (TextLabel)
+        └── TextoResultado       (TextLabel, oculto al inicio)
+```
+
+> 📍 Todos los objetos coleccionables van dentro de la carpeta **Objetos**, así el script los recorre a todos con un `for` sin importar cuántos agregues.
+
+#### 6. ¿Por qué ocultar en vez de destruir?
+
+Con `Destroy()` el objeto desaparece **para siempre**. Como este juego se puede volver a jugar, necesitamos que los objetos **vuelvan a estar disponibles** en la próxima partida. Por eso, en vez de destruirlos, los ocultamos con `Transparency = 1` y bloqueamos que se puedan volver a tocar con `CanTouch = false`. Al arrancar una nueva partida, los volvemos a mostrar y habilitar.
+
+#### 7. El script completo
+
+```lua
+-- Ubicacion: StarterGui > ScreenGui > LocalScript
+
+local screenGui = script.Parent
+local frame = screenGui:WaitForChild("Frame")
+local botonJugar = frame:WaitForChild("Jugar")
+local textoTiempo = screenGui:WaitForChild("TextoTiempo")
+local textoResultado = screenGui:WaitForChild("TextoResultado")
+
+local jugador = game.Players.LocalPlayer
+local personaje = jugador.Character or jugador.CharacterAdded:Wait()
+local humanoid = personaje:WaitForChild("Humanoid")
+
+local objetos = workspace.Objetos:GetChildren()   -- todas las Parts dentro de la carpeta Objetos
+local bloqueMuerte = workspace.BloqueMuerte
+local meta = workspace.Meta
+
+local tiempo = 30
+local jugando = false
+
+-- Conecta el Touched de cada objeto UNA sola vez (no cada partida)
+for i, objeto in ipairs(objetos) do
+    objeto.Touched:Connect(function(mano)
+        if mano.Parent == personaje and jugando and objeto.CanTouch then
+            tiempo = tiempo + 5
+            objeto.Transparency = 1     -- lo esconde
+            objeto.CanTouch = false     -- evita que se pueda volver a tocar
+        end
+    end)
+end
+
+-- El bloque de la muerte
+bloqueMuerte.Touched:Connect(function(mano)
+    local humanoidTocado = mano.Parent:FindFirstChild("Humanoid")
+    if humanoidTocado and jugando then
+        humanoidTocado.Health = 0
+    end
+end)
+
+-- La meta
+meta.Touched:Connect(function(mano)
+    if mano.Parent == personaje and jugando then
+        textoResultado.Text = "¡GANASTE! Tu puntuación: " .. tiempo
+        textoResultado.Visible = true
+        jugando = false
+
+        wait(3)
+        textoResultado.Visible = false
+        frame.Visible = true
+        tiempo = 30
+    end
+end)
+
+-- El boton Jugar arranca la partida
+botonJugar.MouseButton1Click:Connect(function()
+    frame.Visible = false
+    jugando = true
+
+    -- Reinicia todos los objetos para la nueva partida
+    for i, objeto in ipairs(objetos) do
+        objeto.Transparency = 0
+        objeto.CanTouch = true
+    end
+
+    while tiempo > 0 and jugando do
+        textoTiempo.Text = "Tiempo: " .. tiempo
+        wait(1)
+        tiempo = tiempo - 1
+    end
+
+    if jugando then
+        humanoid.Health = 0    -- se acabo el tiempo
+    end
+end)
+```
+
+#### 8. Cómo probarlo
+
+1. Creá la carpeta `Objetos` en el Workspace con 2-3 Parts adentro
+2. Creá `BloqueMuerte` y `Meta` como Parts separadas
+3. Armá la GUI según la estructura del Explorer
+4. Dale Play y probá agarrar objetos, tocar el bloque de la muerte, y llegar a la meta
+
+## Ejercicio
+
+> Consigna: Elegí tu propia idea de juego siguiendo la Opción A, o si preferís, armá el proyecto guiado de la Opción B como base para personalizar después.
+
+**Pistas:**
+1. Si vas por la Opción A, elegí un juego del nivel 🟢 o 🟡 para esta primera entrega
+2. Si vas por la Opción B, los objetos van dentro de una carpeta para poder recorrerlos con `for`
+3. Es un prototipo, no hace falta que esté pulido; la entrega es mostrárselo al profe y recibir feedback
+
+## Recursos
+
+- [Documentación oficial de Humanoid](https://create.roblox.com/docs/reference/engine/classes/Humanoid)
+- [Documentación oficial de CanTouch](https://create.roblox.com/docs/reference/engine/classes/BasePart#CanTouch)
