@@ -2,3 +2,317 @@
 title: "Clase 22"
 mision: ""
 ---
+---
+title: "Clase 22: Enemigos con IA Básica 🤖"
+mision: "Crear un enemigo que patrulle entre puntos y persiga al jugador apenas se acerque."
+---
+
+# Clase 22: Enemigos con IA Básica 🤖
+
+Programamos un enemigo que patrulla entre puntos del mapa y persigue al jugador cuando se acerca lo suficiente.
+
+## Objetivos
+
+- Construir un enemigo con Humanoid y puntos de patrulla
+- Detectar al jugador por distancia con Magnitude
+- Manejar estados (patrullando / persiguiendo) sin que la detección se retrase
+- Perseguir de forma fluida con Move
+
+## Contenido
+
+### 1. Crear el enemigo
+
+1. Armás un modelo simple con Parts o reutilizás el rig de la Clase 5
+2. Le agregás un **Humanoid**
+3. Asignás el **PrimaryPart** del modelo al **HumanoidRootPart** (obligatorio, sin esto no se mueve)
+4. Lo nombrás `Enemigo` y lo ubicás en el Workspace
+
+> ⚠️ Este enemigo no va a tener animación de caminar a menos que le agregues el script **Animate** del personaje estándar de Roblox. Sin eso se desliza por el piso en vez de mover las piernas.
+
+### 2. Crear los puntos de patrulla
+
+1. Insertás 3 Parts en el Workspace
+2. Las nombrás `Punto1`, `Punto2`, `Punto3`
+3. Las ubicás en distintos lugares del mapa
+4. Las hacés invisibles: **Transparency = 1** y **CanCollide = false**
+
+```
+Workspace
+  ├── Enemigo (Model)
+  │     └── Script
+  ├── Punto1 (Part invisible)
+  ├── Punto2 (Part invisible)
+  └── Punto3 (Part invisible)
+```
+
+### 3. Referenciar el enemigo, el Humanoid y los puntos
+
+Como el Script va **dentro** del modelo Enemigo, `script.Parent` es directamente el Enemigo.
+
+```lua
+local enemigo = script.Parent                        -- el script esta dentro del enemigo
+local humanoid = enemigo:WaitForChild("Humanoid")    -- espera a que el Humanoid este listo
+local rootPart = enemigo:WaitForChild("HumanoidRootPart") -- espera a la parte central
+
+local puntos = {
+    workspace.Punto1.Position,   -- posicion del primer punto de patrulla
+    workspace.Punto2.Position,   -- posicion del segundo punto
+    workspace.Punto3.Position,   -- posicion del tercer punto
+}
+```
+
+- `script.Parent` sube un nivel desde el Script y llega directamente al modelo Enemigo
+- `WaitForChild` evita errores si el script corre antes de que el Humanoid o la HumanoidRootPart terminen de cargar
+- `puntos` es una tabla (Clase 21) que agrupa las 3 posiciones para recorrerlas con un `for`
+
+### 4. Variables de estado
+
+```lua
+local estado = "patrullando"   -- variable que indica que esta haciendo el enemigo
+local jugadorDetectado = nil   -- va a guardar el jugador que persigue (todavia ninguno)
+```
+
+### 5. Detectar al jugador cerca
+
+```lua
+game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces por segundo, en paralelo a todo lo demas
+    for i, jugador in ipairs(game.Players:GetPlayers()) do
+        local personaje = jugador.Character
+        if personaje then
+            local distancia = (rootPart.Position - personaje.HumanoidRootPart.Position).Magnitude
+            if distancia < 15 and estado ~= "persiguiendo" then
+                jugadorDetectado = jugador
+                estado = "persiguiendo"    -- cambia el estado, la patrulla lo va a notar en su propio chequeo
+            end
+        end
+    end
+end)
+```
+
+- El `Heartbeat` corre en **paralelo**, sin importar qué esté haciendo el resto del script
+- No intentamos "cancelar" el MoveTo desde acá. Ese enfoque es poco confiable en Roblox (a veces el personaje gira sin parar, a veces el cambio se nota recién cuando termina el MoveTo original). En vez de eso, hacemos que sea `patrullar()` quien revise el estado seguido, como vemos en el paso siguiente
+
+### 6. Programar la patrulla revisando el estado constantemente
+
+En vez de bloquear el script con `humanoid.MoveToFinished:Wait()` (que solo se libera cuando el enemigo llega o pasan 8 segundos), revisamos el estado cada 0.1 segundos mientras camina:
+
+```lua
+local function patrullar()
+    humanoid.WalkSpeed = 8
+    for i, punto in ipairs(puntos) do
+        if estado ~= "patrullando" then break end
+        humanoid:MoveTo(punto)
+
+        local llego = false
+        local conexion
+        conexion = humanoid.MoveToFinished:Connect(function()
+            llego = true                             -- se marca cuando el enemigo llega al punto
+        end)
+
+        local tiempoEsperado = 0
+        while not llego and estado == "patrullando" and tiempoEsperado < 8 do
+            wait(0.1)                                -- revisa el estado cada 0.1 segundos
+            tiempoEsperado = tiempoEsperado + 0.1
+        end
+        conexion:Disconnect()                        -- deja de escuchar ese MoveToFinished
+
+        if estado ~= "patrullando" then break end     -- si cambio el estado, corta la patrulla ya mismo
+        wait(1)
+    end
+end
+```
+
+- `llego` se pone en `true` cuando el Humanoid termina de caminar al punto
+- El `while` revisa cada 0.1 segundos si ya llegó **o** si el estado cambió, lo que pase primero
+- Así la persecución arranca casi al instante, sin esperar a que termine el movimiento de patrulla
+
+### 7. Programar la persecución con Move (fluida)
+
+```lua
+local function perseguir()
+    humanoid.WalkSpeed = 12
+    local personaje = jugadorDetectado.Character
+    if personaje then
+        local destino = personaje.HumanoidRootPart.Position
+        local direccion = (destino - rootPart.Position).Unit      -- direccion normalizada hacia el jugador
+        humanoid:Move(direccion)                                   -- mueve de forma continua
+    end
+end
+```
+
+- `.Unit` convierte el vector en uno de **longitud 1**, quedándose solo con la dirección
+- `humanoid:Move(direccion)` es la misma función que usa Roblox cuando el jugador presiona WASD: fluida, sin pausas al girar
+
+> ⚠️ Es importante usar `Move()` y no `MoveTo()` acá. `MoveTo` espera una **posición**, mientras que `direccion` es un vector normalizado.
+
+### 8. El bucle principal
+
+```lua
+while true do
+    if estado == "patrullando" then
+        patrullar()
+    elseif estado == "persiguiendo" then
+        perseguir()
+    end
+    wait()
+end
+```
+
+### 9. El script completo
+
+```lua
+local enemigo = script.Parent
+local humanoid = enemigo:WaitForChild("Humanoid")
+local rootPart = enemigo:WaitForChild("HumanoidRootPart")
+
+local puntos = {
+    workspace.Punto1.Position,
+    workspace.Punto2.Position,
+    workspace.Punto3.Position,
+}
+
+local estado = "patrullando"
+local jugadorDetectado = nil
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    for i, jugador in ipairs(game.Players:GetPlayers()) do
+        local personaje = jugador.Character
+        if personaje then
+            local distancia = (rootPart.Position - personaje.HumanoidRootPart.Position).Magnitude
+            if distancia < 15 and estado ~= "persiguiendo" then
+                jugadorDetectado = jugador
+                estado = "persiguiendo"
+            end
+        end
+    end
+end)
+
+local function patrullar()
+    humanoid.WalkSpeed = 8
+    for i, punto in ipairs(puntos) do
+        if estado ~= "patrullando" then break end
+        humanoid:MoveTo(punto)
+
+        local llego = false
+        local conexion
+        conexion = humanoid.MoveToFinished:Connect(function()
+            llego = true
+        end)
+
+        local tiempoEsperado = 0
+        while not llego and estado == "patrullando" and tiempoEsperado < 8 do
+            wait(0.1)
+            tiempoEsperado = tiempoEsperado + 0.1
+        end
+        conexion:Disconnect()
+
+        if estado ~= "patrullando" then break end
+        wait(1)
+    end
+end
+
+local function perseguir()
+    humanoid.WalkSpeed = 12
+    local personaje = jugadorDetectado.Character
+    if personaje then
+        local destino = personaje.HumanoidRootPart.Position
+        local direccion = (destino - rootPart.Position).Unit
+        humanoid:Move(direccion)
+    end
+end
+
+while true do
+    if estado == "patrullando" then
+        patrullar()
+    elseif estado == "persiguiendo" then
+        perseguir()
+    end
+    wait()
+end
+```
+
+### 10. Dónde va el script
+
+```
+Workspace
+  └── Enemigo (Model)
+        ├── Humanoid
+        ├── HumanoidRootPart
+        └── Script
+```
+
+### 11. Limitaciones a tener en cuenta
+
+| Limitación | Por qué pasa |
+|---|---|
+| El enemigo camina sin animación | Falta el script Animate del personaje estándar |
+| No esquiva obstáculos | Ni MoveTo ni Move calculan caminos, van en línea recta |
+| Nunca vuelve a patrullar solo | Una vez que persigue, se queda así |
+
+### 12. Extra: animaciones y ataque
+
+Si querés que el enemigo tenga animación de caminar y ataque real, podés combinarlo con lo visto en las Clases 7 y 14.
+
+**Animación de caminar:**
+
+```lua
+local animator = humanoid:WaitForChild("Animator")
+
+local animCaminar = Instance.new("Animation")
+animCaminar.AnimationId = "rbxassetid://TU_ID_CAMINAR"
+local trackCaminar = animator:LoadAnimation(animCaminar)
+trackCaminar.Looped = true
+```
+
+Se reproduce dentro de `patrullar()` agregando `trackCaminar:Play()` al inicio de la función.
+
+**Animación de ataque + daño:**
+
+```lua
+local animAtaque = Instance.new("Animation")
+animAtaque.AnimationId = "rbxassetid://TU_ID_ATAQUE"
+local trackAtaque = animator:LoadAnimation(animAtaque)
+
+local function atacar(personaje)
+    trackAtaque:Play()
+    local humanoidJugador = personaje:FindFirstChild("Humanoid")
+    if humanoidJugador then
+        humanoidJugador.Health = humanoidJugador.Health - 20
+    end
+    wait(1)
+end
+```
+
+Se agrega la verificación de distancia dentro de `perseguir()` para atacar en vez de seguir moviéndose cuando está muy cerca:
+
+```lua
+local function perseguir()
+    humanoid.WalkSpeed = 12
+    local personaje = jugadorDetectado.Character
+    if personaje then
+        local destino = personaje.HumanoidRootPart.Position
+        local distancia = (destino - rootPart.Position).Magnitude
+
+        if distancia < 5 then
+            atacar(personaje)
+        else
+            local direccion = (destino - rootPart.Position).Unit
+            humanoid:Move(direccion)
+        end
+    end
+end
+```
+
+## Ejercicio
+
+> Consigna: Creá un enemigo que patrulle entre al menos 3 puntos y persiga al jugador apenas se acerque, sin demoras al detectarlo.
+
+**Pistas:**
+1. No intentes cancelar el `MoveTo` con un segundo `MoveTo`, es poco confiable
+2. Revisá el `estado` cada 0.1 segundos dentro de la patrulla para que la detección sea inmediata
+3. Usá `Move()` en vez de `MoveTo()` para que la persecución sea fluida al girar
+
+## Recursos
+
+- [Documentación oficial de Humanoid](https://create.roblox.com/docs/reference/engine/classes/Humanoid)
+- [Documentación oficial de RunService](https://create.roblox.com/docs/reference/engine/classes/RunService)
