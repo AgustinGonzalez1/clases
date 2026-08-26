@@ -51,24 +51,59 @@ El Motor6D va en la parte **desde donde sale la conexión**.
 
 > 💡 **Motor6D es el método vigente para rigs personalizados armados con Parts.** Roblox introdujo un sistema nuevo llamado AnimationConstraint, pero ese solo reemplaza a Motor6D en el personaje estándar del jugador (R15). Para un rig propio como este, Motor6D sigue siendo el método correcto y recomendado por la documentación oficial.
 
-### 4. Asignar el PrimaryPart
+### 4. Ajustar el punto de giro con el plugin RigLink
+
+Si al conectar el Motor6D todo el brazo "salta" al centro del torso, es el comportamiento normal de Roblox cuando C0/C1 quedan en su valor por defecto (sin ningún desplazamiento). Calcular esos valores a mano con matemática es un proceso muy propenso a errores, así que en vez de eso usamos un plugin gratuito llamado **RigLink**, que hace el trabajo de forma visual.
+
+**Paso 1: Instalar el plugin**
+
+1. Pestaña **Vista** → **Toolbox** (Caja de herramientas)
+2. En el panel que se abre, hacés click en el ícono de **☰** (arriba a la izquierda) y elegís la categoría **Plugins**
+3. Buscás **"RigLink"**
+4. Lo instalás (es gratis)
+
+**Paso 2: Conectar las partes**
+
+1. Activás el plugin desde la pestaña **Plugins**
+2. Seleccionás las dos partes a unir (por ejemplo `HumanoidRootPart` y `RightArm`, con Ctrl+click)
+3. Aparecen los handles (flechas roja, verde y azul) en el punto donde el plugin sugiere la unión
+4. Hacés click en **"Link Selected"**
+
+El plugin crea el Motor6D con los C0/C1 correctos automáticamente, sin que el brazo se mueva de lugar.
+
+**Paso 3: Ajustar el punto de giro manualmente (si hace falta)**
+
+Si el punto sugerido no queda exactamente en el hombro:
+
+1. Activás **"Manual Alignment"** en el panel del plugin
+2. Volvés a seleccionar las dos partes
+3. Arrastrás los handles hasta la posición real donde debería estar la unión
+4. Click en **"Link Selected"** de nuevo para aplicar
+
+> 💡 El punto de giro (pivote) es lo que hace que el brazo cuelgue naturalmente desde el hombro al animarlo, en vez de girar "flotando" desde su propio centro.
+
+Repetís este proceso para cada parte: `Head`, `LeftArm`, `RightArm`, `LeftLeg`, `RightLeg`, todas conectadas al `HumanoidRootPart`.
+
+### 5. Asignar el PrimaryPart
 
 1. Seleccionás el **Model**
 2. Properties → **PrimaryPart** → seleccionás **HumanoidRootPart**
 
-### 5. Animar el rig
+### 6. Animar el rig
 
 1. **Avatar → Animation Editor**
 2. Seleccionás el Model
 3. El editor detecta las uniones y te deja mover cada parte
 4. Creás los keyframes y publicás
 
-### 6. Problemas comunes
+### 7. Problemas comunes
 
 | Problema | Causa |
 |---|---|
 | Animation Editor no muestra las partes | Falta el Humanoid o Motor6D mal configurados |
 | El modelo no se posiciona bien | PrimaryPart no asignado |
+| El brazo salta al centro del torso al conectarlo | C0/C1 en su valor default; usá RigLink (Paso 4) para conectarlo sin que se mueva |
+| El brazo gira desde el medio en vez del hombro | El punto de giro no está en el hombro; ajustalo con "Manual Alignment" en RigLink |
 
 ## Ejercicio
 
@@ -76,9 +111,11 @@ El Motor6D va en la parte **desde donde sale la conexión**.
 
 **Pistas:**
 1. Nombrá las 6 partes exactamente como en la tabla, Roblox depende de esos nombres
-2. Verificá que cada Motor6D tenga Part0 y Part1 bien configurados antes de animar
-3. Si el Animation Editor no muestra las partes, revisá que el Humanoid esté agregado
+2. Usá el plugin **RigLink** para conectar las partes sin que salten de lugar
+3. Si el punto de giro no queda en el hombro, usá "Manual Alignment" para ajustarlo a mano
+4. Si el Animation Editor no muestra las partes, revisá que el Humanoid esté agregado
 
 ## Recursos
 
 - [Documentación oficial de Motor6D](https://create.roblox.com/docs/reference/engine/classes/Motor6D)
+- [RigLink en el DevForum de Roblox](https://devforum.roblox.com/t/riglink-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684)
