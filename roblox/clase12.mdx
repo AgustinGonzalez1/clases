@@ -1,81 +1,108 @@
 ---
-title: "Clase 11: Tu Primera Arma: La Espada ⚔️"
-mision: "Diseñar tu espada con estilo propio."
+title: "Clase 12: La Pistola de Rayos 🔫"
+mision: "Armar una galería de tiro con conteo de disparos."
 ---
 
-# Clase 11: Tu Primera Arma: La Espada ⚔️
+# Clase 12: La Pistola de Rayos 🔫
 
-Clase 100% visual, sin código. Construimos y personalizamos una espada usando Parts, la convertimos en Tool y la ajustamos para que quede bien en la mano del personaje.
+Construimos una pistola y la programamos para que dispare proyectiles visibles con un contador de disparos en pantalla.
 
 ## Objetivos
 
-- Construir una espada con 3 partes
-- Convertirla en un Tool agarrable
-- Unir las partes con WeldConstraint y ajustar el Grip
+- Construir una pistola como Tool
+- Crear un proyectil visual con Instance.new
+- Contar disparos con una GUI
 
 ## Contenido
 
-### 1. ¿Qué es un Tool?
+### 1. Las partes de la pistola
 
-Un **Tool** es un tipo especial de objeto en Roblox que el jugador puede agarrar y equipar. Cuando está en el **Workspace**, el jugador lo agarra al acercarse. Cuando está en el **StarterPack**, aparece directo en su inventario al spawnear.
-
-### 2. Las 3 partes de la espada
-
-| Parte | Nombre en Studio | Descripción |
-|---|---|---|
-| Mango | `Handle` | Part corta, donde el personaje agarra la espada |
-| Guardia | `Guardia` | Part ancha y corta entre el mango y la hoja |
-| Hoja | `Hoja` | Part larga y fina, la parte principal |
-
-> ⚠️ El nombre `Handle` es obligatorio. Roblox lo usa como punto de agarre del Tool.
-
-### 3. Crear el Tool en el Workspace
-
-1. Click derecho sobre **Workspace** → Insert Object → **Tool**
-2. Arrastrás las 3 Parts dentro del Tool
-
-```
-Workspace
-  └── Tool
-        ├── Handle
-        ├── Guardia
-        └── Hoja
-```
-
-### 4. Unir las partes con WeldConstraint
-
-1. **Handle** → Insert Object → **WeldConstraint** → `Part0=Handle` / `Part1=Guardia`
-2. **Guardia** → Insert Object → **WeldConstraint** → `Part0=Guardia` / `Part1=Hoja`
-
-```
-Workspace
-  └── Tool
-        ├── Handle
-        │     └── WeldConstraint (Part0=Handle / Part1=Guardia)
-        ├── Guardia
-        │     └── WeldConstraint (Part0=Guardia / Part1=Hoja)
-        └── Hoja
-```
-
-### 5. Ajustar el Grip
-
-En Properties del Tool:
-
-| Propiedad | Valor recomendado |
+| Parte | Nombre |
 |---|---|
-| **Grip → Orientation** | `0, 0, -90` |
+| Mango | `Handle` |
+| Cañón | `Canon` |
 
-Ajustás hasta que se vea natural en la mano del personaje.
+Mismos pasos de la Clase 11: Tool en Workspace, WeldConstraint, Grip.
+
+### 2. La GUI del contador
+
+1. StarterGui → Insert Object → **ScreenGui**
+2. Dentro → Insert Object → **TextLabel**
+   - **Text** → `"Disparos: 0"`
+   - **TextScaled** → `true`
+   - **BackgroundTransparency** → `1`
+
+### 3. El script
+
+Va en un **LocalScript** dentro del Tool.
+
+```lua
+local tool = script.Parent                            -- el Tool (la pistola)
+local jugador = game.Players.LocalPlayer              -- el jugador que ejecuta este script
+local personaje = jugador.Character                   -- personaje fisico del jugador
+local canon = tool:WaitForChild("Canon")              -- espera a que el Canon este listo
+local TweenService = game:GetService("TweenService")  -- para animar la bala
+
+local gui = jugador.PlayerGui:WaitForChild("ScreenGui")
+local texto = gui:WaitForChild("TextLabel")
+
+local disparos = 0
+
+tool.Activated:Connect(function()                     -- se dispara al hacer click con el Tool
+    disparos = disparos + 1
+    texto.Text = "Disparos: " .. disparos
+
+    local camara = workspace.CurrentCamera
+    local direccion = camara.CFrame.LookVector         -- hacia donde mira la camara
+
+    local bala = Instance.new("Part")                  -- crea el proyectil
+    bala.Size = Vector3.new(0.3, 0.3, 0.3)
+    bala.Color = Color3.fromRGB(255, 255, 0)
+    bala.Anchored = true
+    bala.CanCollide = false
+    bala.CFrame = CFrame.new(canon.Position)           -- sale desde el canon
+    bala.Parent = workspace
+
+    local destino = canon.Position + direccion * 200   -- 200 studs hacia adelante
+    local tween = TweenService:Create(bala, TweenInfo.new(1), {Position = destino})
+    tween:Play()
+
+    game:GetService("Debris"):AddItem(bala, 3)         -- destruye la bala en 3 segundos
+end)
+```
+
+### 4. Estructura en el Explorer
+
+```
+Workspace
+  └── Tool
+        ├── Handle
+        │     └── WeldConstraint (Part0=Handle / Part1=Canon)
+        ├── Canon
+        └── LocalScript
+
+StarterGui
+  └── ScreenGui
+        └── TextLabel
+```
+
+### 5. Extra: ¿por qué no le hace daño real a los NPCs?
+
+Como todo el código está en un **LocalScript**, si intentás bajarle la vida a un NPC desde acá, ese cambio **solo se ve en tu pantalla**. Para los demás jugadores, el NPC sigue con toda su vida.
+
+Esto pasa porque el `Tool.Activated` (el click con el arma) es algo que **solo tu cliente detecta con comodidad** (necesita tu cámara para saber hacia dónde apuntás). El daño, en cambio, tiene que ser **real para todos los jugadores**, y eso requiere que el cliente le avise al servidor lo que pasó.
+
+> 💡 Esa comunicación cliente-servidor (RemoteEvents) es exactamente lo que vamos a ver en la **Clase 23**. Por ahora, la pistola se queda como galería de tiro visual, sin daño real a NPCs.
 
 ## Ejercicio
 
-> Consigna: Diseñá tu espada con estilo propio, con colores y materiales personalizados.
+> Consigna: Armá tu pistola de rayos con una galería de tiro que cuente los disparos realizados.
 
 **Pistas:**
-1. Recordá nombrar el mango exactamente `Handle`
-2. Sin WeldConstraint la espada se desarma al agarrarla
-3. Si queda torcida en la mano, ajustá `Grip → Orientation`
+1. La bala es solo visual, se mueve con TweenService en línea recta
+2. `Debris:AddItem()` destruye la bala automáticamente después de un tiempo
+3. Verificá que el contador en pantalla suba con cada disparo
 
 ## Recursos
 
-- [Documentación oficial de Tool](https://create.roblox.com/docs/reference/engine/classes/Tool)
+- [Documentación oficial de Tool.Activated](https://create.roblox.com/docs/reference/engine/classes/Tool)
