@@ -1,0 +1,137 @@
+---
+title: "Clase 14: Variables.⭐ Atrapa la estrella"
+mision: "Crear un juego de 30 segundos donde atrapamos estrellas para sumar puntos."
+---
+# Clase 14: Atrapa Estrellas ⭐
+
+Aprendemos a usar **variables** para llevar un puntaje y un temporizador en Scratch.
+
+## Contenido
+
+### 1. ¿Qué hace a un juego?
+
+Un juego tiene 3 elementos clave:
+
+1. **Objetivo:** ¿Qué queremos lograr? Por ejemplo, atrapar estrellas.
+2. **Reglas:** Tenemos un límite de tiempo de 30 segundos y sumamos puntos al tocar el objetivo.
+3. **Feedback:** El jugador ve cómo sube su puntaje y escucha sonidos de recompensa.
+
+### 2. El reto: Atrapa Estrellas
+
+Crearemos el clásico juego **"Atrapa la Estrella"**.
+
+Las estrellas aparecerán en posiciones aleatorias de la pantalla y el tiempo irá corriendo hacia atrás.
+
+> ¿Cuántos puntos lograrás hacer antes de que el reloj llegue a 0?
+
+En este proyecto integramos:
+
+- **Mecánica:** Una estrella aparece en posiciones al azar en el espacio.
+- **Interacción:** Hacemos clic sobre ella para atraparla y ganar puntos.
+- **Temporizador:** Cuenta regresiva exacta de 30 segundos.
+
+### 3. Concepto clave: Las Variables
+
+#### ¿Qué es una variable?
+
+Una variable es como una **caja en la memoria de la computadora** donde guardamos un dato que cambia con el tiempo.
+
+Le ponemos un nombre a la caja para identificar qué guardamos, por ejemplo, `Puntaje`.
+
+#### Nuestras 2 variables
+
+| Variable | Valor inicial | Qué sucede |
+| -------- | ------------- | ---------- |
+| `Puntaje` | `0` | Cada vez que atrapamos una estrella, sumamos `+1`. |
+| `Tiempo` | `30` | Cada segundo que pasa, restamos `-1`. |
+
+### 4. Bloques de Variables
+
+| Bloque | Qué hace |
+| ------ | -------- |
+| `fijar [Puntaje v] a (0)` | Asigna un valor inicial exacto al comenzar el juego. |
+| `sumar a [Puntaje v] (1)` | Suma una cantidad al valor actual guardado. |
+| `sumar a [Tiempo v] (-1)` | Resta una cantidad al valor actual guardado. |
+| `mostrar variable [Puntaje v]` | Controla si el jugador puede ver la variable en pantalla (HUD). |
+
+### 5. Paso 1: Escenario y objeto
+
+1. **Elegir fondo:** Haz clic en la galería de fondos y selecciona un escenario espacial, por ejemplo `Stars` o `Galaxy`.
+2. **Agregar objeto:** Busca y agrega el objeto `Star` (Estrella) desde la galería de sprites.
+3. **Crear la variable:** Ve al menú rojo/naranja de **Variables** y haz clic en **"Crear una variable"**. Nómbrala `Puntaje`.
+4. **Verificar el marcador:** Asegúrate de que la casilla al lado de `Puntaje` esté marcada para que aparezca en la pantalla.
+
+### 6. Paso 2: Mover la Estrella
+
+Hacemos que la estrella cambie de posición automáticamente cada 1 segundo:
+
+```text
+al presionar [bandera verde]
+por siempre
+   ir a [posición aleatoria v]
+   esperar (1) segundos
+fin
+```
+
+### 7. Paso 3: Atrapar y Sumar
+
+Programamos la reacción cuando el jugador hace clic sobre la estrella:
+
+```text
+al presionar este objeto
+sumar a [Puntaje v] (1)
+tocar sonido [Collect v]
+ir a [posición aleatoria v]
+```
+
+### 8. Paso 4: El Temporizador
+
+Creamos la variable `Tiempo` y programamos el reloj de cuenta regresiva en el **Escenario**:
+
+```text
+al presionar [bandera verde]
+fijar [Puntaje v] a (0)
+fijar [Tiempo v] a (30)
+repetir hasta que <(Tiempo) = [0]>
+   esperar (1) segundos
+   sumar a [Tiempo v] (-1)
+fin
+decir [¡Fin del juego!] por (2) s
+detener [todos v]
+```
+
+## Desafíos Creativos
+
+### ⭐ Estrella Dorada (Bonus)
+
+Crea un segundo objeto estrella más pequeña que valga `+3` puntos pero aparezca por menos tiempo.
+
+### 💣 Objeto Rival
+
+Agrega un objeto peligroso, como una bomba o meteorito. Si lo tocas por error, ¡te resta `-1` punto!
+
+### ⚡ Modo Acelerado
+
+Haz que las estrellas aparezcan cada vez más rápido cuando falten menos de 10 segundos.
+
+## Misión
+
+> Crear el juego **"Atrapa Estrellas"**: una estrella que aparece en posiciones aleatorias, un marcador de puntos y una cuenta regresiva exacta de 30 segundos. Probar una partida completa y registrar el récord personal.
+
+## 30 Segundos: ¡A Probar!
+
+¡Pon a prueba tu juego!
+
+Haz clic en la **Bandera Verde** y juega una partida completa.
+
+Anota tu récord personal de puntos y compáralo con tus compañeros de clase.
+
+Guarda tu proyecto como:
+
+`Clase14_AtrapaEstrellas_TuNombre`
+
+## Reflexión
+
+> ¿Qué pasaría si olvidamos fijar `Puntaje` a `0` al presionar la bandera verde?
+
+¡Nos vemos en la próxima clase de Scratch!

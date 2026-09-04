@@ -224,8 +224,24 @@
           "archivo": "clase12.mdx"
         },
         {
-          "titulo": "Clase 13",
+        "titulo": "Clase 13 - ¿Qué es un juego?",
           "archivo": "clase13.mdx"
+        },
+        {
+          "titulo": "Clase 14 - Variables. Atrapa la estrella",
+          "archivo": "clase14.mdx"
+        },
+        {
+          "titulo": "Clase 15 - Condicionales. Laberinto sin paredes",
+          "archivo": "clase15.mdx"
+        },
+        {
+          "titulo": "Clase 16 - Controles. Carrera con flechas",
+          "archivo": "clase16.mdx"
+        },
+        {
+          "titulo": "Clase 17 - Dificultad. Chase Game",
+          "archivo": "clase17.mdx"
         }
       ]
     }
