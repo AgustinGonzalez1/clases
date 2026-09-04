@@ -1,0 +1,226 @@
+---
+title: "Clase 22: ¡Cuidado con los Enemigos! 👾"
+mision: "Hacer que el juego termine si el jugador choca contra el enemigo."
+---
+
+# Clase 22: ¡Cuidado con los Enemigos! 👾
+
+Creamos un enemigo simple que se mueve por la pantalla y aprendemos a detectar cuándo choca contra nuestro personaje.
+
+## Objetivos
+
+- Guardar el tamaño de la pantalla en variables (`ANCHO`, `ALTO`)
+- Crear un enemigo que se mueva solo, rebotando en los bordes
+- Entender qué es la detección de colisiones
+- Usar `pygame.Rect` y `colliderect()` para detectar choques
+- Terminar el juego cuando el jugador choca contra el enemigo
+
+## Contenido
+
+### 1. Guardando el tamaño de la pantalla en variables
+
+Hasta ahora escribíamos `800` y `600` directamente cada vez que hacía falta el tamaño de la ventana. Es mejor guardarlos en variables — si el día de mañana queremos una ventana más grande, cambiamos un solo lugar en vez de buscar cada número suelto por todo el código.
+
+**Dónde va:** primera línea después de `pygame.init()`, antes de crear la ventana.
+
+```python
+ANCHO, ALTO = 800, 600
+```
+
+Usamos mayúsculas por convención, para marcar que son valores que no cambian durante el juego.
+
+### 2. La estructura base
+
+```python
+import pygame
+
+pygame.init()
+
+ANCHO, ALTO = 800, 600
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+
+pygame.display.set_caption("Clase 22 - Cuidado con los enemigos")
+
+reloj = pygame.time.Clock()
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    # ACÁ VA EL CONTENIDO DE LA CLASE
+
+    pygame.display.flip()
+    reloj.tick(60)
+
+pygame.quit()
+```
+
+### 3. El jugador
+
+**Dónde va:** después de `reloj = pygame.time.Clock()` y antes del `while`.
+
+```python
+jugador_x, jugador_y = 400, 300
+jugador_tamano = 40
+velocidad = 6
+```
+
+Dentro del `while`, después del `for evento...`, el movimiento igual que en la Clase 21, usando `ANCHO` y `ALTO` en vez de números sueltos:
+
+```python
+teclas = pygame.key.get_pressed()
+if teclas[pygame.K_LEFT]:
+    jugador_x -= velocidad
+if teclas[pygame.K_RIGHT]:
+    jugador_x += velocidad
+if teclas[pygame.K_UP]:
+    jugador_y -= velocidad
+if teclas[pygame.K_DOWN]:
+    jugador_y += velocidad
+
+jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+jugador_y = max(0, min(jugador_y, ALTO - jugador_tamano))
+```
+
+### 4. El enemigo — variables de posición
+
+**Dónde va:** junto con las variables del jugador, antes del `while`.
+
+```python
+enemigo_x, enemigo_y = 100, 100
+enemigo_tamano = 40
+enemigo_velocidad = 3
+```
+
+### 5. Moviendo al enemigo solo
+
+A diferencia del jugador, el enemigo no espera al teclado — se mueve por su cuenta en cada vuelta del bucle, rebotando en los bordes de la ventana, como una pelota.
+
+**Dónde va:** dentro del `while`, después del movimiento del jugador y antes del `pantalla.fill(...)`.
+
+```python
+enemigo_x += enemigo_velocidad
+
+if enemigo_x <= 0 or enemigo_x >= ANCHO - enemigo_tamano:
+    enemigo_velocidad *= -1
+```
+
+- `enemigo_x += enemigo_velocidad` → suma la velocidad a la posición en cada vuelta
+- `if enemigo_x <= 0 or enemigo_x >= ANCHO - enemigo_tamano:` → revisa si tocó el borde izquierdo o derecho
+- `enemigo_velocidad *= -1` → invierte el signo de la velocidad, haciendo que rebote
+
+### 6. Detectando el choque — `pygame.Rect` y `colliderect()`
+
+**¿Por qué necesitamos esto?** Python no sabe por sí solo si dos formas se tocan — para Python son solo dos rectángulos dibujados en distintas posiciones, sin ninguna relación entre sí. Necesitamos preguntarle explícitamente: *"¿estas dos formas se están tocando ahora mismo?"*. Eso es la **detección de colisiones**.
+
+Un `pygame.Rect` es un rectángulo invisible que Pygame usa para calcular si dos formas se tocan. No se dibuja en pantalla — es distinto del `pygame.draw.rect()` que sí se ve. Se crea de nuevo en cada vuelta porque la posición del jugador y del enemigo cambian todo el tiempo.
+
+**Dónde va:** dentro del `while`, después de mover al enemigo y antes del `pantalla.fill(...)`.
+
+```python
+rect_jugador = pygame.Rect(jugador_x, jugador_y, jugador_tamano, jugador_tamano)
+rect_enemigo = pygame.Rect(enemigo_x, enemigo_y, enemigo_tamano, enemigo_tamano)
+
+if rect_jugador.colliderect(rect_enemigo):
+    corriendo = False   # si chocaron, termina el juego
+```
+
+- `rect_jugador.colliderect(rect_enemigo)` → le pregunta al rectángulo del jugador si se está tocando con el del enemigo. Devuelve `True` si se superponen, `False` si no.
+
+Esto conecta con la Clase 18 — `rect_jugador` es un objeto, y `colliderect()` es un método de ese objeto, igual que `heroe.atacar()` en el ejemplo de esa clase.
+
+### 7. Dibujar al jugador y al enemigo
+
+**Dónde va:** dentro del `while`, después del `pantalla.fill(...)` y antes del `pygame.display.flip()`.
+
+```python
+pygame.draw.rect(pantalla, (30, 100, 200), (jugador_x, jugador_y, jugador_tamano, jugador_tamano))
+pygame.draw.rect(pantalla, (200, 30, 30), (enemigo_x, enemigo_y, enemigo_tamano, enemigo_tamano))
+```
+
+El jugador en azul, el enemigo en rojo.
+
+### 8. Código completo
+
+```python
+import pygame
+
+pygame.init()
+
+ANCHO, ALTO = 800, 600
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+
+pygame.display.set_caption("Clase 22 - Cuidado con los enemigos")
+
+jugador_x, jugador_y = 400, 300
+jugador_tamano = 40
+velocidad = 6
+
+enemigo_x, enemigo_y = 100, 100
+enemigo_tamano = 40
+enemigo_velocidad = 3
+
+reloj = pygame.time.Clock()
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_LEFT]:
+        jugador_x -= velocidad
+    if teclas[pygame.K_RIGHT]:
+        jugador_x += velocidad
+    if teclas[pygame.K_UP]:
+        jugador_y -= velocidad
+    if teclas[pygame.K_DOWN]:
+        jugador_y += velocidad
+
+    jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+    jugador_y = max(0, min(jugador_y, ALTO - jugador_tamano))
+
+    enemigo_x += enemigo_velocidad
+    if enemigo_x <= 0 or enemigo_x >= ANCHO - enemigo_tamano:
+        enemigo_velocidad *= -1
+
+    rect_jugador = pygame.Rect(jugador_x, jugador_y, jugador_tamano, jugador_tamano)
+    rect_enemigo = pygame.Rect(enemigo_x, enemigo_y, enemigo_tamano, enemigo_tamano)
+
+    if rect_jugador.colliderect(rect_enemigo):
+        corriendo = False
+
+    pantalla.fill((255, 255, 255))
+    pygame.draw.rect(pantalla, (30, 100, 200), (jugador_x, jugador_y, jugador_tamano, jugador_tamano))
+    pygame.draw.rect(pantalla, (200, 30, 30), (enemigo_x, enemigo_y, enemigo_tamano, enemigo_tamano))
+
+    pygame.display.flip()
+    reloj.tick(60)
+
+pygame.quit()
+```
+
+### 9. Tabla de referencia
+
+| Elemento | Descripción | Ejemplo |
+|---|---|---|
+| `pygame.Rect(x, y, ancho, alto)` | Crea un rectángulo invisible para cálculos | `pygame.Rect(x, y, 40, 40)` |
+| `rectA.colliderect(rectB)` | Devuelve `True` si dos rectángulos se tocan | `rect_jugador.colliderect(rect_enemigo)` |
+
+## Ejercicio
+
+> Consigna: Agregá un enemigo que se mueva solo por la pantalla. Usá `pygame.Rect` y `colliderect()` para detectar cuándo el jugador lo toca, y hacé que el juego se cierre en ese momento.
+
+**Pistas:**
+1. El enemigo no necesita el teclado — se mueve solo en cada vuelta del bucle
+2. Los `Rect` se crean de nuevo en cada vuelta, porque las posiciones cambian todo el tiempo
+
+**Ejemplo de solución:** el código completo de arriba ya cumple la misión tal cual.
+
+## Recursos
+
+- [pygame.Rect — referencia completa](https://www.pygame.org/docs/ref/rect.html)
+- [pygame.draw — referencia completa](https://www.pygame.org/docs/ref/draw.html)

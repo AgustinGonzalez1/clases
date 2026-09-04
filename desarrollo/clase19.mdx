@@ -1,0 +1,190 @@
+---
+title: "Clase 19: ¡Funciones Mágicas! 🪄"
+mision: "Crear una función que, al darle un número, devuelva el doble."
+---
+
+# Clase 19: ¡Funciones Mágicas! 🪄
+
+Una función es un bloque de código reutilizable: lo escribimos una vez y lo podemos usar todas las veces que queramos, con distintos valores cada vez.
+
+## Objetivos
+
+- Entender qué es una función y por qué evita repetir código
+- Crear funciones con parámetros y `return`
+- Conocer la forma moderna de escribir funciones: arrow functions
+
+## Contenido
+
+### 1. ¿Por qué usar funciones?
+
+Sin funciones, si necesitamos hacer lo mismo varias veces, tenemos que repetir el código cada vez.
+
+```js
+console.log("Hola, Ana");
+console.log("Hola, Juan");
+console.log("Hola, Sofía");
+```
+
+Con una función, escribimos la lógica una sola vez:
+
+```js
+function saludar(nombre) {
+  console.log("Hola, " + nombre);
+}
+
+saludar("Ana");
+saludar("Juan");
+saludar("Sofía");
+```
+
+### 2. Declarando una función
+
+```js
+function nombreDeLaFuncion(parametro) {
+  // código que se ejecuta cada vez que la llamamos
+}
+```
+
+- `function` es la palabra clave para crear una función
+- El **parámetro** es un valor que la función recibe cada vez que se usa
+- El código de adentro se llama **cuerpo** de la función
+
+### 3. Llamando (ejecutando) una función
+
+Declarar una función no la ejecuta. Hay que **llamarla** por su nombre.
+
+```js
+function saludar(nombre) {
+  console.log("Hola, " + nombre);
+}
+
+saludar("Ana"); // acá recién se ejecuta
+```
+
+### 4. Varios parámetros
+
+```js
+function presentar(nombre, edad) {
+  console.log(nombre + " tiene " + edad + " años");
+}
+
+presentar("Ana", 15);
+```
+
+### 5. `return`: devolver un valor
+
+Hasta ahora las funciones solo mostraban cosas en consola. Con `return`, una función puede **devolver** un valor para usarlo después.
+
+```js
+function duplicar(numero) {
+  return numero * 2;
+}
+
+let resultado = duplicar(5);
+console.log(resultado); // 10
+```
+
+`return` corta la ejecución de la función ahí mismo y entrega ese valor a quien la llamó. Es distinto a `console.log()`: `console.log()` solo muestra algo en pantalla, `return` permite **guardar** y **reutilizar** ese resultado.
+
+### 6. Función sin parámetros
+
+No todas las funciones necesitan recibir datos.
+
+```js
+function saludoGenerico() {
+  return "¡Hola a todos!";
+}
+
+console.log(saludoGenerico());
+```
+
+### 7. La forma moderna: arrow functions
+
+Desde hace unos años, la forma más usada en JavaScript actual para escribir funciones es con `=>` (arrow function), en vez de la palabra `function`.
+
+```js
+const duplicar = (numero) => {
+  return numero * 2;
+};
+
+console.log(duplicar(5)); // 10
+```
+
+Es lo mismo que la función de siempre, pero se guarda en una variable con `const` y se escribe con `=>`.
+
+### 8. Arrow function corta (una sola línea)
+
+Cuando el cuerpo de la función es una sola línea con `return`, se puede escribir todavía más corto, sin `{ }` ni la palabra `return`.
+
+```js
+const duplicar = (numero) => numero * 2;
+
+console.log(duplicar(5)); // 10
+```
+
+Esto es exactamente igual al ejemplo anterior, solo que más compacto. JavaScript entiende que esa única línea es lo que hay que devolver.
+
+### 9. ¿Función tradicional o arrow function?
+
+Ambas formas hacen lo mismo y **conviven** en el código moderno. Por ahora, con esto alcanza:
+
+```js
+// Forma tradicional
+function duplicar(numero) {
+  return numero * 2;
+}
+
+// Arrow function
+const duplicar = (numero) => numero * 2;
+```
+
+Vas a ver arrow functions muy seguido en las próximas clases (eventos, DOM), así que vale la pena ir familiarizándose con la sintaxis desde ahora, aunque la forma tradicional también sea totalmente válida.
+
+### 10. ¿Función tradicional o arrow function? Las diferencias clave
+
+Ya vimos las dos formas de escribir una función. Ahora veamos por qué existe esta diferencia y cuándo conviene usar cada una.
+
+**Diferencia 1 — Se pueden usar antes de declararse (hoisting)**
+
+Una función tradicional se puede llamar **antes** de escribirla en el código; una arrow function no.
+
+```js
+saludar(); // funciona, aunque esté declarada más abajo
+
+function saludar() {
+  console.log("Hola");
+}
+```
+
+```js
+saludar(); // ❌ Error: no se puede usar antes de declararse
+
+const saludar = () => {
+  console.log("Hola");
+};
+```
+
+Esto pasa porque las funciones tradicionales se "suben" automáticamente al principio del código (un comportamiento llamado *hoisting*), y las arrow functions no.
+
+**Diferencia 2 — El valor de `this`**
+
+Todavía no vimos objetos ni `this` en profundidad, pero vale la pena saber que existe esta diferencia: una función tradicional tiene su propio `this` que cambia según cómo se la llame, mientras que una arrow function toma el `this` de donde fue escrita, sin cambiarlo nunca. Esto se vuelve importante más adelante, sobre todo trabajando con eventos.
+
+**¿Cuál usar, entonces?**
+
+- Si necesitás poder llamar a la función **antes** de que aparezca en el código → función tradicional.
+- Para la mayoría de los casos del día a día (funciones cortas, callbacks que le pasamos a otro método) → arrow function, es la forma más usada en el código actual.
+
+## Ejercicio
+
+> Consigna: Crear una función que, al darle un número, devuelva el doble.
+
+**Pistas:**
+1. La función necesita un parámetro (el número) y un `return` (el resultado)
+2. Probá primero con la forma tradicional y después reescribila como arrow function
+3. Guardá el resultado en una variable y mostralo con `console.log()`, en vez de hacer `console.log()` dentro de la función
+
+## Recursos
+
+- [MDN - Funciones](https://developer.mozilla.org/es/docs/Learn/JavaScript/Building_blocks/Functions)
+- [MDN - Arrow functions](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Functions/Arrow_functions)

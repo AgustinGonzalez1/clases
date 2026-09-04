@@ -1,0 +1,244 @@
+---
+title: "Clase 21: ¡Moviendo el personaje!"
+mision: "Hacer que el personaje se mueva con las teclas del teclado."
+---
+
+# Clase 21: ¡Moviendo el personaje!
+
+Aprendemos a mover el personaje con los eventos del teclado, y agregamos un reloj para controlar la velocidad del juego.
+
+## Objetivos
+
+- Entender que el movimiento en Pygame es cambiar la posición en cada vuelta del bucle
+- Usar `pygame.key.get_pressed()` para detectar teclas apretadas
+- Mover el personaje en las cuatro direcciones
+- Usar `pygame.time.Clock()` para controlar la velocidad del juego
+- Evitar que el personaje se salga de los límites de la ventana
+
+## Contenido
+
+### 1. La estructura base
+
+De acá en adelante, todas las clases de Pygame van a arrancar con esta misma base — la ventana, el reloj, el bucle, y el evento QUIT. Lo único que cambia entre clase y clase es lo que va en el medio.
+
+```python
+import pygame
+
+pygame.init()
+
+pantalla = pygame.display.set_mode((800, 600))
+
+pygame.display.set_caption("Clase 21 - Moviendo el personaje")
+
+reloj = pygame.time.Clock()   # controla la velocidad del juego
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    # ACÁ VA EL CONTENIDO DE LA CLASE
+
+    pygame.display.flip()
+    reloj.tick(60)   # limita el juego a 60 vueltas por segundo
+
+pygame.quit()
+```
+
+### 2. La posición del personaje ahora es una variable
+
+Hasta la clase pasada, la posición de cada forma era un número fijo, escrito directamente adentro del `pygame.draw`. Para poder moverla, esa posición tiene que vivir en variables que cambien con el tiempo.
+
+**Dónde va:** después de `pygame.display.set_caption(...)`, junto con las demás variables que se configuran una sola vez, antes del `reloj`.
+
+```python
+x, y = 400, 300   # posición inicial del personaje
+velocidad = 5       # cuántos píxeles se mueve por vuelta
+```
+
+### 3. Por qué necesitamos `pantalla.fill()`
+
+En la Clase 20 las formas eran fijas, así que no hacía falta repintar el fondo. Hoy el personaje se mueve, y si no lo repintamos en cada vuelta del bucle, va a dejar un "rastro" de todas las posiciones anteriores en vez de desplazarse limpiamente.
+
+**Dónde va:** dentro del `while`, como primera línea del contenido de la clase.
+
+```python
+pantalla.fill((255, 255, 255))   # borra lo dibujado en la vuelta anterior
+```
+
+### 4. Por qué necesitamos el reloj (`Clock`)
+
+Sin nada que lo controle, el bucle `while` corre lo más rápido que la computadora le permite — cientos o miles de veces por segundo. Eso significa que aunque el personaje se mueva de a poquito, como el bucle se repite tantísimas veces por segundo, igual se ve carísimo en pantalla.
+
+Por suerte, esto ya está resuelto en la estructura base — `reloj = pygame.time.Clock()` antes del bucle, y `reloj.tick(60)` al final, después del `flip()`. `tick(60)` le dice a Pygame: *"no dejes que el bucle corra más de 60 veces por segundo"*.
+
+### 5. Detectar teclas con `pygame.key.get_pressed()`
+
+Para saber qué teclas están apretadas **en este momento**, Pygame ofrece una función que devuelve el estado de todas las teclas del teclado a la vez.
+
+**Dónde va:** dentro del `while`, después del `for evento in pygame.event.get(): ...` y antes del `pantalla.fill(...)`.
+
+```python
+teclas = pygame.key.get_pressed()
+
+if teclas[pygame.K_RIGHT]:
+    x += 5
+```
+
+- `pygame.key.get_pressed()` → devuelve una lista con `True` o `False` para cada tecla del teclado, según si está apretada en este instante
+- `teclas[pygame.K_RIGHT]` → consulta específicamente la posición de la flecha derecha en esa lista
+- `pygame.K_RIGHT`, `pygame.K_LEFT`, `pygame.K_UP`, `pygame.K_DOWN` → constantes que representan cada flecha del teclado
+
+### 6. Moviendo en las cuatro direcciones
+
+Esto reemplaza al ejemplo simple de arriba, en el mismo lugar.
+
+```python
+teclas = pygame.key.get_pressed()
+
+if teclas[pygame.K_LEFT]:
+    x -= velocidad
+if teclas[pygame.K_RIGHT]:
+    x += velocidad
+if teclas[pygame.K_UP]:
+    y -= velocidad
+if teclas[pygame.K_DOWN]:
+    y += velocidad
+```
+
+En Pygame, el eje `y` crece **hacia abajo** — el (0,0) está en la esquina superior izquierda de la ventana. Por eso restar a `y` sube el personaje, y sumarle lo baja.
+
+Se usan cuatro `if` separados (no `elif`) a propósito, para que el jugador pueda apretar dos teclas a la vez —por ejemplo arriba y derecha juntas— y moverse en diagonal.
+
+### 7. Dibujar el personaje en su nueva posición
+
+**Dónde va:** dentro del `while`, después del `pantalla.fill(...)` y antes del `pygame.display.flip()`.
+
+```python
+pygame.draw.circle(pantalla, (14, 181, 232), (x, y), 30)
+```
+
+### 8. Que el personaje no se salga de la pantalla
+
+Si no ponemos ningún límite, el personaje puede moverse fuera de la ventana y desaparecer. Para evitarlo usamos `max()` y `min()`, que ya vimos en la Clase 12.
+
+**Dónde va:** dentro del `while`, después de los cuatro `if` de movimiento y antes del `pantalla.fill(...)`.
+
+```python
+x = max(0, min(x, 800 - 30))   # x no puede ser menor a 0 ni mayor a 770
+y = max(0, min(y, 600 - 30))   # y no puede ser menor a 0 ni mayor a 570
+```
+
+`min(x, 800 - 30)` evita que `x` supere el borde derecho, y `max(0, ...)` evita que sea menor al borde izquierdo. Restamos 30 (el radio) para que el círculo no se salga a medias por el borde.
+
+### 9. Código completo
+
+```python
+import pygame
+
+pygame.init()
+
+pantalla = pygame.display.set_mode((800, 600))
+
+pygame.display.set_caption("Clase 21 - Moviendo el personaje")
+
+x, y = 400, 300
+velocidad = 5
+
+reloj = pygame.time.Clock()
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_LEFT]:
+        x -= velocidad
+    if teclas[pygame.K_RIGHT]:
+        x += velocidad
+    if teclas[pygame.K_UP]:
+        y -= velocidad
+    if teclas[pygame.K_DOWN]:
+        y += velocidad
+
+    x = max(0, min(x, 800 - 30))
+    y = max(0, min(y, 600 - 30))
+
+    pantalla.fill((255, 255, 255))
+    pygame.draw.circle(pantalla, (14, 181, 232), (x, y), 30)
+
+    pygame.display.flip()
+    reloj.tick(60)
+
+pygame.quit()
+```
+
+### 10. Tabla de referencia
+
+| Elemento | Descripción | Ejemplo |
+|---|---|---|
+| `pygame.key.get_pressed()` | Devuelve el estado de todas las teclas | `teclas = pygame.key.get_pressed()` |
+| `pygame.K_LEFT/RIGHT/UP/DOWN` | Constantes para cada flecha | `teclas[pygame.K_LEFT]` |
+| `pygame.time.Clock()` | Crea un reloj para controlar la velocidad | `reloj = pygame.time.Clock()` |
+| `reloj.tick(60)` | Limita el bucle a 60 vueltas por segundo | `reloj.tick(60)` |
+| `max()` / `min()` | Limitan un valor entre un mínimo y un máximo | `max(0, min(x, 770))` |
+
+## Ejercicio
+
+> Consigna: Tomá el personaje que dibujaste la clase pasada y hacé que se mueva por la pantalla usando las flechas del teclado. El personaje no debe poder salir de los límites de la ventana.
+
+**Pistas:**
+1. No te olvides del `reloj.tick(60)` al final del bucle, o el movimiento se va a ver demasiado rápido
+2. El `pantalla.fill()` tiene que ir antes de dibujar el personaje, para borrar el rastro anterior
+
+**Ejemplo de solución:**
+
+```python
+import pygame
+
+pygame.init()
+ANCHO, ALTO = 800, 600
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Clase 21 - Mi personaje se mueve")
+
+x, y = 400, 300
+tamano = 40
+velocidad = 6
+
+reloj = pygame.time.Clock()
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_LEFT]:
+        x -= velocidad
+    if teclas[pygame.K_RIGHT]:
+        x += velocidad
+    if teclas[pygame.K_UP]:
+        y -= velocidad
+    if teclas[pygame.K_DOWN]:
+        y += velocidad
+
+    x = max(0, min(x, ANCHO - tamano))
+    y = max(0, min(y, ALTO - tamano))
+
+    pantalla.fill((230, 230, 250))
+    pygame.draw.rect(pantalla, (30, 100, 200), (x, y, tamano, tamano))
+
+    pygame.display.flip()
+    reloj.tick(60)
+
+pygame.quit()
+```
+
+## Recursos
+
+- [pygame.key — referencia completa](https://www.pygame.org/docs/ref/key.html)
+- [pygame.time.Clock — referencia completa](https://www.pygame.org/docs/ref/time.html)

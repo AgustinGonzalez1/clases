@@ -1,8 +1,4 @@
 ---
-title: "Clase 22"
-mision: ""
----
----
 title: "Clase 22: Enemigos con IA Básica 🤖"
 mision: "Crear un enemigo que patrulle entre puntos y persiga al jugador apenas se acerque."
 ---
@@ -243,11 +239,12 @@ Workspace
 
 ### 11. Limitaciones a tener en cuenta
 
-| Limitación | Por qué pasa |
-|---|---|
-| El enemigo camina sin animación | Falta el script Animate del personaje estándar |
-| No esquiva obstáculos | Ni MoveTo ni Move calculan caminos, van en línea recta |
-| Nunca vuelve a patrullar solo | Una vez que persigue, se queda así |
+| Limitación | Por qué pasa | Solución opcional |
+|---|---|---|
+| El enemigo camina sin animación | Falta el script Animate del personaje estándar | Ver Paso 12 (animación de caminar) |
+| No esquiva obstáculos | Ni MoveTo ni Move calculan caminos, van en línea recta | — |
+| Nunca vuelve a patrullar solo | Una vez que persigue, se queda así | Ver Paso 13 (dejar de perseguir a cierta distancia) |
+| Persigue siempre al mismo jugador | Se queda con el primero detectado, no reevalúa | Ver Paso 14 (perseguir al más cercano) |
 
 ### 12. Extra: animaciones y ataque
 
@@ -303,6 +300,77 @@ local function perseguir()
 end
 ```
 
+### 13. Extra: dejar de perseguir si el jugador se aleja
+
+Con el script tal como está, una vez que el enemigo empieza a perseguir, **nunca vuelve a patrullar solo**. Para que abandone la persecución si el jugador se aleja lo suficiente, agregamos un segundo umbral de distancia (más grande que el de detección) dentro del mismo `Heartbeat`:
+
+```lua
+local RANGO_DETECCION = 15   -- a esta distancia empieza a perseguir
+local RANGO_PERDIDA = 25     -- a esta distancia deja de perseguir
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if estado == "persiguiendo" and jugadorDetectado then
+        local personaje = jugadorDetectado.Character
+        if personaje then
+            local distancia = (rootPart.Position - personaje.HumanoidRootPart.Position).Magnitude
+            if distancia > RANGO_PERDIDA then   -- se alejo lo suficiente
+                estado = "patrullando"
+                jugadorDetectado = nil
+            end
+        end
+    end
+
+    for i, jugador in ipairs(game.Players:GetPlayers()) do
+        local personaje = jugador.Character
+        if personaje then
+            local distancia = (rootPart.Position - personaje.HumanoidRootPart.Position).Magnitude
+            if distancia < RANGO_DETECCION and estado ~= "persiguiendo" then
+                jugadorDetectado = jugador
+                estado = "persiguiendo"
+            end
+        end
+    end
+end)
+```
+
+> 💡 Usar **dos** umbrales distintos (15 para empezar, 25 para abandonar) evita que el enemigo cambie de estado todo el tiempo si el jugador se queda justo en el límite. Si usaras el mismo número para ambos casos, el enemigo "titilaría" entre patrullar y perseguir.
+
+### 14. Extra: perseguir siempre al jugador más cercano
+
+Con el código actual, el enemigo persigue al **primer** jugador que detecta y se queda con él, aunque después aparezca otro jugador mucho más cerca. Para que siempre elija al más cercano, recorremos a todos los jugadores y nos quedamos con el de **menor distancia**, en vez de quedarnos con el primero que entra en rango:
+
+```lua
+game:GetService("RunService").Heartbeat:Connect(function()
+    local jugadorMasCercano = nil
+    local distanciaMasCercana = math.huge   -- arranca con un numero enorme para que cualquiera sea menor
+
+    for i, jugador in ipairs(game.Players:GetPlayers()) do
+        local personaje = jugador.Character
+        if personaje then
+            local distancia = (rootPart.Position - personaje.HumanoidRootPart.Position).Magnitude
+            if distancia < distanciaMasCercana then
+                distanciaMasCercana = distancia
+                jugadorMasCercano = jugador
+            end
+        end
+    end
+
+    if jugadorMasCercano then
+        if distanciaMasCercana < RANGO_DETECCION then
+            jugadorDetectado = jugadorMasCercano   -- siempre el mas cercano, incluso si cambia a mitad de la persecucion
+            estado = "persiguiendo"
+        elseif estado == "persiguiendo" and distanciaMasCercana > RANGO_PERDIDA then
+            estado = "patrullando"
+            jugadorDetectado = nil
+        end
+    end
+end)
+```
+
+- `math.huge` es un número infinitamente grande en Lua, se usa como punto de partida para que la primera comparación siempre sea verdadera
+- En cada vuelta del `Heartbeat`, `jugadorDetectado` se actualiza al jugador más cercano **en ese momento**, así que si dos jugadores se acercan, el enemigo va a perseguir al que esté más cerca, aunque cambie de uno a otro durante la partida
+- Este bloque **reemplaza** al `Heartbeat` del Paso 5, ya que junta la detección, el cambio a "más cercano" y el abandono de la persecución en un solo lugar
+
 ## Ejercicio
 
 > Consigna: Creá un enemigo que patrulle entre al menos 3 puntos y persiga al jugador apenas se acerque, sin demoras al detectarlo.
@@ -311,6 +379,7 @@ end
 1. No intentes cancelar el `MoveTo` con un segundo `MoveTo`, es poco confiable
 2. Revisá el `estado` cada 0.1 segundos dentro de la patrulla para que la detección sea inmediata
 3. Usá `Move()` en vez de `MoveTo()` para que la persecución sea fluida al girar
+4. Como extra, probá agregar animaciones, ataque real, abandono de la persecución, o que siempre elija al jugador más cercano
 
 ## Recursos
 

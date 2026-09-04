@@ -1,0 +1,287 @@
+---
+title: "Clase 23: Vidas y Puntuación ❤️"
+mision: "Añadir un contador de puntos que suba al recoger monedas."
+---
+
+# Clase 23: Vidas y Puntuación ❤️
+
+Implementamos la lógica para llevar la cuenta de los puntos y las vidas del jugador.
+
+## Objetivos
+
+- Reemplazar el choque "juego terminado" por una resta de vidas
+- Agregar una moneda que aparece en una posición al azar
+- Detectar cuándo el jugador toca la moneda y sumar puntaje
+- Entender que la lógica de vidas y puntaje puede funcionar aunque todavía no se vea en pantalla
+
+## Contenido
+
+### 1. La estructura base
+
+```python
+import pygame
+import random
+
+pygame.init()
+
+ANCHO, ALTO = 800, 600
+
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+
+pygame.display.set_caption("Clase 23 - Vidas y puntuacion")
+
+reloj = pygame.time.Clock()
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    # ACÁ VA EL CONTENIDO DE LA CLASE
+
+    pygame.display.flip()
+    reloj.tick(60)
+
+pygame.quit()
+```
+
+### 2. Variables del jugador
+
+**Dónde va:** después de `reloj = pygame.time.Clock()` y antes del `while`.
+
+```python
+jugador_x, jugador_y = 400, 300
+jugador_tamano = 40
+jugador_velocidad = 6
+```
+
+### 3. Variables del enemigo (con rebote en dos ejes)
+
+**Dónde va:** justo después de las variables del jugador.
+
+```python
+enemigo_x, enemigo_y = 100, 100
+enemigo_tamano = 40
+enemigo_velocidad_x = 3
+enemigo_velocidad_y = 3
+```
+
+A diferencia de la Clase 22, ahora el enemigo tiene **dos** velocidades — una para el eje `x` y otra para el eje `y` — porque va a rebotar en las cuatro paredes, no solo en los costados.
+
+### 4. Variables de la moneda
+
+**Dónde va:** justo después de las variables del enemigo.
+
+```python
+moneda_x = random.randint(20, ANCHO - 20)
+moneda_y = random.randint(20, ALTO - 20)
+moneda_radio = 12
+```
+
+El rango arranca en `20` en vez de `0`, para que la moneda (que es un círculo) no aparezca con la mitad "afuera" pegada al borde izquierdo o superior.
+
+### 5. Variables de vidas y puntaje
+
+**Dónde va:** justo después de las variables de la moneda, antes del `while`.
+
+```python
+vidas = 3
+puntaje = 0
+```
+
+### 6. Movimiento del jugador
+
+**Dónde va:** dentro del `while`, reemplazando el comentario del contenido de la clase, como primer bloque.
+
+```python
+teclas = pygame.key.get_pressed()
+if teclas[pygame.K_LEFT]:
+    jugador_x -= jugador_velocidad
+if teclas[pygame.K_RIGHT]:
+    jugador_x += jugador_velocidad
+if teclas[pygame.K_UP]:
+    jugador_y -= jugador_velocidad
+if teclas[pygame.K_DOWN]:
+    jugador_y += jugador_velocidad
+
+jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+jugador_y = max(0, min(jugador_y, ALTO - jugador_tamano))
+```
+
+### 7. Movimiento del enemigo, rebotando en las cuatro paredes
+
+**Dónde va:** justo después del movimiento del jugador.
+
+```python
+enemigo_x += enemigo_velocidad_x
+enemigo_y += enemigo_velocidad_y
+
+if enemigo_x <= 0 or enemigo_x >= ANCHO - enemigo_tamano:
+    enemigo_velocidad_x *= -1
+if enemigo_y <= 0 or enemigo_y >= ALTO - enemigo_tamano:
+    enemigo_velocidad_y *= -1
+```
+
+Como cada eje se controla por separado, el enemigo rebota de forma realista contra las cuatro paredes, como una pelota picando dentro de una caja.
+
+### 8. Colisión con el enemigo: resta una vida
+
+En la Clase 22, cuando `colliderect()` daba `True`, hacíamos `corriendo = False` de una. Ahora, en cambio, restamos una vida y reubicamos al jugador — así puede seguir jugando.
+
+**Dónde va:** después del movimiento del enemigo.
+
+```python
+rect_jugador = pygame.Rect(jugador_x, jugador_y, jugador_tamano, jugador_tamano)
+rect_enemigo = pygame.Rect(enemigo_x, enemigo_y, enemigo_tamano, enemigo_tamano)
+
+if rect_jugador.colliderect(rect_enemigo):
+    vidas -= 1
+    jugador_x, jugador_y = 400, 300
+    if vidas <= 0:
+        corriendo = False
+```
+
+- `vidas -= 1` → resta 1 a la variable, cada vez que hay un choque
+- `jugador_x, jugador_y = 400, 300` → reubica al jugador en el centro, para que no vuelva a chocar de inmediato
+- `if vidas <= 0:` → solo cuando las vidas llegan a cero, recién ahí se corta el bucle
+
+### 9. Colisión con la moneda
+
+**Dónde va:** justo después del bloque de colisión con el enemigo.
+
+```python
+rect_moneda = pygame.Rect(moneda_x - moneda_radio, moneda_y - moneda_radio, moneda_radio * 2, moneda_radio * 2)
+
+if rect_jugador.colliderect(rect_moneda):
+    puntaje += 1
+    moneda_x = random.randint(20, ANCHO - 20)
+    moneda_y = random.randint(20, ALTO - 20)
+```
+
+Como la moneda se posiciona por su centro (por ser un círculo) y `Rect` necesita la esquina superior izquierda, se resta el radio para hacer esa conversión. Al tocarla, suma un punto y se reubica en una posición nueva al azar.
+
+### 10. Dibujado
+
+**Dónde va:** dentro del `while`, justo antes del `pygame.display.flip()`.
+
+```python
+pantalla.fill((0, 0, 0))
+pygame.draw.rect(pantalla, (29, 131, 97), rect_jugador)
+pygame.draw.rect(pantalla, (233, 40, 40), rect_enemigo)
+pygame.draw.circle(pantalla, (14, 35, 107), (moneda_x, moneda_y), moneda_radio)
+```
+
+Detalle prolijo: en vez de repetir las coordenadas, se le pasa directamente `rect_jugador` y `rect_enemigo` a `pygame.draw.rect()` — como esos objetos ya tienen guardada la posición y el tamaño, `pygame.draw` los puede usar directamente.
+
+> **Nota:** por ahora `vidas` y `puntaje` no se ven en pantalla — solo funciona la lógica por detrás. Mostrarlos como texto es contenido de la Clase 25.
+
+### 11. Código completo
+
+```python
+import pygame
+import random
+
+pygame.init()
+
+ANCHO, ALTO = 800, 600
+
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+
+pygame.display.set_caption("Clase 23 - Vidas y puntuacion")
+
+reloj = pygame.time.Clock()
+
+jugador_x, jugador_y = 400, 300
+jugador_tamano = 40
+jugador_velocidad = 6
+
+enemigo_x, enemigo_y = 100, 100
+enemigo_tamano = 40
+enemigo_velocidad_x = 3
+enemigo_velocidad_y = 3
+
+moneda_x = random.randint(20, ANCHO - 20)
+moneda_y = random.randint(20, ALTO - 20)
+moneda_radio = 12
+
+vidas = 3
+puntaje = 0
+
+corriendo = True
+while corriendo:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            corriendo = False
+
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_LEFT]:
+        jugador_x -= jugador_velocidad
+    if teclas[pygame.K_RIGHT]:
+        jugador_x += jugador_velocidad
+    if teclas[pygame.K_UP]:
+        jugador_y -= jugador_velocidad
+    if teclas[pygame.K_DOWN]:
+        jugador_y += jugador_velocidad
+
+    jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+    jugador_y = max(0, min(jugador_y, ALTO - jugador_tamano))
+
+    enemigo_x += enemigo_velocidad_x
+    enemigo_y += enemigo_velocidad_y
+
+    if enemigo_x <= 0 or enemigo_x >= ANCHO - enemigo_tamano:
+        enemigo_velocidad_x *= -1
+    if enemigo_y <= 0 or enemigo_y >= ALTO - enemigo_tamano:
+        enemigo_velocidad_y *= -1
+
+    rect_jugador = pygame.Rect(jugador_x, jugador_y, jugador_tamano, jugador_tamano)
+    rect_enemigo = pygame.Rect(enemigo_x, enemigo_y, enemigo_tamano, enemigo_tamano)
+
+    if rect_jugador.colliderect(rect_enemigo):
+        vidas -= 1
+        jugador_x, jugador_y = 400, 300
+        if vidas <= 0:
+            corriendo = False
+
+    rect_moneda = pygame.Rect(moneda_x - moneda_radio, moneda_y - moneda_radio, moneda_radio * 2, moneda_radio * 2)
+
+    if rect_jugador.colliderect(rect_moneda):
+        puntaje += 1
+        moneda_x = random.randint(20, ANCHO - 20)
+        moneda_y = random.randint(20, ALTO - 20)
+
+    pantalla.fill((0, 0, 0))
+    pygame.draw.rect(pantalla, (29, 131, 97), rect_jugador)
+    pygame.draw.rect(pantalla, (233, 40, 40), rect_enemigo)
+    pygame.draw.circle(pantalla, (14, 35, 107), (moneda_x, moneda_y), moneda_radio)
+
+    pygame.display.flip()
+    reloj.tick(60)
+
+pygame.quit()
+```
+
+### 12. Tabla de referencia
+
+| Concepto | Descripción | Ejemplo |
+|---|---|---|
+| `vidas -= 1` | Resta una vida en cada choque con el enemigo | `vidas -= 1` |
+| `puntaje += 1` | Suma un punto al tocar la moneda | `puntaje += 1` |
+| Reposicionar al chocar | El jugador vuelve al centro tras perder una vida | `jugador_x, jugador_y = 400, 300` |
+| Reaparición de la moneda | Nueva posición al azar tras ser recolectada | `moneda_x = random.randint(20, ANCHO - 20)` |
+
+## Ejercicio
+
+> Consigna: Agregá una moneda que aparezca en una posición al azar. Cuando el jugador la toque, sumá un punto al puntaje y hacé que la moneda reaparezca en otro lugar.
+
+**Pistas:**
+1. Acordate de restar el radio al calcular el `Rect` de la moneda, porque se posiciona por el centro
+2. El juego solo debe terminar cuando `vidas` llega a 0, no en cada choque
+
+**Ejemplo de solución:** el código completo de arriba ya cumple la misión tal cual.
+
+## Recursos
+
+- [pygame.Rect — referencia completa](https://www.pygame.org/docs/ref/rect.html)
+- [random.randint — documentación de Python](https://docs.python.org/es/3/library/random.html#random.randint)

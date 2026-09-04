@@ -1,0 +1,224 @@
+---
+title: "Clase 20: ¡Reaccionando a Clics! (Eventos) 🖱️"
+mision: "Crear un botón que, al hacerle clic, muestre una alerta divertida."
+---
+
+# Clase 20: ¡Reaccionando a Clics! (Eventos) 🖱️
+
+Hacemos que la página responda cuando el usuario interactúa: hace clic, escribe, pasa el mouse o envía un formulario.
+
+> 📌 Esta es la única clase del curso dedicada a eventos, así que la vemos con varios tipos además del clic básico.
+
+## Objetivos
+
+- Entender qué es un evento y cómo escucharlo con `addEventListener`
+- Usar `document.querySelector` para encontrar elementos del HTML
+- Conocer los eventos más comunes: click, mouseover, input, keydown, submit
+- Usar `preventDefault()` para controlar el comportamiento del navegador
+
+## Contenido
+
+### 1. ¿Qué es un evento?
+
+Un evento es algo que pasa en la página: un clic, mover el mouse, escribir en un input, enviar un formulario. JavaScript puede "escuchar" esos eventos y reaccionar cuando ocurren.
+
+### 2. HTML — la base sobre la que vamos a trabajar
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clase 20 - Eventos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Practicando eventos</h1>
+
+  <button id="saludar">Saludar</button>
+
+  <div class="card" id="card">
+    Pasá el mouse por acá
+  </div>
+
+  <input type="text" id="campoTexto" placeholder="Escribí algo...">
+  <p id="resultado"></p>
+
+  <form id="miFormulario">
+    <input type="text" id="nombre" placeholder="Tu nombre">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>
+```
+
+### 3. CSS — estilos base
+
+```css
+body {
+  font-family: sans-serif;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.card {
+  padding: 20px;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+input {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+```
+
+Con esto ya tenemos los elementos listos: un botón, una card, un input y un formulario. Ahora sí, en `script.js`, los vamos conectando de a uno con JavaScript.
+
+### 4. Encontrando un elemento: `querySelector`
+
+`querySelector` busca un elemento del HTML usando la misma sintaxis que un selector de CSS. Una convención muy usada es anteponer `$` al nombre de la variable cuando guarda un elemento del DOM, así se distingue de un dato común de un vistazo.
+
+```js
+const $boton = document.querySelector("#saludar");
+```
+
+### 5. `addEventListener` — el botón
+
+```js
+const $botonSaludar = document.querySelector("#saludar");
+
+$botonSaludar.addEventListener("click", () => {
+  alert("¡Hola! Gracias por hacer clic.");
+});
+```
+
+Esto ya cumple la misión de la clase.
+
+### 6. `mouseover` y `mouseout` — la card
+
+Reaccionan cuando el mouse entra o sale de un elemento.
+
+```js
+const $card = document.querySelector("#card");
+
+$card.addEventListener("mouseover", () => {
+  $card.style.backgroundColor = "lightblue";
+});
+
+$card.addEventListener("mouseout", () => {
+  $card.style.backgroundColor = "white";
+});
+```
+
+### 7. `input` — el campo de texto
+
+Se dispara en cada tecla que se presiona dentro de un campo.
+
+```js
+const $campoTexto = document.querySelector("#campoTexto");
+const $resultado = document.querySelector("#resultado");
+
+$campoTexto.addEventListener("input", (e) => {
+  $resultado.textContent = "Escribiste: " + e.target.value;
+});
+```
+
+### 8. El objeto `event`
+
+La función que reacciona al evento recibe información sobre qué pasó, a través de un parámetro que solemos llamar `event` o `e`.
+
+```js
+$botonSaludar.addEventListener("click", (e) => {
+  console.log(e.target);  // el elemento donde se hizo clic
+  console.log(e.type);    // el tipo de evento: "click"
+});
+```
+
+### 9. `keydown` — al presionar una tecla
+
+```js
+document.addEventListener("keydown", (e) => {
+  console.log(e.key);
+});
+```
+
+Se prefiere `keydown` sobre `keypress`, que es un evento antiguo y ya está deprecado.
+
+### 10. `submit` y `preventDefault()` — el formulario
+
+Al enviar un formulario, el navegador recarga la página por defecto. `preventDefault()` evita eso para que podamos controlarlo con JS.
+
+Conviene guardar cada elemento por separado en su propia constante, en vez de buscar todo dentro del evento:
+
+```js
+const $formulario = document.querySelector("#miFormulario");
+const $nombre = document.querySelector("#nombre");
+
+$formulario.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log($nombre.value);
+});
+```
+
+### 11. `script.js` completo, con todo junto
+
+```js
+const $botonSaludar = document.querySelector("#saludar");
+$botonSaludar.addEventListener("click", () => {
+  alert("¡Hola! Gracias por hacer clic.");
+});
+
+const $card = document.querySelector("#card");
+$card.addEventListener("mouseover", () => {
+  $card.style.backgroundColor = "lightblue";
+});
+$card.addEventListener("mouseout", () => {
+  $card.style.backgroundColor = "white";
+});
+
+const $campoTexto = document.querySelector("#campoTexto");
+const $resultado = document.querySelector("#resultado");
+$campoTexto.addEventListener("input", (e) => {
+  $resultado.textContent = "Escribiste: " + e.target.value;
+});
+
+const $formulario = document.querySelector("#miFormulario");
+const $nombre = document.querySelector("#nombre");
+$formulario.addEventListener("submit", (e) => {
+  e.preventDefault();
+  console.log($nombre.value);
+});
+```
+
+## Ejercicio
+
+> Consigna: Crear un botón que, al hacerle clic, muestre una alerta divertida.
+
+**Pistas:**
+1. Guardá el botón en una constante con `$` antes de agregarle el evento (por ejemplo `$boton`)
+2. Usá `addEventListener("click", ...)` con una arrow function adentro
+3. Si querés ir más allá de la misión, agregá también un `mouseover` en algún elemento
+
+## Recursos
+
+- [MDN - addEventListener](https://developer.mozilla.org/es/docs/Web/API/EventTarget/addEventListener)
+- [MDN - preventDefault()](https://developer.mozilla.org/es/docs/Web/API/Event/preventDefault)
