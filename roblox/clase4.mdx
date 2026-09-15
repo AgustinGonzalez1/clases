@@ -5,81 +5,139 @@ mision: "Publicar y previsualizar 2 animaciones propias hechas con el Animation 
 
 # Clase 4: ¡A Mover el Esqueleto! 🕺
 
-Creamos animaciones con el Animation Editor usando el personaje estándar de Roblox, y exploramos la edición de expresiones faciales.
+Creamos una caminata y un saludo con el Animation Editor. Vamos a trabajar sobre un personaje preparado, guardar nuestras poses y publicar las dos animaciones.
 
 ## Objetivos
 
-- Conocer el Animation Editor y sus conceptos clave
+- Insertar un rig y reconocer la línea de tiempo
 - Crear una animación con Loop y otra sin Loop
-- Publicar una animación y obtener su ID
-- Explorar el Face Animation Editor para crear expresiones faciales
+- Guardar el trabajo y publicar cada animación con su ID
+- Explorar expresiones faciales si el personaje tiene una cabeza compatible
 
 ## Contenido
 
-### 1. Abrir el Animation Editor
+### 1. Insertar el personaje
 
-Se abre desde la pestaña **Avatar → Animation Editor**. Viene integrado en Studio, no requiere plugins. Seleccionás el personaje en el Workspace y aparece la línea de tiempo.
+Un **rig** es un modelo cuyas partes están conectadas por articulaciones. Esas articulaciones permiten mover brazos y piernas sin desarmar el cuerpo.
 
-> ⚠️ Roblox lanzó el **Avatar Joint Upgrade**, que reemplaza las uniones Motor6D del personaje estándar por un sistema nuevo (AnimationConstraint + BallSocketConstraint) para permitir física más realista. Es el comportamiento **default en experiencias nuevas** desde 2026. El flujo de trabajo del Animation Editor (crear keyframes, mover partes, publicar) sigue siendo el mismo para vos, pero si algo se ve raro al animar el personaje estándar (por ejemplo el modo IK), puede estar relacionado con esta actualización.
+1. Abrí la herramienta **Rig Generator** desde el control **Character** de Studio; podés encontrarla en las herramientas de Avatar.
+2. Elegí un rig **R15** sencillo e insertalo.
+3. Ubicalo en un lugar despejado y renombralo `PersonajeAnimacion`.
+4. Si necesitás inmovilizarlo durante las pruebas, anclá su **HumanoidRootPart**, sin anclar cada extremidad por separado.
 
-### 2. Conceptos clave
+R15 tiene más articulaciones que R6: permite doblar codos y rodillas. Para estas dos animaciones usá siempre el mismo rig.
 
-| Concepto | Qué es |
+### 2. Abrir Animation Editor
+
+Abrí **Avatar → Animation Editor** o **Window → Avatar → Animation Editor** y seleccioná el modelo completo del personaje. Creá una animación llamada `Caminar`.
+
+| Elemento | Qué representa |
 |---|---|
-| **Keyframe** | Un momento en el tiempo donde definís una pose |
-| **Timeline** | La línea de tiempo donde van los keyframes |
-| **Loop** | Si la animación se repite al terminar |
+| **Track** | La pista de una articulación o propiedad animada |
+| **Timeline** | La línea de tiempo |
+| **Keyframe** | Una pose registrada en un instante |
+| **Scrubber** | El cursor que indica qué instante estás editando |
+| **Loop** | Repetir la animación al llegar al final |
 
-**Ejemplo:** un keyframe en el segundo 0 con el brazo abajo, y otro en el segundo 1 con el brazo arriba, crea un movimiento de saludo entre esos dos puntos.
+**Ejemplo:** si guardás el brazo abajo al inicio y arriba un segundo después, el editor calcula las poses intermedias.
 
-### 3. Crear la animación de caminar (con Loop)
+> 💡 La línea de tiempo puede mostrar segundos y fotogramas. Con 30 fotogramas por segundo, `0:15` representa medio segundo; no significa 15 segundos. En las tablas de esta clase expresamos los tiempos en segundos.
 
-1. Keyframe en 0 → pose neutral
-2. Keyframe en 0.5s → pierna derecha adelante, brazo izquierdo adelante
-3. Keyframe en 1s → vuelve a neutral
-4. Activás **Loop**
+### 3. Registrar y revisar poses
 
-### 4. Crear la animación de saludar (sin Loop)
+1. Mové el cursor de la línea de tiempo al instante que quieras editar.
+2. Seleccioná una articulación y rotala con los controles del editor.
+3. Comprobá que apareció su keyframe en la pista correspondiente.
+4. Para registrar una pose sin modificarla, usá **Add Keyframe Here** desde el menú de la pista en el instante elegido.
+5. Arrastrá el cursor hacia atrás y adelante para comparar las poses.
 
-1. Keyframe en 0 → pose neutral
-2. Keyframe en 0.3s → brazo derecho levantado
-3. Keyframe en 0.6s → brazo un poco abajo
-4. Keyframe en 0.9s → brazo arriba de nuevo
-5. Keyframe en 1.2s → pose neutral
+Rotá desde las articulaciones; no arrastres una extremidad como una pieza suelta fuera del editor. Guardá una pose inicial para todas las articulaciones que vas a usar.
 
-### 5. Previsualizar y publicar
+### 4. Crear una caminata con Loop
 
-| Acción | Cómo | Para qué |
-|---|---|---|
-| **Previsualizar** | Botón Play dentro del editor | Ver cómo queda antes de publicar |
-| **Publicar** | Save to Roblox | Genera un ID para usar en la Clase 14 |
+Vamos a animar una **caminata en el lugar**. El cuerpo mueve sus extremidades, pero todavía no avanza por el mapa.
 
-> ⚠️ Anotá el ID de cada animación publicada. Lo vas a necesitar más adelante.
+| Tiempo | Pose sugerida |
+|---|---|
+| **0 s** | Pierna derecha adelante, izquierda atrás; brazo izquierdo adelante y derecho atrás |
+| **0.25 s** | Piernas pasando bajo el cuerpo, con una rodilla ligeramente flexionada |
+| **0.5 s** | Pierna izquierda adelante, derecha atrás; brazos intercambiados |
+| **0.75 s** | Segunda pose de paso, preparando el regreso |
+| **1 s** | Copia exacta de la pose de 0 s |
 
-### 6. Extra: edición facial con el Face Animation Editor
+1. Creá las poses con movimientos moderados, sin atravesar el torso.
+2. Copiá los keyframes iniciales y pegalos al final en todas las pistas utilizadas.
+3. Activá **Loop**.
+4. Reproducí varias vueltas con el Play del Animation Editor.
+5. Si aparece un tirón al repetir, compará el primer y último keyframe de cada pista.
 
-Además de animar el cuerpo, Roblox permite animar la **cara** del personaje con el **Face Animation Editor**, integrado en el mismo Animation Editor.
+Probá la animación desde adelante y desde un costado. Una caminata se entiende mejor si brazos y piernas opuestas se acompañan.
 
-1. Con el personaje seleccionado y el Animation Editor abierto, buscás el botón **Face** en la lista de tracks
-2. Se abren **sliders** (controles deslizantes) para cada parte de la cara: ojos, cejas, boca, etc.
-3. Movés los sliders hasta lograr la expresión que quieras (por ejemplo sonrisa, sorpresa, enojo)
-4. Cada ajuste se guarda automáticamente como un keyframe en la línea de tiempo, igual que con el cuerpo
+### 5. Crear un saludo sin Loop
 
-> ⚠️ No todos los personajes soportan esto. Necesitás una cabeza compatible (**Animatable Head**), como las que vienen en ciertos avatares del Marketplace. Si tu personaje no tiene esa opción, el botón **Face** no va a aparecer.
+Guardá `Caminar` y creá otra animación llamada `Saludar` en el mismo rig. No sobrescribas la caminata.
 
-**Ejemplo:** combinar una animación de saludo del cuerpo con una expresión de sonrisa en la cara al mismo tiempo, en la misma línea de tiempo, da como resultado un saludo mucho más expresivo.
+| Tiempo | Pose sugerida |
+|---|---|
+| **0 s** | Postura de reposo |
+| **0.3 s** | Brazo derecho levantado y codo doblado |
+| **0.6 s** | Mano inclinada hacia un lado |
+| **0.9 s** | Mano inclinada hacia el otro lado |
+| **1.2 s** | Regreso a la postura de reposo |
+
+Desactivá Loop y ajustá la duración para que entren todas las poses. El saludo debe comenzar y terminar de forma clara.
+
+### 6. Guardar, publicar y anotar los IDs
+
+Hay dos resultados diferentes:
+
+- **Guardar en el editor:** conserva el trabajo editable de la animación dentro del proyecto. Guardá también el archivo del lugar.
+- **Publicar:** sube la animación como un recurso de Roblox y le asigna un ID.
+
+Para publicar cada una, abrí el menú **…** del Animation Editor, elegí **Publish to Roblox**, completá nombre y descripción y revisá **Creator** antes de enviarla. Si la usarás en una experiencia de un grupo, elegí ese grupo como propietario y asegurate de tener permisos para publicar allí.
+
+Anotá los datos en un archivo o cuaderno:
+
+| Animación | Rig usado | Loop | ID |
+|---|---|---|---|
+| Caminar | R15 | Sí | El ID obtenido al publicar |
+| Saludar | R15 | No | El ID obtenido al publicar |
+
+La publicación no reemplaza automáticamente las animaciones del jugador. Por ahora verificamos el resultado en el editor; los IDs permitirán reproducirlo desde código cuando corresponda en el curso.
+
+### 7. Extra: animación facial
+
+Este apartado requiere una **cabeza preparada para animación facial**, con FaceControls. Un rostro dibujado en una Part no alcanza. Si tu rig no tiene una cabeza compatible, completá normalmente las dos animaciones corporales.
+
+Con una cabeza compatible:
+
+1. Abrí `Saludar` y buscá **Face** en la lista de pistas.
+2. Situá el cursor al inicio y registrá una expresión neutral.
+3. Avanzá al momento en que el personaje levanta la mano.
+4. Ajustá los controles de boca y ojos para crear una sonrisa; verificá los keyframes generados.
+5. Registrá otra expresión neutral al final y reproducí el resultado.
+6. Guardá y publicá la versión actualizada.
+
+### 8. Nota actual sobre avatares
+
+Roblox anunció la **fase 2 de Avatar Joint Upgrade el 27 de mayo de 2026**. Los avatares R15 afectados por ese flujo usan AnimationConstraints y BallSocketConstraints en lugar de las uniones Motor6D tradicionales; R6 no está afectado por ese cambio. Esto no significa que todos los modelos guardados en tu mapa se conviertan automáticamente.
+
+Para esta clase, seguí trabajando con las pistas y articulaciones que reconoce Animation Editor. No necesitás reemplazar las uniones del rig ni desactivar la actualización para crear keyframes.
 
 ## Ejercicio
 
-> Consigna: Exportá (publicá) y previsualizá 2 animaciones propias: una con Loop (caminar) y otra sin Loop (saludo). Si tu personaje soporta cabeza animable, agregale una expresión facial a alguna de las dos.
+> Consigna: Publicá y previsualizá 2 animaciones propias: una caminata con Loop y un saludo sin Loop. Si tu personaje tiene una cabeza compatible, agregale una expresión facial a alguna de las dos.
 
-**Pistas:**
-1. Usá al menos 3 keyframes por animación para que se note el movimiento
-2. No olvides activar **Loop** solo en la animación de caminar
-3. Anotá el ID de cada animación publicada, lo vas a necesitar en la Clase 14
-4. Si el botón **Face** no aparece, probá con un personaje que tenga cabeza animable del Marketplace
+**Antes de terminar, comprobá:**
+
+- La caminata alterna ambas piernas y se repite sin un salto brusco.
+- El saludo tiene inicio, gesto y regreso al reposo.
+- Conservaste ambas animaciones editables y guardaste el proyecto.
+- Anotaste sus IDs, propietario y tipo de rig.
 
 ## Recursos
 
-- [Documentación oficial del Animation Editor](https://create.roblox.com/docs/animation/editor)
-- [Documentación oficial de animación facial](https://create.roblox.com/docs/art/characters/facial-animation/animate-heads)
+- [Rig Generator](https://create.roblox.com/docs/studio/rig-builder)
+- [Animation Editor](https://create.roblox.com/docs/animation/editor)
+- [Animar cabezas y Face Animation Editor](https://create.roblox.com/docs/art/characters/facial-animation/animate-heads)
+- [Avatar Joint Upgrade: fase 2 y recomendaciones oficiales](https://devforum.roblox.com/t/avatar-joint-upgrade-aju-phase-2-rollout-updated-migration-recommendations/4656414)

@@ -5,78 +5,121 @@ mision: "Diseñar un mapa natural con colinas y un lago usando el Terrain Editor
 
 # Clase 2: El Arte de Crear Paisajes 🏞️
 
-Esculpimos terrenos, montañas y ríos, y ajustamos las luces y el cielo de nuestro mundo.
+Esculpimos colinas, excavamos un lago y elegimos materiales, iluminación y cielo para nuestro paisaje.
 
 ## Objetivos
 
-- Usar el Terrain Editor para generar y modelar terreno
-- Crear colinas y un lago
-- Ajustar la iluminación y el cielo del mapa
+- Generar y modelar terreno con Terrain Editor
+- Controlar los pinceles para crear colinas y un lago
+- Ajustar materiales, luces y cielo
+- Probar que el paisaje se pueda recorrer
 
 ## Contenido
 
-### 1. Abrir el Terrain Editor
+### 1. Preparar el mundo y abrir Terrain Editor
 
-Se abre desde **Home → Editor → Terrain Editor**. Es la herramienta principal para crear paisajes naturales.
+Abrí una plantilla Baseplate y guardá una copia para esta clase. Accedé a **Terrain Editor** desde **Home** o **Window → 3D**.
 
-### 2. Generar una base con Generate
+El terreno se almacena en el objeto **Terrain** de Workspace. Es diferente de las Parts: pintar tierra no modifica una Part que esté delante.
 
-1. Dentro del Terrain Editor → **Generate**
-2. Configurás **Biome** (Plains, Mountains, Arctic, etc.) y **Size**
-3. Genera un terreno automático como punto de partida
+> 💡 Si el piso Baseplate tapa tu lago o atraviesa las colinas, movelo fuera de la zona de trabajo o eliminalo cuando ya tengas terreno firme. Conservá el SpawnLocation y ubicalo sobre una zona seca para probar.
 
-### 3. Modelar el terreno con Add, Subtract y Smooth
+### 2. Generar una base
 
-| Herramienta | Qué hace |
+En Terrain Editor, abrí **Create → Generate**. Ajustá la región de generación y elegí los biomas disponibles en el panel; empezá con una zona pequeña que puedas recorrer fácilmente.
+
+1. Ubicá la región donde querés construir.
+2. Elegí una combinación sencilla de terreno.
+3. Generá y observá el resultado desde arriba y desde un costado.
+4. Guardá antes de seguir modelando.
+
+No hace falta generar un mapa enorme: el objetivo es transformar una zona concreta con tus propias herramientas.
+
+### 3. Entender el pincel
+
+Pasá a las herramientas de **Edit**. Antes de pintar, mirá la previsualización del pincel: muestra dónde y cuánto terreno vas a afectar.
+
+| Ajuste | Para qué sirve |
 |---|---|
-| **Add** | Agrega tierra donde pintás con el mouse |
-| **Subtract** | Excava el terreno, hace hoyos o depresiones |
-| **Smooth** | Suaviza los bordes bruscos |
+| **Brush Size** | Cambiar el tamaño del área afectada |
+| **Brush Shape** | Elegir la forma del pincel |
+| **Strength**, cuando esté disponible | Regular la intensidad de la modificación |
+| **Material**, en las herramientas que lo usan | Elegir tierra, roca, agua u otro material |
 
-**Ejemplo — hacer una colina:**
-1. **Add** con material **Grass**, pintás hacia arriba para levantar tierra
-2. **Smooth** para suavizar los bordes
+Hacé movimientos cortos y revisá el resultado. Un pincel grande sirve para la forma general; uno pequeño, para detalles. Si deformaste demasiado el terreno, usá Undo y probá con un ajuste menor.
 
-**Ejemplo — hacer un lago:**
-1. **Subtract** para hacer una depresión en el terreno
-2. **Add** con material **Water** para rellenarla
+### 4. Construir dos colinas
 
-### 4. Aplicar materiales con Paint
-
-**Paint** cambia el material del terreno sin modificar su forma.
-
-| Material | Para qué se usa |
+| Herramienta | Uso en esta actividad |
 |---|---|
-| **Grass** | Llanuras y colinas |
-| **Rock** | Montañas y acantilados |
-| **Sand** | Playas y desiertos |
-| **Snow** | Cimas nevadas |
+| **Add** | Agregar volumen de terreno |
+| **Subtract** | Quitar terreno |
+| **Smooth** | Suavizar la forma |
+| **Paint** | Cambiar el material sin rediseñar el relieve |
 
-### 5. Ajustar luces y cielo
+1. Con **Add**, elegí Grass y formá una elevación ancha.
+2. Agregá menos volumen en la parte superior para que tenga una cima.
+3. Pasá **Smooth** suavemente por las uniones y laderas.
+4. Construí otra colina de distinta altura.
+5. Si una pared quedó demasiado empinada, quitá una parte con Subtract y volvé a suavizar.
 
-Se configuran desde el objeto **Lighting** en el Explorer:
+**Idea de diseño:** dejá un camino entre ambas colinas. El personaje debe poder recorrer el paisaje, no solamente observarlo.
+
+### 5. Excavar y llenar el lago
+
+1. Elegí un área baja y usá **Subtract** para crear una depresión ancha.
+2. Conservá fondo y bordes: no atravieses toda la base del terreno.
+3. Con **Add** y material **Water**, colocá agua dentro de la depresión, por debajo de las orillas.
+4. Para una superficie regular, usá un pincel de forma de caja y mantené la misma altura al completar el agua.
+5. Mirá desde un costado: el agua debe quedar contenida y no cubrir el camino.
+
+Si el agua parece apoyada sobre una placa, revisá que no haya quedado el Baseplate atravesando el lago.
+
+### 6. Pintar materiales
+
+Con **Paint**, pintá zonas pequeñas para distinguir las superficies:
+
+| Material | Ejemplo de uso |
+|---|---|
+| **Grass** | Laderas suaves |
+| **Rock** | Sectores rocosos |
+| **Sand** | Orillas del lago |
+| **Snow** | Una cima nevada, si combina con tu paisaje |
+
+Elegí materiales que ayuden a entender el lugar: arena junto al agua, roca en una pendiente y pasto en las zonas transitables.
+
+### 7. Ajustar iluminación y cielo
+
+Seleccioná **Lighting** en Explorer. Probá un ajuste por vez:
 
 | Propiedad | Qué controla |
 |---|---|
-| **Ambient** | Color de luz general del mundo |
-| **Brightness** | Intensidad de la luz |
-| **TimeOfDay** | Hora del día (formato HH:MM:SS) |
+| **Ambient** | Color de la iluminación ambiental, especialmente en zonas protegidas de la luz exterior |
+| **OutdoorAmbient** | Color ambiental de las zonas exteriores |
+| **Brightness** | Intensidad de la iluminación del sol o la luna |
+| **TimeOfDay** | Hora del día, con formato HH:MM:SS |
 
-Para cambiar el cielo:
-1. Seleccionás **Lighting** → Insert Object → **Sky**
-2. Podés cambiar las texturas de cada cara del skybox
+**Prueba:** escribí `06:00:00` en TimeOfDay para explorar un amanecer y comparalo con `12:00:00`. Es un valor en Properties, no una instrucción de código.
 
-**Ejemplo:** probá `TimeOfDay = 06:00:00` para un amanecer.
+Para personalizar el cielo, buscá un objeto **Sky** dentro de Lighting. Si no existe, insertá uno. Sus propiedades `SkyboxBk`, `SkyboxDn`, `SkyboxFt`, `SkyboxLf`, `SkyboxRt` y `SkyboxUp` corresponden a las seis caras del fondo. Para reemplazarlas, necesitás imágenes de un mismo conjunto de skybox con permiso de uso; no hace falta cambiarlas para completar el paisaje.
+
+### 8. Recorrer y corregir
+
+Iniciá **Test** desde un SpawnLocation ubicado sobre tierra. Recorré el camino, subí una colina y acercate a la orilla. Detené la prueba para corregir pendientes demasiado fuertes, zonas inaccesibles o agua que se haya extendido de más. Guardá la versión final.
 
 ## Ejercicio
 
-> Consigna: Diseñá un mapa natural con al menos 2 colinas y un lago.
+> Consigna: Diseñá un mapa natural con al menos 2 colinas y un lago. Combiná materiales y elegí una iluminación que acompañe el paisaje.
 
-**Pistas:**
-1. Usá `Smooth` después de `Add` para que las colinas no queden con picos irregulares
-2. Combiná `Subtract` + `Water` para el lago
-3. Probá distintos materiales en cada zona del mapa
+**Antes de terminar, comprobá:**
+
+- Las colinas tienen alturas o formas diferentes.
+- El lago tiene una depresión, agua y una orilla reconocible.
+- Hay un recorrido por tierra desde el punto de aparición.
+- El Baseplate no tapa el paisaje y el mapa está guardado.
 
 ## Recursos
 
-- [Documentación oficial del Terrain Editor](https://create.roblox.com/docs/studio/terrain-editor)
+- [Terrain Editor](https://create.roblox.com/docs/studio/terrain-editor)
+- [Lighting](https://create.roblox.com/docs/reference/engine/classes/Lighting)
+- [Sky](https://create.roblox.com/docs/reference/engine/classes/Sky)

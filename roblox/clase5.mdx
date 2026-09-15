@@ -5,117 +5,200 @@ mision: "Crear un rig personalizado y hacer al menos 1 animación funcional."
 
 # Clase 5: Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨
 
-Construimos un personaje propio con Parts, lo convertimos en un rig animable y lo animamos con el Animation Editor.
+Construimos un personaje con Parts, conectamos sus articulaciones y creamos una animación propia. Usamos una estructura R6 sencilla para que el torso, la cabeza y las extremidades tengan una organización clara.
 
 ## Objetivos
 
-- Construir un personaje con las 6 partes básicas
-- Conectar las partes con Motor6D para armar un rig
-- Animar el rig propio con el Animation Editor
+- Construir seis piezas visibles y una raíz invisible
+- Unirlas con Motor6D y ubicar los puntos de giro
+- Configurar el Model, Humanoid y Animator
+- Previsualizar, guardar y publicar una animación del personaje propio
 
 ## Contenido
 
-### 1. Construir las 6 partes
+### 1. Planificar el personaje
 
-Creás las siguientes Parts y las nombrás exactamente así:
+Elegí una idea sencilla: robot, monstruo o muñeco de bloques. Primero vamos a construir una base de proporciones conocidas; después la personalizás con colores y materiales.
 
-| Parte | Nombre en Studio |
+Esta estructura tiene **seis piezas visibles y una raíz invisible**. La raíz, `HumanoidRootPart`, no reemplaza al torso: ambos son objetos distintos, aunque al principio ocupen el mismo lugar.
+
+Los nombres con espacios de la tabla son intencionales. Esta receta sigue la organización de un R6; no significa que cualquier modelo animable de Roblox deba tener exactamente estas piezas.
+
+### 2. Crear las Parts
+
+Insertá siete Parts de forma Block. Para construir con comodidad, poné **Anchored = true** en todas y dejá **Orientation = 0, 0, 0**.
+
+Como base, usá estas dimensiones y posiciones. Están pensadas para un piso cuya superficie superior esté en Y = 0 y un personaje que mire hacia el eje Z negativo:
+
+| Nombre exacto | Función | Size (X, Y, Z) | Position (X, Y, Z) |
+|---|---|---|---|
+| `HumanoidRootPart` | Raíz invisible | 2, 2, 1 | 0, 3, 0 |
+| `Torso` | Cuerpo visible | 2, 2, 1 | 0, 3, 0 |
+| `Head` | Cabeza | 2, 1, 1 | 0, 4.5, 0 |
+| `Left Arm` | Brazo izquierdo | 1, 2, 1 | -1.5, 3, 0 |
+| `Right Arm` | Brazo derecho | 1, 2, 1 | 1.5, 3, 0 |
+| `Left Leg` | Pierna izquierda | 1, 2, 1 | -0.5, 1, 0 |
+| `Right Leg` | Pierna derecha | 1, 2, 1 | 0.5, 1, 0 |
+
+Izquierda y derecha se toman desde el punto de vista del personaje. Si lo mirás de frente, su brazo derecho aparece a tu izquierda.
+
+Si tu piso tiene otra altura, desplazá **todo el conjunto** hacia arriba lo necesario, manteniendo la misma separación entre piezas. Podés construirlo lejos de otros objetos y mover el Model completo después.
+
+Seleccioná HumanoidRootPart desde Explorer y configurá:
+
+- **Transparency = 1**
+- **CanCollide = false**
+
+Asigná colores y materiales a las otras seis Parts. Mantené sus tamaños durante el primer armado para que sea más fácil revisar las uniones.
+
+### 3. Agrupar el modelo
+
+Seleccioná las siete Parts, usá **Group** y nombrá el Model `MiPersonaje`. Por ahora no agregues uniones manuales: las vamos a crear una sola vez con RigLink.
+
+Guardá el proyecto antes de empezar a conectar. Si una unión queda mal, vas a poder volver a una versión sin articulaciones.
+
+### 4. Entender las uniones
+
+Un **Motor6D** une dos piezas y permite que una animación cambie su posición relativa.
+
+| Concepto | Significado en esta clase |
 |---|---|
-| Cuerpo central | `HumanoidRootPart` |
-| Cabeza | `Head` |
-| Brazo izquierdo | `LeftArm` |
-| Brazo derecho | `RightArm` |
-| Pierna izquierda | `LeftLeg` |
-| Pierna derecha | `RightLeg` |
+| **Part0** | Pieza desde la que sale la unión |
+| **Part1** | Pieza conectada que se mueve respecto de la anterior |
+| **C0 y C1** | Marcos locales que ubican y orientan el punto de unión en cada pieza |
+| **Pivote** | Lugar alrededor del cual gira la articulación |
 
-> ⚠️ Activá **Anchored = true** en todas mientras construís.
+Si creás un Motor6D con C0 y C1 sin ajustar, las piezas pueden superponerse. RigLink permite construir las uniones visualmente, conservando su colocación y eligiendo sus pivotes.
 
-### 2. Agregar el Humanoid
+**Elegimos Motor6D para este rig R6 de Parts.** Sigue siendo una opción válida; AnimationConstraint también existe para otros montajes. La actualización automática de avatares R15 no obliga a convertir este modelo R6.
 
-1. Agrupás todas las Parts en un **Model** (Ctrl+G)
-2. Click derecho sobre el Model → Insert Object → **Humanoid**
+### 5. Preparar RigLink
 
-### 3. Conectar las partes con Motor6D
+1. Abrí la [publicación de RigLink de IrishFix](https://devforum.roblox.com/t/riglink-%E2%80%93-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684).
+2. Seguí su enlace al Creator Store para instalar el plugin del autor. También podés localizarlo desde la categoría Plugins de Toolbox, verificando el autor.
+3. En Studio, abrilo desde **Plugins**.
+4. Usá su herramienta de conexión por pares. El autor muestra los modos de conexión automática y manual en esa publicación.
 
-El Motor6D va en la parte **desde donde sale la conexión**.
+RigLink propone puntos de unión según el contacto entre las piezas. Si necesitás desplazar libremente un pivote, desactivá **Lock Alignment** en el plugin. Las posiciones que tenés que conseguir están indicadas en la tabla siguiente.
 
-| Motor6D va en... | Part0 | Part1 |
+> 💡 No crees un Motor6D manual antes de usar el plugin sobre el mismo par. Cada unión de la tabla debe existir una sola vez.
+
+### 6. Conectar las seis articulaciones
+
+Trabajá con un par de piezas a la vez:
+
+1. Seleccioná las dos Parts correspondientes en Explorer.
+2. Creá la conexión con RigLink y ajustá visualmente su pivote.
+3. Buscá el Motor6D generado y verificá **Part0** y **Part1** en Properties. El resultado debe coincidir con la tabla.
+4. Renombrá el Motor6D y ubicalo en la pieza indicada en la columna «Guardar dentro de».
+5. Confirmá que las Parts conservaron su posición antes de continuar.
+
+| Nombre del Motor6D | Guardar dentro de | Part0 | Part1 | Pivote |
+|---|---|---|---|---|
+| `RootJoint` | HumanoidRootPart | HumanoidRootPart | Torso | Centro compartido del torso y la raíz |
+| `Neck` | Torso | Torso | Head | Base de la cabeza |
+| `Left Shoulder` | Torso | Torso | Left Arm | Hombro izquierdo |
+| `Right Shoulder` | Torso | Torso | Right Arm | Hombro derecho |
+| `Left Hip` | Torso | Torso | Left Leg | Parte superior de la pierna izquierda |
+| `Right Hip` | Torso | Torso | Right Leg | Parte superior de la pierna derecha |
+
+**Guía de pivotes para las posiciones del paso 2:** RootJoint en `(0, 3, 0)`; Neck en `(0, 4, 0)`; hombros en `(-1, 4, 0)` y `(1, 4, 0)`; caderas en `(-0.5, 2, 0)` y `(0.5, 2, 0)`. Si desplazaste el personaje, desplazá estos puntos en la misma medida. Son posiciones del mundo para orientarte visualmente, **no valores para copiar directamente en C0 o C1**, que usan coordenadas locales.
+
+La raíz y el torso se superponen; para RootJoint elegí el pivote central de forma manual si el plugin no propone uno adecuado. Seleccioná la raíz desde Explorer porque es invisible.
+
+Si Part0 y Part1 quedaron invertidos, eliminá **solo ese Motor6D** y rehacé la conexión con el orden correcto en el plugin. No intercambies únicamente las referencias dejando desplazamientos que se calcularon para las piezas anteriores.
+
+### 7. Agregar Humanoid y Animator
+
+Con las uniones listas:
+
+1. Insertá un **Humanoid** directamente dentro de `MiPersonaje`.
+2. Verificá **RigType = R6**. No uses R15 para esta estructura.
+3. Conservá **RequiresNeck = true** y comprobá que existe la unión `Neck` entre Torso y Head.
+4. Si el Humanoid todavía no contiene un **Animator**, insertá uno dentro de él. Debe quedar uno solo.
+5. En el Model, asigná **PrimaryPart = HumanoidRootPart**.
+
+PrimaryPart define una referencia principal para el modelo; no construye articulaciones ni arregla un rig mal conectado.
+
+```text
+Workspace
+  └── MiPersonaje (Model; PrimaryPart = HumanoidRootPart)
+        ├── Humanoid (RigType = R6)
+        │     └── Animator
+        ├── HumanoidRootPart
+        │     └── RootJoint
+        ├── Torso
+        │     ├── Neck
+        │     ├── Left Shoulder
+        │     ├── Right Shoulder
+        │     ├── Left Hip
+        │     └── Right Hip
+        ├── Head
+        ├── Left Arm
+        ├── Right Arm
+        ├── Left Leg
+        └── Right Leg
+```
+
+### 8. Configurar anclaje y colisiones
+
+Al terminar las conexiones, cambiá las propiedades para que las articulaciones puedan trabajar:
+
+| Pieza | Anchored para animar en el lugar | CanCollide |
 |---|---|---|
-| HumanoidRootPart | HumanoidRootPart | Head |
-| HumanoidRootPart | HumanoidRootPart | LeftArm |
-| HumanoidRootPart | HumanoidRootPart | RightArm |
-| HumanoidRootPart | HumanoidRootPart | LeftLeg |
-| HumanoidRootPart | HumanoidRootPart | RightLeg |
+| HumanoidRootPart | true | false |
+| Torso | false | true |
+| Head | false | true |
+| Brazos y piernas | false | false |
 
-**Ejemplo:** para conectar la cabeza, seleccionás **HumanoidRootPart** → Insert Object → **Motor6D** → `Part0 = HumanoidRootPart` / `Part1 = Head`.
+**Solo la raíz queda anclada** en este montaje de animación. Si anclás los brazos o las piernas individualmente, impedís que el conjunto se articule correctamente.
 
-> 💡 **Motor6D es el método vigente para rigs personalizados armados con Parts.** Roblox introdujo un sistema nuevo llamado AnimationConstraint, pero ese solo reemplaza a Motor6D en el personaje estándar del jugador (R15). Para un rig propio como este, Motor6D sigue siendo el método correcto y recomendado por la documentación oficial.
+Para una prueba física del muñeco, cerrá el editor y desanclá también la raíz antes de iniciar Test. Comprobá que el Humanoid conserva vida y que no se desprenden piezas. Después de Stop, volvé a anclar únicamente la raíz para seguir animando.
 
-### 4. Ajustar el punto de giro con el plugin RigLink
+Un muñeco con Humanoid no empieza a caminar ni a reproducir tus animaciones por sí solo. En esta clase evaluamos la construcción y la previsualización en Animation Editor.
 
-Si al conectar el Motor6D todo el brazo "salta" al centro del torso, es el comportamiento normal de Roblox cuando C0/C1 quedan en su valor por defecto (sin ningún desplazamiento). Calcular esos valores a mano con matemática es un proceso muy propenso a errores, así que en vez de eso usamos un plugin gratuito llamado **RigLink**, que hace el trabajo de forma visual.
+### 9. Crear la animación propia
 
-**Paso 1: Instalar el plugin**
+1. Abrí **Avatar → Animation Editor** y seleccioná `MiPersonaje`.
+2. Creá una animación llamada `SaludoMiPersonaje`.
+3. Registrá una pose de reposo en 0 segundos.
+4. En 0.4 segundos, levantá un brazo desde el hombro.
+5. En 0.8 segundos, incliná un poco el brazo para marcar el gesto.
+6. En 1.2 segundos, regresá a la pose inicial.
+7. Desactivá Loop, reproducí y revisá el movimiento desde dos ángulos.
 
-1. Pestaña **Vista** → **Toolbox** (Caja de herramientas)
-2. En el panel que se abre, hacés click en el ícono de **☰** (arriba a la izquierda) y elegís la categoría **Plugins**
-3. Buscás **"RigLink"**
-4. Lo instalás (es gratis)
+En R6 el brazo es una sola pieza: gira desde el hombro y no tiene codo. Si preferís un idle o una caminata, podés elegirlos como animación de entrega; para un ciclo, igualá la primera y última pose y activá Loop.
 
-**Paso 2: Conectar las partes**
+Guardá la animación y el proyecto. Usá **Publish to Roblox**, seleccioná el propietario adecuado y anotá el ID junto con `MiPersonaje — R6 personalizado`. Esta animación se creó para esta estructura; no supongas que cualquier rig R15 reproducirá el mismo movimiento.
 
-1. Activás el plugin desde la pestaña **Plugins**
-2. Seleccionás las dos partes a unir (por ejemplo `HumanoidRootPart` y `RightArm`, con Ctrl+click)
-3. Aparecen los handles (flechas roja, verde y azul) en el punto donde el plugin sugiere la unión
-4. Hacés click en **"Link Selected"**
+### 10. Problemas comunes
 
-El plugin crea el Motor6D con los C0/C1 correctos automáticamente, sin que el brazo se mueva de lugar.
-
-**Paso 3: Ajustar el punto de giro manualmente (si hace falta)**
-
-Si el punto sugerido no queda exactamente en el hombro:
-
-1. Activás **"Manual Alignment"** en el panel del plugin
-2. Volvés a seleccionar las dos partes
-3. Arrastrás los handles hasta la posición real donde debería estar la unión
-4. Click en **"Link Selected"** de nuevo para aplicar
-
-> 💡 El punto de giro (pivote) es lo que hace que el brazo cuelgue naturalmente desde el hombro al animarlo, en vez de girar "flotando" desde su propio centro.
-
-Repetís este proceso para cada parte: `Head`, `LeftArm`, `RightArm`, `LeftLeg`, `RightLeg`, todas conectadas al `HumanoidRootPart`.
-
-### 5. Asignar el PrimaryPart
-
-1. Seleccionás el **Model**
-2. Properties → **PrimaryPart** → seleccionás **HumanoidRootPart**
-
-### 6. Animar el rig
-
-1. **Avatar → Animation Editor**
-2. Seleccionás el Model
-3. El editor detecta las uniones y te deja mover cada parte
-4. Creás los keyframes y publicás
-
-### 7. Problemas comunes
-
-| Problema | Causa |
+| Problema | Qué revisar |
 |---|---|
-| Animation Editor no muestra las partes | Falta el Humanoid o Motor6D mal configurados |
-| El modelo no se posiciona bien | PrimaryPart no asignado |
-| El brazo salta al centro del torso al conectarlo | C0/C1 en su valor default; usá RigLink (Paso 4) para conectarlo sin que se mueva |
-| El brazo gira desde el medio en vez del hombro | El punto de giro no está en el hombro; ajustalo con "Manual Alignment" en RigLink |
+| Una pieza cae o se separa | Falta una unión o Part0/Part1 apuntan a otro objeto |
+| Todo el cuerpo se superpone al unirlo | La unión no conserva los desplazamientos; deshacé y recreala con el plugin |
+| El brazo gira desde el centro | El pivote no está en el hombro |
+| Una extremidad no se anima | Sigue anclada, falta su Motor6D o hay uniones duplicadas |
+| El Humanoid pierde la vida al probar | Estructura R6, nombres exactos, Torso, Head y conexión Neck |
+| El personaje no se mueve físicamente | Revisá el anclaje; PrimaryPart por sí sola no produce movimiento |
+| El editor no detecta el personaje | Seleccioná el Model completo y revisá Humanoid, Animator y articulaciones |
 
 ## Ejercicio
 
-> Consigna: Creá un rig personalizado y hacé al menos 1 animación funcional (idle, caminar o saludo).
+> Consigna: Creá un rig personalizado con Parts y hacé al menos 1 animación funcional: idle, caminar o saludo. Personalizá sus colores y materiales, guardá el proyecto y publicá la animación.
 
-**Pistas:**
-1. Nombrá las 6 partes exactamente como en la tabla, Roblox depende de esos nombres
-2. Usá el plugin **RigLink** para conectar las partes sin que salten de lugar
-3. Si el punto de giro no queda en el hombro, usá "Manual Alignment" para ajustarlo a mano
-4. Si el Animation Editor no muestra las partes, revisá que el Humanoid esté agregado
+**Antes de terminar, comprobá:**
+
+- Hay seis piezas visibles y una HumanoidRootPart invisible separada del Torso.
+- Las seis uniones coinciden con la tabla y no están duplicadas.
+- El muñeco conserva su estructura y su Humanoid tiene vida durante la prueba física.
+- La animación se ve en el editor y cada pieza gira desde su articulación.
+- Guardaste el modelo y anotaste el ID, el propietario y el rig usado.
 
 ## Recursos
 
-- [Documentación oficial de Motor6D](https://create.roblox.com/docs/reference/engine/classes/Motor6D)
-- [RigLink en el DevForum de Roblox](https://devforum.roblox.com/t/riglink-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684)
+- [Humanoid y estructura de personajes](https://create.roblox.com/docs/reference/engine/classes/Humanoid)
+- [Motor6D](https://create.roblox.com/docs/reference/engine/classes/Motor6D)
+- [RigLink: instrucciones del autor](https://devforum.roblox.com/t/riglink-%E2%80%93-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684)
+- [Animation Editor](https://create.roblox.com/docs/animation/editor)
+- [Avatar Joint Upgrade y alcance para R6](https://devforum.roblox.com/t/avatar-joint-upgrade-aju-phase-2-rollout-updated-migration-recommendations/4656414)
