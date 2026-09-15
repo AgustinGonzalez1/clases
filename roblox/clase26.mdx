@@ -1,0 +1,216 @@
+---
+title: "Clase 26: ¡A Ganar Robux! (Monetización) 💰"
+mision: "Crear un ítem premium que se entregue solo a quien compró el Pase, verificando la compra en el servidor."
+---
+
+# Clase 26: ¡A Ganar Robux! (Monetización) 💰
+
+Aprendemos a vender cosas dentro de nuestro juego con Robux, y a entregar el ítem comprado de forma segura desde el servidor.
+
+## Objetivos
+
+- Entender la diferencia entre Pases y Productos del desarrollador, y cuándo usar cada uno
+- Crear y vender un Pase, verificando la compra en el servidor
+- Entender cómo se comunican el botón del cliente y la verificación del servidor
+- Usar un modo de prueba para desarrollar sin depender de compras reales
+
+## Contenido
+
+### 1. Las dos formas de vender en Roblox
+
+Roblox te da exactamente **dos herramientas** para vender algo por Robux dentro de tu juego:
+
+| | Pase (Game Pass) | Producto del desarrollador |
+|---|---|---|
+| Se puede comprar | **Una sola vez** por jugador | **Todas las veces que quiera** |
+| ¿Roblox recuerda la compra? | **Sí**, para siempre | **No**, solo registra la transacción |
+| Cómo se verifica | `UserOwnsGamePassAsync` | Con el callback `ProcessReceipt` |
+| Precio mínimo | No puede ser 0 | No puede ser 0 |
+
+**Cuándo usar cada uno:**
+
+| Usar Pase para... | Usar Producto del desarrollador para... |
+|---|---|
+| Un arma o herramienta permanente | Pociones de vida, munición |
+| Acceso VIP a una zona | Boost temporal ("doble XP por 1 hora") |
+| Un multiplicador permanente (2x XP para siempre) | Revivir después de morir |
+| Un cosmético que se tiene para siempre | Moneda del juego (100 gemas, 500 monedas) |
+
+> ⚠️ **El error más común**: vender algo repetible como Pase. Si hacés un "boost de velocidad" como Pase, el jugador lo tiene **para siempre** y te rompe el balance del juego. Y si hacés monedas como Pase, solo te las puede comprar una vez en su vida.
+
+En esta clase vamos a enfocarnos en el **Pase**, porque queremos vender un ítem especial permanente. Los Productos del desarrollador los vamos a usar en profundidad en la **Clase 30**, cuando armemos una economía con moneda virtual.
+
+---
+
+### 2. Crear el Pase paso a paso
+
+1. Entrás a **create.roblox.com/dashboard/creations**
+2. Seleccionás tu juego (tiene que estar publicado, aunque sea en privado)
+3. En el menú lateral: **Monetización** → **Pases**
+4. Click en el botón azul **"Crear Pase"**
+5. Subís un ícono (512x512), nombre y descripción
+6. Le asignás un precio en Robux
+7. Copiás el **ID** del pase, lo vas a necesitar en el código
+
+---
+
+### 3. La estructura completa del proyecto
+
+```
+StarterGui
+  └── ScreenGui
+        ├── LocalScript          ← dispara la compra y actualiza el botón
+        └── ComprarPase (TextButton)
+
+ServerScriptService
+  └── Script                     ← verifica la compra y entrega el ítem
+
+ServerStorage
+  └── Linterna (Tool)            ← el ítem premium que se va a entregar
+```
+
+- El **LocalScript** va en la ScreenGui porque solo el cliente puede mostrar el diálogo de compra
+- El **Script** va en ServerScriptService porque la entrega del ítem tiene que basarse en una verificación confiable, nunca en lo que diga el cliente
+- El **ítem** va en **ServerStorage** para que nadie lo tenga hasta que se lo demos por código
+
+---
+
+### 4. ¿Cómo se comunican el botón y el servidor?
+
+**El LocalScript no le "avisa" nada al servidor.** No hace falta un RemoteEvent, porque Roblox se encarga de avisarle a ambos lados:
+
+```
+LocalScript (cliente)                    Script (servidor)
+     |                                          |
+Jugador hace click                              |
+     |                                          |
+PromptGamePassPurchase() -----> Roblox muestra su dialogo de pago
+                                                 |
+                                 Roblox procesa el pago
+                                                 |
+              PromptGamePassPurchaseFinished se dispara
+              AUTOMATICAMENTE en el cliente Y en el servidor
+```
+
+---
+
+### 5. El LocalScript (botón de compra)
+
+```lua
+local MarketplaceService = game:GetService("MarketplaceService")
+local jugador = game.Players.LocalPlayer
+local boton = script.Parent.ComprarPase
+
+local ID_PASE = 000000   -- reemplazar con el ID real de tu Pase
+
+local yaComprado = false
+
+local function actualizarBoton()
+    local exito, tienePase = pcall(function()
+        return MarketplaceService:UserOwnsGamePassAsync(jugador.UserId, ID_PASE)
+    end)
+
+    if exito and tienePase then
+        boton.Text = "Ya comprado ✓"
+        yaComprado = true
+    end
+end
+
+actualizarBoton()   -- revisa al cargar
+
+boton.MouseButton1Click:Connect(function()
+    if yaComprado then return end   -- corta acá, no abre el dialogo
+    MarketplaceService:PromptGamePassPurchase(jugador, ID_PASE)
+end)
+
+-- Actualiza el boton al instante si compra durante la partida
+MarketplaceService.PromptGamePassPurchaseFinished:Connect(function(jugadorQueCompro, idPase, comprado)
+    if jugadorQueCompro == jugador and idPase == ID_PASE and comprado then
+        boton.Text = "Ya comprado ✓"
+        yaComprado = true
+    end
+end)
+```
+
+- La variable `yaComprado` es la que realmente bloquea el botón: aunque siga siendo clickeable visualmente, el `return` corta antes de abrir el diálogo
+- `PromptGamePassPurchase` abre la ventana de compra **nativa** de Roblox
+- `pcall(...)` evita que un error de conexión rompa el script
+
+---
+
+### 6. El Script del servidor (con modo de prueba)
+
+```lua
+local MarketplaceService = game:GetService("MarketplaceService")
+local ID_PASE = 000000
+
+local MODO_PRUEBA = true   -- true mientras desarrollas, false al publicar de verdad
+
+local function darItemPremium(jugador)
+    -- evita darle dos linternas si ya tiene una
+    if jugador.Backpack:FindFirstChild("Linterna") or (jugador.Character and jugador.Character:FindFirstChild("Linterna")) then
+        return
+    end
+
+    local linterna = game.ServerStorage.Linterna:Clone()
+    linterna.Parent = jugador.Backpack
+end
+
+game.Players.PlayerAdded:Connect(function(jugador)
+    if MODO_PRUEBA then
+        darItemPremium(jugador)   -- en pruebas, se lo damos directo
+        return
+    end
+
+    local exito, tienePase = pcall(function()
+        return MarketplaceService:UserOwnsGamePassAsync(jugador.UserId, ID_PASE)
+    end)
+
+    if exito and tienePase then
+        darItemPremium(jugador)
+    end
+end)
+
+-- Si compra durante la partida, se lo damos al instante
+MarketplaceService.PromptGamePassPurchaseFinished:Connect(function(jugador, idPase, comprado)
+    if comprado and idPase == ID_PASE then
+        darItemPremium(jugador)
+    end
+end)
+```
+
+- `UserOwnsGamePassAsync` se consulta al entrar, porque los Pases no guardan el ítem solos: hay que dárselo en cada sesión
+- El chequeo de `FindFirstChild("Linterna")` revisa tanto el **Backpack** como el **Character** (por si la tiene equipada)
+- `PromptGamePassPurchaseFinished` cubre el caso de comprar **mientras ya está jugando**
+
+---
+
+### 7. Por qué necesitamos el MODO_PRUEBA
+
+Probar Pases en Studio es **poco confiable**, y esto no se arregla con código. Problemas típicos:
+
+| Problema | Por qué pasa |
+|---|---|
+| El dueño del juego ya tiene el Pase sin comprarlo | Roblox le da automáticamente todos los Pases de su propia experiencia |
+| `UserOwnsGamePassAsync` devuelve `true` en el cliente y `false` en el servidor | Las compras simuladas en Studio no se registran de verdad en Roblox |
+| Te deja "comprar" varias veces | La simulación de Studio no respeta la lógica real de "ya lo tenés" |
+
+Con `MODO_PRUEBA = true` podés verificar que **todo lo demás funcione**: que el ítem se clone bien, que vaya al Backpack, que no se duplique. Cuando publiques el juego de verdad, lo ponés en `false`.
+
+> ⚠️ El único paso que no se puede probar gratis es la verificación real de "¿pagó?". Fuera de Studio, toda compra es real y cuesta Robux (salvo para el dueño del juego, que ya lo tiene gratis).
+
+## Ejercicio
+
+> Consigna: Creá un ítem premium (Pase) que se entregue solo a quien lo compró, verificando la compra en el servidor.
+
+**Pistas:**
+1. La verificación siempre va en el servidor, nunca confíes en el cliente
+2. Usá `MODO_PRUEBA = true` mientras desarrollás, y acordate de ponerlo en `false` antes de publicar
+3. Usá una variable como `yaComprado` para bloquear el botón, `Active = false` no alcanza
+4. No olvides el caso de "compra durante la partida" con `PromptGamePassPurchaseFinished`
+
+## Recursos
+
+- [Creator Dashboard](https://create.roblox.com/dashboard/creations)
+- [Documentación oficial de MarketplaceService](https://create.roblox.com/docs/reference/engine/classes/MarketplaceService)
+- [Documentación oficial de Pases](https://create.roblox.com/docs/production/monetization/passes)

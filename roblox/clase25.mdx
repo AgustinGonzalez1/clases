@@ -1,4 +1,241 @@
 ---
-title: "Clase 25"
-mision: ""
+title: "Clase 25: Sonidos, Música y Feedback Auditivo 🎧"
+mision: "Agregar música de fondo y al menos 3 efectos de sonido a tu juego."
 ---
+
+# Clase 25: Sonidos, Música y Feedback Auditivo 🎧
+
+Agregamos efectos de sonido y música a nuestro juego, y hacemos que la música reaccione a lo que pasa en el mapa.
+
+## Objetivos
+
+- Subir tu propio audio a Roblox
+- Conseguir audio desde la Toolbox
+- Reproducir música de fondo desde un Script en ServerScriptService
+- Agregar SFX a objetos del mapa
+- Hacer música reactiva
+- Armar una mezcla con SoundGroups y un slider de volumen general
+
+## Contenido
+
+### 1. Subir tu propio audio (paso a paso)
+
+1. Entrás a **create.roblox.com** → **Creaciones** → **Elementos para el desarrollo**
+2. En el desplegable de categoría, elegís **Audio**
+3. Click en **Upload** y seleccionás tu archivo (MP3, OGG, FLAC o WAV)
+4. Le ponés un nombre y aceptás el acuerdo de licencia de audio
+5. Esperás la moderación de Roblox
+6. Una vez aprobado, copiás el **Asset ID** que te dieron
+
+### 2. Conseguir audio desde la Toolbox (paso a paso)
+
+1. En Studio, **Vista → Toolbox**
+2. Categoría **Audio**
+3. Buscás el sonido que te guste
+4. Lo **arrastrás** directo a donde quieras en el Explorer (por ejemplo a SoundService) — el objeto Sound se crea solo, con el ID ya cargado, sin copiar nada a mano
+
+### 3. Música de fondo desde ServerScriptService
+
+La música de fondo no depende de ningún objeto del mapa: la arrancamos con un **Script** en ServerScriptService apenas carga el juego.
+
+1. Click derecho sobre **SoundService** → Insert Object → **Sound**
+2. Le pegás tu `SoundId` (el que subiste o el de la Toolbox)
+3. Activás **Looped = true**
+
+```
+SoundService
+  └── Sound
+
+ServerScriptService
+  └── Script
+```
+
+```lua
+-- Script en ServerScriptService
+local SoundService = game:GetService("SoundService")  -- accede al servicio de sonido
+local musica = SoundService:WaitForChild("Sound")      -- espera a que el Sound este listo
+
+musica.Looped = true      -- la musica se repite sola al terminar
+musica.Volume = 0.5       -- volumen a la mitad (0 a 1)
+musica:Play()             -- arranca a sonar apenas carga el script
+```
+
+- `game:GetService("SoundService")` accede al servicio, igual que ya hiciste con `TweenService` o `RunService`
+- `WaitForChild("Sound")` busca el objeto Sound que insertaste dentro de SoundService y espera a que exista, para evitar errores de timing
+- `Looped = true` hace que la música vuelva a empezar sola al terminar, en vez de sonar una sola vez
+- `Play()` es el método que efectivamente arranca la reproducción
+
+### 4. Ejemplo: SFX en un bloque
+
+Para un sonido puntual, el Sound va **dentro de la Part**, así se escucha más fuerte cerca y más bajo lejos (a diferencia de SoundService, que es global para todo el mapa).
+
+1. Click derecho sobre la Part → Insert Object → **Sound**
+2. Le pegás el `SoundId`
+
+```
+Workspace
+  └── Bloque (Part)
+        └── Sound
+```
+
+```lua
+local bloque = script.Parent                          -- el bloque que contiene este script
+local sonido = bloque:WaitForChild("Sound")            -- el Sound insertado dentro del bloque
+
+bloque.Touched:Connect(function(mano)                  -- se dispara cuando algo toca el bloque
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")
+    if humanoid then                                    -- si quien toco es un jugador
+        sonido:Play()                                    -- reproduce el SFX
+    end
+end)
+```
+
+- `bloque:WaitForChild("Sound")` referencia el Sound que insertaste dentro del bloque
+- Cada vez que un jugador toca el bloque, `sonido:Play()` reproduce el efecto desde cero (si ya estaba sonando, lo reinicia)
+
+### 5. Música reactiva (dinámica)
+
+Reutilizamos `Magnitude` (Clases 10 y 22) para que la música baje su volumen cuando un enemigo está cerca, generando tensión.
+
+```lua
+local enemigo = workspace.Enemigo.HumanoidRootPart      -- la posicion del enemigo
+local jugador = game.Players.LocalPlayer
+local personaje = jugador.Character or jugador.CharacterAdded:Wait()
+
+game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces por segundo
+    local distancia = (enemigo.Position - personaje.HumanoidRootPart.Position).Magnitude
+
+    if distancia < 15 then          -- si el enemigo esta cerca
+        musica.Volume = 0.2          -- baja el volumen, genera tension
+    else                            -- si esta lejos
+        musica.Volume = 0.5          -- vuelve al volumen normal
+    end
+end)
+```
+
+- `Magnitude` calcula la distancia real entre el enemigo y el jugador, igual que en la Clase 10
+- El `Heartbeat` revisa esa distancia constantemente y ajusta `musica.Volume` en consecuencia
+- Este script va en un **LocalScript** (necesita `LocalPlayer`), separado del Script que arrancó la música en el servidor
+
+### 6. Extra: mezcla con SoundGroups y volumen general
+
+Un **SoundGroup** no mueve los sonidos de lugar (cada Sound se queda en su Part o en SoundService), solo los **agrupa lógicamente** para controlar su volumen a todos juntos con una sola línea, como una etiqueta compartida.
+
+**Estructura recomendada para un juego real:**
+
+```
+SoundService
+  ├── Musica (SoundGroup)
+  └── SFX (SoundGroup)
+```
+
+Cada Sound del juego se asigna a uno de los dos grupos según lo que sea:
+
+```lua
+sonido1.SoundGroup = grupoSFX     -- este Sound entra al grupo SFX
+musica.SoundGroup = grupoMusica   -- este Sound entra al grupo Musica
+```
+
+**El código de los dos grupos + un volumen general:**
+
+```lua
+local SoundService = game:GetService("SoundService")
+
+-- Los dos grupos
+local grupoMusica = Instance.new("SoundGroup")
+grupoMusica.Name = "Musica"
+grupoMusica.Parent = SoundService
+
+local grupoSFX = Instance.new("SoundGroup")
+grupoSFX.Name = "SFX"
+grupoSFX.Parent = SoundService
+
+-- Volumenes base de cada categoria
+local volumenBaseMusica = 0.5
+local volumenBaseSFX = 0.8
+
+-- El "volumen general" es un multiplicador de 0 a 1
+local volumenGeneral = 1
+
+local function actualizarVolumenes()
+    grupoMusica.Volume = volumenBaseMusica * volumenGeneral
+    grupoSFX.Volume = volumenBaseSFX * volumenGeneral
+end
+
+actualizarVolumenes()   -- aplica los valores iniciales
+```
+
+- Con **dos grupos separados**, el jugador puede bajar solo la música o solo los SFX
+- Con el **multiplicador `volumenGeneral`**, también puede bajar todo junto sin perder el balance entre música y SFX
+
+**El slider de "Volumen General" en la GUI**
+
+Roblox no tiene un objeto "Slider" nativo, así que lo armamos con un Frame (la barra) y un TextButton (el botón que se arrastra):
+
+```
+ScreenGui
+  └── PantallaOpciones (Frame)
+        └── SliderTrack (Frame)            -- la barra completa
+              └── SliderBoton (TextButton) -- el "agarradera" que se arrastra
+```
+
+```lua
+local UserInputService = game:GetService("UserInputService")
+
+local track = script.Parent.SliderTrack   -- la barra completa
+local boton = track.SliderBoton            -- el boton que se arrastra
+
+local arrastrando = false                  -- si el jugador tiene el mouse apretado sobre el boton
+
+boton.InputBegan:Connect(function(input)   -- cuando aprieta el boton
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        arrastrando = true
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)  -- cuando suelta el click, en cualquier lugar
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        arrastrando = false
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)  -- cada vez que mueve el mouse
+    if arrastrando and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local posicionMouseX = input.Position.X          -- donde esta el mouse en X
+        local inicioTrack = track.AbsolutePosition.X      -- donde empieza la barra
+        local anchoTrack = track.AbsoluteSize.X           -- que tan larga es la barra
+
+        local porcentaje = (posicionMouseX - inicioTrack) / anchoTrack  -- 0 a 1
+        porcentaje = math.clamp(porcentaje, 0, 1)          -- evita que se pase de 0 o 1
+
+        boton.Position = UDim2.new(porcentaje, 0, 0.5, 0)  -- mueve el boton visualmente
+
+        volumenGeneral = porcentaje                         -- actualiza la variable
+        actualizarVolumenes()                                -- aplica el nuevo volumen
+    end
+end)
+```
+
+- `boton.InputBegan` detecta cuando el jugador **hace click** sobre el botón del slider
+- `UserInputService.InputEnded` detecta cuando **suelta** el click en cualquier parte de la pantalla, no solo sobre el botón
+- `UserInputService.InputChanged` se dispara **constantemente** mientras el mouse se mueve
+- `AbsolutePosition` y `AbsoluteSize` dan la posición y tamaño **reales en píxeles** del Frame en pantalla
+- `porcentaje` calcula qué tan lejos está el mouse dentro de la barra, como un número entre 0 y 1
+- `math.clamp(valor, min, max)` asegura que el número nunca sea menor a 0 ni mayor a 1
+- Ese `porcentaje` se usa tanto para mover el botón visualmente como para actualizar `volumenGeneral`
+
+## Ejercicio
+
+> Consigna: Agregá música de fondo desde ServerScriptService y al menos 3 SFX distintos en objetos del mapa.
+
+**Pistas:**
+1. La música arranca sola desde un Script en ServerScriptService, no depende de un bloque
+2. Los SFX van dentro de la Part correspondiente
+3. Podés subir tu propio audio o usar uno de la Toolbox, ambos terminan siendo un ID que usás igual
+4. Como extra, probá organizar tus sonidos en SoundGroups con un slider de volumen general
+
+## Recursos
+
+- [Documentación oficial de Sound](https://create.roblox.com/docs/reference/engine/classes/Sound)
+- [Documentación oficial de SoundGroup](https://create.roblox.com/docs/reference/engine/classes/SoundGroup)
+- [Cómo subir audio a Roblox](https://en.help.roblox.com/hc/en-us/articles/203314070-Audio-Files)
