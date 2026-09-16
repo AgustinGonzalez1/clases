@@ -5,117 +5,61 @@ mision: "Armar un castillo o laberinto simple usando Parts."
 
 # Clase 3: Construyendo con Bloques 🧱
 
-Construimos un castillo o laberinto con piezas alineadas, paredes firmes y una entrada por la que pueda pasar el personaje.
+Creamos y modificamos Parts para construir estructuras como castillos o laberintos.
 
 ## Objetivos
 
-- Cambiar tamaño, posición, orientación y forma de las Parts
-- Usar Anchored y CanCollide de manera intencional
-- Alinear y duplicar piezas
-- Organizar la construcción en un Model con nombres descriptivos
+- Insertar y modificar Parts
+- Cambiar la forma de una Part
+- Agrupar Parts en un Model y nombrarlas correctamente
 
 ## Contenido
 
-### 1. Insertar y modificar una Part
+### 1. Insertar una Part
 
-Desde **Home → Part**, insertá un bloque. También podés usar **Workspace → Insert Object → Part**.
+Desde **Home** → click en **Part**, o click derecho en el Workspace → Insert Object → Part.
 
-En Properties, revisá:
+### 2. Modificar la Part
+
+Desde **Properties**:
 
 | Propiedad | Qué controla |
 |---|---|
-| **Size** | Dimensiones sobre los ejes X, Y y Z |
-| **Position** | Ubicación de la pieza |
-| **Orientation** | Rotación en grados |
-| **Color** | Color de la superficie |
-| **Material** | Apariencia del material |
-| **Anchored** | Si la física puede mover la pieza |
-| **CanCollide** | Si otros cuerpos pueden atravesarla |
+| **Size** | El tamaño en los tres ejes (X, Y, Z) |
+| **Color** | El color del bloque |
+| **Material** | La textura |
+| **Anchored** | Si el bloque cae o se queda fijo en el aire |
 
-Una pared inicial puede tener **Size = 12, 8, 1**: 12 studs de ancho, 8 de alto y 1 de grosor. El stud es la unidad de longitud del mundo de Roblox. Ubicala sobre el piso con Move.
+**Ejemplo:** con **Ctrl + D** duplicás una Part seleccionada. Útil para construir paredes repetidas.
 
-### 2. Hacer una construcción firme
+### 3. Cambiar la forma de la Part
 
-Para las paredes y el piso del castillo, configurá:
+1. Seleccionás la Part
+2. Properties → **Shape** → elegís entre **Block**, **Sphere**, **Cylinder**, **Wedge**
 
-- **Anchored = true:** se mantienen en el lugar donde las construiste.
-- **CanCollide = true:** el personaje choca con ellas.
+### 4. Agrupar las Parts en un Model
 
-Son propiedades independientes. Una pared puede estar anclada y aun así dejarte pasar si desactivás CanCollide. Además, **Transparency** cambia su visibilidad, no su colisión: una pared invisible puede seguir bloqueando el camino.
+1. Seleccionás todas las Parts de tu construcción (Ctrl + click)
+2. Click derecho → **Group** (Ctrl+G)
+3. Se crea un **Model** con todas las Parts adentro
+4. Lo renombrás con un nombre descriptivo
 
-**Prueba corta:** desactivá CanCollide de una pared, entrá a Test y atravesala. Después detené la prueba y volvé a activarlo para tu construcción final.
+### 5. Nombrar los objetos
 
-### 3. Elegir la forma
+1. Click derecho sobre cada objeto en el Explorer → **Rename**
+2. Le ponés nombres descriptivos como `ParedNorte`, `Puerta`, `Torre`
 
-Usá el selector de **Part** para insertar distintas formas, o la propiedad **Shape** cuando el objeto seleccionado sea una Part que la exponga.
-
-| Forma | Para qué puede servir |
-|---|---|
-| **Block** | Paredes, pisos y columnas rectangulares |
-| **Sphere / Ball** | Adornos esféricos |
-| **Cylinder** | Columnas o torres cilíndricas |
-| **Wedge** | Techos inclinados o rampas |
-| **Corner Wedge** | Esquinas de un techo |
-
-> 💡 La esfera puede aparecer como Sphere en un selector visual y como Ball en la propiedad o API. Si seleccionaste un objeto WedgePart, su clase ya define la forma y no vas a encontrar exactamente las mismas propiedades que en una Part.
-
-### 4. Alinear con incrementos
-
-Las herramientas Move y Rotate permiten trabajar con incrementos de ajuste, también llamados **snap**. Buscá sus controles en la barra de herramientas.
-
-1. Para paredes rectas, probá un incremento de movimiento de **1 stud**.
-2. Elegí **90°** para girar una pared y formar una esquina.
-3. Para un ajuste más fino, reducí el movimiento a **0.5 studs**.
-4. Revisá Position y Orientation si necesitás repetir un valor exacto.
-
-Algunas herramientas permiten elegir ejes globales o locales. Los **globales** siguen las direcciones del mundo; los **locales** siguen la orientación de la pieza. Si giraste una pared, usar sus ejes locales puede ayudarte a moverla a lo largo de ella misma.
-
-### 5. Duplicar para construir
-
-1. Prepará una pared con el tamaño y material que te gusten.
-2. Usá **Duplicate** o Ctrl+D en Windows.
-3. Mové la copia y girala si corresponde.
-4. Repetí para formar el perímetro.
-5. Dejá una abertura suficiente para tu personaje: no cierres la entrada con una pieza invisible.
-
-Para un laberinto, agregá paredes interiores dejando pasillos amplios. Para un castillo, podés sumar torres y techos usando las otras formas.
-
-### 6. Agrupar y nombrar
-
-Seleccioná las Parts de tu construcción y usá **Group** desde el menú contextual. Se crea un **Model**: renombralo `Castillo` o `Laberinto`.
-
-Nombrá también las piezas desde **Rename**, por ejemplo:
-
-```text
-Workspace
-  └── Castillo (Model)
-        ├── ParedNorte
-        ├── ParedSur
-        ├── ParedEste
-        ├── ParedOeste
-        └── Techo
-```
-
-> 💡 Un Model organiza objetos y permite seleccionarlos como conjunto. **Agrupar no los suelda ni los ancla.** Para esta construcción estática, mantené Anchored activado en cada pieza.
-
-### 7. Revisar con el personaje
-
-Iniciá Test, entrá por la abertura y recorré el interior. Si no podés pasar, detené la prueba y ensanchá el acceso. Si una pared se cae, comprobá su Anchored. Si la atravesás, revisá CanCollide. Guardá cuando hayas corregido el recorrido.
+> 💡 Nombrar bien los objetos es importante porque en clases futuras los vamos a referenciar desde código.
 
 ## Ejercicio
 
-> Consigna: Armá un castillo o laberinto simple con al menos 4 paredes, una entrada y 2 materiales distintos. Agrupalo en un Model con nombre descriptivo.
+> Consigna: Armá un castillo o laberinto simple con al menos 4 paredes, una entrada y 2 materiales distintos.
 
-**Antes de terminar, comprobá:**
-
-- Las paredes están alineadas y ancladas.
-- El personaje puede entrar y recorrer la construcción.
-- Las paredes que deben bloquear el paso tienen CanCollide activado.
-- El Model y sus piezas tienen nombres útiles.
+**Pistas:**
+1. Usá `Ctrl+D` para duplicar paredes rápido en vez de crearlas de cero
+2. Agrupá todo en un Model con nombre descriptivo antes de terminar
+3. Probá combinar Shape `Wedge` para hacer techos inclinados
 
 ## Recursos
 
-- [Parts y formas básicas](https://create.roblox.com/docs/parts)
-- [PartType](https://create.roblox.com/docs/reference/engine/enums/PartType)
-- [Model](https://create.roblox.com/docs/reference/engine/classes/Model)
-- [Anchored y CanCollide](https://create.roblox.com/docs/reference/engine/classes/BasePart)
+- [Documentación oficial de Parts](https://create.roblox.com/docs/reference/engine/classes/Part)
