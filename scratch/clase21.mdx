@@ -1,149 +1,140 @@
 ---
-title: "Clase 14: Globos al aire 🎈"
-mision: "Crear un juego con puntaje y cuenta regresiva: pinchar globos antes de que se acabe el tiempo."
+title: "Clase 21: Laberinto con power-ups ⚡"
+mision: "Crear un laberinto con dos power-ups dibujados por nosotros que cambian cómo se juega."
 ---
 
-# Clase 14: Globos al aire 🎈
+# Clase 21: Laberinto con power-ups ⚡
 
-Armamos un juego donde suben globos y hay que pincharlos haciendo clic. Sumamos puntos y agregamos un reloj que termina la partida.
+Armamos un laberinto y le agregamos dos objetos especiales que dibujamos nosotros: uno que nos hace más rápidos y otro que nos protege de chocar.
 
 ## Objetivos
 
-- Usar variables para contar puntos
-- Programar una cuenta regresiva
-- Hacer que varios personajes se muevan solos
-- Terminar el juego cuando se acaba el tiempo
+- Dibujar objetos propios en Piskel y traerlos a Scratch
+- Usar variables para controlar cómo se mueve el personaje
+- Programar un power-up que dura unos segundos
+- Programar un escudo que aguanta varios choques
 
 ## Contenido
 
-### 1. Dibujar los globos
+### 1. Dibujar los power-ups en Piskel
 
-Nuevo objeto → **Pinta**. Un globo es un círculo de color con una rayita abajo. Lo dibujamos una vez y después hacemos **clic derecho → duplicar** dos veces, cambiando el color de cada copia.
+Entramos a [piskelapp.com](https://www.piskelapp.com) → **Create Sprite**. Dibujamos un rayo amarillo (velocidad) y un escudo azul (protección).
 
-### 2. Las dos variables
+Para traerlos a Scratch: **Export** → **PNG** (Portable Network Graphics) → descargar. El fondo queda transparente, así el dibujo no arrastra un cuadrado blanco.
 
-Creamos dos variables desde la categoría **Variables**:
+### 2. Subirlos a Scratch
 
-| Variable | Para qué sirve                 |
-| -------- | ------------------------------ |
-| `puntos` | Cuenta los globos pinchados    |
-| `tiempo` | Cuenta los segundos que quedan |
+Pasamos el mouse por el botón de agregar objeto → **Subir objeto** → elegimos el archivo descargado.
 
-### 3. Empezar desde abajo
+### 3. El laberinto
 
-Cada globo arranca abajo del escenario, en una posición horizontal al azar.
+En el **Escenario** → **Fondos** dibujamos las paredes de un color bien definido y la meta de otro color, por ejemplo verde.
 
-**Ejemplo:**
+### 4. Moverse usando una variable
 
-```
-al presionar 🏴
-ir a x: (elegir número al azar entre [-200] y [200]) y: [-180]
-```
-
-### 4. Subir
-
-Dentro de un `por siempre`, el globo sube de a poquito sumando a su Y.
-
-**Ejemplo:**
-
-```
-por siempre
-   cambiar y en [2]
-```
-
-### 5. Volver a empezar arriba
-
-Cuando el globo sale por arriba del escenario, vuelve abajo en otra posición al azar. Así siempre hay globos.
-
-**Ejemplo:**
-
-```
-si <(posición en y) > [180]> entonces
-   ir a x: (elegir número al azar entre [-200] y [200]) y: [-180]
-```
-
-### 6. Pinchar el globo
-
-Con `al hacer clic en este objeto`, el globo suma un punto y vuelve abajo.
-
-**Ejemplo:**
-
-```
-al hacer clic en este objeto
-iniciar sonido [Pop]
-cambiar [puntos] en [1]
-ir a x: (elegir número al azar entre [-200] y [200]) y: [-180]
-```
-
-### 7. Código completo del globo
-
-```
-al presionar 🏴
-ir a x: (elegir número al azar entre [-200] y [200]) y: [-180]
-por siempre
-   cambiar y en [2]
-   si <(posición en y) > [180]> entonces
-      ir a x: (elegir número al azar entre [-200] y [200]) y: [-180]
-
-al hacer clic en este objeto
-iniciar sonido [Pop]
-cambiar [puntos] en [1]
-ir a x: (elegir número al azar entre [-200] y [200]) y: [-180]
-```
-
-> Los otros dos globos usan el mismo código. Se puede cambiar el `2` del `cambiar y en` para que uno suba más rápido que otro.
-
-### 8. La cuenta regresiva
-
-El reloj va en el **Escenario**. Cada segundo resta uno al tiempo.
+Acá está el truco de toda la clase: en vez de que el personaje se mueva un número fijo de pasos, se mueve lo que diga la variable `velocidad`. Así el power-up puede cambiarla.
 
 **Ejemplo:**
 
 ```
 al presionar 🏴
-fijar [puntos] a [0]
-fijar [tiempo] a [30]
+ir a x: [-214] y: [153]
+fijar [velocidad] a [3]
+fijar [escudo] a [0]
 por siempre
-   esperar [1] segundos
-   cambiar [tiempo] en [-1]
+   si <¿tecla [flecha arriba] presionada?> entonces
+      cambiar y en (velocidad)
+   si <¿tecla [flecha abajo] presionada?> entonces
+      cambiar y en ([0] - (velocidad))
+   si <¿tecla [flecha derecha] presionada?> entonces
+      cambiar x en (velocidad)
+   si <¿tecla [flecha izquierda] presionada?> entonces
+      cambiar x en ([0] - (velocidad))
 ```
 
-### 9. Terminar el juego
+> Para bajar y para ir a la izquierda usamos el bloque verde de resta con un 0 adelante, igual que en el juego de esquivar.
 
-Cuando el tiempo llega a 0, `detener todos` frena todos los programas y el puntaje queda a la vista en el escenario.
+### 5. La variable escudo
+
+`escudo` guarda cuánta protección nos queda. En 0 no tenemos nada; cuanto más alto, más aguantamos.
+
+### 6. Chocar con la pared
+
+Cuando tocamos una pared pasa una de dos cosas: si tenemos escudo, se gasta un poquito; si no tenemos, volvemos al inicio.
 
 **Ejemplo:**
 
 ```
-si <(tiempo) = [0]> entonces
-   detener [todos]
+al presionar 🏴
+por siempre
+   si <¿tocando el color [azul]?> entonces
+      si <[0] < (escudo)> entonces
+         cambiar [escudo] en [-1]
+         esperar [0.1] segundos
+      si no
+         ir a x: [-214] y: [153]
 ```
 
-### 10. El reloj completo
+> `0 < escudo` se lee "el escudo es mayor que cero", o sea: todavía me queda protección.
+
+### 7. Por qué la espera de 0.1 segundos
+
+Sin esa pausa el escudo se gastaría entero en un instante. Con `esperar 0.1 segundos`, un escudo de 70 aguanta unos 7 segundos pegado a la pared.
+
+### 8. El power-up de escudo
+
+Al tocarlo nos carga el escudo y desaparece.
+
+**Ejemplo:**
 
 ```
 al presionar 🏴
-fijar [puntos] a [0]
-fijar [tiempo] a [30]
+mostrar
+ir a x: [100] y: [-21]
 por siempre
-   esperar [1] segundos
-   cambiar [tiempo] en [-1]
-   si <(tiempo) = [0]> entonces
-      detener [todos]
+   si <¿tocando [Jugador]?> entonces
+      cambiar [escudo] en [70]
+      esconder
 ```
+
+> Un objeto escondido no detecta toques, así que una vez agarrado deja de funcionar solo.
+
+### 9. El power-up de velocidad
+
+Este dura poco: sube la velocidad, espera unos segundos y la deja como estaba.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+mostrar
+ir a x: [200] y: [-27]
+por siempre
+   si <¿tocando [Jugador]?> entonces
+      cambiar [velocidad] en [2]
+      esconder
+      esperar [2] segundos
+      cambiar [velocidad] en [-2]
+```
+
+> Sumamos 2 y después restamos 2: así vuelve exactamente al valor que tenía antes.
+
+### 10. Dónde poner los power-ups
+
+Los arrastramos con el mouse hasta un pasillo del laberinto, miramos sus números de x e y debajo del escenario y los copiamos en su bloque `ir a`.
 
 ## Ejercicio
 
-> Consigna: Armá el juego de globos con 3 globos que suben, puntaje que sube al pincharlos y una cuenta regresiva de 30 segundos que termina la partida.
+> Consigna: Armá un laberinto con dos power-ups dibujados por vos en Piskel: uno que te dé velocidad por unos segundos y otro que te dé escudo para aguantar los choques.
 
 **Pistas:**
 
-1. Las dos variables se reinician en el Escenario, no en cada globo
-2. Si el globo se traba arriba, revisá el número del `posición en y > 180`
-3. Cambiá la velocidad de cada globo para que el juego sea más divertido
+1. Exportá desde Piskel en PNG para que el fondo quede transparente
+2. El personaje se mueve con la variable `velocidad`, nunca con un número fijo
+3. Si el escudo se gasta al instante, revisá que esté el `esperar 0.1 segundos`
 
 ## Recursos
 
 - [Scratch](https://scratch.mit.edu)
-- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Piskel](https://www.piskelapp.com)
 - [Scratch Wiki en español](https://es.scratch-wiki.info)

@@ -1,0 +1,110 @@
+---
+title: "Clase 23: Balance y playtest ⚖️"
+mision: "Probar el juego con un compañero y ajustar los números para que sea un desafío justo."
+---
+
+# Clase 23: Balance y playtest ⚖️
+
+Hoy no agregamos bloques nuevos. Hacemos algo que hacen todos los que crean videojuegos: dárselo a otra persona, mirarla jugar y ajustar los números.
+
+## Objetivos
+
+- Entender qué es el balance de un juego
+- Observar a otra persona jugando sin ayudarla
+- Anotar problemas concretos
+- Ajustar los números del juego según lo observado
+
+## Contenido
+
+### 1. ¿Qué es el balance?
+
+Un juego balanceado no es ni tan fácil que aburre ni tan difícil que se abandona. El balance no se adivina: se descubre probando.
+
+**Ejemplo:** si el escudo dura tanto que nunca perdés, el juego deja de tener gracia.
+
+### 2. La regla del playtest
+
+El que creó el juego **no habla**. Solo mira. Si tenemos que explicar cómo se juega, eso ya es un problema para anotar.
+
+### 3. Intercambiar los juegos
+
+Cada uno se sienta en la computadora de un compañero y juega su laberinto completo, sin ayuda.
+
+### 4. Anotar lo que pasa
+
+Mientras el compañero juega, anotamos en una tabla:
+
+| Pregunta                                           | Respuesta |
+| -------------------------------------------------- | --------- |
+| ¿Entendió cómo se juega sin que le expliquen?      |           |
+| ¿En qué parte se trabó más?                        |           |
+| ¿Qué power-up le pareció más útil?                 |           |
+| ¿Algún nivel es mucho más difícil que el anterior? |           |
+| ¿Se aburrió o se enganchó?                         |           |
+
+### 5. Ajustar la velocidad
+
+Si el personaje va tan rápido que se choca todo el tiempo, o tan lento que aburre, cambiamos el valor inicial.
+
+**Ejemplo:**
+
+```
+fijar [velocidad] a [3]      ← antes
+fijar [velocidad] a [2]      ← después de probar
+```
+
+### 6. Ajustar el escudo
+
+El número del escudo decide cuánto aguantamos pegados a una pared. Más alto es más fácil.
+
+**Ejemplo:**
+
+```
+cambiar [escudo] en [70]     ← antes
+cambiar [escudo] en [40]     ← después de probar
+```
+
+### 7. Ajustar el power-up de velocidad
+
+Podemos cambiar cuánto sube y cuánto dura.
+
+**Ejemplo:**
+
+```
+cambiar [velocidad] en [2]
+esperar [2] segundos          ← si dura muy poco, subilo a 4
+cambiar [velocidad] en [-2]
+```
+
+> Lo que sumamos y lo que restamos tienen que ser el mismo número, si no la velocidad queda mal para siempre.
+
+### 8. Ajustar el laberinto
+
+Si un nivel es imposible, se edita el fondo: pasillos más anchos, menos vueltas, o mover la meta.
+
+### 9. Volver a probar
+
+Después de los cambios, el mismo compañero vuelve a jugar. Si ahora llega más lejos o se divierte más, el ajuste sirvió.
+
+### 10. Anotar qué cambiamos y por qué
+
+| Qué cambié        | Antes | Después | Por qué                        |
+| ----------------- | ----- | ------- | ------------------------------ |
+| Velocidad inicial | 3     | 2       | Se chocaba en todas las curvas |
+| Escudo            | 70    | 40      | Era imposible perder           |
+
+## Ejercicio
+
+> Consigna: Jugá el juego de un compañero sin pedir ayuda y anotá al menos 2 problemas. Después volvé al tuyo y ajustá al menos 2 números según lo que te anotaron.
+
+**Pistas:**
+
+1. Mirá sin hablar: si tenés que explicar algo, eso es un problema del juego
+2. Cambiá un número por vez y volvé a probar
+3. Anotá siempre por qué hiciste cada cambio
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

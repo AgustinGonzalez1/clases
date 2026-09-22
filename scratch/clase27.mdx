@@ -1,0 +1,147 @@
+---
+title: "Clase 27: Documentar 📝"
+mision: "Dejar un proyecto explicado para que cualquiera pueda entenderlo y jugarlo solo."
+---
+
+# Clase 27: Documentar 📝
+
+Un juego que nadie entiende cómo se juega no sirve, por más bueno que sea. Hoy le agregamos a nuestro proyecto todo lo que hace falta para que se explique solo.
+
+## Objetivos
+
+- Explicar el juego dentro del propio juego
+- Escribir comentarios en el código
+- Usar nombres que se entiendan
+- Escribir instrucciones y créditos
+
+## Contenido
+
+### 1. ¿Por qué documentar?
+
+Hoy entendemos nuestro proyecto porque lo acabamos de hacer. En dos meses no vamos a acordarnos de por qué pusimos ese número ahí, y otra persona no entiende nada desde el primer minuto.
+
+**Ejemplo:** ¿por qué el personaje arranca en x -214 y 153? Hoy lo sabemos. Dentro de un mes, no.
+
+### 2. Explicar el juego dentro del juego
+
+La forma más directa es que el personaje cuente las reglas al empezar, antes de que arranque el movimiento.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+decir [¡Bienvenido al juego!] durante [2] segundos
+decir [Tenés que recorrer todo el laberinto] durante [4] segundos
+decir [Te movés con las flechitas] durante [2] segundos
+decir [Si tocás el borde, perdés] durante [2] segundos
+decir [Si tocás el escudo, te protege de los choques] durante [4] segundos
+decir [Si tocás el rayo, vas al doble de velocidad] durante [4] segundos
+decir [Llegá al punto verde para pasar de nivel] durante [4] segundos
+```
+
+> Estos bloques van **antes** del `por siempre` del movimiento, así el jugador lee todo antes de empezar.
+
+### 3. Avisar lo que pasa mientras se juega
+
+También conviene avisar cuando algo importante ocurre, por ejemplo al cambiar de nivel.
+
+**Ejemplo:**
+
+```
+si <(nivel) = [2]> entonces
+   cambiar fondo a [nivel2]
+   decir [¡Nivel 2!] durante [2] segundos
+```
+
+### 4. Los comentarios
+
+Scratch deja pegar notas amarillas sobre los bloques: **clic derecho sobre un bloque → Agregar comentario**. No se ven al jugar; son para quien lea el código.
+
+### 5. Qué comentar
+
+Un comentario no repite lo que el bloque ya dice: explica **por qué**.
+
+|         | Ejemplo                                                                            |
+| ------- | ---------------------------------------------------------------------------------- |
+| ❌ Mal  | `cambiar y en velocidad` → "cambia la y"                                           |
+| ✅ Bien | `cambiar y en velocidad` → "usa la variable para que el power-up pueda acelerarlo" |
+
+### 6. Comentar los números raros
+
+Los números sueltos son lo primero que hay que explicar.
+
+**Ejemplo:** sobre `ir a x: [-214] y: [153]` → "entrada del laberinto 1; si redibujo el fondo, hay que cambiar estos números".
+
+**Ejemplo:** sobre `cambiar escudo en [70]` → "70 aguanta unos 7 segundos pegado a la pared".
+
+### 7. Comentar cada programa
+
+Cada bloque que arranca con la bandera lleva un comentario que diga qué hace ese programa completo.
+
+| Programa                    | Comentario                                     |
+| --------------------------- | ---------------------------------------------- |
+| El del movimiento           | "Mueve al jugador con las flechas"             |
+| El del color de las paredes | "Choque contra las paredes y gasto del escudo" |
+| El del color verde          | "Detecta la meta y cambia de nivel"            |
+
+### 8. Nombres que se explican solos
+
+La mejor documentación es la que no hace falta escribir.
+
+| ❌ Confuso | ✅ Claro           |
+| ---------- | ------------------ |
+| `Objeto1`  | `Jugador`          |
+| `Objeto2`  | `PowerUpVelocidad` |
+| `Fondo1`   | `nivel1`           |
+| `v`        | `velocidad`        |
+
+Los objetos se renombran en el panel de arriba, donde dice **Objeto**.
+
+### 9. Las instrucciones del proyecto
+
+La página del proyecto en Scratch tiene dos cuadros de texto debajo del escenario que ve cualquiera que lo abra: **Instrucciones** y **Notas y créditos**.
+
+**Ejemplo de instrucciones:**
+
+```
+CÓMO JUGAR
+Recorré el laberinto sin tocar las paredes y llegá al punto
+verde para pasar de nivel.
+
+CONTROLES
+Flechas del teclado.
+
+POWER-UPS
+Rayo: te da velocidad por unos segundos.
+Escudo: te protege de varios choques.
+```
+
+### 10. Los créditos
+
+Si usamos sonidos, dibujos o ideas de otra persona, hay que decirlo. Es una regla básica de respeto, en internet y en el trabajo.
+
+**Ejemplo:**
+
+```
+CRÉDITOS
+Juego hecho por Martina, 2026.
+Power-ups dibujados por mí en Piskel.
+Música creada por mí en Chrome Music Lab.
+Sonidos de la biblioteca de Scratch.
+```
+
+## Ejercicio
+
+> Consigna: Tomá uno de tus proyectos y documentalo entero: cartel de bienvenida con las reglas, comentarios en cada programa y en los números importantes, nombres claros en objetos y variables, e instrucciones y créditos en la página del proyecto.
+
+**Pistas:**
+
+1. Los carteles de bienvenida van antes del `por siempre`, si no no se leen
+2. Comentá el porqué, no el qué
+3. Si un nombre necesita comentario, mejor cambiá el nombre
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)
