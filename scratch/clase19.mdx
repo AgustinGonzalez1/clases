@@ -1,0 +1,146 @@
+---
+title: "Clase 19: Lluvia de meteoritos 🌠"
+mision: "Usar clones para que un solo personaje produzca enemigos sin fin."
+---
+
+# Clase 19: Lluvia de meteoritos 🌠
+
+Hasta ahora, para tener 3 enemigos necesitábamos 3 personajes. Hoy aprendemos los clones: un solo personaje que se copia a sí mismo todas las veces que haga falta.
+
+## Objetivos
+
+- Entender qué es un clon
+- Crear y eliminar clones
+- Programar el comportamiento de cada copia
+- Sumar puntos por sobrevivir
+
+## Contenido
+
+### 1. El problema de duplicar
+
+En el juego de esquivar obstáculos duplicamos el personaje tres veces. Si quisiéramos veinte meteoritos, habría que duplicarlo veinte veces, y si hay que corregir algo, corregirlo veinte veces.
+
+### 2. ¿Qué es un clon?
+
+Un clon es una copia que el personaje crea de sí mismo mientras el juego está funcionando. Nacen, hacen lo suyo y desaparecen.
+
+**Ejemplo en la vida real:** el personaje original es una fábrica de galletitas. La fábrica no se come; produce galletitas que después se van.
+
+### 3. Los tres bloques nuevos
+
+| Bloque                     | Qué hace                                   |
+| -------------------------- | ------------------------------------------ |
+| `crear clon de [mí mismo]` | Fabrica una copia                          |
+| `al comenzar como clon`    | Es el "al presionar bandera" de cada copia |
+| `eliminar este clon`       | Borra la copia cuando ya no sirve          |
+
+### 4. La fábrica
+
+El meteorito original se esconde y crea un clon cada cierto tiempo.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+esconder
+por siempre
+   crear clon de [mí mismo]
+   esperar [1] segundos
+```
+
+> El original nunca se ve: solo fabrica.
+
+### 5. Cuando nace un clon
+
+Cada copia aparece arriba, en una posición al azar, y se muestra.
+
+**Ejemplo:**
+
+```
+al comenzar como clon
+ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+mostrar
+```
+
+### 6. Cada clon cae solo
+
+**Ejemplo:**
+
+```
+por siempre
+   cambiar y en [-5]
+```
+
+### 7. Eliminar el clon
+
+Cuando el clon sale por abajo ya no sirve. Si no lo eliminamos, la computadora se llena de copias invisibles y el juego se pone lento.
+
+**Ejemplo:**
+
+```
+si <(posición en y) < [-180]> entonces
+   eliminar este clon
+```
+
+### 8. Chocar con el jugador
+
+**Ejemplo:**
+
+```
+si <¿tocando [Jugador]?> entonces
+   decir [¡Game Over!] durante [2] segundos
+   detener [todos]
+```
+
+### 9. El meteorito completo
+
+```
+al presionar 🏴
+esconder
+por siempre
+   crear clon de [mí mismo]
+   esperar [1] segundos
+
+al comenzar como clon
+ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+mostrar
+por siempre
+   cambiar y en [-5]
+   si <¿tocando [Jugador]?> entonces
+      decir [¡Game Over!] durante [2] segundos
+      detener [todos]
+   si <(posición en y) < [-180]> entonces
+      eliminar este clon
+```
+
+### 10. Puntos por sobrevivir
+
+En este juego no se atrapa nada: se gana aguantando. Por eso el puntaje sube solo, un punto por segundo. Va en el jugador.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+fijar [puntos] a [0]
+por siempre
+   esperar [1] segundos
+   cambiar [puntos] en [1]
+```
+
+> Cuando el `detener todos` frena el juego, el puntaje queda a la vista en el escenario.
+
+## Ejercicio
+
+> Consigna: Armá la lluvia de meteoritos usando un solo personaje que se clone. La nave se mueve de lado a lado y el puntaje sube un punto por cada segundo que sobrevivís.
+
+**Pistas:**
+
+1. El meteorito original se esconde: solo se ven los clones
+2. No te olvides del `eliminar este clon`, o el juego se va a poner lento
+3. Cambiá el `esperar 1 segundos` de la fábrica para que caigan más o menos seguido
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

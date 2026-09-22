@@ -1,0 +1,155 @@
+---
+title: "Clase 20: Toques permitidos ❤️"
+mision: "Programar un juego con vidas, donde equivocarse no termina la partida enseguida."
+---
+
+# Clase 20: Toques permitidos ❤️
+
+Una paleta abajo y una pelota que rebota. Si la pelota se cae, perdemos una vida. Recién cuando se acaban las tres, se termina el juego.
+
+## Objetivos
+
+- Usar una variable para contar vidas
+- Dar reintentos al jugador en vez de terminar enseguida
+- Rebotar una pelota en los bordes y en la paleta
+- Terminar el juego solo cuando se acaban las vidas
+
+## Contenido
+
+### 1. ¿Por qué vidas?
+
+Hasta ahora, cuando algo salía mal el juego terminaba al instante. Eso frustra. Con vidas, el jugador tiene varias oportunidades y el juego se vuelve más justo.
+
+**Ejemplo en la vida real:** en los juegos que conocen, casi siempre hay tres corazones antes del game over.
+
+### 2. Los personajes
+
+- **Paleta**: un rectángulo ancho, abajo del escenario
+- **Pelota**: un círculo chiquito
+
+### 3. Mover la paleta con límites
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: [0] y: [-150]
+por siempre
+   si <¿tecla [flecha derecha] presionada?> entonces
+      si <(posición en x) < [220]> entonces
+         cambiar x en [10]
+   si <¿tecla [flecha izquierda] presionada?> entonces
+      si <(posición en x) > [-220]> entonces
+         cambiar x en [-10]
+```
+
+### 4. La variable vidas
+
+Creamos la variable `vidas` y la ponemos en 3 al empezar.
+
+**Ejemplo:**
+
+```
+fijar [vidas] a [3]
+```
+
+### 5. La pelota se mueve y rebota
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: [0] y: [0]
+apuntar en dirección (elegir número al azar entre [30] y [150])
+por siempre
+   mover [5] pasos
+   si toca un borde, rebotar
+```
+
+### 6. Rebotar en la paleta
+
+Al tocar la paleta, la pelota sale para arriba.
+
+**Ejemplo:**
+
+```
+si <¿tocando [Paleta]?> entonces
+   apuntar en dirección (elegir número al azar entre [-30] y [-150])
+   mover [10] pasos
+```
+
+> Igual que en el Pong, el `mover 10 pasos` despega la pelota para que no quede pegada.
+
+### 7. Detectar la caída
+
+Si la pelota pasa de cierta altura hacia abajo, es que la paleta no la atajó.
+
+**Ejemplo:**
+
+```
+si <(posición en y) < [-170]> entonces
+   cambiar [vidas] en [-1]
+```
+
+### 8. El reintento
+
+Después de perder una vida, la pelota vuelve al centro y sigue el juego. Eso es lo que diferencia "perder una vida" de "perder el juego".
+
+**Ejemplo:**
+
+```
+si <(posición en y) < [-170]> entonces
+   cambiar [vidas] en [-1]
+   ir a x: [0] y: [0]
+   apuntar en dirección (elegir número al azar entre [30] y [150])
+```
+
+### 9. Game over
+
+Solo cuando las vidas llegan a 0 se termina todo.
+
+**Ejemplo:**
+
+```
+si <(vidas) = [0]> entonces
+   decir [¡Game Over!] durante [2] segundos
+   detener [todos]
+```
+
+### 10. La pelota completa
+
+```
+al presionar 🏴
+fijar [vidas] a [3]
+ir a x: [0] y: [0]
+apuntar en dirección (elegir número al azar entre [30] y [150])
+por siempre
+   mover [5] pasos
+   si toca un borde, rebotar
+   si <¿tocando [Paleta]?> entonces
+      apuntar en dirección (elegir número al azar entre [-30] y [-150])
+      mover [10] pasos
+   si <(posición en y) < [-170]> entonces
+      cambiar [vidas] en [-1]
+      si <(vidas) = [0]> entonces
+         decir [¡Game Over!] durante [2] segundos
+         detener [todos]
+      ir a x: [0] y: [0]
+      apuntar en dirección (elegir número al azar entre [30] y [150])
+```
+
+## Ejercicio
+
+> Consigna: Armá el juego de la paleta y la pelota con 3 vidas. Cada vez que la pelota se cae se pierde una vida y vuelve al centro; con 0 vidas se termina el juego.
+
+**Pistas:**
+
+1. La variable `vidas` se reinicia al presionar la bandera, si no arranca en 0
+2. Si la pelota rebota sola en el piso, bajá el número del `posición en y < -170`
+3. Probá cuántas vidas hacen que el juego sea divertido: 3 puede ser poco o mucho
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

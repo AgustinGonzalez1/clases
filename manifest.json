@@ -168,83 +168,76 @@
           "titulo": "Clase 23: ¡Scripts que Hablan entre Sí! 📡",
           "archivo": "clase23.mdx"
         },
-        { "titulo": "Clase 24: Proyecto Intermedio 1 🏆", "archivo": "clase24.mdx" },
-        { "titulo": "Clase 25: Sonidos, Música y Feedback Auditivo 🎧", "archivo": "clase25.mdx" },
-        { "titulo": "Clase 26: ¡A Ganar Robux! (Monetización) 💰", "archivo": "clase26.mdx" }
+        {
+          "titulo": "Clase 24: Proyecto Intermedio 1 🏆",
+          "archivo": "clase24.mdx"
+        },
+        {
+          "titulo": "Clase 25: Sonidos, Música y Feedback Auditivo 🎧",
+          "archivo": "clase25.mdx"
+        },
+        {
+          "titulo": "Clase 26: ¡A Ganar Robux! (Monetización) 💰",
+          "archivo": "clase26.mdx"
+        }
       ]
     },
     {
       "nombre": "Scratch",
       "carpeta": "scratch",
       "clases": [
-        {
-          "titulo": "Clase 1 - Coordenadas, eje X e Y",
-          "archivo": "clase1.mdx"
-        },
-        {
-          "titulo": "Clase 2 - Preguntas y respuestas",
-          "archivo": "clase2.mdx"
-        },
-        {
-          "titulo": "Clase 3 - Preguntas y respuestas 2",
-          "archivo": "clase3.mdx"
-        },
-        {
-          "titulo": "Clase 4 - Juego de carreras",
-          "archivo": "clase4.mdx"
-        },
-        {
-          "titulo": "Clase 5 - Juego de carreras 2",
-          "archivo": "clase5.mdx"
-        },
-        {
-          "titulo": "Clase 6 - Extensión Lápiz",
-          "archivo": "clase6.mdx"
-        },
-        {
-          "titulo": "Clase 7 - Historia de 3 escenas",
-          "archivo": "clase7.mdx"
-        },
-        {
-          "titulo": "Clase 8 - Pacman 1",
-          "archivo": "clase8.mdx"
-        },
-        {
-          "titulo": "Clase 9 - Pacman 2",
-          "archivo": "clase9.mdx"
-        },
-        {
-          "titulo": "Clase 10 - Wick Editor 1",
-          "archivo": "clase10.mdx"
-        },
-        {
-          "titulo": "Clase 11 - Wick Editor 2",
-          "archivo": "clase11.mdx"
-        },
-        {
-          "titulo": "Clase 12 - Wick Editor 3",
-          "archivo": "clase12.mdx"
-        },
-        {
-        "titulo": "Clase 13 - ¿Qué es un juego?",
-          "archivo": "clase13.mdx"
-        },
-        {
-          "titulo": "Clase 14 - Variables. Atrapa la estrella",
-          "archivo": "clase14.mdx"
-        },
-        {
-          "titulo": "Clase 15 - Condicionales. Laberinto sin paredes",
-          "archivo": "clase15.mdx"
-        },
-        {
-          "titulo": "Clase 16 - Controles. Carrera con flechas",
-          "archivo": "clase16.mdx"
-        },
-        {
-          "titulo": "Clase 17 - Dificultad. Chase Game",
-          "archivo": "clase17.mdx"
-        }
+        [
+          {
+            "titulo": "Clase 1 - Coordenadas, eje X e Y",
+            "archivo": "clase1.mdx"
+          },
+          {
+            "titulo": "Clase 2 - Preguntas y respuestas",
+            "archivo": "clase2.mdx"
+          },
+          {
+            "titulo": "Clase 3 - Preguntas y respuestas 2",
+            "archivo": "clase3.mdx"
+          },
+          { "titulo": "Clase 4 - Juego de carreras", "archivo": "clase4.mdx" },
+          {
+            "titulo": "Clase 5 - Juego de carreras 2",
+            "archivo": "clase5.mdx"
+          },
+          { "titulo": "Clase 6 - Extensión Lápiz", "archivo": "clase6.mdx" },
+          {
+            "titulo": "Clase 7 - Historia de 3 escenas",
+            "archivo": "clase7.mdx"
+          },
+          { "titulo": "Clase 8 - Pacman 1", "archivo": "clase8.mdx" },
+          { "titulo": "Clase 9 - Pacman 2", "archivo": "clase9.mdx" },
+          { "titulo": "Clase 10 - Wick Editor 1", "archivo": "clase10.mdx" },
+          { "titulo": "Clase 11: Wick Editor 2 🎨", "archivo": "clase11.mdx" },
+          { "titulo": "Clase 12: Wick Editor 3 🖱️", "archivo": "clase12.mdx" },
+          {
+            "titulo": "Clase 13: ¿Qué es un juego? 🎯",
+            "archivo": "clase13.mdx"
+          },
+          { "titulo": "Clase 14: Globos al aire 🎈", "archivo": "clase14.mdx" },
+          {
+            "titulo": "Clase 15: Laberinto sin paredes 🧭",
+            "archivo": "clase15.mdx"
+          },
+          { "titulo": "Clase 16: Pong 🏓", "archivo": "clase16.mdx" },
+          {
+            "titulo": "Clase 17: Esquivar obstáculos ☄️",
+            "archivo": "clase17.mdx"
+          },
+          { "titulo": "Clase 18: Juego 1.0 🎮", "archivo": "clase18.mdx" },
+          {
+            "titulo": "Clase 19: Lluvia de meteoritos 🌠",
+            "archivo": "clase19.mdx"
+          },
+          {
+            "titulo": "Clase 20: Toques permitidos ❤️",
+            "archivo": "clase20.mdx"
+          }
+        ]
       ]
     }
   ]

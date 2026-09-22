@@ -1,47 +1,93 @@
 ---
 title: "Clase 10: Wick Editor 1 🎞️"
-mision: "Conocer Wick Editor y crear nuestra primera animación cuadro a cuadro."
+mision: "Crear una animación cuadro por cuadro de una pelota que rebota."
 ---
 
 # Clase 10: Wick Editor 1 🎞️
 
-Conocemos Wick Editor y creamos nuestra primera animación cuadro a cuadro.
+Conocemos Wick Editor, un programa para hacer animaciones dibujando cuadro por cuadro, y creamos una pelota que rebota.
+
+## Objetivos
+
+- Conocer las partes de Wick Editor
+- Entender qué es un frame
+- Animar dibujando cuadro por cuadro
+- Guardar una animación
 
 ## Contenido
 
 ### 1. ¿Qué es Wick Editor?
 
-Wick Editor es una herramienta gratuita para crear animaciones. Se abre directo en el navegador en [wickeditor.com](https://wickeditor.com) — sin instalar nada.
+Wick Editor es un programa gratuito para hacer animaciones. Funciona directo en el navegador, en [wickeditor.com](https://wickeditor.com), sin instalar nada.
 
-**Diferencia con Scratch:** en Scratch el movimiento lo controla el código. En Wick Editor dibujás cada posición a mano — tenés control total sobre cada momento de la animación.
+**Diferencia con Scratch:** en Scratch el movimiento lo hace el código. En Wick Editor lo hacemos nosotros, dibujando cada momento a mano.
 
-### 2. La interfaz
+### 2. Las partes de la pantalla
 
-| Zona                | Dónde está | Qué es                                          |
-| ------------------- | ---------- | ----------------------------------------------- |
-| **Escenario**       | Centro     | Acá se dibuja y se ve la animación              |
-| **Línea de tiempo** | Abajo      | La tira de frames — cada cuadrito es un momento |
-| **Herramientas**    | Izquierda  | Lápiz, formas, relleno, selector                |
-| **Inspector**       | Derecha    | Propiedades del objeto seleccionado             |
+| Zona                | Dónde está | Para qué sirve                           |
+| ------------------- | ---------- | ---------------------------------------- |
+| **Escenario**       | Centro     | Donde dibujamos y vemos la animación     |
+| **Herramientas**    | Arriba     | Pincel, lápiz, formas, borrador, relleno |
+| **Línea de tiempo** | Abajo      | Los cuadritos numerados de la animación  |
+| **Inspector**       | Derecha    | Las propiedades de lo que seleccionamos  |
 
 ### 3. ¿Qué es un frame?
 
-**Analogía:** Un flipbook — si dibujás una pelota en posiciones distintas en cada hoja y pasás las hojas rápido, parece que se mueve. Cada hoja es un frame.
+Cada cuadrito numerado de la línea de tiempo es un **frame**: un dibujo quieto. Cuando se muestran muchos frames seguidos rápido, parece que las cosas se mueven.
 
-- Más frames = animación más suave
-- Menos frames = animación más brusca
-- Las películas usan 24 frames por segundo
+**Ejemplo en la vida real:** un libro de dibujos que al pasar las hojas rápido parece una película. Cada hoja es un frame.
 
-### 4. Animación de la pelota — paso a paso
+### 4. Dibujar en el frame 1
 
-1. Frame 1 → dibujar una pelota en el escenario
-2. Hacer clic en el frame 2 en la línea de tiempo → mover la pelota un poco
-3. Frame 3 → moverla un poco más
-4. Repetir hasta el frame 10
-5. Apretar Play y ver el resultado
+Con la herramienta **círculo** dibujamos una pelota arriba a la izquierda del escenario. Ese es el primer momento de la animación.
 
-> **Clave:** mover la pelota de a poco entre frames. Si el salto es muy grande la animación se ve brusca.
+### 5. Pasar al frame siguiente
 
-## Misión
+Hacemos clic en el cuadrito del frame 2 en la línea de tiempo y dibujamos la pelota de nuevo, un poco más abajo y a la derecha.
 
-> Crear una animación de una pelota que rebota por el escenario con al menos 10 frames.
+**Ejemplo:**
+
+- Frame 1 → pelota arriba a la izquierda
+- Frame 2 → un poco más abajo y a la derecha
+- Frame 3 → un poco más abajo todavía
+
+### 6. El rebote
+
+Cuando la pelota llega al piso, en los frames siguientes la dibujamos subiendo otra vez.
+
+**Ejemplo:**
+
+- Frames 1 a 5 → la pelota baja
+- Frame 6 → toca el piso
+- Frames 7 a 10 → la pelota sube
+
+### 7. Moverla de a poco
+
+Si la pelota salta mucho de un frame al otro, la animación se ve cortada. Si se mueve de a poquito, se ve suave.
+
+> Más frames y movimientos más chicos = animación más suave.
+
+### 8. Ver la animación
+
+Con el botón de **Play** (el triángulo verde) vemos la animación completa. Al terminar vuelve a empezar sola.
+
+**Dato curioso:** las películas de cine muestran 24 frames por segundo.
+
+### 9. Guardar
+
+Con el botón **save** (arriba a la derecha) se descarga el archivo de la animación para poder seguir en la próxima clase.
+
+## Ejercicio
+
+> Consigna: Creá una animación de una pelota que baja, rebota en el piso y vuelve a subir, usando al menos 10 frames.
+
+**Pistas:**
+
+1. Mové la pelota de a poquito entre un frame y el otro
+2. El frame donde toca el piso va en el medio de la animación
+3. Usá el botón de Play para ver cómo va quedando
+
+## Recursos
+
+- [Wick Editor](https://wickeditor.com)
+- [Foro de Wick Editor](https://forum.wickeditor.com)

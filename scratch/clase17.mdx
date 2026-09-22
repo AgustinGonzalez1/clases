@@ -1,0 +1,144 @@
+---
+title: "Clase 17: Esquivar obstáculos ☄️"
+mision: "Crear un juego que se vuelve más difícil solo, aumentando la velocidad con el tiempo."
+---
+
+# Clase 17: Esquivar obstáculos ☄️
+
+Un juego donde caen obstáculos y hay que esquivarlos. Lo nuevo es que la dificultad sube sola: cuanto más aguantás, más rápido caen.
+
+## Objetivos
+
+- Usar una variable para controlar la velocidad de varios personajes
+- Hacer que la dificultad aumente con el tiempo
+- Detectar el choque entre dos personajes
+- Terminar la partida con un game over
+
+## Contenido
+
+### 1. La idea del juego
+
+El jugador se mueve de izquierda a derecha abajo del escenario. Desde arriba caen obstáculos. Si uno lo toca, el juego termina.
+
+### 2. Los personajes
+
+- **Jugador**: una nave o un cuadrado, abajo del escenario
+- **3 obstáculos**: círculos o piedras. Se dibuja uno y se duplica dos veces
+
+### 3. Mover al jugador con límites
+
+Igual que las paletas de la clase anterior, el jugador no puede salirse del escenario.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: [0] y: [-150]
+por siempre
+   si <¿tecla [flecha derecha] presionada?> entonces
+      si <(posición en x) < [220]> entonces
+         cambiar x en [10]
+   si <¿tecla [flecha izquierda] presionada?> entonces
+      si <(posición en x) > [-220]> entonces
+         cambiar x en [-10]
+```
+
+### 4. La variable velocidad
+
+Creamos una variable llamada `velocidad`. En vez de que cada obstáculo caiga un número fijo de pasos, todos van a mirar esta variable.
+
+**Ejemplo:**
+
+```
+fijar [velocidad] a [3]
+```
+
+### 5. La dificultad sube sola
+
+Un programa aparte, en el jugador, le suma 1 a la velocidad cada 5 segundos.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+fijar [velocidad] a [3]
+por siempre
+   esperar [5] segundos
+   cambiar [velocidad] en [1]
+```
+
+> Como los tres obstáculos usan la misma variable, con cambiarla una vez se aceleran todos juntos.
+
+### 6. Caer usando la variable
+
+Para que el obstáculo baje, tiene que restar. Como no existe un bloque de "menos velocidad", usamos el bloque verde de resta con un 0 adelante.
+
+**Ejemplo:**
+
+```
+cambiar y en ([0] - (velocidad))
+```
+
+### 7. Empezar arriba en un lugar al azar
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+```
+
+### 8. Volver arriba al llegar abajo
+
+Cuando el obstáculo sale por abajo, vuelve arriba en otra posición.
+
+**Ejemplo:**
+
+```
+si <(posición en y) < [-180]> entonces
+   ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+```
+
+### 9. El choque
+
+Si el obstáculo toca al jugador, se termina el juego.
+
+**Ejemplo:**
+
+```
+si <¿tocando [Jugador]?> entonces
+   decir [¡Game Over!] durante [2] segundos
+   detener [todos]
+```
+
+### 10. El obstáculo completo
+
+```
+al presionar 🏴
+ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+por siempre
+   cambiar y en ([0] - (velocidad))
+   si <(posición en y) < [-180]> entonces
+      ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+   si <¿tocando [Jugador]?> entonces
+      decir [¡Game Over!] durante [2] segundos
+      detener [todos]
+```
+
+> Los otros dos obstáculos llevan exactamente el mismo código: se duplican y listo.
+
+## Ejercicio
+
+> Consigna: Armá el juego con un jugador que se mueve de lado a lado y 3 obstáculos que caen cada vez más rápido. El juego termina cuando un obstáculo toca al jugador.
+
+**Pistas:**
+
+1. El bloque de resta es el verde de Operadores: poné un 0 adelante y la variable atrás
+2. Duplicá el primer obstáculo para no programar los tres
+3. Si el juego se vuelve imposible muy rápido, subí los 5 segundos del `esperar`
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

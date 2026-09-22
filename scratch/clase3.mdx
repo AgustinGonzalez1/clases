@@ -1,67 +1,144 @@
 ---
 title: "Clase 3: Preguntas y respuestas 2 🏆"
-mision: "Agregar variables, sonidos y un resultado final al proyecto de la clase anterior."
+mision: "Armar un juego de preguntas que cuente los puntos y muestre el resultado final."
 ---
 
 # Clase 3: Preguntas y respuestas 2 🏆
 
-Agregamos variables, sonidos y un resultado final al proyecto de la clase anterior.
+Convertimos las preguntas de la clase anterior en un juego de verdad: con puntaje, sonidos y un resultado final.
+
+## Objetivos
+
+- Crear y usar variables
+- Diferenciar `fijar` de `cambiar`
+- Agregar sonidos al juego
+- Mostrar el puntaje final
 
 ## Contenido
 
 ### 1. ¿Qué es una variable?
 
-Una variable es una cajita con un nombre que guarda un valor. Scratch la recuerda mientras el juego corre.
+Una variable es una cajita con nombre que guarda un número. Scratch se acuerda de ese número mientras el juego está funcionando.
 
-**Analogía:** Es como anotar el puntaje en un papel durante un juego de mesa. Cada vez que alguien acierta, sumás un punto al papel.
+**Ejemplo en la vida real:** cuando jugamos un juego de mesa anotamos los puntos en un papel. Cada vez que alguien acierta, sumamos uno. Ese papel es una variable.
 
-| Bloque                    | Qué hace                              |
-| ------------------------- | ------------------------------------- |
-| `fijar [puntos] a [0]`    | Le pone un valor exacto a la variable |
-| `cambiar [puntos] en [1]` | Le suma 1 al valor actual             |
+### 2. Crear una variable
 
-> **Fijar** vs **Cambiar:** `fijar` siempre pone el mismo número sin importar lo que había antes. `cambiar` suma o resta al valor actual.
+En la categoría **Variables** → botón **Crear una variable** → escribir el nombre.
 
-### 2. Bloques que usamos
+**Ejemplo:** crear una variable llamada `puntos`. Aparece en el escenario mostrando su valor.
 
-| Bloque                            | Qué hace                            |
-| --------------------------------- | ----------------------------------- |
-| `fijar [puntos] a [0]`            | Reinicia el puntaje al empezar      |
-| `cambiar [puntos] en [1]`         | Suma 1 punto por respuesta correcta |
-| `tocar sonido [ ]`                | Reproduce un sonido                 |
-| `decir (puntos) por [ ] segundos` | Muestra el resultado final          |
+### 3. Fijar y cambiar
 
-### 3. Estructura completa
+Hay dos formas de modificar una variable:
+
+| Bloque                    | Qué hace                                                  |
+| ------------------------- | --------------------------------------------------------- |
+| `fijar [puntos] a [0]`    | Le pone un número exacto, sin importar el que tenía antes |
+| `cambiar [puntos] en [1]` | Le suma 1 al número que ya tenía                          |
+
+**Ejemplo:**
 
 ```
-al hacer clic en 🏴
+fijar [puntos] a [0]      ← puntos vale 0
+cambiar [puntos] en [1]   ← puntos vale 1
+cambiar [puntos] en [1]   ← puntos vale 2
+fijar [puntos] a [0]      ← puntos vuelve a 0
+```
+
+### 4. Empezar siempre en cero
+
+Si no reiniciamos la variable al empezar, los puntos se acumulan de una partida a la otra.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+fijar [puntos] a [0]
+```
+
+### 5. Sumar un punto al acertar
+
+Ponemos el `cambiar puntos en 1` adentro del `si`, así solo suma cuando la respuesta es correcta.
+
+**Ejemplo:**
+
+```
+preguntar [¿Cuánto es 2 + 2?] y esperar
+si <(respuesta) = [4]> entonces
+   cambiar [puntos] en [1]
+   decir [¡Correcto!] durante [2] segundos
+si no
+   decir [Era 4] durante [2] segundos
+```
+
+### 6. Agregar sonidos
+
+En la pestaña **Sonidos** (arriba) → botón de abajo a la izquierda → **Elige un sonido**. Elegimos uno para acertar y otro para errar.
+
+Después usamos el bloque `iniciar sonido` (categoría **Sonido**).
+
+**Ejemplo:**
+
+```
+si <(respuesta) = [4]> entonces
+   cambiar [puntos] en [1]
+   iniciar sonido [Win]
+   decir [¡Correcto!] durante [2] segundos
+si no
+   iniciar sonido [Boing]
+   decir [Era 4] durante [2] segundos
+```
+
+### 7. El resultado final
+
+Al terminar todas las preguntas, el personaje dice cuántos puntos hicimos arrastrando la variable `puntos` adentro del `decir`.
+
+**Ejemplo:**
+
+```
+decir (puntos) durante [3] segundos
+```
+
+### 8. Todo junto
+
+```
+al presionar 🏴
 fijar [puntos] a [0]
 
 preguntar [¿Cuál es la capital de Argentina?] y esperar
-si <respuesta = "Buenos Aires"> entonces
+si <(respuesta) = [Buenos Aires]> entonces
    cambiar [puntos] en [1]
-   tocar sonido [¡Correcto!]
-   decir [¡Bien! 🟢] por [2] segundos
+   iniciar sonido [Win]
+   decir [¡Bien!] durante [2] segundos
 si no
-   tocar sonido [Boing]
-   decir [Era Buenos Aires 🔴] por [2] segundos
+   iniciar sonido [Boing]
+   decir [Era Buenos Aires] durante [2] segundos
 
 preguntar [¿Cuánto es 5 x 3?] y esperar
-si <respuesta = "15"> entonces
+si <(respuesta) = [15]> entonces
    cambiar [puntos] en [1]
-   tocar sonido [¡Correcto!]
-   decir [¡Bien! 🟢] por [2] segundos
+   iniciar sonido [Win]
+   decir [¡Bien!] durante [2] segundos
 si no
-   tocar sonido [Boing]
-   decir [Era 15 🔴] por [2] segundos
+   iniciar sonido [Boing]
+   decir [Era 15] durante [2] segundos
 
-decir (puntos) por [3] segundos
+decir (puntos) durante [3] segundos
 ```
 
-### 4. Resultado final
+## Ejercicio
 
-Al terminar todas las preguntas el sprite muestra cuántos puntos hizo el jugador usando `decir (puntos)`. La variable guardó el puntaje durante todo el juego.
+> Consigna: Armá un juego de al menos 3 preguntas que sume un punto por cada acierto, tenga un sonido para acertar y otro para errar, y diga el puntaje al terminar.
 
-## Misión
+**Pistas:**
 
-> Crear un juego de al menos 2 preguntas con puntaje, sonido de acierto y sonido de error. Las preguntas las elige cada uno.
+1. Poné `fijar puntos a 0` al principio para que no se acumulen de una partida a otra
+2. El `cambiar puntos en 1` va adentro del `si`, no en el `si no`
+3. Arrastrá la variable `puntos` adentro del `decir` para mostrar el resultado
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

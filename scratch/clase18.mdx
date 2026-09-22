@@ -1,0 +1,144 @@
+---
+title: "Clase 18: Juego 1.0 🎮"
+mision: "Armar un juego completo con pantalla de inicio, partida y pantalla final."
+---
+
+# Clase 18: Juego 1.0 🎮
+
+Hasta ahora nuestros juegos empezaban de golpe y terminaban de golpe. Hoy armamos uno completo, con pantalla de inicio y pantalla de fin, para entregarlo como nuestro primer juego terminado.
+
+## Objetivos
+
+- Usar varios fondos como pantallas del juego
+- Esconder y mostrar personajes según la pantalla
+- Combinar puntaje y cuenta regresiva
+- Entregar un juego terminado
+
+## Contenido
+
+### 1. Las tres pantallas
+
+Un juego terminado tiene más que la partida en sí.
+
+| Fondo               | Qué muestra                                           |
+| ------------------- | ----------------------------------------------------- |
+| **Fondo1 — Inicio** | El nombre del juego y "presioná espacio para empezar" |
+| **Fondo2 — Juego**  | El escenario donde se juega                           |
+| **Fondo3 — Fin**    | "¡Se acabó el tiempo!"                                |
+
+Los tres se dibujan en el **Escenario** → pestaña **Fondos**, usando la herramienta **Texto** para los carteles.
+
+### 2. El juego
+
+El jugador mueve un canasto abajo y tiene que atrapar objetos que caen. Cada objeto atrapado suma un punto. Hay 30 segundos.
+
+### 3. Empezar en la pantalla de inicio
+
+Al presionar la bandera no arranca la partida: solo se muestra el cartel y los personajes se esconden.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+cambiar fondo a [Fondo1]
+esconder
+```
+
+### 4. Arrancar con la tecla espacio
+
+Cuando el jugador aprieta espacio, cambia el fondo, aparecen los personajes y se reinician las variables.
+
+**Ejemplo:**
+
+```
+al presionar tecla [espacio]
+cambiar fondo a [Fondo2]
+mostrar
+fijar [puntos] a [0]
+fijar [tiempo] a [30]
+```
+
+### 5. Mover el canasto
+
+El movimiento va adentro del mismo programa que arranca con espacio.
+
+**Ejemplo:**
+
+```
+por siempre
+   si <¿tecla [flecha derecha] presionada?> entonces
+      cambiar x en [10]
+   si <¿tecla [flecha izquierda] presionada?> entonces
+      cambiar x en [-10]
+```
+
+### 6. El objeto que cae
+
+También empieza escondido y aparece con espacio.
+
+**Ejemplo:**
+
+```
+al presionar tecla [espacio]
+mostrar
+ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+por siempre
+   cambiar y en [-4]
+   si <¿tocando [Jugador]?> entonces
+      cambiar [puntos] en [1]
+      ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+   si <(posición en y) < [-180]> entonces
+      ir a x: (elegir número al azar entre [-200] y [200]) y: [180]
+```
+
+### 7. La cuenta regresiva
+
+Un programa aparte descuenta el tiempo y, al llegar a cero, muestra la pantalla final.
+
+**Ejemplo:**
+
+```
+al presionar tecla [espacio]
+por siempre
+   esperar [1] segundos
+   cambiar [tiempo] en [-1]
+   si <(tiempo) = [0]> entonces
+      cambiar fondo a [Fondo3]
+      esconder
+      detener [todos]
+```
+
+### 8. Que desaparezcan todos al terminar
+
+El objeto que cae también tiene que esconderse en la pantalla final. Lo más simple es usar el evento `al cambiar fondo a` (categoría **Eventos**).
+
+**Ejemplo:**
+
+```
+al cambiar fondo a [Fondo3]
+esconder
+```
+
+### 9. Probar el juego entero
+
+Se prueba el recorrido completo: aparece el inicio, arranca con espacio, se juega, termina solo y muestra el puntaje. Si algo queda visible cuando no debería, falta un `esconder`.
+
+### 10. Guardar la entrega
+
+**Archivo → Guardar en tu computadora**. Este es el **Juego 1.0**: el primer juego terminado de punta a punta.
+
+## Ejercicio
+
+> Consigna: Armá un juego completo de atrapar objetos con sus tres pantallas: inicio, partida con puntaje y cuenta regresiva, y pantalla final.
+
+**Pistas:**
+
+1. Todos los personajes arrancan con `esconder` y aparecen con la tecla espacio
+2. Las variables se reinician al apretar espacio, no al presionar la bandera
+3. Si un personaje queda a la vista en la pantalla final, agregale `al cambiar fondo a Fondo3 → esconder`
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

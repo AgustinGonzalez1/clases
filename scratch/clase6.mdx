@@ -1,40 +1,121 @@
 ---
 title: "Clase 6: Extensión Lápiz ✏️"
-mision: "Activar la extensión Lápiz y crear un cursor que deja rastro al moverse."
+mision: "Crear un cursor que siga al mouse y dibuje en arco iris."
 ---
 
 # Clase 6: Extensión Lápiz ✏️
 
-Activamos la extensión Lápiz de Scratch y creamos un cursor dinámico que deja rastro al moverse.
+Activamos la extensión Lápiz de Scratch y creamos un cursor que dibuja por donde pasa el mouse, cambiando de color solo.
+
+## Objetivos
+
+- Activar una extensión de Scratch
+- Dibujar con `bajar lápiz`, `subir lápiz` y `borrar todo`
+- Diferenciar `fijar tamaño` de `cambiar tamaño`
+- Hacer que el color cambie solo
 
 ## Contenido
 
-### 1. ¿Qué es la extensión Lápiz?
+### 1. ¿Qué es una extensión?
 
-Scratch tiene bloques extra que no aparecen por defecto. La extensión Lápiz permite dibujar en el escenario usando un sprite como pincel.
+Scratch tiene bloques extra que no aparecen al principio. Se agregan desde el botón azul de **abajo a la izquierda** (el del bloque con el "+"). La extensión **Lápiz** permite que un personaje dibuje en el escenario mientras se mueve.
 
-Para activarla: clic en el botón **"+"** abajo a la izquierda en Scratch → elegir **Lápiz**. Aparecen nuevos bloques verdes.
+**Ejemplo:** al activarla aparece una categoría nueva de bloques verdes llamada **Lápiz**.
 
-### 2. Bloques de la extensión — uno por uno
+### 2. Preparar el personaje
 
-| Bloque                          | Qué hace                                                                                       |
-| ------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `fijar tamaño de lápiz a [ ]`   | Define el grosor del trazo. Siempre pone el mismo número sin importar lo que había antes       |
-| `cambiar color de lápiz en [ ]` | Cambia el color del lápiz sumando un valor — dentro del `por siempre` hace el efecto arco iris |
-| `borrar todo`                   | Limpia todo lo dibujado en el escenario                                                        |
-| `subir lápiz`                   | El sprite deja de dibujar aunque siga moviéndose                                               |
-| `bajar lápiz`                   | El sprite empieza a dejar rastro al moverse                                                    |
+El personaje va a ser la punta del lápiz, así que conviene que sea chiquito.
 
-> **Fijar** vs **Cambiar:** `fijar tamaño` siempre pone el mismo número. `cambiar tamaño` suma o resta al valor actual — si se usa muchas veces sin control el lápiz se vuelve gigante.
+**Ejemplo:** usar un objeto pequeño o achicar al gato poniendo **30** en Tamaño.
 
-### 3. Código completo
+### 3. Seguir al mouse
+
+Para que el personaje siga al mouse usamos `ir a puntero del ratón` (categoría **Movimiento**) adentro de un `por siempre`.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+por siempre
+   ir a [puntero del ratón]
+```
+
+> **Error común:** usar `apuntar hacia puntero del ratón`. Ese bloque solo gira al personaje para que mire al mouse, pero no lo mueve.
+
+### 4. Bajar el lápiz
+
+`bajar lápiz` es como apoyar un marcador sobre el papel: a partir de ahí, cada vez que el personaje se mueve, deja una línea.
+
+**Ejemplo:**
+
+```
+al presionar tecla [d]
+bajar lápiz
+```
+
+### 5. Subir el lápiz
+
+`subir lápiz` es levantar el marcador: el personaje se sigue moviendo pero ya no dibuja.
+
+**Ejemplo:**
+
+```
+al presionar tecla [a]
+subir lápiz
+```
+
+### 6. Borrar todo
+
+`borrar todo` limpia todo lo que se dibujó en el escenario, como un borrador gigante.
+
+**Ejemplo:**
+
+```
+al presionar tecla [espacio]
+borrar todo
+```
+
+### 7. El tamaño del lápiz
+
+`fijar tamaño de lápiz a` decide qué tan gruesa es la línea. Un número chico hace líneas finitas; uno grande, trazos gruesos.
+
+**Ejemplo:**
+
+```
+fijar tamaño de lápiz a [3]
+```
+
+### 8. Fijar o cambiar
+
+Igual que con las variables de la clase 3, en el lápiz hay bloques de **fijar** y de **cambiar**:
+
+| Bloque                            | Qué hace                         |
+| --------------------------------- | -------------------------------- |
+| `fijar tamaño de lápiz a [3]`     | El tamaño pasa a ser 3, siempre  |
+| `cambiar tamaño de lápiz por [1]` | Le suma 1 al tamaño que ya tenía |
+
+> **Cuidado:** si usamos `cambiar tamaño` varias veces probando, el tamaño se va sumando y el lápiz termina gigante, pintando todo el escenario. Por eso al empezar usamos `fijar`.
+
+### 9. Efecto arco iris
+
+`cambiar color de lápiz en` suma un poquito al color cada vez. Si lo ponemos adentro del `por siempre`, el color va cambiando solo mientras dibujamos.
+
+**Ejemplo:**
+
+```
+por siempre
+   ir a [puntero del ratón]
+   cambiar [color] de lápiz en [10]
+```
+
+### 10. Todo junto
 
 ```
 al presionar 🏴
 fijar tamaño de lápiz a [3]
 por siempre
    ir a [puntero del ratón]
-   cambiar color de lápiz en [10]
+   cambiar [color] de lápiz en [10]
 
 al presionar tecla [espacio]
 borrar todo
@@ -46,13 +127,20 @@ al presionar tecla [d]
 bajar lápiz
 ```
 
-### 4. ¿Cómo funciona cada parte?
+> El lápiz empieza levantado: el cursor sigue al mouse sin dibujar hasta que apretamos **d**.
 
-- **Al presionar la bandera** — fija el tamaño y arranca el bucle. El sprite sigue al mouse y el color cambia solo en cada frame dando el efecto arco iris.
-- **Espacio** — borra todo el dibujo y empieza de nuevo.
-- **Tecla "a"** — sube el lápiz para mover el cursor sin dibujar.
-- **Tecla "d"** — baja el lápiz para volver a dibujar.
+## Ejercicio
 
-## Misión
+> Consigna: Activá la extensión Lápiz y armá un cursor que siga al mouse, dibuje en arco iris y se controle con teclas para dibujar, dejar de dibujar y borrar.
 
-> Activar la extensión Lápiz, armar el cursor dinámico y probarlo. Personalizar el tamaño del trazo y explorar qué pasa si cambiás el número del `cambiar color de lápiz en`.
+**Pistas:**
+
+1. Las extensiones se agregan con el botón de abajo a la izquierda
+2. Si el lápiz pinta todo el escenario, revisá que uses `fijar tamaño de lápiz`
+3. Usá `ir a puntero del ratón`, no `apuntar hacia`
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

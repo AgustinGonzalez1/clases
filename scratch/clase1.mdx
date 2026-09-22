@@ -1,49 +1,134 @@
 ---
 title: "Clase 1: Coordenadas, eje X e Y 🗺️"
-mision: "Ubicarnos en el escenario de Scratch usando números positivos y negativos."
+mision: "Mover un personaje a cualquier lugar del escenario usando las coordenadas X e Y."
 ---
 
 # Clase 1: Coordenadas, eje X e Y 🗺️
 
-Aprendemos a ubicarnos en el escenario de Scratch usando números positivos y negativos.
+Aprendemos a ubicar a los personajes en el escenario de Scratch usando números positivos y negativos.
+
+## Objetivos
+
+- Entender cómo funcionan los ejes X e Y del escenario
+- Usar números positivos y negativos para ubicar personajes
+- Diferenciar entre aparecer de golpe con `ir a` y moverse con `deslizar`
 
 ## Contenido
 
-### 1. ¿Qué son las coordenadas?
+### 1. El escenario es un mapa
 
-El escenario de Scratch es como un mapa con dos ejes:
+El escenario de Scratch funciona como un mapa con dos líneas que se cruzan en el medio: el eje **X** (horizontal) y el eje **Y** (vertical). El punto donde se cruzan es el centro exacto del escenario y se llama **(0, 0)**.
 
-| Eje   | Dirección  | Positivo | Negativo  |
-| ----- | ---------- | -------- | --------- |
-| **X** | Horizontal | Derecha  | Izquierda |
-| **Y** | Vertical   | Arriba   | Abajo     |
+**Ejemplo:** para mandar al gato al centro del escenario:
 
-El centro del escenario es el punto **(0, 0)**. Desde ahí, los números crecen o decrecen según hacia dónde vamos.
+```
+ir a x: [0] y: [0]
+```
 
-### 2. Bloques que usamos
+### 2. El eje X — izquierda y derecha
 
-| Bloque                                 | Qué hace                                      |
-| -------------------------------------- | --------------------------------------------- |
-| `ir a x: [ ] y: [ ]`                   | Lleva al sprite a una posición exacta         |
-| `deslizar en [ ] segs a x: [ ] y: [ ]` | Mueve al sprite suavemente hasta esa posición |
-| `posición en x` / `posición en y`      | Muestra en qué coordenada está el sprite      |
+El eje X indica qué tan a la izquierda o a la derecha está el personaje. Los números **positivos** van hacia la derecha y los **negativos** hacia la izquierda.
 
-### 3. Exploración guiada
+**Ejemplo:**
 
-1. Abrir Scratch y seleccionar el sprite del gato
-2. Usar el bloque `ir a x: 0 y: 0` — el sprite va al centro
-3. Cambiar los valores de X y Y y observar hacia dónde se mueve
-4. Probar valores negativos — ¿qué pasa?
-5. Usar `deslizar en 1 segs` para verlo moverse suavemente
+```
+ir a x: [150] y: [0]     ← el gato va a la derecha
+ir a x: [-150] y: [0]    ← el gato va a la izquierda
+```
 
-### 4. Referencia de posiciones
+### 3. El eje Y — arriba y abajo
+
+El eje Y indica qué tan arriba o abajo está el personaje. Los números **positivos** van hacia arriba y los **negativos** hacia abajo.
+
+**Ejemplo:**
+
+```
+ir a x: [0] y: [120]     ← el gato va arriba
+ir a x: [0] y: [-120]    ← el gato va abajo
+```
+
+### 4. Combinando X e Y
+
+Usando los dos números juntos podemos mandar al personaje a cualquier lugar del escenario.
+
+| X        | Y        | Dónde queda           |
+| -------- | -------- | --------------------- |
+| Positivo | Positivo | Arriba a la derecha   |
+| Negativo | Positivo | Arriba a la izquierda |
+| Negativo | Negativo | Abajo a la izquierda  |
+| Positivo | Negativo | Abajo a la derecha    |
+
+**Ejemplo:**
+
+```
+ir a x: [-150] y: [100]   ← arriba a la izquierda
+```
+
+### 5. Los límites del escenario
+
+El escenario no es infinito. X va de **-240 a 240** e Y va de **-180 a 180**.
 
 | Posición                   | X    | Y    |
 | -------------------------- | ---- | ---- |
 | Centro                     | 0    | 0    |
 | Esquina superior derecha   | 240  | 180  |
+| Esquina superior izquierda | -240 | 180  |
 | Esquina inferior izquierda | -240 | -180 |
+| Esquina inferior derecha   | 240  | -180 |
 
-## Misión
+**Ejemplo:**
 
-> Mover el sprite a las 4 esquinas del escenario usando bloques de coordenadas. Primero con `ir a`, después con `deslizar en`.
+```
+ir a x: [240] y: [180]    ← esquina de arriba a la derecha
+```
+
+### 6. Aparecer de golpe o deslizarse
+
+El bloque `ir a x: y:` teletransporta al personaje: aparece en el lugar de golpe. El bloque `deslizar` lo lleva moviéndose suavemente durante los segundos que le indiquemos.
+
+**Ejemplo:**
+
+```
+ir a x: [0] y: [0]
+deslizar en [2] segs a x: [200] y: [150]
+```
+
+El gato arranca en el centro y tarda 2 segundos en llegar arriba a la derecha.
+
+### 7. ¿Dónde está mi personaje?
+
+Si arrastramos al personaje con el mouse, debajo del escenario aparecen sus valores de **x** y **y** actualizados. Así podemos descubrir las coordenadas de cualquier lugar.
+
+**Ejemplo:** arrastrar al gato hasta un árbol del fondo, mirar los números y usarlos en el bloque:
+
+```
+ir a x: [-120] y: [-60]
+```
+
+### 8. Todo junto — recorrer las esquinas
+
+```
+al presionar 🏴
+ir a x: [0] y: [0]
+deslizar en [1] segs a x: [-200] y: [150]
+deslizar en [1] segs a x: [200] y: [150]
+deslizar en [1] segs a x: [200] y: [-150]
+deslizar en [1] segs a x: [-200] y: [-150]
+deslizar en [1] segs a x: [0] y: [0]
+```
+
+## Ejercicio
+
+> Consigna: Hacé que el personaje recorra las 4 esquinas del escenario y vuelva al centro. Primero con `ir a x: y:` y después con `deslizar`.
+
+**Pistas:**
+
+1. Las esquinas están cerca de 240 y 180, con o sin el signo menos
+2. Si no sabés dónde está un lugar, arrastrá al personaje y mirá sus números x e y
+3. Empezá el programa con `al presionar 🏴`
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)
