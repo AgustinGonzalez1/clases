@@ -1,0 +1,134 @@
+---
+title: "Clase 29: Sonido propio 🎤"
+mision: "Grabar los sonidos del juego con nuestra propia voz y dejarlos listos dentro del proyecto."
+---
+
+# Clase 29: Sonido propio 🎤
+
+Seguimos armando el mini proyecto. La clase pasada dibujamos los fondos; hoy le ponemos los sonidos, grabados por nosotros.
+
+## Objetivos
+
+- Decidir qué sonidos necesita nuestro juego
+- Grabar voz y efectos desde Scratch
+- Mejorar una grabación recortándola y aplicándole efectos
+- Ajustar el volumen para que todo se escuche bien
+
+## Contenido
+
+### 1. Qué sonidos necesita un juego
+
+Antes de grabar, pensamos qué momentos del juego merecen un sonido. Casi siempre son estos:
+
+| Momento | Ejemplo de sonido |
+| ------- | ----------------- |
+| Acertar o sumar un punto | "¡Bien!" o un "plop" |
+| Perder o chocar | "Uh..." o un "buzz" |
+| Empezar el juego | "¡Vamos!" |
+| Terminar el juego | "¡Se acabó!" |
+| Música de fondo | Un tarareo suave |
+
+> Con cuatro o cinco sonidos alcanza. Si hay demasiados, el juego se vuelve ruidoso.
+
+### 2. Dónde se graba
+
+En Scratch, pestaña **Sonidos** (arriba a la izquierda) → pasamos el mouse por el botón de abajo → **Grabar**. La primera vez el navegador pide permiso para usar el micrófono: hay que aceptarlo.
+
+### 3. Grabar
+
+Aparece una ventana con un botón redondo. Lo apretamos, hablamos, y lo volvemos a apretar para frenar. Después se escucha con **Reproducir** y, si nos gustó, **Guardar**.
+
+**Ejemplo:** grabar la palabra "¡Bien!" para cuando el jugador suma un punto.
+
+### 4. Recortar el silencio
+
+Casi siempre queda un pedacito de silencio al principio y al final. Eso hace que el sonido llegue tarde en el juego.
+
+En el editor de sonido se arrastra el mouse sobre la parte que sobra y se usa **Borrar**.
+
+**Ejemplo:** una grabación de 3 segundos donde la voz dura medio segundo: borramos todo lo demás.
+
+### 5. Efectos con la boca
+
+No hace falta un micrófono especial ni instrumentos: los mejores efectos salen de la boca.
+
+**Ejemplo:** un "pop" con los labios para atrapar algo, un "brrr" para un motor, un "pshhh" para una explosión.
+
+### 6. Los efectos del editor
+
+Abajo del editor de sonido hay botones que transforman la grabación. Son los que más divierten a esta edad.
+
+| Efecto | Qué hace |
+| ------ | -------- |
+| **Más rápido** | La voz se vuelve aguda, como de personaje chiquito |
+| **Más lento** | La voz se vuelve grave, como de monstruo |
+| **Eco** | Suena como en una cueva |
+| **Robot** | Voz metálica |
+| **Invertir** | Lo reproduce al revés |
+
+**Ejemplo:** grabar "¡Te atrapé!" y aplicarle **Más lento** para el enemigo del juego.
+
+### 7. Que se entienda
+
+Tres reglas simples para que la grabación no salga mal:
+
+- Hablar cerca del micrófono, pero sin pegarle
+- Que el aula esté en silencio mientras uno graba
+- Los efectos, cortos: uno o dos segundos como máximo
+
+### 8. Ponerle nombre a cada sonido
+
+Arriba del editor está el nombre del sonido. Si lo dejamos como "grabación1", "grabación2", después no sabemos cuál es cuál.
+
+**Ejemplo:** `acierto`, `error`, `inicio`, `final`.
+
+### 9. El volumen
+
+Si la música de fondo suena tan fuerte como los efectos, tapa todo. El bloque `fijar volumen a` (categoría **Sonido**) lo resuelve.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+fijar volumen a [40] %
+por siempre
+   tocar sonido [música] hasta que termine
+```
+
+> La música va bajita, entre 30 y 50. Los efectos, al 100.
+
+### 10. Dónde va cada sonido
+
+Los sonidos viven dentro del objeto que los usa. El efecto de atrapar va en el objeto que se atrapa; la música de fondo va en el **Escenario**.
+
+**Ejemplo:**
+
+```
+al hacer clic en este objeto
+iniciar sonido [acierto]
+cambiar [puntos] en [1]
+```
+
+### 11. Escuchar sin jugar
+
+Para probar un sonido no hace falta correr el juego: se hace clic directamente sobre el bloque `iniciar sonido` en el área de código y suena.
+
+### 12. Guardar el proyecto
+
+Los sonidos grabados quedan **adentro del proyecto**, no son archivos sueltos. Así que hoy los subimos al mismo proyecto donde están los fondos de la clase pasada y guardamos todo con **Archivo → Guardar en tu computadora**, en la carpeta compartida.
+
+> Si grabamos los sonidos en un proyecto vacío y no lo guardamos, la clase que viene no los tenemos.
+
+## Ejercicio
+
+> Consigna: Grabá al menos 4 sonidos para tu juego con tu propia voz: uno para acertar, uno para perder, uno para empezar y una música corta de fondo. Recortalos, ponele nombre a cada uno y guardá el proyecto con los fondos de la clase pasada.
+
+**Pistas:**
+1. Recortá el silencio del principio, si no el sonido llega tarde
+2. Probá los efectos "más rápido" y "más lento" antes de decidir cuál te gusta
+3. La música de fondo siempre va más bajita que los efectos
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

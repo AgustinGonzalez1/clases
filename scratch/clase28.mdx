@@ -1,0 +1,142 @@
+---
+title: "Clase 28: Fondos propios 🎨"
+mision: "Pensar qué juego queremos hacer y dibujar sus tres fondos en Kleki."
+---
+
+# Clase 28: Fondos propios 🎨
+
+Empezamos nuestro propio proyecto. Hoy no programamos: pensamos de qué se va a tratar el juego y dibujamos los lugares donde va a pasar.
+
+## Objetivos
+
+- Pensar la idea de un juego propio
+- Dibujar fondos con el tamaño correcto para Scratch
+- Usar capas para separar el cielo, el piso y los detalles
+- Exportar e importar imágenes propias
+
+## Contenido
+
+### 1. Pensar el juego
+
+Antes de dibujar cualquier cosa hay que saber de qué se trata el juego. Para eso respondemos cuatro preguntas en un papel:
+
+| Pregunta | Ejemplo |
+| -------- | ------- |
+| ¿De qué se trata? | Un pez que junta burbujas en el fondo del mar |
+| ¿Cómo se juega? | Se mueve con las flechas |
+| ¿Cómo se gana? | Juntando 20 burbujas antes de que se acabe el tiempo |
+| ¿Cómo se pierde? | Si te toca un tiburón |
+
+> No hace falta que sea un juego nunca visto. Puede parecerse a alguno que ya hicimos, pero con nuestros personajes, nuestro lugar y nuestra idea.
+
+### 2. Dónde pasa el juego
+
+De la idea salen los lugares que hay que dibujar. Todo juego terminado tiene las mismas tres pantallas, como vimos en la clase 18.
+
+| Fondo | Qué muestra |
+| ----- | ----------- |
+| **Inicio** | El nombre del juego y cómo empezar |
+| **Juego** | El lugar donde ocurre todo |
+| **Final** | Si ganamos o perdimos |
+
+**Ejemplo:** para el juego del pez, un cartel con algas y el título, el fondo del mar, y un cartel de "¡Lo lograste!".
+
+### 3. Qué es Kleki
+
+[kleki.com](https://kleki.com) es un programa de dibujo gratuito que funciona en el navegador. No hay que instalar nada ni crear cuenta, y tiene muchas más herramientas que el editor de Scratch.
+
+### 4. El tamaño correcto
+
+El escenario de Scratch mide **480 de ancho por 360 de alto**. Si dibujamos en otro tamaño, Scratch estira o corta la imagen y se ve mal.
+
+**Ejemplo:** al entrar a Kleki, antes de dibujar nada, poner ancho `480` y alto `360`.
+
+### 5. Las herramientas
+
+| Herramienta | Para qué sirve |
+| ----------- | -------------- |
+| **Pincel** | Dibujar a mano alzada |
+| **Balde** | Pintar toda un área de un solo clic |
+| **Degradado** | Cielos o agua que pasan de un color a otro |
+| **Formas** | Rectángulos y círculos prolijos |
+| **Borrador** | Corregir sin arruinar todo |
+
+**Ejemplo:** el fondo del mar se hace en dos segundos con el degradado, de celeste arriba a azul oscuro abajo.
+
+### 6. Dibujar por capas
+
+Igual que en Wick Editor, Kleki deja separar el dibujo en capas. Así, si nos equivocamos en un alga, no arruinamos el agua.
+
+**Ejemplo:**
+- Capa 1 → el agua
+- Capa 2 → la arena del fondo
+- Capa 3 → algas, piedras, corales
+
+### 7. Dejar lugar para los personajes
+
+Un fondo de juego no tiene que estar lleno de cosas. Si está muy cargado, los personajes se pierden y no se ve quién es quién.
+
+**Ejemplo:** si el pez se va a mover por el medio de la pantalla, esa zona va tranquila, sin dibujos encima.
+
+### 8. AutoDraw para los elementos sueltos
+
+[autodraw.com](https://www.autodraw.com) adivina qué estamos dibujando y lo reemplaza por un dibujo prolijo. Lo usamos para los elementos sueltos (algas, peces, árboles, nubes) y **no** para el fondo.
+
+Cada elemento de AutoDraw entra a Scratch como un **objeto**, no como parte del fondo:
+
+1. En AutoDraw, dibujar el elemento y elegir el dibujo prolijo que nos ofrece
+2. Descargarlo con el botón del menú
+3. En Scratch, pasar el mouse por el botón de agregar objeto → **Subir objeto**
+4. Arrastrarlo con el mouse hasta el lugar que queramos del escenario
+
+**Ejemplo:** el agua y la arena se dibujan en Kleki y van de fondo. Las algas y los peces salen de AutoDraw y se suben como objetos.
+
+> Con cuatro o cinco elementos alcanza. Cada uno es un objeto más en la lista.
+>
+> Si el dibujo llega con un fondo blanco, se borra con el borrador en el editor de disfraces. Conviene probarlo con un elemento antes de hacer todos.
+
+### 9. Exportar
+
+En Kleki, botón de **guardar** → se descarga la imagen en PNG (Portable Network Graphics).
+
+Le ponemos nombres claros para no perdernos después: `inicio.png`, `juego.png`, `fin.png`.
+
+### 10. Importar a Scratch
+
+Clic en el **Escenario** → pestaña **Fondos** → pasamos el mouse por el botón de abajo → **Cargar fondo** → elegimos el archivo.
+
+### 11. Probar cómo quedaron
+
+Un programa corto para pasar de un fondo a otro y verlos en pantalla completa.
+
+```
+al presionar 🏴
+cambiar fondo a [inicio]
+
+al presionar tecla [flecha derecha]
+siguiente fondo
+
+al presionar tecla [flecha izquierda]
+fondo anterior
+```
+
+### 12. Entregar la idea y los archivos
+
+Antes de irnos entregamos dos cosas: el papel con la idea del juego y los tres PNG en la carpeta compartida. Los vamos a necesitar en las próximas clases.
+
+> Si los archivos quedan solo en la computadora del aula, la clase que viene no los vamos a tener.
+
+## Ejercicio
+
+> Consigna: Pensá tu juego y anotá de qué se trata, cómo se juega, cómo se gana y cómo se pierde. Después dibujá en Kleki sus 3 fondos de 480 × 360 e importalos a Scratch.
+
+**Pistas:**
+1. Anotá la idea antes de abrir Kleki: es lo que te dice qué dibujar
+2. Poné el tamaño 480 × 360 antes de empezar a dibujar, no después
+3. Dejá tranquila la zona por donde se van a mover los personajes
+
+## Recursos
+
+- [Kleki](https://kleki.com)
+- [AutoDraw](https://www.autodraw.com)
+- [Scratch](https://scratch.mit.edu)
