@@ -1,62 +1,120 @@
 ---
 title: "Clase 2: Preguntas y respuestas ❓"
-mision: "Trabajar con condiciones para que el sprite reaccione distinto según lo que escribís."
+mision: "Programar un personaje que haga una pregunta y reaccione distinto según la respuesta."
 ---
 
 # Clase 2: Preguntas y respuestas ❓
 
-Aprendemos a trabajar con condiciones — el sprite reacciona distinto según lo que escribís.
+Aprendemos a trabajar con condiciones: el personaje hace una pregunta y reacciona distinto según lo que le respondamos.
+
+## Objetivos
+
+- Entender qué es una condición
+- Hacer preguntas y usar la respuesta del jugador
+- Tomar decisiones con `si` y `si no`
+- Comparar textos y números
 
 ## Contenido
 
 ### 1. ¿Qué es una condición?
 
-Una condición es una pregunta que tiene dos posibles respuestas: sí o no. Según la respuesta, el programa hace una cosa u otra.
+Una condición es una pregunta que solo puede tener dos respuestas: **sí** o **no**. Según la respuesta, el programa hace una cosa u otra.
 
-**Analogía:** Si afuera llueve → agarro paraguas. Si no llueve → no agarro nada. Eso es exactamente un si/entonces.
+**Ejemplo en la vida real:** si afuera llueve → agarro el paraguas. Si no llueve → salgo sin paraguas.
 
-### 2. Bloques que usamos
+### 2. Hacer una pregunta
 
-| Bloque                    | Qué hace                                           |
-| ------------------------- | -------------------------------------------------- |
-| `preguntar [ ] y esperar` | Hace una pregunta y guarda la respuesta            |
-| `respuesta`               | Contiene lo que el usuario escribió                |
-| `si < > entonces`         | Ejecuta algo solo si la condición es verdadera     |
-| `si < > entonces / si no` | Ejecuta una cosa si es verdadero, otra si es falso |
+El bloque `preguntar y esperar` muestra una pregunta en pantalla con un cuadro para escribir. El programa se queda esperando hasta que el jugador responda.
 
-### 3. Estructura básica
+**Ejemplo:**
 
 ```
-al hacer clic en 🏴
+al presionar 🏴
 preguntar [¿Cómo te llamás?] y esperar
-si <respuesta = "Pedro"> entonces
-   decir [¡Hola Pedro!]
-si no
-   decir [No te conozco]
 ```
 
-### 4. Ejemplos para practicar
+### 3. Guardar la respuesta
 
-**El sprite adivina tu edad**
+Lo que el jugador escribe se guarda automáticamente en el bloque `respuesta` (categoría **Sensores**). Lo podemos usar en otros bloques.
+
+**Ejemplo:**
+
+```
+preguntar [¿Cuál es tu color favorito?] y esperar
+decir (respuesta) durante [2] segundos
+```
+
+El personaje repite lo que escribiste.
+
+### 4. El bloque `si... entonces`
+
+El bloque `si` (categoría **Control**) revisa una condición. Si se cumple, hace lo que tiene adentro. Si no se cumple, lo saltea.
+
+**Ejemplo:**
+
+```
+preguntar [¿Cómo te llamás?] y esperar
+si <(respuesta) = [Pedro]> entonces
+   decir [¡Hola Pedro!] durante [2] segundos
+```
+
+El bloque verde `=` está en **Operadores**.
+
+### 5. El bloque `si... si no`
+
+Con `si no` le decimos al programa qué hacer cuando la condición **no** se cumple.
+
+**Ejemplo:**
+
+```
+preguntar [¿Cómo te llamás?] y esperar
+si <(respuesta) = [Pedro]> entonces
+   decir [¡Hola Pedro!] durante [2] segundos
+si no
+   decir [No te conozco...] durante [2] segundos
+```
+
+### 6. Comparar números
+
+Además de `=`, podemos usar `>` (mayor que) y `<` (menor que) para comparar números.
+
+**Ejemplo — el personaje adivina tu edad:**
 
 ```
 preguntar [¿Cuántos años tenés?] y esperar
-si <respuesta > 10> entonces
-   decir [¡Sos grande!]
+si <(respuesta) > [9]> entonces
+   decir [¡Sos grande!] durante [2] segundos
 si no
-   decir [¡Sos chico!]
+   decir [¡Sos chico!] durante [2] segundos
 ```
 
-**La contraseña secreta**
+### 7. La contraseña secreta
+
+Juntando todo podemos armar un sistema de contraseña.
+
+**Ejemplo:**
 
 ```
+al presionar 🏴
 preguntar [¿Cuál es la contraseña?] y esperar
-si <respuesta = "banana"> entonces
-   decir [¡Acceso permitido! 🟢]
+si <(respuesta) = [banana]> entonces
+   decir [¡Acceso permitido! 🟢] durante [2] segundos
 si no
-   decir [¡Acceso denegado! 🔴]
+   decir [¡Acceso denegado! 🔴] durante [2] segundos
 ```
 
-## Misión
+## Ejercicio
 
-> Crear un sprite que haga al menos una pregunta y reaccione distinto según la respuesta. La contraseña la elige cada uno.
+> Consigna: Creá un personaje que pida una contraseña secreta y diga si el acceso está permitido o denegado.
+
+**Pistas:**
+
+1. `preguntar y esperar` y `respuesta` están en la categoría Sensores
+2. El bloque verde `=` está en Operadores
+3. Usá `si / si no` para las dos respuestas posibles
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

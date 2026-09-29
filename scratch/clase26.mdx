@@ -1,0 +1,121 @@
+---
+title: "Clase 26: Patrones y refactor 🔁"
+mision: "Convertir un código repetido en un bloque propio que recibe información."
+---
+
+# Clase 26: Patrones y refactor 🔁
+
+El juego de preguntas funciona, pero tiene el mismo código copiado una y otra vez. Hoy lo convertimos en un bloque propio y el programa queda tres veces más corto.
+
+## Objetivos
+
+- Detectar código repetido
+- Entender por qué repetir es un problema
+- Crear un bloque con entradas
+- Reemplazar la repetición por llamadas al bloque
+
+## Contenido
+
+### 1. ¿Qué es un patrón?
+
+Un patrón es algo que se repite. En el juego de preguntas, cada pregunta usa exactamente los mismos bloques; lo único que cambia es el texto y la respuesta.
+
+### 2. Por qué repetir es un problema
+
+Si queremos cambiar el mensaje "¡Correcto!" y tenemos 5 preguntas, hay que cambiarlo 5 veces. Si nos olvidamos de una, aparece un bug.
+
+**Ejemplo en la vida real:** es como copiar la misma receta a mano en 5 hojas. Si la receta cambia, hay que corregir las 5.
+
+### 3. Qué se repite y qué cambia
+
+| Siempre igual                           | Cambia                  |
+| --------------------------------------- | ----------------------- |
+| El `preguntar y esperar`                | El texto de la pregunta |
+| El `si / si no`                         | La respuesta correcta   |
+| Los mensajes y el `cambiar puntos en 1` |                         |
+
+### 4. Bloques con entradas
+
+En la clase de Pacman ya creamos un bloque propio, pero ese no recibía nada. Ahora necesitamos uno que reciba dos datos distintos cada vez.
+
+En **Mis bloques** → **Crear un bloque** → escribimos el nombre y usamos **Añadir una entrada de texto o número** dos veces.
+
+### 5. Ponerle nombre a las entradas
+
+A las entradas les ponemos `pregunta` y `correcta`.
+
+> A la segunda no conviene llamarla "respuesta", porque ya existe el bloque `respuesta` de Sensores y se confunden.
+
+### 6. Armar la definición
+
+Adentro del bloque `definir` ponemos el código que antes estaba repetido, arrastrando las entradas desde el encabezado hacia donde van.
+
+**Ejemplo:**
+
+```
+definir [hacer una pregunta (pregunta) (correcta)]
+preguntar (pregunta) y esperar
+si <(respuesta) = (correcta)> entonces
+   decir [¡Correcto!] durante [2] segundos
+   cambiar [puntos] en [1]
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+```
+
+### 7. Usar el bloque
+
+Ahora cada pregunta es una sola línea, con su texto y su respuesta adentro.
+
+**Ejemplo:**
+
+```
+hacer una pregunta [¿Cuántas patas tiene un perro?] [4]
+```
+
+### 8. El programa completo
+
+```
+al presionar 🏴
+fijar [puntos] a [0]
+
+hacer una pregunta [¿Cuántas patas tiene un perro?] [4]
+hacer una pregunta [¿Cuánto es 2 + 2?] [4]
+hacer una pregunta [¿Cuántos días tiene una semana?] [7]
+
+decir [¡GANASTE!] durante [2] segundos
+decir (unir [Puntos totales: ] (puntos)) durante [2] segundos
+```
+
+### 9. El antes y el después
+
+|                                 | Antes            | Después          |
+| ------------------------------- | ---------------- | ---------------- |
+| Bloques de cada pregunta        | 8                | 1                |
+| Cambiar el mensaje "¡Correcto!" | En cada pregunta | En un solo lugar |
+| Agregar una pregunta nueva      | Copiar 8 bloques | Escribir 1 línea |
+
+> Para el jugador no cambió nada: el juego hace exactamente lo mismo. Lo que cambió es lo fácil que es leerlo y modificarlo.
+
+### 10. Probar el beneficio
+
+Agregar una pregunta nueva ahora es una línea:
+
+```
+hacer una pregunta [¿Cuántas ruedas tiene una bici?] [2]
+```
+
+## Ejercicio
+
+> Consigna: Convertí el juego de preguntas repetido en un bloque `hacer una pregunta` con sus dos entradas, y después agregale 2 preguntas nuevas usando una sola línea cada una.
+
+**Pistas:**
+
+1. Las entradas se arrastran desde el bloque `definir` hacia adentro del código
+2. No le pongas "respuesta" a la entrada: se confunde con el bloque de Sensores
+3. Si el bloque no hace nada, fijate que el código esté adentro del `definir` y no suelto
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

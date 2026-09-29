@@ -1,47 +1,101 @@
 ---
 title: "Clase 8: Pacman 1 👾"
-mision: "Dibujar a Pacman con dos disfraces y moverlo con las flechas del teclado."
+mision: "Dibujar un Pacman propio que se mueva con las flechas y abra y cierre la boca."
 ---
 
 # Clase 8: Pacman 1 👾
 
-Dibujamos el sprite de Pacman con dos disfraces y lo hacemos mover con las flechas del teclado. La boca se abre y cierra sola.
+Dibujamos nuestro propio Pacman, lo hacemos moverse con las flechas y abrir y cerrar la boca solo.
+
+## Objetivos
+
+- Usar el editor de disfraces por primera vez
+- Crear dos disfraces para animar un personaje
+- Mover un personaje en 4 direcciones
+- Ejecutar dos programas al mismo tiempo
 
 ## Contenido
 
-### 1. Dibujar el sprite
+### 1. El editor de disfraces
 
-En el editor de disfraces creamos dos disfraces:
+Por primera vez vamos a dibujar un personaje propio. Pasamos el mouse por el botón de agregar objeto → **Pinta** (el pincel). Se abre el editor de disfraces con herramientas de dibujo.
 
-- **Disfraz 1** — Pacman con la boca abierta: círculo amarillo con una cuña blanca
-- **Disfraz 2** — Pacman con la boca cerrada: círculo amarillo entero
+| Herramienta     | Para qué sirve               |
+| --------------- | ---------------------------- |
+| **Círculo**     | Dibujar formas redondas      |
+| **Rellenar**    | Elegir el color de la forma  |
+| **Borrador**    | Borrar partes del dibujo     |
+| **Seleccionar** | Mover o agrandar lo dibujado |
 
-> Para el disfraz 2: duplicar el disfraz 1 y tapar la boca. Importante que el centro del sprite quede en el mismo lugar en ambos disfraces — si no, Pacman va a "saltar" al cambiar disfraz.
+### 2. Disfraz 1 — boca cerrada
 
-### 2. Movimiento con flechas
+Con la herramienta **Círculo** y relleno amarillo dibujamos un círculo entero, manteniendo **Shift** apretado para que salga perfecto.
 
-Las teclas cambian la dirección y Pacman se mueve solo en esa dirección dentro del `por siempre`.
+> Es importante dibujarlo en el **centro** del lienzo, donde está la crucecita.
+
+### 3. Disfraz 2 — boca abierta
+
+Clic derecho sobre el disfraz 1 → **duplicar**. En la copia, con el **Borrador**, borramos un triángulo del lado derecho. Esa es la boca abierta.
+
+> Duplicar asegura que los dos disfraces estén en el mismo lugar. Si los dibujamos por separado, Pacman "salta" al cambiar de disfraz.
+
+### 4. Hacia dónde mira Pacman
+
+El bloque `apuntar en dirección` gira al personaje. Cada flecha tiene su número:
+
+| Flecha    | Dirección |
+| --------- | --------- |
+| Derecha   | 90        |
+| Izquierda | -90       |
+| Arriba    | 0         |
+| Abajo     | 180       |
+
+**Ejemplo:**
 
 ```
-al hacer clic en 🏴
+apuntar en dirección [90]   ← mira a la derecha
+```
+
+### 5. Moverse solo hacia adelante
+
+En el Pacman real no hay que mantener la flecha apretada: uno elige la dirección y Pacman sigue avanzando solo. Para eso ponemos `mover pasos` adentro de un `por siempre`.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
 por siempre
-   si <tecla [flecha derecha] presionada?> entonces
+   mover [5] pasos
+```
+
+### 6. Cambiar de dirección con las flechas
+
+Dentro del mismo `por siempre`, revisamos cada flecha con un `si`. La flecha solo cambia hacia dónde mira; el `mover` lo hace avanzar.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+por siempre
+   si <¿tecla [flecha derecha] presionada?> entonces
       apuntar en dirección [90]
-   si <tecla [flecha izquierda] presionada?> entonces
+   si <¿tecla [flecha izquierda] presionada?> entonces
       apuntar en dirección [-90]
-   si <tecla [flecha arriba] presionada?> entonces
+   si <¿tecla [flecha arriba] presionada?> entonces
       apuntar en dirección [0]
-   si <tecla [flecha abajo] presionada?> entonces
+   si <¿tecla [flecha abajo] presionada?> entonces
       apuntar en dirección [180]
    mover [5] pasos
 ```
 
-### 3. Animación de la boca
+### 7. Abrir y cerrar la boca
 
-Un segundo script corre al mismo tiempo y anima la boca en bucle independientemente del movimiento.
+Un segundo programa, separado, cambia entre los dos disfraces una y otra vez con una pequeña pausa.
+
+**Ejemplo:**
 
 ```
-al hacer clic en 🏴
+al presionar 🏴
 por siempre
    cambiar disfraz a [disfraz1]
    esperar [0.2] segundos
@@ -49,26 +103,24 @@ por siempre
    esperar [0.2] segundos
 ```
 
-> **Concepto clave:** Scratch puede correr dos scripts al mismo tiempo. Uno maneja el movimiento y otro la animación — cada uno hace su trabajo de forma independiente.
+### 8. Dos programas al mismo tiempo
 
-### 4. Bloques que usamos
+Pacman tiene **dos** programas que empiezan con la bandera: uno lo mueve y el otro le anima la boca. Scratch los ejecuta a los dos al mismo tiempo, cada uno por su lado.
 
-| Bloque                     | Qué hace                            |
-| -------------------------- | ----------------------------------- |
-| `apuntar en dirección [ ]` | Cambia hacia dónde mira Pacman      |
-| `mover [5] pasos`          | Avanza en la dirección actual       |
-| `cambiar disfraz a [ ]`    | Cambia entre boca abierta y cerrada |
-| `esperar [0.2] segundos`   | Pausa entre cambios de disfraz      |
+**Ejemplo en la vida real:** podemos caminar y masticar chicle al mismo tiempo. Son dos cosas distintas que hacemos a la vez.
 
-### 5. Referencia de direcciones
+## Ejercicio
 
-| Tecla            | Dirección |
-| ---------------- | --------- |
-| Flecha derecha   | 90        |
-| Flecha izquierda | -90       |
-| Flecha arriba    | 0         |
-| Flecha abajo     | 180       |
+> Consigna: Dibujá los dos disfraces de Pacman y programalo para que se mueva solo en la dirección que elijas con las flechas, abriendo y cerrando la boca mientras avanza.
 
-## Misión
+**Pistas:**
 
-> Dibujar los dos disfraces de Pacman y programar el movimiento con flechas y la animación de la boca. Al final Pacman se mueve solo en la dirección elegida y abre y cierra la boca mientras se mueve.
+1. Mantené Shift apretado para que el círculo salga perfecto
+2. Duplicá el disfraz antes de borrarle la boca
+3. El `mover 5 pasos` va adentro del `por siempre` pero afuera de los `si`
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

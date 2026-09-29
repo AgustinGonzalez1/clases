@@ -1,23 +1,46 @@
 ---
 title: "Clase 4: Juego de carreras 🏎️"
-mision: "Poner el fondo de la pista, los autos y programar el primer auto."
+mision: "Crear la pista de carreras y programar un auto que avance con una tecla y festeje al llegar a la meta."
 ---
 
 # Clase 4: Juego de carreras 🏎️
 
-Ponemos el fondo de la pista, los autos y programamos el primer auto.
+Armamos la pista, ponemos los autos en la largada y programamos el primer auto para que avance y festeje al llegar a la meta.
+
+## Objetivos
+
+- Dibujar un fondo con una línea de meta
+- Ubicar personajes en una posición de largada
+- Mover un personaje con una tecla
+- Usar `por siempre` para detectar un color
 
 ## Contenido
 
-### 1. Preparar el escenario
+### 1. La idea del juego
 
-- Elegir o dibujar un fondo con la pista y los carriles
-- Dibujar una línea de meta en color rojo al final de la pista
-- Agregar los sprites de los autos y ubicarlos al inicio de la pista
+Es un juego para dos jugadores. Cada uno maneja un auto con una tecla distinta. El primero que toque la línea roja de meta, gana. Hoy armamos la pista y el primer auto; la clase que viene, el segundo.
 
-### 2. Posicionar el auto
+### 2. El fondo de la pista
 
-Al presionar la bandera el auto arranca siempre desde el mismo lugar:
+Hacemos clic en el **Escenario** (abajo a la derecha) → pestaña **Fondos** → dibujamos la pista con dos carriles, uno arriba y otro abajo.
+
+**Ejemplo:** fondo gris con una línea blanca horizontal en el medio para separar los carriles.
+
+### 3. La línea de meta
+
+Al final de la pista (a la derecha) dibujamos un rectángulo **rojo** vertical que cruce los dos carriles. Esa es la meta.
+
+> **Importante:** el rojo tiene que usarse **solo** para la meta. Si hay otra cosa roja en el fondo, el auto va a "ganar" al tocarla.
+
+### 4. Agregar los autos
+
+Agregamos dos objetos desde la biblioteca (buscar "car") o los dibujamos. Si son muy grandes, los achicamos cambiando el número de **Tamaño**.
+
+### 5. La posición de largada
+
+Arrastramos el auto con el mouse hasta la línea de salida, miramos sus valores de **x** y **y** debajo del escenario y los usamos en el bloque `ir a`. Así el auto vuelve a la largada cada vez que empieza el juego.
+
+**Ejemplo:**
 
 ```
 al presionar 🏴
@@ -25,27 +48,48 @@ ir a x: [-226] y: [-93]
 apuntar en dirección [90]
 ```
 
-### 3. Mover el auto con una tecla
+`apuntar en dirección 90` hace que el auto mire hacia la derecha.
 
-El movimiento va en un script separado — cada vez que se presiona la tecla, el auto avanza:
+### 6. Avanzar con una tecla
+
+Cada vez que el jugador aprieta su tecla, el auto avanza un poquito hacia la derecha. Usamos `cambiar x en`, que suma en el eje X — como vimos en la clase 1.
+
+**Ejemplo:**
 
 ```
 al presionar tecla [d]
 cambiar x en [10]
 ```
 
-### 4. Detectar el ganador
+### 7. El bucle `por siempre`
 
-Dentro del bucle `por siempre`, el auto detecta si tocó el color rojo de la línea de meta:
+El bloque `por siempre` repite lo que tiene adentro una y otra vez, sin parar. Lo usamos para que el auto revise todo el tiempo si llegó a la meta.
+
+**Ejemplo en la vida real:** es como un guardia que mira la puerta todo el tiempo para ver si entra alguien.
+
+### 8. Detectar la meta
+
+El bloque `¿tocando el color?` (categoría **Sensores**) revisa si el auto toca un color. Para elegir el rojo exacto de la meta, hacemos clic en el círculo de color del bloque y usamos el **gotero** para tocar la meta en el escenario.
+
+**Ejemplo:**
 
 ```
 por siempre
    si <¿tocando el color [rojo]?> entonces
-      decir [¡Gané!] durante [2] segundos
-      tocar sonido [aufitovioleta] hasta que termine
+      decir [¡Ganó el auto violeta!] durante [2] segundos
 ```
 
-### 5. Código completo del auto
+### 9. Festejar con un sonido
+
+En la pestaña **Sonidos** elegimos o grabamos un sonido de festejo. Usamos `tocar sonido hasta que termine` para que se escuche completo.
+
+**Ejemplo:**
+
+```
+tocar sonido [festejo] hasta que termine
+```
+
+### 10. Todo junto
 
 ```
 al presionar 🏴
@@ -53,25 +97,25 @@ ir a x: [-226] y: [-93]
 apuntar en dirección [90]
 por siempre
    si <¿tocando el color [rojo]?> entonces
-      decir [¡Gané!] durante [2] segundos
-      tocar sonido [aufitovioleta] hasta que termine
+      decir [¡Ganó el auto violeta!] durante [2] segundos
+      tocar sonido [festejo] hasta que termine
 
 al presionar tecla [d]
 cambiar x en [10]
 ```
 
-### 6. Bloques que usamos
+## Ejercicio
 
-| Bloque                               | Qué hace                                         |
-| ------------------------------------ | ------------------------------------------------ |
-| `ir a x: [ ] y: [ ]`                 | Posiciona el auto al inicio                      |
-| `apuntar en dirección [90]`          | El auto mira hacia la derecha                    |
-| `por siempre`                        | Revisa constantemente si el auto llegó a la meta |
-| `al presionar tecla [ ]`             | Detecta la tecla del jugador                     |
-| `cambiar x en [10]`                  | Mueve el auto hacia la derecha                   |
-| `tocando el color [ ]?`              | Detecta si el auto tocó la línea de meta roja    |
-| `tocar sonido [ ] hasta que termine` | Reproduce el sonido del ganador                  |
+> Consigna: Dibujá la pista con la meta roja, poné los dos autos en la largada y programá el primero para que avance con su tecla y festeje al tocar la meta.
 
-## Misión
+**Pistas:**
 
-> Poner el fondo con la pista, agregar el sprite del auto, posicionarlo y programar el movimiento y la detección de meta. Solo un auto por ahora.
+1. Usá el gotero del bloque `¿tocando el color?` para elegir el rojo exacto de la meta
+2. `cambiar x en 10` mueve al auto hacia la derecha
+3. El `si` que revisa la meta va adentro del `por siempre`
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

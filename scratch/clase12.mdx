@@ -1,92 +1,99 @@
 ---
 title: "Clase 12: Wick Editor 3 🖱️"
-mision: "Agregar interactividad para que los objetos reaccionen al clic del usuario."
+mision: "Hacer que un dibujo reaccione al clic del usuario usando código, y exportar la animación."
 ---
 
 # Clase 12: Wick Editor 3 🖱️
 
-Agregamos interactividad a nuestras animaciones — los objetos reaccionan cuando el usuario hace clic.
+Le damos interactividad a nuestros dibujos: escribimos nuestras primeras líneas de código en JavaScript para que un objeto cambie cuando le hacemos clic.
+
+## Objetivos
+
+- Convertir un dibujo en un botón
+- Escribir código que reaccione al clic
+- Cambiar tamaño, rotación, posición y transparencia con código
+- Exportar la animación terminada
 
 ## Contenido
 
-### 1. ¿Qué es un botón en Wick Editor?
+### 1. De los bloques al texto
 
-Un botón es un objeto que puede detectar clics del usuario. Para convertir un objeto en botón:
+En Scratch damos órdenes arrastrando bloques de colores. En Wick Editor las mismas órdenes se escriben con palabras. Es lo mismo dicho de otra forma.
 
-1. Seleccionar el objeto
-2. Clic derecho → **Create Button**
-3. En el Inspector aparece la sección **Scripts**
-4. Hacer clic en **Mouseclick** para abrir el editor de código
+**Ejemplo en la vida real:** es como la diferencia entre hacer señas y hablar. Los dos comunican lo mismo.
 
-> El editor dice **"Code Editor | editing button"** — eso confirma que el script está en el lugar correcto.
+### 2. Convertir un dibujo en botón
 
-### 2. Efectos con clic — uno por uno
+Dibujamos algo, lo seleccionamos con la flecha y hacemos **clic derecho → Create Button**. Solo los botones pueden reaccionar al clic.
 
-**Agrandarse:**
+**Ejemplo:** dibujar un círculo de color, seleccionarlo y convertirlo en botón.
+
+### 3. Abrir el editor de código
+
+Con el botón seleccionado, en el **Inspector** (derecha) aparece la sección **Scripts**. Hacemos clic en **Mouseclick** y se abre el editor.
+
+> Arriba tiene que decir **"Code Editor | editing button"**. Si dice otra cosa, el código está puesto en el lugar equivocado y no va a funcionar.
+
+### 4. Mover el objeto al hacer clic
+
+`this` significa "este objeto". `this.x` es su posición horizontal, igual que la X de Scratch.
+
+**Ejemplo:**
+
+```javascript
+this.x = this.x + 20;
+```
+
+Cada clic mueve el objeto 20 hacia la derecha.
+
+### 5. Moverlo para arriba
+
+`this.y` es la posición vertical. En Wick Editor, restar hace que suba.
+
+**Ejemplo:**
+
+```javascript
+this.y = this.y - 30;
+```
+
+### 6. Agrandar y achicar
+
+`scaleX` y `scaleY` son el tamaño a lo ancho y a lo alto. Hay que cambiar los dos juntos para que no se deforme.
+
+**Ejemplo:**
 
 ```javascript
 this.scaleX = this.scaleX + 0.1;
 this.scaleY = this.scaleY + 0.1;
 ```
 
-**Achicarse:**
+Para achicar, se usa `- 0.1`.
 
-```javascript
-this.scaleX = this.scaleX - 0.1;
-this.scaleY = this.scaleY - 0.1;
-```
+### 7. Rotar
 
-**Rotar:**
+`rotation` es el giro, medido en grados.
+
+**Ejemplo:**
 
 ```javascript
 this.rotation = this.rotation + 30;
 ```
 
-**Volverse transparente:**
+### 8. Volverse transparente
+
+`opacity` va de 1 (se ve entero) a 0 (invisible).
+
+**Ejemplo:**
 
 ```javascript
 this.opacity = this.opacity - 0.1;
 ```
 
-**Aparecer (volver opaco):**
+### 9. Combinar varios efectos
 
-```javascript
-this.opacity = this.opacity + 0.1;
-```
+Se pueden poner varias órdenes seguidas: se ejecutan todas con el mismo clic.
 
-**Moverse:**
-
-```javascript
-this.x = this.x + 20;
-this.y = this.y - 20;
-```
-
-### 3. Cambio de color con frames
-
-Para cambiar el color de un objeto con clic, el truco es dibujar el mismo objeto en 2 frames distintos con colores distintos y alternar entre ellos con código.
-
-1. Entrar al timeline del botón → **Edit Timeline**
-2. Frame 1 → dibujar el objeto en rojo
-3. Frame 2 → dibujar el objeto en azul
-4. En el script Mouseclick escribir:
-
-```javascript
-this.gotoAndStop(2);
-```
-
-Para que alterne entre los dos colores:
-
-```javascript
-if (this.currentFrameNumber === 1) {
-  this.gotoAndStop(2);
-} else {
-  this.gotoAndStop(1);
-}
-```
-
-### 4. Combinar efectos
-
-Se pueden combinar varios efectos en el mismo script:
+**Ejemplo:**
 
 ```javascript
 this.scaleX = this.scaleX + 0.1;
@@ -94,14 +101,31 @@ this.scaleY = this.scaleY + 0.1;
 this.rotation = this.rotation + 30;
 ```
 
-### 5. Exportar y cerrar Wick Editor
+### 10. Cambiar de color con frames
 
-Al terminar, exportar la animación como gif o video:
+El color no se cambia directamente con código. El truco es dibujar el objeto de un color en el frame 1 y de otro color en el frame 2, y saltar de un frame al otro.
 
-1. Clic en **Export** arriba a la derecha
-2. Elegir **Animated GIF**
-3. Descargar el archivo
+**Ejemplo:**
 
-## Misión
+```javascript
+this.gotoAndStop(2);
+```
 
-> Crear un objeto interactivo que reaccione al clic con al menos 2 efectos combinados. Exportar el proyecto al terminar. Es la última clase en Wick Editor — la semana que viene volvemos a Scratch para hacer juegos con reglas.
+### 11. Exportar la animación
+
+Botón **Export** arriba a la derecha → **Animated GIF** (Graphics Interchange Format) → se descarga el archivo. Es la primera vez que producimos algo que se puede compartir fuera del programa.
+
+## Ejercicio
+
+> Consigna: Creá un objeto interactivo que reaccione al clic con al menos dos efectos combinados, y exportá tu animación como gif.
+
+**Pistas:**
+
+1. Si no aparece la sección Scripts, el dibujo todavía no es un botón
+2. Fijate que arriba del editor diga "editing button"
+3. Cada orden termina con punto y coma
+
+## Recursos
+
+- [Wick Editor](https://wickeditor.com)
+- [Foro de Wick Editor](https://forum.wickeditor.com)

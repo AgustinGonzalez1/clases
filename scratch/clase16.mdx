@@ -1,0 +1,159 @@
+---
+title: "Clase 16: Pong 🏓"
+mision: "Programar un Pong para dos jugadores donde las paletas no pueden salirse de la pantalla."
+---
+
+# Clase 16: Pong 🏓
+
+Hacemos el juego más clásico de todos: dos paletas y una pelota. Lo nuevo de hoy son los límites, para que las paletas no se escapen del escenario.
+
+## Objetivos
+
+- Controlar dos personajes con teclas distintas
+- Poner límites a un movimiento usando condicionales anidados
+- Hacer rebotar una pelota en los bordes y en las paletas
+- Ajustar el rebote para que el juego sea justo
+
+## Contenido
+
+### 1. Los personajes
+
+| Objeto      | Cómo dibujarlo                        |
+| ----------- | ------------------------------------- |
+| **Paleta1** | Rectángulo angosto y alto             |
+| **Paleta2** | Clic derecho sobre Paleta1 → duplicar |
+| **Pelota**  | Círculo chiquito                      |
+
+El fondo se pinta negro con una línea blanca punteada en el medio.
+
+### 2. Cada paleta en su lado
+
+Una paleta va a la izquierda y la otra a la derecha, las dos a la altura del medio.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: [-200] y: [0]
+```
+
+### 3. Subir y bajar
+
+Cada jugador usa dos teclas. La paleta solo se mueve en el eje Y.
+
+**Ejemplo:**
+
+```
+por siempre
+   si <¿tecla [w] presionada?> entonces
+      cambiar y en [5]
+   si <¿tecla [s] presionada?> entonces
+      cambiar y en [-5]
+```
+
+### 4. El problema de los límites
+
+Si lo probamos así, la paleta se va del escenario y desaparece. Necesitamos que deje de subir cuando llega arriba.
+
+### 5. Un `si` adentro de otro
+
+La solución es preguntar dos cosas: si la tecla está apretada **y** si todavía no llegó al borde. Para eso ponemos un `si` adentro del otro.
+
+**Ejemplo:**
+
+```
+si <¿tecla [w] presionada?> entonces
+   si <(posición en y) < [160]> entonces
+      cambiar y en [5]
+```
+
+Se lee así: si aprieta la tecla, y además está más abajo de 160, entonces subí.
+
+### 6. Las dos paletas completas
+
+```
+al presionar 🏴
+ir a x: [-200] y: [0]
+por siempre
+   si <¿tecla [w] presionada?> entonces
+      si <(posición en y) < [160]> entonces
+         cambiar y en [5]
+   si <¿tecla [s] presionada?> entonces
+      si <(posición en y) > [-160]> entonces
+         cambiar y en [-5]
+```
+
+> La Paleta2 es igual pero con `ir a x: 200` y las teclas flecha arriba y flecha abajo.
+
+### 7. La pelota arranca al azar
+
+La pelota sale del centro hacia un lado cualquiera.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: [0] y: [0]
+apuntar en dirección (elegir número al azar entre [30] y [150])
+```
+
+### 8. Moverse y rebotar en los bordes
+
+**Ejemplo:**
+
+```
+por siempre
+   mover [5] pasos
+   si toca un borde, rebotar
+```
+
+### 9. Rebotar en las paletas
+
+Cuando la pelota toca una paleta, tiene que salir para el lado contrario. La paleta de la izquierda la manda a la derecha (entre 30 y 150) y la de la derecha la manda a la izquierda (los mismos números, pero negativos).
+
+**Ejemplo:**
+
+```
+si <¿tocando [Paleta1]?> entonces
+   apuntar en dirección (elegir número al azar entre [30] y [150])
+   mover [10] pasos
+
+si <¿tocando [Paleta2]?> entonces
+   apuntar en dirección (elegir número al azar entre [-30] y [-150])
+   mover [10] pasos
+```
+
+> El `mover 10 pasos` extra despega la pelota de la paleta. Sin eso, la pelota queda tocándola varias veces seguidas y la atraviesa.
+
+### 10. La pelota completa
+
+```
+al presionar 🏴
+ir a x: [0] y: [0]
+apuntar en dirección (elegir número al azar entre [30] y [150])
+por siempre
+   mover [5] pasos
+   si toca un borde, rebotar
+   si <¿tocando [Paleta1]?> entonces
+      apuntar en dirección (elegir número al azar entre [30] y [150])
+      mover [10] pasos
+   si <¿tocando [Paleta2]?> entonces
+      apuntar en dirección (elegir número al azar entre [-30] y [-150])
+      mover [10] pasos
+```
+
+## Ejercicio
+
+> Consigna: Armá el Pong completo con las dos paletas que no pueden salirse del escenario y una pelota que rebota en los bordes y en las dos paletas.
+
+**Pistas:**
+
+1. Duplicá la primera paleta y cambiale la posición y las teclas
+2. Si la pelota atraviesa la paleta, agregale el `mover 10 pasos` después del rebote
+3. Ponele nombre a cada objeto (Paleta1, Paleta2, Pelota) para no confundirte
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

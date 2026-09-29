@@ -1,0 +1,140 @@
+---
+title: "Clase 22: Subí de nivel 🪜"
+mision: "Agregar varios niveles al laberinto, cada uno con su propio mapa y su punto de entrada."
+---
+
+# Clase 22: Subí de nivel 🪜
+
+Nuestro laberinto tiene un solo mapa. Hoy le agregamos niveles: al llegar a la meta aparece un laberinto nuevo, más difícil que el anterior.
+
+## Objetivos
+
+- Usar una variable para saber en qué nivel estamos
+- Cambiar de fondo al completar un nivel
+- Darle a cada nivel su propio punto de entrada
+- Terminar el juego al completar el último nivel
+
+## Contenido
+
+### 1. Un fondo por nivel
+
+Cada nivel es un fondo distinto del escenario. Los dibujamos todos con el mismo color de paredes y el mismo color de meta, para que el código sirva igual en todos.
+
+**Ejemplo:** `nivel1` con pasillos anchos, `nivel2` más angosto, `nivel3` con más vueltas.
+
+### 2. La variable nivel
+
+Creamos la variable `nivel`, que empieza en 1 y sube cada vez que llegamos a la meta.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+fijar [nivel] a [1]
+cambiar fondo a [nivel1]
+```
+
+### 3. Detectar la meta
+
+En un programa aparte revisamos todo el tiempo si el personaje toca el color verde de la meta.
+
+**Ejemplo:**
+
+```
+por siempre
+   si <¿tocando el color [verde]?> entonces
+      cambiar [nivel] en [1]
+```
+
+### 4. Elegir qué fondo mostrar
+
+Después de sumar al nivel, preguntamos en qué número quedó para saber qué laberinto cargar.
+
+**Ejemplo:**
+
+```
+si <(nivel) = [2]> entonces
+   cambiar fondo a [nivel2]
+```
+
+### 5. Cada laberinto empieza en otro lugar
+
+La entrada del nivel 2 no está donde estaba la del nivel 1. Por eso cada nivel tiene su propio `ir a`.
+
+**Cómo conseguir los números:**
+
+1. Cambiar al fondo de ese nivel
+2. Arrastrar al personaje hasta la entrada de ese laberinto
+3. Mirar los valores de x e y debajo del escenario
+4. Copiarlos en el bloque `ir a` de ese nivel
+
+**Ejemplo:**
+
+```
+si <(nivel) = [2]> entonces
+   ir a x: [202] y: [-141]
+   cambiar fondo a [nivel2]
+```
+
+### 6. El programa de niveles completo
+
+```
+al presionar 🏴
+fijar [nivel] a [1]
+cambiar fondo a [nivel1]
+por siempre
+   si <¿tocando el color [verde]?> entonces
+      cambiar [nivel] en [1]
+      si <(nivel) = [2]> entonces
+         ir a x: [202] y: [-141]
+         cambiar fondo a [nivel2]
+      si <(nivel) = [3]> entonces
+         ir a x: [-190] y: [120]
+         cambiar fondo a [nivel3]
+```
+
+> Los `si` de cada nivel van **adentro** del `si` de la meta: solo se revisan cuando acabamos de llegar, no todo el tiempo.
+
+### 7. Ganar el juego
+
+Cuando el nivel pasa del último laberinto, el juego termina.
+
+**Ejemplo:**
+
+```
+si <(nivel) = [4]> entonces
+   decir [¡Completaste todos los niveles!] durante [3] segundos
+   detener [todos]
+```
+
+### 8. Los power-ups en los otros niveles
+
+El rayo y el escudo siguen funcionando igual. Si queremos que aparezcan también en los niveles siguientes, hay que moverlos a un pasillo del nuevo laberinto usando el mismo `si <nivel = 2>`.
+
+**Ejemplo:**
+
+```
+si <(nivel) = [2]> entonces
+   ir a x: [-60] y: [40]
+   mostrar
+```
+
+### 9. El resto del juego no cambia
+
+El movimiento con la variable `velocidad` y el choque contra las paredes quedan exactamente igual que en la clase anterior. Eso pasa porque todos los laberintos usan los mismos colores.
+
+## Ejercicio
+
+> Consigna: Agregá al menos 3 niveles a tu laberinto, cada uno con su fondo y su punto de entrada, y un mensaje de victoria al completar el último.
+
+**Pistas:**
+
+1. Usá el mismo color de paredes y de meta en todos los fondos
+2. Para las coordenadas de entrada, arrastrá al personaje y copiá sus números
+3. Los `si` de cada nivel van adentro del `si` que detecta la meta
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

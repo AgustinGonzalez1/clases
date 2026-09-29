@@ -1,239 +1,146 @@
 ---
-title: "Clase 13: ¿Qué es un juego? 🎮"
-mision: "Entender qué hace que una actividad sea un juego y reconocer los elementos básicos que lo forman."
+title: "Clase 13: ¿Qué es un juego? 🎯"
+mision: "Programar el primer juego de verdad: un objetivo que aparece y reacciona cuando le hacemos clic."
 ---
 
-# Clase 13: ¿Qué es un juego? 🎮
+# Clase 13: ¿Qué es un juego? 🎯
 
-Hoy vamos a hablar de algo muy importante: ¿qué convierte una actividad en un juego? Porque no todo lo que tiene personajes, sonidos o movimiento es un juego.
+Volvemos a Scratch para arrancar con los juegos. Primero entendemos qué diferencia a un juego de una animación, y después armamos uno.
+
+## Objetivos
+
+- Entender las tres cosas que tiene todo juego
+- Usar el evento de clic sobre un objeto
+- Esconder y mostrar personajes
+- Hacer que un personaje aparezca en lugares al azar
 
 ## Contenido
 
-### 1. ¿Qué es un juego?
+### 1. ¿Qué convierte algo en un juego?
 
-Un juego es una actividad donde hay un objetivo, reglas, decisiones y una forma de ganar o perder.
+Todo juego tiene tres cosas. Si falta una, es una animación.
 
-Un juego puede ser:
+| Parte        | Qué significa                            |
+| ------------ | ---------------------------------------- |
+| **Objetivo** | Algo que querés lograr                   |
+| **Reglas**   | Cómo se juega y qué no se puede hacer    |
+| **Feedback** | El juego te avisa si lo hacés bien o mal |
 
-- de mesa
-- de computadora
-- de consola
-- en Scratch
-- físico o digital
+**Ejemplo:** en el Pacman que hicimos había reglas (moverse con las flechas) pero no había objetivo ni feedback. Por eso todavía no era un juego.
 
-Aunque cambien los materiales, todos tienen algo en común.
+### 2. El juego de hoy
 
-### 2. Características de un juego
+Un personaje aparece en el escenario y hay que hacerle clic. Cuando lo logramos, festeja y se escapa a otro lugar.
 
-#### Objetivo
+### 3. Posición al azar
 
-Todo juego tiene una meta clara.
+`ir a posición aleatoria` (categoría **Movimiento**) manda al personaje a un lugar cualquiera del escenario.
 
-Ejemplos:
+**Ejemplo:**
 
-- llegar a la meta
-- juntar puntos
-- salvar a un personaje
-- evitar obstáculos
-- ganar una carrera
+```
+al presionar 🏴
+ir a [posición aleatoria]
+```
 
-#### Reglas
+### 4. El evento de clic
 
-Las reglas dicen qué está permitido y qué no. Son las que ordenan el juego.
+`al hacer clic en este objeto` (categoría **Eventos**) es un programa que arranca cuando el jugador le hace clic encima al personaje.
 
-Ejemplos:
+**Ejemplo:**
 
-- no se puede pasar por el borde
-- solo puedes moverte con las flechas
-- si tocas un enemigo, pierdes
-- ganas puntos al agarrar objetos
+```
+al hacer clic en este objeto
+decir [¡Me atrapaste!] durante [1] segundos
+```
 
-#### Desafío
+### 5. Escaparse después del clic
 
-Un juego debe ser interesante. Si es muy fácil, no engancha. Si es imposible, tampoco.
+Para que el juego siga, el personaje se va a otro lado apenas lo atrapamos.
 
-Por eso debe haber un desafío que se pueda superar con práctica.
+**Ejemplo:**
 
-#### Feedback
+```
+al hacer clic en este objeto
+decir [¡Me atrapaste!] durante [1] segundos
+ir a [posición aleatoria]
+```
 
-El juego debe responderle al jugador. Debe saber si hizo bien o mal.
+### 6. Esconderse y aparecer
 
-Ejemplos:
+`esconder` y `mostrar` (categoría **Apariencia**) hacen que el personaje desaparezca y vuelva. Combinado con una espera, parece que se teletransporta.
 
-- sumar puntos
-- cambiar de escena
-- sonar un efecto
-- mostrar un mensaje
-- vibrar o mover al personaje
+**Ejemplo:**
 
-#### Repetición y mejora
+```
+al hacer clic en este objeto
+decir [¡Me atrapaste!] durante [1] segundos
+esconder
+esperar [1] segundos
+ir a [posición aleatoria]
+mostrar
+```
 
-Un buen juego invita a volver a intentarlo y mejorar.
+### 7. Un objetivo que se mueve solo
 
-> Un juego no es solo jugar una vez: es intentar, aprender y superarse.
+Para que sea más difícil, el personaje puede cambiar de lugar cada dos segundos aunque no le hagamos clic.
 
-### 3. ¿Qué elementos tiene un juego?
+**Ejemplo:**
 
-| Elemento      | ¿Qué es?                            |
-| ------------- | ----------------------------------- |
-| **Personaje** | El protagonista o jugador principal |
-| **Objetivo**  | Lo que se quiere lograr             |
-| **Reglas**    | Las condiciones del juego           |
-| **Desafío**   | Lo que hace difícil avanzar         |
-| **Puntaje**   | La forma de medir el progreso       |
-| **Resultado** | Ganar, perder o completar un nivel  |
+```
+al presionar 🏴
+mostrar
+por siempre
+   esperar [2] segundos
+   ir a [posición aleatoria]
+```
 
-### 4. Diferencia entre juego, animación y ejercicio
+### 8. Agregar feedback
 
-#### Animación
+Un sonido al acertar hace que el juego se sienta mucho mejor.
 
-Una animación muestra movimiento, pero no siempre tiene reglas ni objetivo.
+**Ejemplo:**
 
-Ejemplo:
+```
+al hacer clic en este objeto
+iniciar sonido [Pop]
+decir [¡Me atrapaste!] durante [1] segundos
+```
 
-- una pelota rebotando
-- un gato moviéndose
-- un fondo que cambia de color
+### 9. Todo junto
 
-Eso puede ser bonito, pero no siempre es un juego.
+```
+al presionar 🏴
+mostrar
+por siempre
+   esperar [2] segundos
+   ir a [posición aleatoria]
 
-#### Ejercicio
+al hacer clic en este objeto
+iniciar sonido [Pop]
+decir [¡Me atrapaste!] durante [1] segundos
+esconder
+esperar [1] segundos
+ir a [posición aleatoria]
+mostrar
+```
 
-Un ejercicio tiene una tarea, pero no siempre tiene una experiencia de competencia, premios ni resultado divertido.
+### 10. ¿Qué le falta a este juego?
 
-Ejemplo:
+Todavía no sabemos cuántas veces acertamos ni cuándo termina. Eso lo agregamos la próxima clase.
 
-- practicar sumas
-- escribir palabras
-- dibujar una figura
+## Ejercicio
 
-#### Juego
+> Consigna: Armá un juego donde un personaje se mueva solo por el escenario y reaccione con un sonido y un mensaje cuando le hacés clic.
 
-Un juego combina muchas cosas:
+**Pistas:**
 
-- objetivo
-- reglas
-- desafíos
-- decisiones
-- recompensa o feedback
+1. `al hacer clic en este objeto` está en la categoría Eventos
+2. `ir a posición aleatoria` está en Movimiento
+3. Si el personaje queda invisible, revisá que tenga un `mostrar` al empezar
 
-### 5. ¿Qué hace que un juego sea divertido?
+## Recursos
 
-Un juego puede ser divertido si:
-
-- tiene un objetivo claro
-- es retador pero justo
-- da feedback inmediato
-- permite mejorar
-- tiene variedad
-- invita a seguir jugando
-
-**Analogía:**
-
-> Un juego es como una historia en la que el jugador participa activamente.
-
-### 6. Juegos en Scratch
-
-Scratch es ideal para crear juegos porque tiene:
-
-- personajes o sprites
-- escenarios
-- sonidos
-- variables
-- eventos
-- movimientos
-- condicionales
-- bucles
-
-Con estos elementos podemos hacer juegos como:
-
-- carreras
-- atrapá objetos
-- juegos de puntería
-- laberintos
-- historias interactivas
-
-### 7. Ejemplo de un juego simple
-
-Imaginemos este juego:
-
-**Juego: Atrapa las estrellas**
-
-- El personaje se mueve con las flechas
-- Hay estrellas arriba del escenario
-- Cada estrella capturada suma 1 punto
-- Si tocas un enemigo, pierdes una vida
-- Cuando llega a 10 puntos, ganas
-
-Este ejemplo tiene:
-
-- objetivo: recoger estrellas
-- reglas: no tocar enemigos
-- desafío: conseguir puntos sin perder
-- feedback: puntaje y vidas
-- resultado: ganar o perder
-
-### 8. ¿Cómo pensar como creador de juegos?
-
-Antes de hacer tu juego, preguntate:
-
-1. ¿Cuál es el objetivo?
-2. ¿Qué debe hacer el jugador?
-3. ¿Qué reglas hay?
-4. ¿Qué pasa si gana o pierde?
-5. ¿Cómo se va a dar feedback?
-6. ¿Qué hace que sea divertido?
-
-> Un buen juego empieza con una idea clara, no con una gran cantidad de cosas.
-
-### 9. Actividad práctica
-
-<div style="background: #152a53; border-left: 6px solid #4f46e5; border-radius: 12px; padding: 16px 18px; margin: 18px 0; box-shadow: 0 2px 8px rgba(79, 70, 229, 0.12);">
-
-**📌 Trabajo práctico:** pensá y escribí en una hoja un mini juego con estas partes:
-
-- nombre del juego
-- personaje principal
-- objetivo
-- reglas
-- dificultad
-- puntaje
-- cómo se gana o se pierde
-
-Luego podés llevar esa idea a Scratch y empezar a construirla.
-
-</div>
-
-### 10. Resumen
-
-Un juego no es solo una escena o un personaje animado. Un juego tiene:
-
-- un propósito
-- reglas
-- desafío
-- decisiones
-- feedback
-- ganadores o perdedores
-
-Sin esas cosas, no es un juego completo: es solo una actividad o una animación.
-
-## Misión
-
-> Crear una idea de juego en Scratch con objetivo, reglas, personaje, puntaje y condición de ganar o perder. Explicar por qué esa idea es un juego y no solo una animación.
-
-## Checklist final
-
-Antes de entregar, revisá:
-
-- [ ] Tiene un objetivo claro
-- [ ] Tiene reglas definidas
-- [ ] Hay un personaje o protagonista
-- [ ] Hay un desafío o dificultad
-- [ ] Hay forma de ganar o perder
-- [ ] Se puede explicar por qué es un juego
-
-### Cierre
-
-Con esta clase entendimos que un juego no se define solo por movimiento o gráficos, sino por la experiencia que crea. Cuando un juego tiene objetivo, reglas y decisiones, deja de ser una simple actividad y se convierte en un desafío para jugar, aprender y mejorar.
-
-## .
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

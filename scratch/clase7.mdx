@@ -1,54 +1,124 @@
 ---
 title: "Clase 7: Historia de 3 escenas 🎬"
-mision: "Crear una historia corta con fondos y cambios de disfraz, y compartir el proyecto."
+mision: "Contar una historia de 3 escenas que cambia de lugar y de personaje sola."
 ---
 
 # Clase 7: Historia de 3 escenas 🎬
 
-Creamos una historia corta en Scratch usando fondos y cambios de disfraz. Al final guardamos y compartimos el proyecto.
+Creamos una historia corta que cambia de lugar y de personaje solo, usando fondos, disfraces y pausas. Al final aprendemos a guardar el proyecto.
+
+## Objetivos
+
+- Organizar una historia en inicio, aventura y final
+- Cambiar fondos y disfraces con código
+- Usar pausas para que la historia se entienda
+- Guardar el proyecto
 
 ## Contenido
 
-### 1. La estructura fija
+### 1. La estructura de la historia
 
-Todos hacen una historia con 3 escenas. El tema es libre pero la estructura es siempre la misma:
+El tema es libre, pero todas las historias tienen la misma estructura de 3 escenas:
 
-| Escena       | Qué pasa                                                                 |
-| ------------ | ------------------------------------------------------------------------ |
-| **Escena 1** | Introducción — el personaje aparece en un lugar y dice algo              |
-| **Escena 2** | Problema o aventura — algo pasa, el fondo cambia, el personaje reacciona |
-| **Escena 3** | Final — se resuelve, el personaje dice cómo terminó todo                 |
+| Escena          | Qué pasa                                            |
+| --------------- | --------------------------------------------------- |
+| **1. Inicio**   | El personaje aparece en un lugar y se presenta      |
+| **2. Aventura** | Algo pasa, el lugar cambia y el personaje reacciona |
+| **3. Final**    | Se resuelve y el personaje cuenta cómo terminó      |
 
-### 2. Bloques nuevos
+**Ejemplo:** un gato está en su casa (inicio), viaja al espacio (aventura) y vuelve a casa con un amigo (final).
 
-| Bloque                  | Qué hace                            |
-| ----------------------- | ----------------------------------- |
-| `cambiar fondo a [ ]`   | Cambia el fondo del escenario       |
-| `cambiar disfraz a [ ]` | Cambia la apariencia del sprite     |
-| `esperar [ ] segundos`  | Pausa antes de pasar a lo siguiente |
+### 2. Planificar en papel
 
-> **Importante:** sin el bloque `esperar` todo pasa tan rápido que no se ve nada.
+Antes de abrir Scratch, anotamos en un papel qué pasa en cada escena y qué va a decir el personaje. Así no nos quedamos en blanco frente a la pantalla.
 
-### 3. Código de ejemplo
+### 3. Agregar los fondos
+
+Hacemos clic en el **Escenario** → pestaña **Fondos** → agregamos 3 fondos, uno para cada escena.
+
+> **Si se agregaron fondos de más:** clic derecho sobre el fondo que sobra → **borrar**.
+
+### 4. Cambiar de fondo
+
+El bloque `cambiar fondo a` (categoría **Apariencia**) cambia el lugar donde ocurre la historia.
+
+**Ejemplo:**
 
 ```
-al hacer clic en 🏴
-cambiar fondo a [fondo1]
-decir [Hola, soy Mia!] por [2] segundos
-cambiar disfraz a [disfraz2]
-esperar [2] segundos
-cambiar fondo a [fondo2]
-decir [¡Llegué al espacio!] por [2] segundos
-esperar [2] segundos
-cambiar fondo a [fondo3]
-decir [Y volví a casa.] por [2] segundos
+al presionar 🏴
+cambiar fondo a [casa]
 ```
 
-### 4. Guardar y compartir
+### 5. Hacer hablar al personaje
 
-- **Guardar:** Archivo → Guardar ahora. Ponerle un nombre a la historia.
-- **Compartir:** botón **Compartir** arriba en el centro.
+`decir durante segundos` muestra un globo de diálogo y espera hasta que termine antes de seguir.
 
-## Misión
+**Ejemplo:**
 
-> Crear una historia de 3 escenas con tema libre. Debe tener un fondo distinto por escena, al menos un cambio de disfraz y diálogo en cada escena. Guardar y compartir el proyecto al terminar.
+```
+decir [¡Hola! Soy Mia.] durante [2] segundos
+```
+
+### 6. Esperar
+
+`esperar` (categoría **Control**) hace una pausa. Sin pausas todo pasa tan rápido que no se ve nada.
+
+**Ejemplo:**
+
+```
+cambiar fondo a [espacio]
+esperar [1] segundos
+decir [¡Llegué al espacio!] durante [2] segundos
+```
+
+### 7. Cambiar el disfraz
+
+`cambiar disfraz a` cambia cómo se ve el personaje. Sirve para mostrar que reacciona: se sorprende, se asusta, festeja.
+
+**Ejemplo:**
+
+```
+cambiar disfraz a [sorprendido]
+decir [¡Uy! ¿Qué es eso?] durante [2] segundos
+```
+
+### 8. Todo junto
+
+```
+al presionar 🏴
+cambiar fondo a [casa]
+cambiar disfraz a [normal]
+decir [¡Hola! Soy Mia.] durante [2] segundos
+esperar [1] segundos
+
+cambiar fondo a [espacio]
+cambiar disfraz a [sorprendido]
+decir [¡Llegué al espacio!] durante [2] segundos
+esperar [1] segundos
+
+cambiar fondo a [casa]
+cambiar disfraz a [normal]
+decir [Y volví a casa con un amigo.] durante [2] segundos
+```
+
+### 9. Guardar el proyecto
+
+Para no perder el trabajo: **Archivo → Guardar en tu computadora**. Se descarga un archivo con el proyecto que después se puede volver a abrir con **Archivo → Cargar desde tu computadora**.
+
+Si hay una cuenta de Scratch, también se puede usar **Guardar ahora** y el botón **Compartir** para que otros vean la historia.
+
+## Ejercicio
+
+> Consigna: Creá una historia de 3 escenas con tema libre: un fondo distinto por escena, al menos un cambio de disfraz y diálogo en cada escena. Al terminar, guardá el proyecto.
+
+**Pistas:**
+
+1. Anotá en un papel qué pasa en cada escena antes de programar
+2. Si todo pasa muy rápido, agregá bloques `esperar`
+3. Para guardar: Archivo → Guardar en tu computadora
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

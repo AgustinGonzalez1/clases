@@ -1,0 +1,95 @@
+---
+title: "Clase 24: Juego 2.0 🎵"
+mision: "Crear música propia, ponerla de fondo en el juego y entregar la versión 2.0."
+---
+
+# Clase 24: Juego 2.0 🎵
+
+Cerramos el módulo con lo único que le falta a nuestro laberinto: música hecha por nosotros. Después lo guardamos y lo entregamos como Juego 2.0.
+
+## Objetivos
+
+- Crear una melodía propia en Chrome Music Lab
+- Exportarla e importarla a Scratch
+- Hacer que suene en loop durante el juego
+- Entregar el juego terminado
+
+## Contenido
+
+### 1. Chrome Music Lab
+
+Entramos a [musiclab.chromeexperiments.com](https://musiclab.chromeexperiments.com) → **Song Maker**. Es gratis, funciona en el navegador y no hace falta saber tocar ningún instrumento.
+
+### 2. Cómo funciona la grilla
+
+Es una cuadrícula: las columnas son el tiempo (de izquierda a derecha) y las filas son las notas (las graves abajo, las agudas arriba). Cada cuadrito que pintamos es una nota que suena.
+
+**Ejemplo:** pintar unos cuantos cuadritos en zigzag y apretar play para escuchar cómo quedó.
+
+### 3. El ritmo
+
+Las dos filas de abajo, separadas del resto, son la percusión. Sirven para darle pulso a la melodía.
+
+### 4. Cambiar los instrumentos
+
+Abajo hay dos menús: uno para el instrumento de la melodía (piano, marimba, cuerda) y otro para la percusión. La misma melodía suena completamente distinta según el instrumento.
+
+### 5. Que sea corta
+
+La música va a repetirse todo el juego. Si es muy larga aburre, y si es muy corta cansa. Entre 10 y 20 segundos está bien.
+
+### 6. Descargarla
+
+Con el botón **Save** se genera un enlace, y con **Download WAV** (Waveform Audio File Format) se descarga el archivo de audio.
+
+### 7. Subirla a Scratch
+
+Hacemos clic en el **Escenario** → pestaña **Sonidos** → pasamos el mouse por el botón de abajo → **Subir sonido** → elegimos el archivo descargado.
+
+### 8. Que suene en loop
+
+En el Escenario, `tocar sonido hasta que termine` adentro de un `por siempre` hace que la música vuelva a empezar apenas termina.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+por siempre
+   tocar sonido [mi música] hasta que termine
+```
+
+> Si usamos `iniciar sonido` en vez de `tocar sonido hasta que termine`, la música se pisa a sí misma y suena todo mezclado.
+
+### 9. Revisión final del Juego 2.0
+
+Antes de entregar, revisamos que el juego tenga todo lo del módulo:
+
+| Parte                                     | ¿Está? |
+| ----------------------------------------- | ------ |
+| Movimiento con la variable `velocidad`    |        |
+| Power-up de velocidad                     |        |
+| Power-up de escudo                        |        |
+| Al menos 3 niveles                        |        |
+| Mensaje al completar el último nivel      |        |
+| Los ajustes de balance de la clase pasada |        |
+| Música propia en loop                     |        |
+
+### 10. Guardar la entrega
+
+**Archivo → Guardar en tu computadora**. Este archivo es el **Juego 2.0**, la versión más completa que hicimos hasta ahora.
+
+## Ejercicio
+
+> Consigna: Creá una melodía en Chrome Music Lab, ponela de música de fondo en loop en tu laberinto y entregá el Juego 2.0 con todo lo del módulo funcionando.
+
+**Pistas:**
+
+1. La música va en el Escenario, no en un personaje
+2. Usá `tocar sonido hasta que termine` para que no se pise
+3. Antes de entregar, jugalo entero una vez para ver que no falte nada
+
+## Recursos
+
+- [Chrome Music Lab — Song Maker](https://musiclab.chromeexperiments.com/Song-Maker)
+- [Scratch](https://scratch.mit.edu)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

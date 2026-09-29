@@ -1,48 +1,96 @@
 ---
 title: "Clase 11: Wick Editor 2 🎨"
-mision: "Aprender el Onion Skinning y finalizar un mini proyecto de animación."
+mision: "Terminar un gif animado en loop usando capas y papel cebolla."
 ---
 
 # Clase 11: Wick Editor 2 🎨
 
-Aprendemos el Onion Skinning y finalizamos un mini proyecto de animación.
+Aprendemos dos herramientas que hacen que animar sea mucho más fácil: el papel cebolla y las capas. Con eso terminamos un mini proyecto animado.
+
+## Objetivos
+
+- Usar el papel cebolla (onion skinning) para animar con más precisión
+- Separar el fondo del personaje usando capas
+- Terminar una animación completa en loop
+- Guardar el proyecto
 
 ## Contenido
 
-### 1. Onion Skinning
+### 1. Repaso de la clase anterior
 
-El Onion Skinning muestra el frame anterior en transparencia mientras dibujás el siguiente. Así sabés exactamente cuánto mover el objeto sin tener que adivinarlo.
+En la clase pasada animamos una pelota moviéndola a mano en cada frame. El problema es que sin ver dónde estaba antes, los saltos salen irregulares y la animación se ve cortada.
 
-**Analogía:** Es como ver la sombra del dibujo anterior — sabés dónde estaba y podés moverlo un poco desde ahí.
+### 2. El papel cebolla (onion skinning)
 
-Para activarlo: botón de las capas superpuestas en la barra inferior del escenario.
+El **onion skinning** muestra el frame anterior en transparencia mientras dibujamos el siguiente. Así vemos exactamente dónde estaba el objeto y cuánto moverlo.
 
-> Sin Onion Skinning los saltos entre frames son irregulares y la animación se ve brusca. Con Onion Skinning el movimiento queda mucho más fluido.
+**Ejemplo en la vida real:** es como calcar sobre una hoja fina: vemos el dibujo de abajo mientras hacemos el de arriba.
 
-### 2. Capas
+### 3. Activarlo
 
-Las capas permiten tener un fondo fijo mientras el personaje se mueve arriba.
+Está en la barra de botones de abajo a la derecha del escenario, en el ícono de los dos círculos superpuestos. Al pasar el mouse dice **Onion Skinning**.
 
-**Analogía:** Es como un acetato encima de una hoja — el fondo está en la hoja de abajo y no cambia, el personaje está en el acetato de arriba y sí cambia frame a frame.
+**Ejemplo:** al activarlo, en el frame 5 vemos en gris clarito dónde estaba la pelota en el frame 4.
 
-Para agregar una capa: clic en el **"+"** debajo de la lista de capas en la línea de tiempo.
+### 4. Animar con papel cebolla
 
-### 3. Estructura del mini proyecto
+Con el papel cebolla activado, dibujamos cada frame un poquito más adelante que la sombra del anterior.
 
-- **Capa de abajo** → el fondo, se dibuja una sola vez y no cambia
-- **Capa de arriba** → el personaje o el objeto que se anima frame a frame
+**Ejemplo:**
 
-### 4. Ideas para el mini proyecto
+- Frame 1 → la pelota arriba
+- Frame 2 → la sombra muestra dónde estaba, la dibujamos apenas más abajo
+- Frame 3 → repetimos siempre con la misma distancia
 
-- Sol que sale y se pone
-- Personaje que camina en el lugar
-- Flor que crece
-- Cohete que despega
+### 5. ¿Qué es una capa?
 
-### 5. El loop
+Una capa es un nivel de dibujo. Lo que está en una capa no molesta a lo que está en la otra.
 
-En Wick Editor la animación vuelve al frame 1 automáticamente al terminar — no necesitan programar nada para que sea un loop.
+**Ejemplo en la vida real:** es como poner una hoja transparente encima de un dibujo. El personaje va en la hoja de arriba y el paisaje en la de abajo.
 
-## Misión
+### 6. Agregar una capa
 
-> Crear un gif animado en loop usando Onion Skinning y al menos dos capas — fondo en una capa y personaje en otra. El tema es libre.
+En la línea de tiempo, abajo a la izquierda, está el botón **"+"**. Cada capa nueva aparece arriba de la anterior.
+
+**Ejemplo:**
+
+- Capa de abajo → el fondo (cielo, piso, sol)
+- Capa de arriba → el personaje que se mueve
+
+### 7. El fondo se dibuja una sola vez
+
+El fondo no cambia entre frames, así que se dibuja una sola vez en su capa. Solo el personaje cambia frame a frame.
+
+**Ejemplo:** un cielo con nubes quieto, y un pájaro que mueve las alas arriba de él.
+
+### 8. El loop
+
+Cuando la animación llega al último frame, Wick Editor vuelve sola al frame 1. Por eso conviene que el último frame se parezca al primero: así el loop no se nota.
+
+**Ejemplo:** si el pájaro empieza con las alas arriba, que el último frame también lo tenga con las alas arriba.
+
+### 9. Ideas para el mini proyecto
+
+- Un sol que sale y se esconde
+- Un personaje que camina en el lugar
+- Una flor que crece
+- Un cohete que despega
+
+### 10. Guardar
+
+Con el botón **save** se descarga el proyecto para poder seguir en la próxima clase.
+
+## Ejercicio
+
+> Consigna: Creá un gif animado en loop con al menos dos capas — el fondo en una y el personaje animado en la otra — usando el papel cebolla para que el movimiento quede suave.
+
+**Pistas:**
+
+1. Activá el papel cebolla antes de empezar a animar
+2. El fondo se dibuja una sola vez en su propia capa
+3. Para que el loop no se note, que el último frame se parezca al primero
+
+## Recursos
+
+- [Wick Editor](https://wickeditor.com)
+- [Foro de Wick Editor](https://forum.wickeditor.com)

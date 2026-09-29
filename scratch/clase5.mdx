@@ -1,17 +1,30 @@
 ---
 title: "Clase 5: Juego de carreras 2 🏁"
-mision: "Agregar el segundo auto y terminar el juego."
+mision: "Completar el juego de carreras para que puedan jugar dos personas."
 ---
 
 # Clase 5: Juego de carreras 2 🏁
 
-Agregamos el segundo auto y terminamos el juego.
+Agregamos el segundo auto para poder jugar de a dos y resolvemos los problemas que aparecen al probar el juego.
+
+## Objetivos
+
+- Duplicar un personaje con su código
+- Encontrar y resolver problemas al probar un juego
+- Terminar el juego con `detener todos`
+- Usar el bloque `no` y el `siguiente disfraz`
 
 ## Contenido
 
-### 1. El segundo auto
+### 1. Duplicar el primer auto
 
-El segundo auto funciona exactamente igual que el primero — misma estructura, distinta tecla y distinta posición en Y para estar en su propio carril.
+El segundo auto hace lo mismo que el primero. En lugar de programar todo de nuevo, hacemos **clic derecho sobre el primer auto → duplicar**. La copia trae todo el código.
+
+### 2. Cambiar lo que es distinto
+
+En la copia cambiamos solo tres cosas: la **posición** (el otro carril), la **tecla** y el **mensaje**.
+
+**Ejemplo:**
 
 ```
 al presionar 🏴
@@ -19,23 +32,72 @@ ir a x: [-226] y: [50]
 apuntar en dirección [90]
 por siempre
    si <¿tocando el color [rojo]?> entonces
-      decir [¡Gané!] durante [2] segundos
-      tocar sonido [aufitonaranja] hasta que termine
+      decir [¡Ganó el auto naranja!] durante [2] segundos
+      tocar sonido [festejo2] hasta que termine
 
-al presionar tecla [w]
+al presionar tecla [l]
 cambiar x en [10]
 ```
 
-### 2. Bloques que usamos
+> Conviene que las teclas estén lejos una de la otra (por ejemplo **d** y **l**) para que los dos jugadores no se choquen las manos.
 
-| Bloque                               | Qué hace                        |
-| ------------------------------------ | ------------------------------- |
-| `ir a x: [ ] y: [ ]`                 | Posiciona el auto en su carril  |
-| `al presionar tecla [ ]`             | Tecla del segundo jugador       |
-| `cambiar x en [10]`                  | Mueve el auto hacia la derecha  |
-| `tocando el color [ ]?`              | Detecta si llegó a la meta roja |
-| `tocar sonido [ ] hasta que termine` | Sonido del ganador              |
+### 3. Probar el juego de a dos
 
-## Misión
+Presionamos la bandera y cada jugador aprieta su tecla lo más rápido que pueda. Al probar van a aparecer preguntas.
 
-> Agregar el segundo auto con su propia tecla, su propio carril y su propio sonido de victoria. Probar el juego completo con dos jugadores.
+### 4. "¿Por qué el mensaje se repite sin parar?"
+
+Porque el `si` está adentro del `por siempre`: mientras el auto siga tocando la meta, lo vuelve a decir. Para terminar el juego usamos `detener todos` (categoría **Control**).
+
+**Ejemplo:**
+
+```
+si <¿tocando el color [rojo]?> entonces
+   decir [¡Ganó el auto violeta!] durante [2] segundos
+   tocar sonido [festejo] hasta que termine
+   detener [todos]
+```
+
+### 5. "¿Cómo hago que el auto no pase la meta?"
+
+Podemos decirle que avance solo si **no** está tocando el rojo. El bloque `no` (categoría **Operadores**) da vuelta una condición: lo que era verdad pasa a ser mentira.
+
+**Ejemplo:**
+
+```
+al presionar tecla [d]
+si <no <¿tocando el color [rojo]?>> entonces
+   cambiar x en [10]
+```
+
+### 6. "¿Puedo hacer que parezca que las ruedas giran?"
+
+Si el auto tiene más de un disfraz, cada vez que avanza podemos pasar al siguiente. Así parece que se mueve.
+
+**Ejemplo:**
+
+```
+al presionar tecla [d]
+cambiar x en [10]
+siguiente disfraz
+```
+
+### 7. "¿Cómo vuelven los autos a la largada?"
+
+Ya está resuelto: el `ir a x: y:` que pusimos al principio hace que cada vez que presionamos la bandera los autos vuelvan a su lugar.
+
+## Ejercicio
+
+> Consigna: Agregá el segundo auto con su propia tecla, su carril y su sonido de festejo. Jugá de a dos y resolvé al menos uno de los problemas que aparezcan.
+
+**Pistas:**
+
+1. Duplicar el auto trae todo su código: solo cambiá posición, tecla y mensaje
+2. Elegí teclas lejanas entre sí, como d y l
+3. `detener todos` está en la categoría Control
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

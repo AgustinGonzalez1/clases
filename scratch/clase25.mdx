@@ -1,0 +1,161 @@
+---
+title: "Clase 25: Depurar 🐛"
+mision: "Encontrar y arreglar los errores escondidos en un juego que ya está hecho."
+---
+
+# Clase 25: Depurar 🐛
+
+Hoy no programamos un juego nuevo: arreglamos uno roto. Aprendemos a encontrar errores, que es la mitad del trabajo de cualquier programador.
+
+## Objetivos
+
+- Entender qué es un bug
+- Describir un problema con precisión
+- Usar técnicas para encontrar errores
+- Llevar un registro de lo que arreglamos
+
+## Contenido
+
+### 1. ¿Qué es un bug?
+
+Un bug es un error en el código. El programa funciona igual, pero no hace lo que queríamos.
+
+**Ejemplo:** un juego de preguntas donde respondés bien y te dice "¡Incorrecto!". El código funciona perfecto; lo que está mal es la respuesta que tiene guardada.
+
+### 2. Describir bien el problema
+
+Antes de arreglar hay que poder decir qué pasa y qué debería pasar.
+
+|          | Descripción                                               |
+| -------- | --------------------------------------------------------- |
+| ❌ Mala  | "el juego está roto"                                      |
+| ✅ Buena | "respondo 4 y me dice incorrecto, debería decir correcto" |
+
+### 3. El juego con bugs
+
+El profe comparte un juego de preguntas que tiene **4 errores escondidos a propósito**. Debería hacer 3 preguntas, sumar un punto por acierto y mostrar el total al final.
+
+```
+al presionar 🏴
+
+preguntar [¿Cuántas patas tiene un perro?] y esperar
+si <(respuesta) = [6]> entonces
+   decir [¡Correcto!] durante [2] segundos
+   cambiar [puntos] en [1]
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+
+preguntar [¿Cuánto es 2 + 2?] y esperar
+si <(respuesta) = [4]> entonces
+   decir [¡Correcto!] durante [2] segundos
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+
+preguntar [¿Cuántos días tiene una semana?] y esperar
+si <(respuesta) = [7]> entonces
+   decir [¡Correcto!] durante [2] segundos
+   cambiar [puntos] en [1]
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+```
+
+### 4. Técnica 1 — Jugar primero
+
+Antes de mirar el código, jugamos el juego varias veces y anotamos todo lo que se porta raro. Muchos bugs se ven sin abrir nada.
+
+**Ejemplo:** jugar dos veces seguidas y notar que el puntaje de la primera partida sigue ahí en la segunda.
+
+### 5. Técnica 2 — Mirar la variable
+
+Activando el casillero de `puntos` en la categoría **Variables**, el número aparece en el escenario y lo vemos cambiar en vivo.
+
+**Ejemplo:** contestar bien la pregunta 2 y ver que el número no se mueve. Ahí está el bug.
+
+### 6. Técnica 3 — Hacer clic en un bloque suelto
+
+Si hacemos clic sobre un bloque en el área de código, Scratch lo ejecuta solo. Sirve para probar si hace lo que creemos.
+
+**Ejemplo:** hacer clic en `cambiar puntos en 1` y mirar si la variable sube.
+
+### 7. Técnica 4 — Poner un `decir` espía
+
+Un `decir` adentro de un `si` nos dice si el programa pasa por ahí o no.
+
+**Ejemplo:**
+
+```
+si <(respuesta) = [6]> entonces
+   decir [entré acá] durante [1] segundos
+   cambiar [puntos] en [1]
+```
+
+Si el mensaje nunca aparece, el problema está en la pregunta del `si`, no en lo que viene después.
+
+### 8. El Diario de Bug
+
+Cada error que encontramos se anota. Esto es exactamente lo que hacen los programadores en su trabajo.
+
+| #   | Qué pasaba                   | Dónde estaba       | Cómo lo arreglé   |
+| --- | ---------------------------- | ------------------ | ----------------- |
+| 1   | Respondí 4 y dijo incorrecto | Pregunta del perro | Cambié el 6 por 4 |
+| 2   |                              |                    |                   |
+| 3   |                              |                    |                   |
+| 4   |                              |                    |                   |
+
+### 9. Los 4 bugs
+
+| #   | Bug                               | Solución                                         |
+| --- | --------------------------------- | ------------------------------------------------ |
+| 1   | El puntaje no vuelve a cero       | Agregar `fijar puntos a 0` al principio          |
+| 2   | Un perro tiene 4 patas, no 6      | Cambiar la condición a `respuesta = 4`           |
+| 3   | La pregunta 2 no suma puntos      | Agregar `cambiar puntos en 1` adentro de su `si` |
+| 4   | Nunca dice cuántos puntos hiciste | Agregar el mensaje final                         |
+
+### 10. El juego arreglado
+
+```
+al presionar 🏴
+fijar [puntos] a [0]
+
+preguntar [¿Cuántas patas tiene un perro?] y esperar
+si <(respuesta) = [4]> entonces
+   decir [¡Correcto!] durante [2] segundos
+   cambiar [puntos] en [1]
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+
+preguntar [¿Cuánto es 2 + 2?] y esperar
+si <(respuesta) = [4]> entonces
+   decir [¡Correcto!] durante [2] segundos
+   cambiar [puntos] en [1]
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+
+preguntar [¿Cuántos días tiene una semana?] y esperar
+si <(respuesta) = [7]> entonces
+   decir [¡Correcto!] durante [2] segundos
+   cambiar [puntos] en [1]
+si no
+   decir [¡Incorrecto!] durante [2] segundos
+
+decir [¡GANASTE!] durante [2] segundos
+decir (unir [Puntos totales: ] (puntos)) durante [2] segundos
+```
+
+> El bloque `unir` (categoría **Operadores**) pega dos textos: sirve para mostrar un cartel con el número adentro.
+
+## Ejercicio
+
+> Consigna: Abrí el juego compartido, jugalo varias veces, encontrá los 4 bugs y arreglalos. Completá el Diario de Bug con cada uno.
+
+**Pistas:**
+
+1. Jugá dos partidas seguidas y mirá qué pasa con el puntaje
+2. Respondé bien a propósito y fijate si el número sube
+3. Si un `si` nunca se cumple, el problema está en la pregunta, no en lo de adentro
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)

@@ -1,0 +1,132 @@
+---
+title: "Clase 15: Laberinto sin paredes 🧭"
+mision: "Programar un laberinto donde tocar las paredes te devuelve al principio."
+---
+
+# Clase 15: Laberinto sin paredes 🧭
+
+Hacemos un laberinto donde las paredes no son objetos: son colores dibujados en el fondo. El personaje las detecta y vuelve al inicio si las toca.
+
+## Objetivos
+
+- Dibujar un laberinto en el fondo del escenario
+- Detectar colores con condicionales
+- Mover un personaje en 4 direcciones
+- Agregar una meta que termine el nivel
+
+## Contenido
+
+### 1. Paredes que no son objetos
+
+En este juego el laberinto es un dibujo del fondo. El personaje no choca de verdad: cuando detecta el color de las paredes, lo mandamos de vuelta al principio.
+
+### 2. Dibujar el laberinto
+
+Clic en el **Escenario** → pestaña **Fondos** → con la herramienta **Línea** dibujamos las paredes de un color bien definido, por ejemplo azul.
+
+> Los pasillos tienen que ser más anchos que el personaje, si no es imposible pasar.
+
+### 3. La entrada y la meta
+
+Dejamos un lugar libre para la entrada y dibujamos la meta al final, de otro color, por ejemplo verde.
+
+### 4. Un personaje chiquito
+
+El personaje tiene que entrar en los pasillos. Lo achicamos poniendo **30** o menos en **Tamaño**.
+
+### 5. La posición de largada
+
+Arrastramos el personaje hasta la entrada del laberinto y copiamos sus números de x e y al bloque `ir a`.
+
+**Ejemplo:**
+
+```
+al presionar 🏴
+ir a x: [-214] y: [153]
+```
+
+### 6. Moverse en 4 direcciones
+
+Usamos `cambiar x` para izquierda y derecha, y `cambiar y` para arriba y abajo. Así el personaje no gira.
+
+**Ejemplo:**
+
+```
+por siempre
+   si <¿tecla [flecha derecha] presionada?> entonces
+      cambiar x en [3]
+   si <¿tecla [flecha izquierda] presionada?> entonces
+      cambiar x en [-3]
+   si <¿tecla [flecha arriba] presionada?> entonces
+      cambiar y en [3]
+   si <¿tecla [flecha abajo] presionada?> entonces
+      cambiar y en [-3]
+```
+
+### 7. Chocar con la pared
+
+Con `¿tocando el color?` detectamos el azul de las paredes. Si lo toca, vuelve a la entrada.
+
+**Ejemplo:**
+
+```
+si <¿tocando el color [azul]?> entonces
+   ir a x: [-214] y: [153]
+```
+
+> Para elegir el azul exacto, hacemos clic en el color del bloque y usamos el **gotero** sobre una pared del escenario.
+
+### 8. Llegar a la meta
+
+El verde de la meta se detecta igual, pero en vez de castigar, festeja.
+
+**Ejemplo:**
+
+```
+si <¿tocando el color [verde]?> entonces
+   iniciar sonido [Cheer]
+   decir [¡Ganaste!] durante [2] segundos
+   detener [todos]
+```
+
+### 9. Todo junto
+
+```
+al presionar 🏴
+ir a x: [-214] y: [153]
+por siempre
+   si <¿tecla [flecha derecha] presionada?> entonces
+      cambiar x en [3]
+   si <¿tecla [flecha izquierda] presionada?> entonces
+      cambiar x en [-3]
+   si <¿tecla [flecha arriba] presionada?> entonces
+      cambiar y en [3]
+   si <¿tecla [flecha abajo] presionada?> entonces
+      cambiar y en [-3]
+   si <¿tocando el color [azul]?> entonces
+      ir a x: [-214] y: [153]
+   si <¿tocando el color [verde]?> entonces
+      iniciar sonido [Cheer]
+      decir [¡Ganaste!] durante [2] segundos
+      detener [todos]
+```
+
+### 10. Ajustar la dificultad
+
+Si el juego es muy difícil, se puede bajar la velocidad del personaje de 3 a 2, o dibujar pasillos más anchos.
+
+## Ejercicio
+
+> Consigna: Dibujá tu propio laberinto con paredes de un color y una meta de otro, y programá el personaje para que vuelva al inicio al chocar y festeje al llegar a la meta.
+
+**Pistas:**
+
+1. Usá el gotero para elegir exactamente el color de tus paredes
+2. Si el personaje atraviesa las paredes, probablemente se mueve demasiados pasos por vez
+3. No uses el mismo color para las paredes y para la meta
+
+## Recursos
+
+- [Scratch](https://scratch.mit.edu)
+- [Ideas y tutoriales de Scratch](https://scratch.mit.edu/ideas)
+- [Scratch Wiki en español](https://es.scratch-wiki.info)
