@@ -1,164 +1,263 @@
 ---
 title: "Clase 13: Tu Primer Auto 🚗"
-mision: "Crear un auto de carreras funcional controlado con el teclado."
+mision: "Crear un auto que acelere, frene y doble como un auto de verdad, manejado con W/A/S/D."
 ---
 
 # Clase 13: Tu Primer Auto 🚗
 
-Construimos un auto usando Attachments y HingeConstraints para conectar las ruedas al chasis, y un script para controlarlo con el teclado.
+Construimos un auto simple con un chasis, un asiento y cuatro ruedas, y lo hacemos andar con un script que lee las teclas del conductor.
 
 ## Objetivos
 
-- Construir un auto y definir su orientación con VehicleSeat
-- Conectar las ruedas con Attachments y HingeConstraints
-- Programar el control del auto con el teclado
+- Armar un auto con Parts soldadas
+- Usar un VehicleSeat para leer las teclas del conductor
+- Mover el auto con dos fuerzas: `LinearVelocity` y `AngularVelocity`
+- Hacer que acelere y frene de a poco, y que doble según su velocidad
 
 ## Contenido
 
-### 1. Construir las partes sin nombrarlas todavía
+### 1. Cómo funciona este auto
 
-1. Insertás el **Chasis** (Part rectangular)
-2. Insertás 4 Parts cilíndricas para las ruedas, sin nombrarlas aún
-3. Las rotás **Orientation → 0, 0, 90** para que queden horizontales
-4. Las ubicás en las 4 esquinas del Chasis
+En un auto real, el motor hace girar las ruedas y las ruedas empujan el auto. Acá lo hacemos como en los juegos de carreras arcade: **empujamos el auto entero**, y las ruedas lo apoyan en el piso.
 
-> ⚠️ **Anchored = true** en todas mientras construís.
-
-### 2. Agregar el VehicleSeat para definir la orientación
-
-1. Insert Object → **VehicleSeat**, lo ubicás encima del Chasis
-2. El **frente** del VehicleSeat (la flecha que se ve al seleccionarlo) define hacia dónde "mira" el auto
-
-> 💡 Con el VehicleSeat ya orientado, ahora es fácil saber cuál rueda es cuál: mirando hacia adelante desde el asiento, la izquierda y derecha quedan claras.
-
-### 3. Nombrar las ruedas correctamente
-
-Según la orientación del VehicleSeat:
-
-| Rueda | Nombre |
+| Pieza | Qué hace |
 |---|---|
-| Adelante-derecha | `RFD` |
-| Adelante-izquierda | `RFI` |
-| Atrás-derecha | `RTD` |
-| Atrás-izquierda | `RTI` |
+| **Chasis** | La base donde se sueldan todas las piezas |
+| **VehicleSeat** | Asiento especial que lee las teclas W/A/S/D del que se sienta |
+| **Ruedas** | Apoyan el auto en el piso |
+| **LinearVelocity** | Fuerza que empuja el auto hacia adelante o hacia atrás |
+| **AngularVelocity** | Fuerza que hace girar el auto hacia los costados |
 
-### 4. Agrupar
+> 💡 Como las ruedas no hacen fuerza, el auto **no vuelca nunca**, aunque choque o doble muy rápido.
 
-1. Seleccionás todo (Chasis, las 4 ruedas y el VehicleSeat) y **Group** (Ctrl+G)
-2. Renombrás el Model `Autito`
-3. **PrimaryPart** del Model → `Chasis`
+### 2. Crear el chasis
 
-### 5. Crear la carpeta Uniones
+El chasis es la base del auto: una tabla larga y ancha donde va todo lo demás.
 
-Dentro de `Autito` → Insert Object → **Folder** → `Uniones`. Dentro, 4 **HingeConstraint**:
+1. Insertás una **Part** en el Workspace y la renombrás `Chasis`
+2. En Properties: **Anchored** en `true` (mientras construimos)
+3. Con la herramienta **Escalar** (pestaña Inicio), estirás la Part arrastrando las esferitas de colores hasta que quede **larga, ancha y finita**, como una tabla
+4. La subís un poco con **Mover**, así queda espacio abajo para las ruedas
 
-| HingeConstraint | Config |
-|---|---|
-| `ejeRFD`, `ejeRFI`, `ejeRTD`, `ejeRTI` | ActuatorType=Motor, MotorMaxTorque=409600, AngularVelocity=0 |
+### 3. Poner el asiento arriba del chasis
 
-### 6. Attachments
+1. Click derecho en **Workspace** → Insert Object → **VehicleSeat**
+2. En Properties: **Anchored** en `true`
+3. Con **Mover**, lo apoyás **arriba del chasis**
+4. Le das **Play**, te sentás y mirás hacia dónde queda mirando el personaje: **ese es el frente del auto**
+5. Si el personaje queda mirando hacia el **costado** de la tabla en vez de hacia una de sus puntas, parás el juego y con **Girar** rotás el asiento 90°
 
-**En el Chasis:** `pivoteChasisRFD`, `pivoteChasisRFI`, `pivoteChasisRTD`, `pivoteChasisRTI`
+> ⚠️ Este paso es el más importante: el auto siempre avanza hacia donde mira el asiento. Si el asiento mira para el costado, el auto va a avanzar de costado.
 
-**En cada rueda:** `pivoteRuedaRFD`, `pivoteRuedaRFI`, `pivoteRuedaRTD`, `pivoteRuedaRTI`
+### 4. Crear las ruedas
 
-Mové cada `pivoteChasis` a la misma posición que su `pivoteRueda` correspondiente.
+1. Insertás una **Part**, la renombrás `Rueda` y la pintás de negro
+2. En Properties: **Shape** en `Cylinder` y **Anchored** en `true`
+3. Con **Escalar**, le das el tamaño que quieras para una rueda
+4. Fijate que las **caras redondas** miren hacia los **costados del auto**. Si miran hacia adelante, la rotás 90° con **Girar**
+5. Con **Mover**, la ubicás en una esquina del chasis: un poco **por fuera** del costado y **sobresaliendo hacia abajo**, así es la rueda la que toca el piso
+6. **Ctrl + D** para duplicarla, y la movés a otra esquina. Repetís hasta tener 4
 
-### 7. Configurar los HingeConstraints
+> 💡 Usá la misma rueda duplicada para las 4: así todas quedan del mismo tamaño y a la misma altura, y el auto no queda torcido.
 
-| HingeConstraint | Attachment0 | Attachment1 |
+### 5. Soldar todo al chasis
+
+Como en la Clase 11, usamos **WeldConstraint** para que todas las piezas se muevan juntas:
+
+1. Click derecho en `Chasis` → Insert Object → **WeldConstraint**
+2. En Properties: **Part0** = `Chasis`, **Part1** = `VehicleSeat`
+3. Repetís para cada rueda: **Part0** = `Chasis`, **Part1** = esa rueda
+
+Son **5 soldaduras** en total: el asiento y las 4 ruedas.
+
+### 6. Agrupar y desanclar
+
+1. Seleccionás el chasis, el asiento y las 4 ruedas, y **Ctrl + G** para agruparlos
+2. Renombrás el modelo `Auto`
+3. Seleccionás **todas** las piezas del auto y ponés **Anchored** en `false`
+
+> ⚠️ Si una sola pieza queda anclada, el auto entero no se mueve.
+
+### 7. Agregar el punto de apoyo
+
+Las fuerzas necesitan un punto donde aplicarse: un **Attachment**, como los que usamos en la Clase 5.
+
+1. Click derecho en `VehicleSeat` → Insert Object → **Attachment**
+
+No hace falta cambiarle nada: queda en el centro del asiento.
+
+### 8. Agregar la fuerza de avance
+
+1. Click derecho en `VehicleSeat` → Insert Object → **LinearVelocity**
+2. Configurás sus propiedades:
+
+| Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| ejeRFD | pivoteChasisRFD | pivoteRuedaRFD |
-| ejeRFI | pivoteChasisRFI | pivoteRuedaRFI |
-| ejeRTD | pivoteChasisRTD | pivoteRuedaRTD |
-| ejeRTI | pivoteChasisRTI | pivoteRuedaRTI |
+| **Attachment0** | El Attachment del paso 7 | Dónde se aplica la fuerza |
+| **VelocityConstraintMode** | `Plane` | Controla la velocidad en un plano: hacia adelante y hacia el costado |
+| **RelativeTo** | `World` | Las direcciones las calcula el script |
+| **PrimaryTangentAxis** | `1, 0, 0` | Primer eje del plano: horizontal |
+| **SecondaryTangentAxis** | `0, 0, 1` | Segundo eje del plano: horizontal |
+| **MaxForce** | `100000` | Cuánta fuerza puede usar para mover el peso del auto |
 
-### 8. WeldConstraint del VehicleSeat
+> 💡 Para elegir el **Attachment0**, hacés click en la propiedad y después click en el Attachment en el Explorer.
 
-VehicleSeat → Insert Object → **WeldConstraint** → `Part0=VehicleSeat` / `Part1=Chasis`
+> 💡 El plano es **horizontal**, así que arriba y abajo quedan libres: la gravedad sigue funcionando y el auto no flota.
 
-### 9. Estructura final en el Explorer
+### 9. Agregar la fuerza de giro
 
-```
-Autito
-  ├── Uniones
-  │     ├── ejeRFD
-  │     ├── ejeRFI
-  │     ├── ejeRTD
-  │     └── ejeRTI
-  ├── VehicleSeat
-  │     ├── Script
-  │     └── WeldConstraint
-  ├── Chasis
-  │     ├── pivoteChasisRFD
-  │     ├── pivoteChasisRFI
-  │     ├── pivoteChasisRTD
-  │     └── pivoteChasisRTI
-  ├── RFD
-  │     └── pivoteRuedaRFD
-  ├── RFI
-  │     └── pivoteRuedaRFI
-  ├── RTD
-  │     └── pivoteRuedaRTD
-  └── RTI
-        └── pivoteRuedaRTI
-```
+1. Click derecho en `VehicleSeat` → Insert Object → **AngularVelocity**
+2. Configurás sus propiedades:
 
-### 10. El script
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Attachment0** | El mismo Attachment del paso 7 | Dónde se aplica la fuerza |
+| **MaxTorque** | `100000` | Cuánta fuerza de giro puede usar |
 
-Va dentro del **Script** que está en VehicleSeat.
+> 💡 Esta fuerza también es la que **impide que el auto vuelque**: no lo deja inclinarse hacia adelante ni hacia los costados.
+
+### 10. Leer las teclas del conductor
+
+El VehicleSeat traduce las teclas del que está sentado en dos números:
+
+| Propiedad | W | S | A | D | Nada |
+|---|---|---|---|---|---|
+| `ThrottleFloat` | `1` | `-1` | — | — | `0` |
+| `SteerFloat` | — | — | `-1` | `1` | `0` |
+
+### 11. El script
+
+1. Click derecho en `VehicleSeat` → Insert Object → **Script**
 
 ```lua
-local asiento = script.Parent
-local auto = asiento.Parent
+local RunService = game:GetService("RunService")    -- para actualizar el auto en cada frame
 
-local motoresDerecha = {auto.Uniones.ejeRFD, auto.Uniones.ejeRTD}
-local motoresIzquierda = {auto.Uniones.ejeRFI, auto.Uniones.ejeRTI}
+local asiento = script.Parent                       -- el VehicleSeat
+local avance = asiento.LinearVelocity               -- la fuerza que empuja
+local giro = asiento.AngularVelocity                -- la fuerza que gira
 
-local VELOCIDAD_AVANCE = 50
-local FUERZA_GIRO_LENTO = 40
-local FUERZA_GIRO_RAPIDO = 10
+local VELOCIDAD_MAXIMA = 60                         -- la velocidad mas alta que puede alcanzar
+local VELOCIDAD_GIRO = 3                            -- que tan rapido dobla
+local VELOCIDAD_PARA_GIRAR = 10                     -- a partir de esta velocidad dobla a fondo
+local SUAVIDAD = 0.02                               -- que tan rapido acelera y frena (de 0 a 1)
 
-local function establecerVelocidad(listaMotores, velocidad)
-    for _, motor in ipairs(listaMotores) do
-        motor.AngularVelocity = velocidad
-    end
-end
+local velocidad = 0                                 -- la velocidad que tiene ahora
 
-local function actualizarMotores()
-    local acelerador = -asiento.ThrottleFloat
-    local giro = -asiento.SteerFloat
+RunService.Heartbeat:Connect(function()             -- se ejecuta en cada frame
+    local objetivo = asiento.ThrottleFloat * VELOCIDAD_MAXIMA  -- a que velocidad queremos llegar
+    velocidad = velocidad + (objetivo - velocidad) * SUAVIDAD  -- se acerca un poquito a ese objetivo
 
-    local factorVelocidad = math.abs(acelerador)
-    local fuerzaGiro = FUERZA_GIRO_LENTO - (FUERZA_GIRO_LENTO - FUERZA_GIRO_RAPIDO) * factorVelocidad
+    local frente = asiento.CFrame.LookVector         -- hacia donde mira el asiento
+    avance.PlaneVelocity = Vector2.new(frente.X, frente.Z) * velocidad  -- avanza hacia el frente, nada de costado
 
-    local velocidadBase = acelerador * VELOCIDAD_AVANCE
-    local ajusteGiro = giro * fuerzaGiro
-    local velocidadIzquierda = velocidadBase + ajusteGiro
-    local velocidadDerecha   = velocidadBase - ajusteGiro
-
-    establecerVelocidad(motoresIzquierda, velocidadIzquierda)
-    establecerVelocidad(motoresDerecha,  velocidadDerecha)
-end
-
-asiento:GetPropertyChangedSignal("ThrottleFloat"):Connect(actualizarMotores)
-asiento:GetPropertyChangedSignal("SteerFloat"):Connect(actualizarMotores)
+    local fuerzaGiro = math.clamp(velocidad / VELOCIDAD_PARA_GIRAR, -1, 1)  -- 0 quieto, 1 en movimiento, -1 en marcha atras
+    giro.AngularVelocity = Vector3.new(0, -asiento.SteerFloat * VELOCIDAD_GIRO * fuerzaGiro, 0)  -- dobla
+end)
 ```
 
-### 11. Desactivar Anchored
+### 12. Cómo funciona el script
 
-Chasis → **Anchored** → `false`
+**Acelerar y frenar de a poco:**
+
+- `objetivo` es a dónde queremos llegar: `60` con W, `-60` con S, `0` sin tocar nada
+- `objetivo - velocidad` es **cuánto falta** para llegar
+- `* SUAVIDAD` toma solo un **2%** de lo que falta, y eso se suma en cada frame. Por eso la velocidad sube de a poco: rápido al principio y más lento cerca del máximo, como un auto real
+- Al soltar W, el objetivo pasa a `0` y la velocidad **baja de a poco**: el auto sigue de largo un poco y frena suave
+- Usamos `Heartbeat` (como en la Clase 10) porque la velocidad tiene que **seguir cambiando aunque no toques ninguna tecla**
+
+**Avanzar sin derrapar:**
+
+- `asiento.CFrame.LookVector` es la dirección hacia donde mira el asiento, igual que usamos `LookVector` con la cámara en la Clase 12
+- `Vector2.new(frente.X, frente.Z)` toma solo la parte **horizontal** de esa dirección, porque el plano de la fuerza es horizontal
+- `* velocidad` hace que avance en esa dirección a la velocidad actual. Como la dirección es **exactamente** hacia el frente, la velocidad de costado queda siempre en `0`: el auto no derrapa
+
+**Doblar según la velocidad:**
+
+- `velocidad / VELOCIDAD_PARA_GIRAR` da `0` si está quieto y `1` cuando llega a 10 de velocidad
+- `math.clamp(valor, -1, 1)` deja el número entre `-1` y `1`. Sin eso, a 60 de velocidad daría `6` y el auto giraría como un trompo
+- **Quieto no dobla**, porque el número da `0`
+- **En marcha atrás dobla al revés**, porque el número da negativo, como en un auto real
+- El `-` delante de `SteerFloat` es porque en Roblox girar con un número **positivo** es girar **hacia la izquierda**, y D tiene que ir a la derecha
+- `Vector3.new(0, ..., 0)`: solo usamos el número del medio, que es girar hacia los costados
+
+> 💡 **¿Por qué controlar también el costado?** Si la fuerza solo empujara hacia adelante, al doblar el auto conservaría el impulso que traía hacia el costado, y ese impulso se iría sumando curva tras curva hasta que el auto derrape a velocidades altísimas. Controlando el costado en `0`, el auto tiene agarre total.
+
+### 13. Estructura en el Explorer
+
+```
+Workspace
+  └── Auto (Model)
+        ├── Chasis (Part)
+        │     └── 5 WeldConstraint (al asiento y a las 4 ruedas)
+        ├── VehicleSeat
+        │     ├── Attachment
+        │     ├── LinearVelocity
+        │     ├── AngularVelocity
+        │     └── Script
+        ├── Rueda
+        ├── Rueda
+        ├── Rueda
+        └── Rueda
+```
+
+### 14. Probar el auto
+
+1. Le das **Play** y te sentás en el asiento
+2. Apretás **W**: el auto arranca y va ganando velocidad de a poco
+3. Soltás **W**: sigue de largo un poco y frena suave
+4. Quieto, apretás **A** o **D**: no dobla
+5. Avanzando, apretás **A** o **D**: dobla
+6. Con **S** retrocedés, y si doblás marcha atrás, la trompa va para el otro lado
+7. Doblás varias veces seguidas y la velocidad nunca pasa de la máxima
+8. Te bajás con **Espacio** y el auto frena solo
+
+### 15. Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| El auto no se mueve | Alguna pieza tiene **Anchored** en `true` | Desanclar todas las piezas |
+| Se mueve el asiento solo y el resto queda | Falta la soldadura entre el Chasis y el VehicleSeat | Revisar las 5 soldaduras |
+| Se cae una rueda | Falta la soldadura de esa rueda | Revisar las 5 soldaduras |
+| Se mueve de costado | El asiento mira hacia el costado de la tabla | Rotar el VehicleSeat 90° |
+| Con W va hacia atrás | El asiento mira hacia atrás | Rotar el VehicleSeat 180° |
+| El auto flota o sube | **SecondaryTangentAxis** quedó en `0, 1, 0` | Ponerlo en `0, 0, 1` |
+| Derrapa y la velocidad sube sin parar | **VelocityConstraintMode** quedó en `Line` | Ponerlo en `Plane` |
+| El chasis toca el piso y frena | Las ruedas no sobresalen hacia abajo | Bajar las ruedas o subir el chasis |
+| A y D doblan al revés | — | Sacar el `-` delante de `asiento.SteerFloat` |
+| Avanza muy lento | El auto es muy pesado | Subir **MaxForce** y **MaxTorque** |
+
+### 16. Extras
+
+**Distintos tipos de auto:** cambiando solo los números del script:
+
+| Estilo | VELOCIDAD_MAXIMA | SUAVIDAD | VELOCIDAD_GIRO | Cómo se siente |
+|---|---|---|---|---|
+| Camión | `30` | `0.01` | `1.5` | Tarda en arrancar y en frenar |
+| Auto de ciudad | `50` | `0.02` | `3` | Normal |
+| Deportivo | `90` | `0.03` | `3` | Rápido y responde bien |
+| Karting | `50` | `0.06` | `4` | Arranca y frena casi al toque |
+
+> 💡 Si querés que llegue más rápido, subís `VELOCIDAD_MAXIMA`. Si querés que tarde más en arrancar y frenar, bajás `SUAVIDAD`. Si querés que doble más, subís `VELOCIDAD_GIRO`.
+
+**Faros que iluminan:** Insertás un **SpotLight** dentro del Chasis (Clase 17), con **Face** apuntando hacia el frente, **Brightness** en `5` y **Range** en `40`.
+
+**Velocímetro:** El VehicleSeat ya trae uno. Si no lo ves, revisá que su propiedad **HeadsUpDisplay** esté en `true`.
+
+**Un auto realista:** Si para tu proyecto querés suspensión, cambios y ruedas que giran de verdad, existe un kit gratuito llamado **A-Chassis**, muy usado en la comunidad de Roblox. Es más complejo de configurar, pero da un resultado mucho más realista.
 
 ## Ejercicio
 
-> Consigna: Creá un auto de carreras que se pueda manejar con W/S para avanzar y A/D para girar.
+> Consigna: Creá un auto que acelere de a poco, frene al soltar W y doble solo cuando está en movimiento.
 
 **Pistas:**
-1. Definí primero la orientación con el VehicleSeat antes de nombrar las ruedas
-2. Los Attachments del Chasis y de cada rueda deben quedar en la misma posición exacta
-3. No olvides desactivar `Anchored` del Chasis al final, sino el auto no se va a mover
+1. Primero el chasis, después el asiento arriba, y al final las ruedas
+2. Probá con Play hacia dónde mira el asiento antes de seguir
+3. Soldá las 5 piezas al chasis y desanclá todo al final
+4. Revisá bien las propiedades de la LinearVelocity: `Plane`, `World` y los dos ejes
+5. Ajustá los números del script hasta que el auto se sienta como vos querés
 
 ## Recursos
 
 - [Documentación oficial de VehicleSeat](https://create.roblox.com/docs/reference/engine/classes/VehicleSeat)
-- [Documentación oficial de HingeConstraint](https://create.roblox.com/docs/reference/engine/classes/HingeConstraint)
+- [Documentación oficial de LinearVelocity](https://create.roblox.com/docs/reference/engine/classes/LinearVelocity)
+- [Documentación oficial de AngularVelocity](https://create.roblox.com/docs/reference/engine/classes/AngularVelocity)
