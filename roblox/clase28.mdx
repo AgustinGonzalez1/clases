@@ -1,0 +1,300 @@
+---
+title: "Clase 28: Tablas de Puntos (Leaderboards) 🏆"
+mision: "Armar una tabla de puntos que sume al juntar monedas y cuente las muertes de cada jugador."
+---
+
+# Clase 28: Tablas de Puntos (Leaderboards) 🏆
+
+Creamos la tabla que aparece arriba a la derecha en casi todos los juegos de Roblox, y hacemos que los puntos suban al juntar monedas y que se cuenten las muertes.
+
+## Objetivos
+
+- Crear un leaderboard con la carpeta `leaderstats`
+- Conocer los objetos de valor: `IntValue`, `NumberValue` y `StringValue`
+- Sumar puntos desde el servidor al tocar monedas
+- Contar las muertes de cada jugador con `Humanoid.Died`
+
+## Contenido
+
+### 1. ¿Qué es un leaderboard?
+
+Es la tabla que aparece **arriba a la derecha** de la pantalla, con el nombre de cada jugador y sus números: puntos, monedas, muertes, nivel.
+
+Lo mejor: **no hay que dibujar ninguna interfaz**. Si un jugador tiene adentro una carpeta llamada exactamente `leaderstats`, Roblox la encuentra y arma la tabla sola, con una columna por cada valor que haya adentro.
+
+```
+Players
+  └── TuJugador
+        └── leaderstats (Folder)     ← Roblox busca esta carpeta
+              ├── Puntos (IntValue)  ← una columna
+              └── Muertes (IntValue) ← otra columna
+```
+
+> ⚠️ La carpeta tiene que llamarse **exactamente `leaderstats`**, todo en minúscula. Con una sola letra distinta, la tabla no aparece y no sale ningún error.
+
+### 2. Los objetos de valor
+
+Cada columna de la tabla es un **objeto de valor**: un objeto que guarda un solo dato.
+
+| Objeto | Qué guarda | Ejemplo |
+|---|---|---|
+| `IntValue` | Números enteros | Puntos, monedas, muertes, nivel |
+| `NumberValue` | Números con decimales | Mejor tiempo: `12.5` segundos |
+| `StringValue` | Texto | Rango: "Experto" |
+
+El dato se guarda en su propiedad **`.Value`**:
+
+```lua
+puntos.Value = 10                                   -- pone 10 puntos
+puntos.Value = puntos.Value + 5                     -- le suma 5 a lo que tenia
+```
+
+> ⚠️ Siempre con `.Value`. Si escribís `puntos = puntos + 5`, estás intentando sumarle un número al **objeto**, no a su valor, y tira error.
+
+### 🏆 Parte 1: Crear la tabla
+
+### 3. Crear el script
+
+1. Click derecho en **ServerScriptService** → Insert Object → **Script**
+2. Lo renombrás `Leaderboard`
+
+Va en el **servidor** porque los puntos tienen que ser **reales para todos**: si se cambiaran desde un LocalScript, solo los vería ese jugador.
+
+### 4. El código de la tabla
+
+```lua
+local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
+
+local function crearTabla(jugador)
+    local leaderstats = Instance.new("Folder")      -- crea la carpeta de la tabla
+    leaderstats.Name = "leaderstats"                -- con este nombre exacto, Roblox la muestra
+
+    local puntos = Instance.new("IntValue")         -- crea la columna de puntos
+    puntos.Name = "Puntos"                          -- el nombre que se ve en la tabla
+    puntos.Value = 0                                -- arranca en 0
+    puntos.Parent = leaderstats                     -- la mete en la carpeta
+
+    local muertes = Instance.new("IntValue")        -- crea la columna de muertes
+    muertes.Name = "Muertes"
+    muertes.Value = 0
+    muertes.Parent = leaderstats
+
+    leaderstats.Parent = jugador                    -- le pone la carpeta al jugador
+end
+
+Players.PlayerAdded:Connect(crearTabla)             -- cada vez que entra un jugador, le crea su tabla
+```
+
+- `PlayerAdded` se dispara cada vez que entra un jugador, así **cada uno tiene su propia tabla** con sus propios puntos
+- Roblox decide el orden de las columnas en la tabla; no siempre es el orden en que las creamos
+- La carpeta se le pone al jugador **al final**, cuando ya tiene todas las columnas adentro. Así la tabla aparece completa de una vez
+- La tabla ordena a los jugadores por la primera columna que muestra. Con estos nombres, esa columna es Muertes
+
+Le das **Play** y arriba a la derecha ya aparece tu nombre con **Puntos 0** y **Muertes 0**. Si no ves la tabla, apretá **Tab** para abrirla.
+
+### 🪙 Parte 2: Monedas que suman puntos
+
+### 5. Crear las monedas
+
+1. Click derecho en **Workspace** → Insert Object → **Folder**, la renombrás `Monedas`
+2. Click derecho en `Monedas` → Insert Object → **Part**, la renombrás `Moneda`
+3. En Properties:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Shape** | `Cylinder` | Que tenga forma de moneda |
+| **Color** | Amarillo | Que parezca de oro |
+| **Material** | `Neon` | Que brille |
+| **Anchored** | `true` | Que quede flotando |
+| **CanCollide** | `false` | Que se pueda atravesar, sin chocar |
+
+4. Con **Escalar**, la hacés chata y redonda, y con **Girar** la parás como una moneda
+5. **Ctrl + D** para duplicarla y repartís varias monedas por el mapa, todas adentro de la carpeta `Monedas`
+
+### 6. El script de las monedas
+
+1. Click derecho en **ServerScriptService** → Insert Object → **Script**
+2. Lo renombrás `Monedas`
+
+```lua
+local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
+
+local PUNTOS_POR_MONEDA = 10                        -- cuantos puntos da cada moneda
+local TIEMPO_REAPARICION = 5                        -- segundos que tarda en volver a aparecer
+
+local carpetaMonedas = workspace:WaitForChild("Monedas")  -- la carpeta con todas las monedas
+
+local function alTocarMoneda(moneda, parteQueToco)
+    local jugador = Players:GetPlayerFromCharacter(parteQueToco.Parent)  -- busca que jugador la toco
+    if not jugador or not moneda.CanTouch then return end  -- si no es un jugador o ya la agarraron, no hace nada
+
+    local puntos = jugador.leaderstats.Puntos       -- la columna de puntos de ese jugador
+    puntos.Value = puntos.Value + PUNTOS_POR_MONEDA -- le suma los puntos
+
+    moneda.Transparency = 1                         -- la hace invisible
+    moneda.CanTouch = false                         -- y que no se pueda volver a tocar
+    task.wait(TIEMPO_REAPARICION)                   -- espera unos segundos
+    moneda.Transparency = 0                         -- vuelve a aparecer
+    moneda.CanTouch = true                          -- y se puede agarrar de nuevo
+end
+
+for _, moneda in ipairs(carpetaMonedas:GetChildren()) do  -- recorre todas las monedas de la carpeta
+    moneda.Touched:Connect(function(parteQueToco)   -- cuando alguien toca esta moneda
+        alTocarMoneda(moneda, parteQueToco)
+    end)
+end
+```
+
+- `GetPlayerFromCharacter(parteQueToco.Parent)` recibe el personaje y devuelve el jugador. Si lo que tocó la moneda no es un personaje, devuelve `nil`
+- `jugador.leaderstats.Puntos` va bajando por las carpetas, igual que en el Explorer: el jugador, su carpeta `leaderstats`, y adentro la columna `Puntos`
+- `not moneda.CanTouch` evita que una moneda dé puntos varias veces: `Touched` se dispara **por cada parte del cuerpo**, pero apenas la primera la agarra, la moneda deja de poder tocarse
+- Como en la Clase 24, la moneda **se oculta** en vez de destruirse, así puede volver a aparecer
+- El `for` recorre la carpeta (Clases 20 y 21): si agregás más monedas, funcionan solas sin tocar el código
+
+### 💀 Parte 3: Contar las muertes
+
+### 7. Detectar cuando el jugador muere
+
+Como en la Clase 27, usamos `Humanoid.Died`. Se agrega **adentro de `crearTabla`**, antes del `end`:
+
+```lua
+    jugador.CharacterAdded:Connect(function(personaje)  -- cada vez que aparece o reaparece
+        local humanoid = personaje:WaitForChild("Humanoid")  -- espera a que el Humanoid este listo
+        humanoid.Died:Connect(function()            -- cuando este personaje muere
+            muertes.Value = muertes.Value + 1       -- le suma una muerte
+        end)
+    end)
+```
+
+- Cada vez que el jugador reaparece, Roblox crea un **personaje nuevo** con un **Humanoid nuevo**. Por eso `CharacterAdded` vuelve a conectar el `Died` en cada reaparición
+- Como este código está adentro de `crearTabla`, puede usar directamente la variable `muertes` que creamos más arriba
+
+### 8. El script Leaderboard completo
+
+```lua
+local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
+
+local function crearTabla(jugador)
+    local leaderstats = Instance.new("Folder")      -- crea la carpeta de la tabla
+    leaderstats.Name = "leaderstats"                -- con este nombre exacto, Roblox la muestra
+
+    local puntos = Instance.new("IntValue")         -- crea la columna de puntos
+    puntos.Name = "Puntos"                          -- el nombre que se ve en la tabla
+    puntos.Value = 0                                -- arranca en 0
+    puntos.Parent = leaderstats                     -- la mete en la carpeta
+
+    local muertes = Instance.new("IntValue")        -- crea la columna de muertes
+    muertes.Name = "Muertes"
+    muertes.Value = 0
+    muertes.Parent = leaderstats
+
+    leaderstats.Parent = jugador                    -- le pone la carpeta al jugador
+
+    jugador.CharacterAdded:Connect(function(personaje)  -- cada vez que aparece o reaparece
+        local humanoid = personaje:WaitForChild("Humanoid")  -- espera a que el Humanoid este listo
+        humanoid.Died:Connect(function()            -- cuando este personaje muere
+            muertes.Value = muertes.Value + 1       -- le suma una muerte
+        end)
+    end)
+end
+
+Players.PlayerAdded:Connect(crearTabla)             -- cada vez que entra un jugador, le crea su tabla
+```
+
+### 9. Un bloque de la muerte para probar
+
+Reutilizamos el bloque de la Clase 7: una **Part** roja, con **Anchored** en `true`, y adentro un **Script**:
+
+```lua
+local bloque = script.Parent                        -- el bloque que contiene este script
+
+bloque.Touched:Connect(function(parteQueToco)       -- cuando algo toca el bloque
+    local humanoid = parteQueToco.Parent:FindFirstChild("Humanoid")  -- busca si es un personaje
+    if humanoid then
+        humanoid.Health = 0                         -- lo mata
+    end
+end)
+```
+
+### 10. Estructura final en el Explorer
+
+```
+Workspace
+  ├── Monedas (Folder)
+  │     ├── Moneda (Part)
+  │     ├── Moneda (Part)
+  │     └── Moneda (Part)
+  └── BloqueMuerte (Part)
+        └── Script
+
+ServerScriptService
+  ├── Leaderboard (Script)
+  └── Monedas (Script)
+```
+
+### 11. Probar todo
+
+1. Le das **Play** y revisás que arriba a la derecha aparezca tu nombre con **Puntos 0** y **Muertes 0**. Si no ves la tabla, apretá **Tab** para abrirla
+2. Tocás una moneda: desaparece y sumás **10 puntos**
+3. Esperás 5 segundos y la moneda vuelve a aparecer
+4. Tocás el `BloqueMuerte`: al morir, **Muertes** sube a 1
+5. Para ver que cada jugador tiene su propia tabla: pestaña **Probar** → **Clientes: 2**, y verificás que los puntos de uno no cambian los del otro
+
+### 12. Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| La tabla no aparece | La carpeta no se llama exactamente `leaderstats` | Revisar que esté todo en minúscula |
+| Estoy jugando y no veo la tabla | Viene cerrada | Apretar Tab |
+| Error `attempt to perform arithmetic` | Se escribió `puntos = puntos + 10` | Usar `puntos.Value = puntos.Value + 10` |
+| Los puntos solo los veo yo | Se sumaron desde un LocalScript | Sumarlos desde un Script en ServerScriptService |
+| Una moneda da muchos puntos de golpe | Falta el control de `CanTouch` | Revisar el `if not ... moneda.CanTouch` |
+| Las monedas me frenan al pasar | **CanCollide** está en `true` | Ponerlo en `false` |
+| Una moneda no da puntos | Está afuera de la carpeta `Monedas` | Moverla adentro de la carpeta |
+| Las muertes no suben | Falta el `CharacterAdded` | Revisar el paso 7 |
+
+### 13. Extras
+
+**Una columna de rango que cambia sola:**
+
+Agregá esto dentro de `crearTabla`, antes de `leaderstats.Parent = jugador`:
+
+```lua
+    local rango = Instance.new("StringValue")       -- columna de texto
+    rango.Name = "Rango"
+    rango.Value = "Novato"                          -- todos arrancan como Novato
+    rango.Parent = leaderstats
+
+    puntos.Changed:Connect(function(nuevosPuntos)   -- cada vez que cambian los puntos
+        if nuevosPuntos >= 100 then
+            rango.Value = "Leyenda"
+        elseif nuevosPuntos >= 50 then
+            rango.Value = "Experto"
+        else
+            rango.Value = "Novato"
+        end
+    end)
+```
+
+- `StringValue` guarda texto en vez de números
+- `.Changed` es un evento de los objetos de valor: avisa cada vez que cambia su `Value`, y le pasa el valor nuevo a la función
+- El `if` / `elseif` / `else` es el de la Clase 19: revisa de mayor a menor y se queda con el primero que se cumple
+
+**Los puntos se pierden al salir:** Todo lo que está en `leaderstats` se borra cuando el jugador se va del juego. Para que los puntos se guarden entre partidas hace falta **DataStore**, que es el tema de la Clase 31.
+
+## Ejercicio
+
+> Consigna: Armá una tabla de puntos con dos columnas: Puntos, que suben al juntar monedas, y Muertes, que suben al morir.
+
+**Pistas:**
+1. La carpeta se llama `leaderstats`, todo en minúscula
+2. Los valores se cambian siempre con `.Value`
+3. Todas las monedas van adentro de la carpeta `Monedas`
+4. Probá con 2 clientes para confirmar que cada jugador tiene sus propios puntos
+5. Como extra, sumá la columna de Rango
+
+## Recursos
+
+- [Documentación oficial de Leaderboards](https://create.roblox.com/docs/players/leaderboards)
+- [Documentación oficial de IntValue](https://create.roblox.com/docs/reference/engine/classes/IntValue)
+- [Tutorial oficial de puntos](https://create.roblox.com/docs/tutorials/use-case-tutorials/scripting/basic-scripting/score-points)
