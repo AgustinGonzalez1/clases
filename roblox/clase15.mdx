@@ -1,78 +1,152 @@
 ---
 title: "Clase 15: Cutscenes en Roblox 🎬"
-mision: "Crear tu primera cinemática moviendo la cámara con código."
+mision: "Crear tu primera cinemática: la cámara vuela suave hasta un punto del mapa mirando hacia un objeto."
 ---
 
 # Clase 15: Cutscenes en Roblox 🎬
 
-Creamos una cinemática básica controlando la cámara del jugador con código, usando un punto de referencia en el mapa.
+Creamos una cinemática controlando la cámara del jugador con código: la cámara vuela suave hasta un punto del mapa y, mientras se mueve, mira siempre hacia el objeto que queremos mostrar.
 
 ## Objetivos
 
 - Tomar el control de la cámara desde código
-- Animar la cámara con TweenService
+- Animar la cámara con TweenService y un movimiento suave
+- Hacer que la cámara mire hacia un objeto con `CFrame.lookAt`
 - Bloquear y devolver el control del jugador durante la cinemática
 
 ## Contenido
 
-### 1. Preparar el punto de cámara
+### 1. Cómo funciona la cinemática
 
-1. Workspace → Insert Object → **Folder** → `Cinematica`
-2. Dentro, una Part `Punto1`, con **Transparency=1** y **CanCollide=false**
-3. La posicionás y orientás donde querés que mire la cámara
+Usamos dos Parts invisibles en el mapa:
 
-### 2. El LocalScript
+| Part | Qué marca |
+|---|---|
+| `Punto1` | **Dónde** se para la cámara |
+| `Objetivo` | **Hacia dónde** mira la cámara |
 
-Va en **StarterGui**.
+Así no importa para dónde esté girado el punto: la cámara siempre termina mirando al objeto que queremos mostrar (un castillo, un NPC, la meta).
 
-```lua
-local camera = workspace.CurrentCamera
-local TweenService = game:GetService("TweenService")
-local jugador = game.Players.LocalPlayer
-local personaje = jugador.Character or jugador.CharacterAdded:Wait()
-local humanoid = personaje:WaitForChild("Humanoid")
+### 2. Crear la carpeta y el punto de cámara
 
-wait(1)
+1. Click derecho en **Workspace** → Insert Object → **Folder**, la renombrás `Cinematica`
+2. Click derecho en `Cinematica` → Insert Object → **Part**, la renombrás `Punto1`
+3. En Properties: **Anchored** en `true`, **Transparency** en `1` y **CanCollide** en `false`
+4. Con **Mover**, lo ubicás donde querés que se pare la cámara
 
-humanoid.WalkSpeed = 0
-humanoid.JumpHeight = 0
+### 3. Crear el objetivo
 
-camera.CameraType = Enum.CameraType.Scriptable
+1. Click derecho en `Cinematica` → Insert Object → **Part**, la renombrás `Objetivo`
+2. En Properties: **Anchored** en `true`, **Transparency** en `1` y **CanCollide** en `false`
+3. Lo ubicás **sobre lo que querés mostrar**: el castillo, la estatua, la entrada del obby
 
-local puntoDestino = workspace.Cinematica.Punto1
-
-local tween = TweenService:Create(camera, TweenInfo.new(3), {CFrame = puntoDestino.CFrame})
-tween:Play()
-tween.Completed:Wait()
-
-camera.CameraType = Enum.CameraType.Custom
-humanoid.WalkSpeed = 16
-humanoid.JumpHeight = 7.2
+```
+Workspace
+  └── Cinematica (Folder)
+        ├── Punto1 (Part invisible)     ← donde se para la camara
+        └── Objetivo (Part invisible)   ← hacia donde mira la camara
 ```
 
-### 3. Extra: texto en pantalla
+> 💡 Mientras armás la cinemática, podés dejar las dos Parts visibles (**Transparency** en `0`) para ubicarlas más fácil, y hacerlas invisibles al final.
 
-1. StarterGui → Insert Object → **ScreenGui** → **TextLabel**
+### 4. Crear el script
+
+Click derecho en **StarterGui** → Insert Object → **LocalScript**
+
+Es un **LocalScript** porque la cámara es de cada jugador: la cinemática se ve solo en la pantalla del que entra.
+
+### 5. El código
+
+```lua
+local camera = workspace.CurrentCamera              -- la camara del jugador
+local TweenService = game:GetService("TweenService")  -- para animar la camara
+local jugador = game.Players.LocalPlayer            -- el jugador que ve la cinematica
+local personaje = jugador.Character or jugador.CharacterAdded:Wait()  -- espera a que aparezca su personaje
+local humanoid = personaje:WaitForChild("Humanoid") -- para frenarlo mientras dura
+
+task.wait(1)                                        -- espera un segundo a que cargue todo
+humanoid.WalkSpeed = 0                              -- el jugador no se puede mover
+humanoid.JumpHeight = 0                             -- ni saltar
+camera.CameraType = Enum.CameraType.Scriptable      -- tomamos el control de la camara
+
+local puntoDestino = workspace.Cinematica.Punto1    -- donde se para la camara
+local objetivo = workspace.Cinematica.Objetivo      -- lo que la camara va a mirar
+
+local destino = CFrame.lookAt(puntoDestino.Position, objetivo.Position)  -- parada en el punto, mirando al objetivo
+local info = TweenInfo.new(3, Enum.EasingStyle.Sine)  -- dura 3 segundos y arranca y frena suave
+local tween = TweenService:Create(camera, info, {CFrame = destino})  -- prepara el movimiento de la camara
+tween:Play()                                        -- lo arranca
+tween.Completed:Wait()                              -- espera a que termine
+
+camera.CameraType = Enum.CameraType.Custom          -- le devuelve la camara al jugador
+humanoid.WalkSpeed = 16                             -- se puede mover de nuevo
+humanoid.JumpHeight = 7.2                           -- y saltar
+```
+
+**Lo más importante:**
+
+- `Enum.CameraType.Scriptable` le saca el control de la cámara al jugador, para que la maneje el código. Al final, `Custom` se lo devuelve
+- `CFrame.lookAt(desde, hacia)` arma la posición de la cámara **parada en** `Punto1` y **mirando hacia** `Objetivo`. Por eso, aunque la cámara del jugador esté mirando para otro lado, durante el movimiento gira sola hacia el objeto
+- `TweenInfo.new(3, Enum.EasingStyle.Sine)`: el `3` es cuánto dura en segundos, y `Sine` hace que la cámara **arranque despacio, acelere y frene despacio**, como una cámara de cine. Sin eso se mueve pareja, como un robot
+- `tween.Completed:Wait()` frena el script hasta que la cámara llega, así no le devuelve el control al jugador antes de tiempo
+- `WalkSpeed` y `JumpHeight` en `0` hacen que el jugador no se pueda mover mientras mira la cinemática
+
+### 6. Probar
+
+1. Le das **Play**
+2. Al segundo, la cámara vuela hasta `Punto1`, girando de a poco hacia el `Objetivo`
+3. El movimiento arranca y frena suave
+4. Al terminar, la cámara vuelve a tu personaje y te podés mover
+
+### 7. Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| La cámara mira para cualquier lado | Falta el `CFrame.lookAt` o el `Objetivo` está mal ubicado | Revisar el paso 5 y dónde está el `Objetivo` |
+| Error `Objetivo is not a valid member` | La Part no se llama exactamente `Objetivo` o está fuera de la carpeta | Revisar el nombre y que esté dentro de `Cinematica` |
+| Al terminar, la cámara queda trabada | Falta devolverla con `Enum.CameraType.Custom` | Revisar el final del script |
+| El jugador se mueve durante la cinemática | Falta `WalkSpeed = 0` | Revisar el paso 5 |
+| La cámara se ve tapada por una pared | `Punto1` quedó adentro de algo | Mover el punto a un lugar abierto |
+
+### 8. Extras
+
+**Un segundo movimiento:** copiá las 4 líneas del tween cambiando `Punto1` por `Punto2`. La cámara va de un punto al otro **sin dejar de mirar al objetivo**, como dando una vuelta alrededor:
+
+```lua
+local destino2 = CFrame.lookAt(workspace.Cinematica.Punto2.Position, objetivo.Position)  -- segundo punto, mirando al mismo objetivo
+local tween2 = TweenService:Create(camera, info, {CFrame = destino2})  -- usa el mismo movimiento suave
+tween2:Play()
+tween2.Completed:Wait()
+```
+
+Va **después** del primer `tween.Completed:Wait()` y **antes** de devolver la cámara.
+
+**Texto en pantalla:**
+
+1. StarterGui → Insert Object → **ScreenGui** → adentro un **TextLabel**
 2. Agregás al script:
 
 ```lua
-local gui = jugador.PlayerGui:WaitForChild("ScreenGui")
-local texto = gui:WaitForChild("TextLabel")
+local gui = jugador.PlayerGui:WaitForChild("ScreenGui")  -- la pantalla del jugador
+local texto = gui:WaitForChild("TextLabel")         -- el texto
 
-texto.Text = "Bienvenido al juego..."
--- (el tween va acá)
-texto.Text = ""
+texto.Text = "Bienvenido al juego..."               -- antes del tween
+-- (el tween va aca)
+texto.Text = ""                                     -- despues del tween, lo borra
 ```
 
 ## Ejercicio
 
-> Consigna: Creá tu primera cinemática moviendo la cámara desde el spawn hasta un punto del mapa.
+> Consigna: Creá tu primera cinemática: la cámara vuela suave hasta un punto del mapa mirando hacia un objeto importante de tu juego.
 
 **Pistas:**
-1. `Enum.CameraType.Scriptable` es lo que te da control manual sobre la cámara
-2. No olvides devolver `Enum.CameraType.Custom` al terminar, sino el jugador queda sin control de cámara
-3. `WalkSpeed = 0` bloquea el movimiento del jugador durante la cinemática
+1. `Punto1` marca dónde se para la cámara, `Objetivo` marca hacia dónde mira
+2. `Enum.CameraType.Scriptable` te da el control de la cámara, y `Custom` se lo devuelve al jugador
+3. Probá cambiar el `3` del TweenInfo para que la cinemática dure más o menos
+4. Como extra, sumá un `Punto2` para que la cámara dé una vuelta alrededor del objetivo
 
 ## Recursos
 
 - [Documentación oficial de Camera](https://create.roblox.com/docs/reference/engine/classes/Camera)
+- [Documentación oficial de TweenService](https://create.roblox.com/docs/reference/engine/classes/TweenService)
+- [Documentación oficial de CFrame](https://create.roblox.com/docs/reference/engine/datatypes/CFrame)

@@ -55,7 +55,7 @@ puntos.Value = puntos.Value + 5                     -- le suma 5 a lo que tenia
 
 ### 3. Crear el script
 
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
+1. Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**
 2. Lo renombrás `Leaderboard`
 
 Va en el **servidor** porque los puntos tienen que ser **reales para todos**: si se cambiaran desde un LocalScript, solo los vería ese jugador.
@@ -92,28 +92,45 @@ Players.PlayerAdded:Connect(crearTabla)             -- cada vez que entra un jug
 
 Le das **Play** y arriba a la derecha ya aparece tu nombre con **Puntos 0** y **Muertes 0**. Si no ves la tabla, apretá **Tab** para abrirla.
 
+![La tabla de puntos recién creada](roblox/img/clase28/01-tabla-inicio.png)
+*Arriba a la derecha aparece la tabla con tu nombre. Fijate que Roblox puso **Muertes** antes que **Puntos**, aunque en el código creamos Puntos primero.*
+
 ### 🪙 Parte 2: Monedas que suman puntos
 
 ### 5. Crear las monedas
 
-1. Click derecho en **Workspace** → Insert Object → **Folder**, la renombrás `Monedas`
-2. Click derecho en `Monedas` → Insert Object → **Part**, la renombrás `Moneda`
+1. Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Folder**, la renombrás `Monedas`
+2. Click derecho en `Monedas` → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Moneda`
 3. En Properties:
 
 | Propiedad | Valor | Para qué sirve |
 |---|---|---|
 | **Shape** | `Cylinder` | Que tenga forma de moneda |
-| **Color** | Amarillo | Que parezca de oro |
+| **Size** | `0.5, 3, 3` | Finita y redonda: 0.5 de ancho y 3 de diámetro |
+| **Orientation** | `0, 90, 0` | La para de frente, como una moneda |
+| **Color** | `255, 200, 0` (amarillo) | Que parezca de oro |
 | **Material** | `Neon` | Que brille |
 | **Anchored** | `true` | Que quede flotando |
 | **CanCollide** | `false` | Que se pueda atravesar, sin chocar |
 
-4. Con **Escalar**, la hacés chata y redonda, y con **Girar** la parás como una moneda
-5. **Ctrl + D** para duplicarla y repartís varias monedas por el mapa, todas adentro de la carpeta `Monedas`
+> 💡 En Studio en español las propiedades están agrupadas por secciones: **Color** y **Material** están en **Aspecto**; **Size** y **Orientation**, en **Transformar**; **CanCollide**, en **Colisión**; y **Shape** y **Anchored**, en **Pieza**. Si no encontrás una, escribí su nombre en el buscador de arriba de Propiedades (**Ctrl + Mayús + P**).
+
+![Color y Material de la moneda](roblox/img/clase28/02-propiedades-aspecto.png)
+*Sección **Aspecto**: el Color en amarillo (255, 200, 0) y el Material en Neon.*
+
+![CanCollide, Anchored y Shape de la moneda](roblox/img/clase28/03-propiedades-colision.png)
+***CanCollide** desmarcado (en Colisión), **Anchored** marcado y **Shape** en Cylinder (en Pieza).*
+
+4. Con la moneda seleccionada, **Ctrl + D** para duplicarla y la movés con **Mover**. Repartís varias monedas por el mapa, todas adentro de la carpeta `Monedas`
+
+En el ejemplo pusimos 5 monedas en fila delante del `SpawnLocation`, una cada 6 studs, y al final el bloque de la muerte del paso 9:
+
+![Las monedas en fila y el bloque de la muerte](roblox/img/clase28/04-escena.png)
+*Las 5 monedas brillan por el Neon. Al fondo, el `BloqueMuerte` rojo para probar las muertes.*
 
 ### 6. El script de las monedas
 
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
+1. Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**
 2. Lo renombrás `Monedas`
 
 ```lua
@@ -138,7 +155,7 @@ local function alTocarMoneda(moneda, parteQueToco)
     moneda.CanTouch = true                          -- y se puede agarrar de nuevo
 end
 
-for _, moneda in ipairs(carpetaMonedas:GetChildren()) do  -- recorre todas las monedas de la carpeta
+for _, moneda in carpetaMonedas:GetChildren() do    -- recorre todas las monedas de la carpeta
     moneda.Touched:Connect(function(parteQueToco)   -- cuando alguien toca esta moneda
         alTocarMoneda(moneda, parteQueToco)
     end)
@@ -203,7 +220,19 @@ Players.PlayerAdded:Connect(crearTabla)             -- cada vez que entra un jug
 
 ### 9. Un bloque de la muerte para probar
 
-Reutilizamos el bloque de la Clase 7: una **Part** roja, con **Anchored** en `true`, y adentro un **Script**:
+Reutilizamos el bloque de la Clase 7:
+
+1. Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `BloqueMuerte`
+2. En Properties:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `10, 1, 6` | Una losa ancha y baja, fácil de pisar |
+| **Color** | Rojo | Que se note que es peligroso |
+| **Material** | `Neon` | Que brille |
+| **Anchored** | `true` | Que no se mueva |
+
+3. Click derecho en `BloqueMuerte` → Insert Object (**Insertar objeto**) → **Script**, con este código:
 
 ```lua
 local bloque = script.Parent                        -- el bloque que contiene este script
@@ -232,6 +261,9 @@ ServerScriptService
   └── Monedas (Script)
 ```
 
+![Estructura final en el Explorer](roblox/img/clase28/05-explorer-final.png)
+*Así queda el Explorer: la carpeta `Monedas` con las monedas, el `BloqueMuerte` con su Script y los dos scripts en ServerScriptService.*
+
 ### 11. Probar todo
 
 1. Le das **Play** y revisás que arriba a la derecha aparezca tu nombre con **Puntos 0** y **Muertes 0**. Si no ves la tabla, apretá **Tab** para abrirla
@@ -239,6 +271,12 @@ ServerScriptService
 3. Esperás 5 segundos y la moneda vuelve a aparecer
 4. Tocás el `BloqueMuerte`: al morir, **Muertes** sube a 1
 5. Para ver que cada jugador tiene su propia tabla: pestaña **Probar** → **Clientes: 2**, y verificás que los puntos de uno no cambian los del otro
+
+![Caminando por las monedas](roblox/img/clase28/06-juntar-monedas.gif)
+*El personaje camina por la fila: cada moneda que toca desaparece y suma 10 puntos. Al final pisa el bloque rojo y muere.*
+
+![La tabla después de la prueba](roblox/img/clase28/07-tabla-muerte.png)
+*Después de juntar las 5 monedas y pisar el bloque: **Puntos 50** y **Muertes 1**. Cuando reaparecés, las monedas ya volvieron.*
 
 ### 12. Problemas comunes
 
@@ -251,6 +289,8 @@ ServerScriptService
 | Una moneda da muchos puntos de golpe | Falta el control de `CanTouch` | Revisar el `if not ... moneda.CanTouch` |
 | Las monedas me frenan al pasar | **CanCollide** está en `true` | Ponerlo en `false` |
 | Una moneda no da puntos | Está afuera de la carpeta `Monedas` | Moverla adentro de la carpeta |
+| La moneda se ve acostada, como un tubo | Falta girarla | Poner **Orientation** en `0, 90, 0` |
+| No encuentro **Anchored** o **CanCollide** | Están en otra sección de Propiedades | Buscarlas por nombre en el filtro de Propiedades (**Ctrl + Mayús + P**) |
 | Las muertes no suben | Falta el `CharacterAdded` | Revisar el paso 7 |
 
 ### 13. Extras
