@@ -9,7 +9,7 @@ clases codilab/
 ├── index.html        visor de las clases (sidebar por curso)
 ├── manifest.json     lista de cursos y clases: { nombre, carpeta, clases: [{ titulo, archivo }] }
 ├── ejemplo.mdx       plantilla base de una clase
-├── roblox/           curso de Roblox (Luau) — clase1.mdx ... clase27.mdx
+├── roblox/           curso de Roblox (Luau) — clase1.mdx ... clase30.mdx
 ├── scratch/          curso de Scratch — clase1.mdx ... clase29.mdx (NO son borradores)
 ├── python/           curso de Python
 └── desarrollo/       curso de Desarrollo Web
@@ -22,24 +22,48 @@ Proyectos fuera de esta carpeta, en `Escritorio\codilab\`:
 
 Si se agrega una clase nueva, hay que sumarla también a `manifest.json` o no aparece en el visor.
 
-## El trabajo acordado (2026-10-19)
+## El trabajo acordado
 
-Revisar y mejorar **todas las clases, desde la 1 hasta la última, de a una y paso a paso**, con su proyecto y con capturas. **No arrancar hasta que el usuario lo diga.** Cuando arranquemos, trabajar una sola clase por vez y mostrarle el resultado antes de pasar a la siguiente.
+**Desde el 2026-11-02 vamos a full:** revisar y terminar **todas las clases anteriores de todos los cursos**, de a una, con el estilo nuevo (ver "Formato de cada clase"), probadas de verdad y con capturas. Mostrarle cada clase al usuario antes de pasar a la siguiente.
 
 Para cada clase:
-1. Leer el `.mdx` actual y el proyecto, si existe
-2. Corregir errores y explicaciones confusas. Completar los pasos que falten para que un alumno pueda seguirlos sin ayuda
-3. Armar o verificar el proyecto de la clase
-4. Agregar capturas (y videos o GIF donde ayuden)
+1. Leer lo acordado en el chat del curso (abajo), el `.mdx` actual y el proyecto, si existe
+2. Corregir errores y completar los pasos que falten, para que un alumno pueda seguirlos sin ayuda
+3. Armar y probar el proyecto de la clase
+4. Agregar capturas y GIF entre los pasos
 5. Actualizar `manifest.json` si cambia el título o se agrega la clase
 
-### Referencia de calidad: Clase 28 de Roblox
+No cambiar el código ya acordado sin avisar. Si hace falta, decir qué se cambió y por qué.
 
-La Clase 28 (Tablas de Puntos / Leaderboards) es el modelo a seguir. Por ahora existe como `Escritorio\Clase 28 - Tablas de Puntos.pdf` y `codilab\clase28.rbxlx`; **todavía falta pasarla a `roblox/clase28.mdx` y sumarla al manifest**. La clase tiene 4 piezas: la carpeta `Monedas` en Workspace, el `BloqueMuerte` (para probar las muertes) y los scripts `Leaderboard` y `Monedas` en ServerScriptService. Extra opcional: la columna Rango.
+### Chats de cada curso (claude.ai)
+
+Ahí se discute cada clase antes de armarla. Se leen con el navegador.
+
+- **Roblox:** https://claude.ai/chat/59923915-71ca-4c3a-aea4-1af7a7b7526d
+- **Desarrollo Web:** pendiente, el usuario va a pasar el link
+- **Python:** pendiente, el usuario va a pasar el link
+- **Scratch:** pendiente, el usuario va a pasar el link
+
+### Clases terminadas con el estilo nuevo
+
+Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no se vuelve a rehacer sin que el usuario lo pida. Al terminar una clase, **sumarla al final de esta lista** (y a la memoria).
+
+| # | Curso | Clase | Fecha |
+|---|---|---|---|
+| 1 | Roblox | Clase 30: Tiendas y Monedas Virtuales 🛍️ | 2026-11-02 |
+
+### Estado (2026-11-02)
+
+- Roblox 30: hecha con el estilo nuevo, es el **modelo a seguir**. Vende solo poderes simples (Super Velocidad y Super Salto), porque el usuario no quiere cosas elaboradas que no entran en la clase
+- Roblox 28: tiene capturas y GIF, pero falta pasarla al estilo nuevo
+- Roblox 29: falta todo
+- El resto de las clases y cursos: sin revisar
 
 ## Formato de cada clase
 
-Igual que `roblox/clase27.mdx` y la Clase 28:
+**Al grano (pedido del usuario, 2026-11-02):** nada de intros largas. Después del título va una sola línea de descripción y los objetivos cortos, y enseguida `### 🪙 Parte 1: ...` con `### Paso 1: ...`, `### Paso 2: ...`. Cada paso tiene una explicación breve (una o dos líneas o pocas viñetas), no párrafos. Las imágenes y GIF van **entre los pasos**, justo donde ayudan a ver el resultado ("Probalo: …" + captura), no todas al final. Modelo: `roblox/clase30.mdx`.
+
+En lo demás:
 
 - Frontmatter con `title` y `mision`, después `# Título` y una descripción corta
 - `## Objetivos` → `## Contenido` con secciones numeradas (`### 1.`, `### 2.`…) agrupadas en Partes con emoji (`### 🏆 Parte 1: ...`)
@@ -60,4 +84,4 @@ Igual que `roblox/clase27.mdx` y la Clase 28:
 - Estilo: recortadas a la zona que importa y con **cuadros rojos** marcando dónde hacer click o qué propiedad cambiar (como en el PDF de la Clase 28)
 - Videos o GIF cortos solo donde ayuden a ver un movimiento (por ejemplo, tocar una moneda y ver cómo suben los puntos). Se guardan en `<curso>/img/claseNN/` como `.mp4` o `.gif`
 - Grabar la pantalla: ffmpeg con `gdigrab` está en `C:\Users\Agust\AppData\Local\Programs\Python\Python313\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe` (no está en el PATH). Puede capturar la pantalla entera o una sola ventana por título
-- **Claude no puede hacer clicks en Roblox Studio** (solo puede controlar Chrome). En Studio se trabaja así: Claude arranca la captura, el usuario hace los pasos y avisa, y Claude recorta, marca y exporta
+- **Studio se puede manejar desde PowerShell** (SetCursorPos/mouse_event/SendKeys): la escena se arma pegando Lua en la barra de comandos y ejecutándolo con Ctrl+Enter, y se prueba con Play, Tab, WASD y E. Hay dos monitores: el principal (donde está Studio) arranca en (1080, 522) de la captura `gdigrab -i desktop`. Cuidado: Ctrl+A/Supr con un script abierto en el editor lo borra, y arrastrar la barra de título de un panel lo desacopla. Después de apretar Stop, confirmar con una captura que la prueba terminó (pestañas Cliente/Servidor)

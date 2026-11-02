@@ -1,0 +1,293 @@
+---
+title: "Clase 30: Tiendas y Monedas Virtuales 🛍️"
+mision: "Armar una tienda donde se compran poderes (Super Velocidad y Super Salto) con las monedas que se juntan en el mapa."
+---
+
+# Clase 30: Tiendas y Monedas Virtuales 🛍️
+
+Juntamos monedas en el mapa y las gastamos en una tienda que se abre con la **E**.
+
+## Objetivos
+
+- Usar una columna del leaderboard como moneda
+- Abrir una tienda con un `ProximityPrompt`
+- Cobrar desde el servidor con un `RemoteEvent`
+
+## Contenido
+
+### 🪙 Parte 1: Las monedas
+
+### Paso 1: Crear la carpeta
+
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Folder**, la renombrás `Monedas`.
+
+### Paso 2: Crear la moneda
+
+Click derecho en `Monedas` → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Moneda` y le cambiás:
+
+| Propiedad | Valor |
+|---|---|
+| **Shape** | `Cylinder` |
+| **Size** | `0.5, 3, 3` |
+| **Orientation** | `0, 90, 0` |
+| **Color** | `255, 200, 0` (amarillo) |
+| **Material** | `Neon` |
+| **Anchored** | `true` |
+| **CanCollide** | `false` (para atravesarla) |
+
+### Paso 3: Duplicarla
+
+**Ctrl + D** y armás una fila de 5 monedas, todas adentro de `Monedas`.
+
+### Paso 4: El script Economia
+
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `Economia`:
+
+```lua
+local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
+
+local VALOR_MONEDA = 10                             -- cuantas monedas da cada moneda del mapa
+local TIEMPO_REAPARICION = 5                        -- segundos que tarda en volver a aparecer
+
+local carpetaMonedas = workspace:WaitForChild("Monedas")  -- la carpeta con todas las monedas
+
+local function crearTabla(jugador)
+    local leaderstats = Instance.new("Folder")      -- crea la carpeta de la tabla
+    leaderstats.Name = "leaderstats"                -- con este nombre exacto, Roblox la muestra
+
+    local monedas = Instance.new("IntValue")        -- crea la columna de monedas
+    monedas.Name = "Monedas"                        -- el nombre que se ve en la tabla
+    monedas.Value = 0                               -- arranca sin monedas
+    monedas.Parent = leaderstats                    -- la mete en la carpeta
+
+    leaderstats.Parent = jugador                    -- le pone la carpeta al jugador
+end
+
+local function alTocarMoneda(moneda, parteQueToco)
+    local jugador = Players:GetPlayerFromCharacter(parteQueToco.Parent)  -- busca que jugador la toco
+    if not jugador or not moneda.CanTouch then return end  -- si no es un jugador o ya la agarraron, no hace nada
+
+    local monedas = jugador.leaderstats.Monedas     -- la columna de monedas de ese jugador
+    monedas.Value = monedas.Value + VALOR_MONEDA    -- le suma las monedas
+
+    moneda.Transparency = 1                         -- la hace invisible
+    moneda.CanTouch = false                         -- y que no se pueda volver a tocar
+    task.wait(TIEMPO_REAPARICION)                   -- espera unos segundos
+    moneda.Transparency = 0                         -- vuelve a aparecer
+    moneda.CanTouch = true                          -- y se puede agarrar de nuevo
+end
+
+Players.PlayerAdded:Connect(crearTabla)             -- cada vez que entra un jugador, le crea su tabla
+
+for _, moneda in carpetaMonedas:GetChildren() do    -- recorre todas las monedas de la carpeta
+    moneda.Touched:Connect(function(parteQueToco)   -- cuando alguien toca esta moneda
+        alTocarMoneda(moneda, parteQueToco)
+    end)
+end
+```
+
+Es el script de la Clase 28, pero la columna se llama `Monedas`.
+
+**Probalo:** Play, apretá **Tab** para ver la tabla y tocá una moneda: sumás 10.
+
+### 🏪 Parte 2: La tienda
+
+### Paso 1: Crear el puesto
+
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Tienda`, con **Size** `8, 4, 4`, **Material** `Wood`, color marrón y **Anchored** en `true`. La ponés al final de la fila de monedas.
+
+![Las monedas y la tienda](roblox/img/clase30/01-escena.png)
+*Así queda el mapa: las monedas en fila y la tienda al final.*
+
+### Paso 2: El cartel de la E
+
+Click derecho en `Tienda` → Insert Object (**Insertar objeto**) → **ProximityPrompt**. Solo le cambiás **ActionText** a `Abrir tienda` y **ObjectText** a `Tienda`.
+
+![Propiedades del ProximityPrompt](roblox/img/clase30/02-proximityprompt.png)
+*La tecla ya viene en E, y aparece a 10 studs.*
+
+**Probalo:** Play y acercate a la tienda. El cartel aparece solo, sin código.
+
+![El cartel al acercarse](roblox/img/clase30/03-cartel-e.png)
+
+### 🛒 Parte 3: La ventana de la tienda
+
+### Paso 1: El RemoteEvent
+
+Click derecho en **ReplicatedStorage** → Insert Object (**Insertar objeto**) → **RemoteEvent**, lo renombrás `Comprar`. Es por donde el botón le pide la compra al servidor (Clase 23).
+
+### Paso 2: La ventana
+
+1. Click derecho en **StarterGui** → **ScreenGui**, la renombrás `TiendaGui`
+2. Adentro, un **Frame** llamado `Ventana`, con **Size** `{0.3, 0}, {0.45, 0}`, **Position** `{0.35, 0}, {0.25, 0}` y fondo oscuro
+
+> 💡 Dejá **Visible** en `true` mientras la armás, y al terminar ponelo en `false`, así arranca cerrada.
+
+### Paso 3: Los botones y textos
+
+Adentro de `Ventana`, todos con **TextScaled** en `true`:
+
+| Objeto | Nombre | Text |
+|---|---|---|
+| TextLabel | `Titulo` | `Tienda` |
+| TextButton | `ComprarVelocidad` | `Super Velocidad - 30 monedas` |
+| TextButton | `ComprarSalto` | `Super Salto - 50 monedas` |
+| TextLabel | `Mensaje` | *(vacío, acá aparecen las respuestas)* |
+| TextButton | `Cerrar` | `Cerrar` |
+
+Los acomodás uno debajo del otro:
+
+![La ventana de la tienda](roblox/img/clase30/04-ventana.png)
+*Así se ve la ventana: título, los dos botones con su precio, el lugar del mensaje y Cerrar.*
+
+### Paso 4: El LocalScript
+
+Click derecho en `Ventana` → Insert Object (**Insertar objeto**) → **LocalScript**:
+
+```lua
+local ReplicatedStorage = game:GetService("ReplicatedStorage")  -- donde esta el RemoteEvent
+
+local comprar = ReplicatedStorage:WaitForChild("Comprar")       -- el RemoteEvent de las compras
+local prompt = workspace:WaitForChild("Tienda"):WaitForChild("ProximityPrompt")  -- el cartel de la tienda
+local ventana = script.Parent                       -- la ventana de la tienda
+
+local function abrirTienda()
+    ventana.Mensaje.Text = ""                       -- borra el mensaje anterior
+    ventana.Visible = true                          -- muestra la ventana
+end
+
+local function cerrarTienda()
+    ventana.Visible = false                         -- oculta la ventana
+end
+
+local function mostrarMensaje(texto)
+    ventana.Mensaje.Text = texto                    -- muestra lo que respondio el servidor
+end
+
+prompt.Triggered:Connect(abrirTienda)               -- al apretar E en la tienda
+ventana.Cerrar.Activated:Connect(cerrarTienda)      -- al tocar Cerrar
+
+ventana.ComprarVelocidad.Activated:Connect(function()
+    comprar:FireServer("Velocidad")                 -- pide la Velocidad: manda solo el nombre, nunca el precio
+end)
+
+ventana.ComprarSalto.Activated:Connect(function()
+    comprar:FireServer("Salto")                     -- pide el Salto
+end)
+
+comprar.OnClientEvent:Connect(mostrarMensaje)       -- cuando el servidor responde, muestra el mensaje
+```
+
+- La **E** abre la ventana y **Cerrar** la cierra
+- Cada botón manda **solo el nombre** del poder, nunca el precio
+- Lo que responde el servidor se muestra en `Mensaje`
+
+### ⚡ Parte 4: Cobrar en el servidor
+
+### Paso 1: El script Tienda
+
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `Tienda`:
+
+```lua
+local ReplicatedStorage = game:GetService("ReplicatedStorage")  -- donde esta el RemoteEvent
+
+local PRECIOS = {                                   -- la lista de precios: la decide el servidor
+    Velocidad = 30,
+    Salto = 50,
+}
+
+local comprar = ReplicatedStorage:WaitForChild("Comprar")  -- el RemoteEvent de las compras
+
+local function alPedirCompra(jugador, nombreItem)
+    local precio = PRECIOS[nombreItem]              -- busca el precio en la lista del servidor
+    if not precio then return end                   -- si no esta en la lista, no hace nada
+
+    local personaje = jugador.Character             -- el personaje del jugador
+    local humanoid = personaje and personaje:FindFirstChild("Humanoid")  -- su Humanoid
+    if not humanoid then return end                 -- si todavia no aparecio, no hace nada
+
+    if personaje:GetAttribute(nombreItem) then      -- si ya lo compro en esta vida
+        comprar:FireClient(jugador, "Ya compraste " .. nombreItem)  -- le avisa y no le cobra
+        return
+    end
+
+    local monedas = jugador.leaderstats.Monedas     -- la columna de monedas de ese jugador
+    if monedas.Value < precio then                  -- si no le alcanza
+        comprar:FireClient(jugador, "Te faltan " .. (precio - monedas.Value) .. " monedas")  -- le avisa cuanto le falta
+        return
+    end
+
+    monedas.Value = monedas.Value - precio          -- le cobra
+    personaje:SetAttribute(nombreItem, true)        -- anota que ya lo compro
+
+    if nombreItem == "Velocidad" then
+        humanoid.WalkSpeed = 32                     -- el doble de lo normal (16)
+    elseif nombreItem == "Salto" then
+        humanoid.JumpHeight = 20                    -- casi el triple de lo normal (7.2)
+    end
+
+    comprar:FireClient(jugador, "¡Compraste " .. nombreItem .. "!")  -- le confirma la compra
+end
+
+comprar.OnServerEvent:Connect(alPedirCompra)        -- cada vez que un boton pide una compra
+```
+
+- El precio sale de la lista `PRECIOS` del servidor
+- Si no te alcanza, te dice cuánto te falta; si ya lo compraste, no te cobra de nuevo
+- El poder dura hasta que morís: el personaje nuevo arranca normal
+
+> ⚠️ El precio **nunca** lo manda el botón. Si lo mandara, un tramposo podría comprar todo por 0 monedas.
+
+![Los tres mensajes del servidor](roblox/img/clase30/05-mensajes.png)
+*Las tres respuestas: compra lista, no te alcanza y ya lo tenías.*
+
+### Paso 2: Probar todo
+
+Play, juntás las monedas, apretás **E** en la tienda y probás los botones:
+
+![La tienda funcionando](roblox/img/clase30/06-tienda.gif)
+*Con 50 monedas: comprás la Velocidad, no te alcanza para el Salto, y la Velocidad no se cobra dos veces.*
+
+Juntás más monedas y comprás el Super Salto:
+
+![El Super Salto](roblox/img/clase30/07-super-salto.png)
+*Con el Super Salto pasás por arriba de la tienda.*
+
+### Estructura final en el Explorer
+
+![Estructura final en el Explorer](roblox/img/clase30/08-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| La tienda aparece abierta al empezar | **Visible** de `Ventana` en `false` |
+| Aprieto E y no se abre | El LocalScript tiene que estar dentro de `Ventana` y la Part llamarse `Tienda` |
+| Toco un botón y no pasa nada | El nombre que manda el botón tiene que estar igual en `PRECIOS`: `Velocidad` y `Salto` |
+| Al morir pierdo el poder | Es a propósito: se vuelve a comprar |
+
+### Extras
+
+**Un tercer poder:** sumá `Luna = 40` a `PRECIOS`, un botón que mande `"Luna"`, y en el `if` del servidor:
+
+```lua
+    elseif nombreItem == "Luna" then
+        humanoid.JumpHeight = 50                    -- salto altisimo
+        humanoid.WalkSpeed = 10                     -- pero mas lento
+```
+
+**Las monedas se pierden al salir:** se guardan con DataStore en la Clase 31.
+
+## Ejercicio
+
+> Consigna: Armá una tienda con al menos dos poderes, que se abra con la E y cobre desde el servidor.
+
+**Pistas:**
+1. La ventana arranca con **Visible** en `false`
+2. El botón manda solo el nombre; el precio está en el servidor
+3. Probá los tres casos: te alcanza, no te alcanza y ya lo tenías
+
+## Recursos
+
+- [ProximityPrompt](https://create.roblox.com/docs/ui/proximity-prompts)
+- [RemoteEvent](https://create.roblox.com/docs/reference/engine/classes/RemoteEvent)
