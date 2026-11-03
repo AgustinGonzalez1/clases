@@ -54,13 +54,17 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 | 2 | Roblox | Clase 28: Tablas de Puntos (Leaderboards) 🏆 | 2026-11-02 |
 | 3 | Roblox | Clase 29: ¡Sube de Nivel! Sistema de XP 🌟 | 2026-11-02 |
 | 4 | Roblox | Clase 27: Checkpoints y Vidas ❤️ | 2026-11-02 |
+| 5 | Roblox | Clase 26: ¡A Ganar Robux! (Monetización) 💰 | 2026-11-03 |
 
-### Estado (2026-11-02)
+### Estado (2026-11-03)
 
 - Roblox 27, 28, 29 y 30: hechas con el estilo nuevo y probadas en Studio. La 30 vende solo poderes simples (Super Velocidad y Super Salto), porque el usuario no quiere cosas elaboradas que no entran en la clase
 - Roblox 29: el código no se tocó; se agregó **TextColor3 blanco** al `TextoNivel`, porque en negro no se leía sobre el fondo gris
 - Roblox 27: el código no se tocó; se sumó el aviso de `SetAttribute` con dos t (error que tuvo el usuario en el chat)
-- Siguiente: Roblox 26 hacia atrás, y después los otros cursos. Esperar la orden del usuario
+- Roblox 26 (2026-11-03): el usuario la pidió **más corta pero funcional**. Se rehízo de 635 a ~250 líneas: un solo LocalScript en `TiendaGui` (los dos botones, textos fijos, sin pedir el precio), un solo Script `Compras` (Pase + `ProcessReceipt`), sin `MODO_PRUEBA`, sin `compraConfirmada`, sin `finBoost` (cada compra suma 10 y `task.delay(60)` resta 10) y sin el extra de varios Pases. Probado en Studio: velocidad 16→26→36→26→16 y la Linterna sigue al morir
+- Datos de prueba de la 26: experiencia `Clase 26 - Compras con Robux` (id 10774578210, privada), Pase `Linterna Premium` 2070421465 (25 R$), Producto `Velocidad +10` 3728068772 (10 R$). Proyecto en `codilab\clase26.rbxlx`
+- **Pases en Studio:** el creador del juego ya es dueño de sus Pases (`UserOwnsGamePassAsync` da true y la compra dice "Ya tienes este objeto"), así que el flujo de compra del Pase no se puede ver con la cuenta del creador. Los Productos sí: Studio muestra "compra de prueba" y no cobra
+- Siguiente: Roblox 25 hacia atrás, y después los otros cursos. Esperar la orden del usuario
 - El resto de las clases y cursos: sin revisar
 
 ### Formas viejas en el código de Roblox (2026-11-02)

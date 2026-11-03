@@ -1,636 +1,246 @@
 ---
 title: "Clase 26: ¡A Ganar Robux! (Monetización) 💰"
-mision: "Crear un Pase que entregue un ítem premium y un Producto del desarrollador que dé velocidad extra por tiempo limitado, ambos verificados en el servidor."
+mision: "Vender un Pase que da una Linterna para siempre y un Producto del desarrollador que da velocidad extra por 60 segundos, entregados desde el servidor."
 ---
 
 # Clase 26: ¡A Ganar Robux! (Monetización) 💰
 
-Aprendemos a vender cosas dentro de nuestro juego con Robux, y a entregar lo comprado de forma segura desde el servidor. La clase se divide en dos partes: primero el **Pase** y después el **Producto del desarrollador**.
+Vendemos cosas con Robux dentro del juego: un **Pase** y un **Producto del desarrollador**.
 
 ## Objetivos
 
-- Entender la diferencia entre Pases y Productos del desarrollador, y cuándo usar cada uno
-- Publicar el juego y crear un Pase y un Producto desde el Creator Dashboard
-- Vender un Pase que entrega un ítem permanente
-- Vender un Producto del desarrollador que da un boost temporal y se puede comprar varias veces
-- Organizar el código en scripts chicos, con una estructura clara y repetible
+- Diferenciar un Pase de un Producto del desarrollador
+- Crearlos en el Creator Hub
+- Abrir la compra con un botón y entregar lo comprado desde el servidor
 
 ## Contenido
 
-### 1. Las dos formas de vender en Roblox
+> 📝 **Pase o Producto del desarrollador:**
+>
+> | | Pase (Game Pass) | Producto del desarrollador (Developer Product) |
+> |---|---|---|
+> | Se compra | **Una sola vez** | **Todas las veces que quiera** |
+> | Roblox lo recuerda | **Sí**, para siempre | **No**, solo avisa que pagó |
+> | Ejemplos | Un arma, acceso VIP, un cosmético | Velocidad por un rato, curarse, revivir |
+>
+> Si vendés la velocidad como Pase, el jugador la tiene **para siempre**.
 
-| | Pase (Game Pass) | Producto del desarrollador (Developer Product) |
+### 🌐 Parte 1: Crear lo que vamos a vender
+
+### Paso 1: Publicar el juego
+
+Los Pases y Productos se crean **dentro de un juego publicado**.
+
+En Studio: **Archivo → Publicar** (`Alt + P`), le ponés un nombre y **Siguiente**.
+
+![Publicar la experiencia](roblox/img/clase26/01-publicar.png)
+*El juego queda **privado**: nadie más lo puede jugar, pero ya le podés crear cosas para vender.*
+
+### Paso 2: Crear el Pase
+
+1. Entrás a [create.roblox.com/dashboard/creations](https://create.roblox.com/dashboard/creations) y elegís tu juego
+2. Menú de la izquierda: **Monetización → Pases → Crear Pase**
+3. Le ponés **Nombre** (`Linterna Premium`) y **Crear Pase**. La imagen es opcional
+
+![Crear el Pase](roblox/img/clase26/02-crear-pase.png)
+
+4. Entrás al Pase → **Ventas**: activás **Objeto a la venta**, le ponés un **Precio** (por ejemplo `25`) y **Guardar cambios**
+
+![Ponerlo a la venta](roblox/img/clase26/03-pase-a-la-venta.png)
+*Si no está a la venta, nadie lo puede comprar.*
+
+5. Volvés a la lista de Pases y copiás el **ID del pase**
+
+![El ID del Pase](roblox/img/clase26/04-id-pase.png)
+*Este número es el que va en el código.*
+
+### Paso 3: Crear el Producto del desarrollador
+
+1. Menú de la izquierda: **Monetización → Productos del desarrollador → Crear producto del desarrollador**
+2. **Nombre** `Velocidad +10`, **Precio** `10` (ya viene a la venta) y **Guardar cambios**
+3. Copiás el **ID de producto** de la lista
+
+![El ID del Producto](roblox/img/clase26/05-id-producto.png)
+
+> 💡 **Precios administrados** (Roblox cambia el precio según el país) viene prendido: apagalo, así el precio es el que pusiste.
+
+### 🔦 Parte 2: El ítem y los botones
+
+### Paso 1: La Linterna
+
+> 📝 **Qué es una Tool:** un objeto que el jugador lleva en la mochila y agarra con la mano (Clase 11). Su Part tiene que llamarse **Handle**: de ahí la agarra el personaje.
+
+1. Click derecho en **ServerStorage** → Insert Object (**Insertar objeto**) → **Tool**, la renombrás `Linterna`
+2. Adentro, una **Part** llamada `Handle`
+3. Adentro de `Handle`, un **SpotLight** (una luz que alumbra hacia adelante, como una linterna)
+
+| Objeto | Propiedad | Valor | Para qué sirve |
+|---|---|---|---|
+| Handle | **Size** ✏️ | `0.5, 0.5, 2` | Forma de linterna: finita y larga |
+| SpotLight | **Brightness** ✏️ | `5` | Qué tan fuerte alumbra |
+| SpotLight | **Range** ✏️ | `30` | Hasta cuántos studs llega la luz |
+
+Las demás quedan como vienen.
+
+> 💡 Va en **ServerStorage** y no en StarterPack: así nadie la tiene hasta que el servidor se la da.
+
+### Paso 2: Los botones
+
+1. Click derecho en **StarterGui** → **ScreenGui**, la renombrás `TiendaGui`
+2. Adentro, dos **TextButton**:
+
+| Nombre | Text | Position | Para qué sirve |
+|---|---|---|---|
+| `ComprarPase` | `Linterna (Pase)` | `{0.02, 0}, {0.7, 0}` | Abre la compra del Pase |
+| `ComprarVelocidad` | `Velocidad +10 (Producto)` | `{0.02, 0}, {0.8, 0}` | Abre la compra del Producto |
+
+A los dos les cambiás:
+
+| Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| Se puede comprar | **Una sola vez** por jugador | **Todas las veces que quiera** |
-| ¿Roblox recuerda la compra? | **Sí**, para siempre | **No**, solo registra que pagó |
-| Cómo se entrega | Verificando con `UserOwnsGamePassAsync` | Con `ProcessReceipt` (recibo de compra) |
-| Precio mínimo | No puede ser 0 | No puede ser 0 |
+| **Size** ✏️ | `{0.2, 0}, {0.08, 0}` | 20% del ancho y 8% del alto de la pantalla |
+| **TextScaled** ✏️ | `true` | El texto se agranda para llenar el botón |
 
-**Cuándo usar cada uno:**
+### Paso 3: El LocalScript de los botones
 
-| Usar Pase para... | Usar Producto del desarrollador para... |
-|---|---|
-| Un arma o herramienta permanente | Velocidad extra por 10 minutos |
-| Acceso VIP (Very Important Person, zona exclusiva) | Curarse la vida completa |
-| Multiplicador permanente de XP (puntos de experiencia) | Revivir después de morir |
-| Un cosmético para siempre | Moneda del juego (se ve en la Clase 30) |
-
-> ⚠️ **El error más común**: vender algo repetible como Pase. Si hacés la velocidad extra como Pase, el jugador la tiene **para siempre** y rompe el balance del juego.
-
-### 2. Publicar el juego
-
-Los Pases y Productos se crean **asociados a un juego publicado**. Si el juego no está publicado, no aparece en el Dashboard.
-
-1. En Studio: **Archivo** → **Publicar en Roblox**
-2. Elegís **crear una experiencia nueva**
-3. Le ponés nombre y descripción
-4. Click en **Crear**
-
-El juego queda publicado en modo **Privado**: nadie más lo puede jugar, pero ya podés venderle cosas.
-
-### 3. ¿Cómo se comunican los botones y el servidor?
-
-**El LocalScript no le avisa nada al servidor**: Roblox se encarga de avisarle a ambos lados cuando se procesa una compra.
-
-```
-LocalScript (cliente)                    Script (servidor)
-     |                                          |
-Jugador toca el boton                           |
-     |                                          |
-Prompt...Purchase() ---------> Roblox muestra su dialogo de pago
-                                                 |
-                                 Roblox procesa el pago
-                                                 |
-                              Roblox le avisa al servidor
-```
-
-> 🔒 **Regla de oro**: el cliente solo se encarga de lo **visual** (el botón). La decisión de entregar algo **siempre** la toma el servidor.
-
-### 4. Cómo vamos a organizar los scripts
-
-Vamos a tener **4 scripts chicos**, cada uno con **una sola tarea**:
-
-| Script | Dónde va | Qué hace |
-|---|---|---|
-| LocalScript | Dentro del botón `ComprarPase` | Muestra el precio y abre la compra del Pase |
-| `PaseLinterna` | ServerScriptService | Entrega la Linterna a quien compró el Pase |
-| LocalScript | Dentro del botón `ComprarVelocidad` | Muestra el precio y abre la compra del Producto |
-| `ProductosDesarrollador` | ServerScriptService | Da la velocidad extra cuando alguien la compra |
-
-Y todos siguen **el mismo orden interno**, así cualquier script se lee igual:
+Click derecho en `TiendaGui` → Insert Object (**Insertar objeto**) → **LocalScript**:
 
 ```lua
--- Servicios        → los game:GetService que usa el script
--- Configuracion    → IDs y valores que se pueden cambiar
--- Referencias      → objetos del juego que usa (botones, items)
--- Funciones        → cada tarea en una funcion con nombre claro
--- Inicio           → lo que se ejecuta y se conecta al arrancar
-```
-
-> 💡 Si algo falla con la velocidad, sabés que el problema está en `ProductosDesarrollador` y no tenés que buscar entre 100 líneas mezcladas.
-
-### 🎟️ Parte 1: El Pase (compra única)
-
-Vamos a vender una **Linterna Premium**: el jugador la compra una vez y la tiene para siempre.
-
-### 5. Crear el Pase en el Dashboard
-
-1. Entrás a **create.roblox.com/dashboard/creations**
-2. Seleccionás tu juego
-3. Menú lateral: **Monetización** → **Pases**
-4. Click en el botón azul **"Crear Pase"**
-5. Le ponés nombre ("Linterna Premium"), descripción e ícono (512x512)
-6. Guardás
-7. Entrás al Pase creado, a la configuración de **ventas**, lo ponés **a la venta** y le asignás un precio en Robux
-8. Copiás el **ID (identificador)** del Pase, desde el menú de los tres puntos (⋯) o desde la dirección del navegador
-
-> ⚠️ Si no lo ponés a la venta, el botón del juego va a decir "No disponible".
-
-### 6. Crear la Linterna (el ítem premium)
-
-1. Click derecho en **ServerStorage** → Insert Object → **Tool**, lo renombrás `Linterna`
-2. Click derecho en la Tool → Insert Object → **Part**, la renombrás `Handle` (nombre obligatorio, es de donde la agarra el personaje, como en la Clase 11)
-3. Achicás la Part para que tenga forma de linterna (por ejemplo `Size: 0.5, 0.5, 2`)
-4. Click derecho en `Handle` → Insert Object → **SpotLight**, así la linterna ilumina de verdad
-5. En el SpotLight: **Brightness** en `5` y **Range** en `30`
-
-```
-ServerStorage
-  └── Linterna (Tool)
-        └── Handle (Part)
-              └── SpotLight
-```
-
-> 💡 Va en **ServerStorage** y no en StarterPack, porque no queremos que nadie la tenga hasta que el servidor se la dé.
-
-### 7. Crear el botón del Pase
-
-1. Click derecho en **StarterGui** → Insert Object → **ScreenGui**, la renombrás `TiendaGui`
-2. Click derecho en `TiendaGui` → Insert Object → **TextButton**, lo renombrás `ComprarPase`
-3. Configurás sus propiedades:
-
-| Propiedad | Valor |
-|---|---|
-| **Size** | `{0.2, 0}, {0.08, 0}` |
-| **Position** | `{0.02, 0}, {0.8, 0}` |
-| **TextScaled** | `true` |
-| **Text** | `Cargando...` |
-
-4. Click derecho en `ComprarPase` → Insert Object → **LocalScript**
-
-```
-StarterGui
-  └── TiendaGui (ScreenGui)
-        └── ComprarPase (TextButton)
-              └── LocalScript
-```
-
-> 💡 El LocalScript va **dentro** del botón, así `script.Parent` es directamente el botón, sin tener que buscarlo.
-
-### 8. El código del botón del Pase (LocalScript dentro de ComprarPase)
-
-```lua
--- Servicios
 local Players = game:GetService("Players")                        -- servicio que maneja a los jugadores
 local MarketplaceService = game:GetService("MarketplaceService")  -- servicio de compras de Roblox
 
--- Configuracion
-local ID_PASE = 000000                              -- reemplazar con el ID real de tu Pase
-local MODO_PRUEBA = true                            -- true en Studio, false al publicar
+local ID_PASE = 0000000000                          -- el ID de tu Pase (lo copias del Creator Hub)
+local ID_VELOCIDAD = 0000000000                     -- el ID de tu Producto del desarrollador
 
--- Referencias
 local jugador = Players.LocalPlayer                 -- el jugador que ve esta pantalla
-local boton = script.Parent                         -- el boton que contiene este script
+local gui = script.Parent                           -- la TiendaGui, donde estan los botones
 
--- Estado
-local yaComprado = false                            -- se pone en true cuando ya tiene el Pase
-local disponible = false                            -- se pone en true si el Pase esta a la venta
+gui.ComprarPase.Activated:Connect(function()
+    MarketplaceService:PromptGamePassPurchase(jugador, ID_PASE)  -- abre la ventana de compra del Pase
+end)
 
--- Funciones
-local function marcarComoComprado()
-    yaComprado = true                               -- bloquea futuros clicks
-    boton.Text = "Ya comprado ✓"                    -- cambia el texto del boton
-end
-
-local function mostrarPrecio()
-    local exito, info = pcall(function()            -- pcall evita que un error de conexion rompa el script
-        return MarketplaceService:GetProductInfoAsync(ID_PASE, Enum.InfoType.GamePass)  -- pide los datos del Pase
-    end)
-
-    if exito and info.IsForSale then                -- si la consulta funciono y esta a la venta
-        disponible = true                           -- habilita la compra
-        boton.Text = "Comprar por " .. info.PriceInRobux .. " Robux"  -- muestra el precio real
-    else
-        boton.Text = "No disponible"                -- avisa que no se puede comprar
-    end
-end
-
-local function revisarSiYaLoTiene()
-    local exito, tienePase = pcall(function()       -- consulta protegida con pcall
-        return MarketplaceService:UserOwnsGamePassAsync(jugador.UserId, ID_PASE)  -- pregunta si ya lo compro
-    end)
-
-    if exito and tienePase then                     -- si la consulta funciono y ya lo tiene
-        marcarComoComprado()                        -- deja el boton como comprado
-    end
-end
-
-local function alTocarBoton()
-    if yaComprado or not disponible then return end -- si ya lo tiene o no esta a la venta, no hace nada
-    MarketplaceService:PromptGamePassPurchase(jugador, ID_PASE)  -- abre la ventana oficial de compra
-end
-
-local function alTerminarCompra(jugadorQueCompro, idPase, comprado)
-    if jugadorQueCompro == jugador and idPase == ID_PASE and comprado then  -- fui yo, es este Pase y pague
-        marcarComoComprado()                        -- actualiza el boton al instante
-    end
-end
-
--- Inicio
-mostrarPrecio()                                     -- pone el precio real en el boton
-
-if not MODO_PRUEBA then                             -- en prueba arrancamos como si no lo tuviera
-    revisarSiYaLoTiene()                            -- en el juego real, revisa si ya lo compro
-end
-
-boton.Activated:Connect(alTocarBoton)               -- click con mouse o toque en celular
-MarketplaceService.PromptGamePassPurchaseFinished:Connect(alTerminarCompra)  -- se cerro el dialogo de compra
+gui.ComprarVelocidad.Activated:Connect(function()
+    MarketplaceService:PromptProductPurchase(jugador, ID_VELOCIDAD)  -- abre la ventana de compra del Producto
+end)
 ```
 
-- `GetProductInfoAsync` reemplaza a `GetProductInfo`, que quedó **deprecado** en diciembre de 2025. Si cambiás el precio en el Dashboard, el botón se actualiza solo
-- `Activated` funciona con mouse **y** con toque en celular. `MouseButton1Click` solo funciona con mouse
-- `Active = false` no alcanza para bloquear un botón, por eso usamos `yaComprado` con `return`
-- `boton.Activated:Connect(alTocarBoton)` conecta el evento a una función **con nombre**. Es lo mismo que escribir la función adentro, pero se lee mucho mejor
-- En modo prueba **no** se revisa si ya lo tiene, porque en Studio el dueño del juego siempre "tiene" sus Pases y el botón quedaría bloqueado desde el principio
-- Acá el cliente confía en `comprado`, pero **solo para cambiar el texto**, nunca para dar el ítem
+- `MarketplaceService` es el servicio de Roblox que maneja las compras
+- `PromptGamePassPurchase` abre la ventana de compra del **Pase**; `PromptProductPurchase`, la del **Producto**
+- El botón **solo abre la ventana**: no entrega nada. Eso lo hace el servidor
 
-### 9. El script de la entrega (PaseLinterna)
+### 💰 Parte 3: Entregar lo comprado
 
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
-2. Lo renombrás `PaseLinterna`
+### Paso 1: El script Compras
+
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `Compras`:
 
 ```lua
--- Servicios
 local Players = game:GetService("Players")                        -- servicio que maneja a los jugadores
 local MarketplaceService = game:GetService("MarketplaceService")  -- servicio de compras de Roblox
 local ServerStorage = game:GetService("ServerStorage")            -- donde esta guardada la Linterna
 
--- Configuracion
-local ID_PASE = 000000                              -- reemplazar con el ID real de tu Pase
-local MODO_PRUEBA = true                            -- true en Studio, false al publicar
+local ID_PASE = 0000000000                          -- el MISMO ID que en el LocalScript
+local ID_VELOCIDAD = 0000000000                     -- el MISMO ID que en el LocalScript
 
--- Referencias
-local linterna = ServerStorage:WaitForChild("Linterna")  -- el item premium que vamos a entregar
+local linterna = ServerStorage:WaitForChild("Linterna")  -- el item que entrega el Pase
 
--- Funciones
-local function tienePase(jugador)
-    if MODO_PRUEBA then                             -- en prueba
-        return false                                -- simula que todavia no lo compro
-    end
-
-    local exito, resultado = pcall(function()       -- consulta protegida con pcall
-        return MarketplaceService:UserOwnsGamePassAsync(jugador.UserId, ID_PASE)  -- le pregunta a Roblox
-    end)
-    return exito and resultado                      -- true solo si la consulta funciono y lo tiene
-end
-
-local function compraConfirmada(jugador)
-    if MODO_PRUEBA then                             -- en prueba
-        return true                                 -- confia en la compra simulada de Studio
-    end
-    return tienePase(jugador)                       -- en el juego real, vuelve a preguntarle a Roblox
-end
-
+-- El Pase: la Linterna
 local function darLinterna(jugador)
-    if jugador.StarterGear:FindFirstChild("Linterna") then  -- si ya se la dimos antes
-        return                                      -- no la duplica
-    end
-
+    if jugador.StarterGear:FindFirstChild("Linterna") then return end  -- si ya la tiene, no la duplica
     linterna:Clone().Parent = jugador.StarterGear   -- copia para cada vez que reaparece
     linterna:Clone().Parent = jugador.Backpack      -- copia para tenerla ahora mismo
 end
 
-local function alEntrarJugador(jugador)
-    if tienePase(jugador) then                      -- si ya habia comprado el Pase
-        darLinterna(jugador)                        -- le da la Linterna
-    end
-end
-
-local function alTerminarCompra(jugador, idPase, comprado)
-    if comprado and idPase == ID_PASE and compraConfirmada(jugador) then  -- pago, es este Pase y esta confirmado
-        darLinterna(jugador)                        -- le da la Linterna al instante
-    end
-end
-
--- Inicio
-for _, jugador in Players:GetPlayers() do           -- jugadores que ya estaban antes de que corra el script
-    alEntrarJugador(jugador)
-end
-
-Players.PlayerAdded:Connect(alEntrarJugador)        -- jugadores que entren despues
-MarketplaceService.PromptGamePassPurchaseFinished:Connect(alTerminarCompra)  -- compras durante la partida
-```
-
-- `tienePase` responde **"¿ya lo había comprado antes?"**: se usa al entrar al juego
-- `compraConfirmada` responde **"¿esta compra que acaba de pasar es real?"**: se usa cuando termina el diálogo de compra
-- En el juego real, aunque el evento diga `comprado`, el servidor **vuelve a preguntarle a Roblox** antes de dar nada
-- El `for` del Inicio cubre un caso real: en Studio, a veces el jugador entra **antes** de que el script conecte `PlayerAdded`, y sin ese `for` nunca recibiría la Linterna
-
-### 10. Por qué StarterGear además del Backpack
-
-El `Backpack` (la mochila) se **vacía cada vez que el personaje reaparece**. Además, `PlayerAdded` se dispara **antes** de que aparezca el personaje, así que un ítem puesto solo en el Backpack se borraba al instante.
-
-| Lugar | Qué pasa con lo que ponés ahí |
-|---|---|
-| `Backpack` | Se borra al morir o reaparecer |
-| `StarterGear` | Roblox lo copia al Backpack **cada vez** que reaparecés |
-
-Poniéndola en los dos, la tenés al instante y no la perdés al morir.
-
-### 11. Por qué necesitamos el MODO_PRUEBA
-
-Probar Pases en Studio es **poco confiable**, y no se arregla con código:
-
-| Problema | Por qué pasa |
-|---|---|
-| El dueño del juego ya tiene el Pase sin comprarlo | Roblox le da todos los Pases de su propia experiencia |
-| `UserOwnsGamePassAsync` da `true` en el cliente y `false` en el servidor | Las compras simuladas en Studio no se registran de verdad |
-| Te deja "comprar" varias veces | La simulación no respeta la lógica real de "ya lo tenés" |
-
-Por eso, en modo prueba **no le preguntamos a Roblox** si tenés el Pase. En su lugar, simulamos el flujo de un jugador nuevo:
-
-| | `MODO_PRUEBA = true` (Studio) | `MODO_PRUEBA = false` (juego publicado) |
-|---|---|---|
-| Al entrar | **No** tenés la Linterna, el botón muestra el precio | Te la da si Roblox confirma que compraste |
-| Al comprar | Confía en la compra de prueba y te la da | Vuelve a preguntarle a Roblox antes de darla |
-| Al volver a entrar | Arrancás de nuevo sin Linterna | La tenés, porque Roblox recuerda la compra |
-
-> ⚠️ `MODO_PRUEBA` tiene que tener el **mismo valor** en el LocalScript y en `PaseLinterna`. Antes de publicar la versión final, lo ponés en `false` en los dos.
-
-### 12. Probar el Pase
-
-1. Reemplazás `000000` por tu ID real, en el LocalScript **y** en `PaseLinterna`
-2. Dejás `MODO_PRUEBA = true` en los dos
-3. Le das **Play** en Studio
-4. Revisás que **no** tengas la Linterna y que el botón muestre el precio real (si dice "No disponible", revisá que el Pase esté a la venta)
-5. Apretás el botón y confirmás la compra de prueba (no gasta Robux reales porque sos el dueño del juego)
-6. El botón cambia a "Ya comprado ✓" y la Linterna aparece en la barra de ítems de abajo (tecla **1** para equiparla)
-7. Te dejás morir o reiniciás el personaje, y verificás que la Linterna **siga estando**
-
-### ⚡ Parte 2: El Producto del desarrollador (compra repetible)
-
-Vamos a vender **Velocidad +10**: cada compra suma 10 de velocidad y **10 minutos más** de duración. Cuando se termina el tiempo, vuelve a la velocidad normal.
-
-### 13. Crear el Producto en el Dashboard
-
-1. Entrás a **create.roblox.com/dashboard/creations**
-2. Seleccionás tu juego
-3. Menú lateral: **Monetización** → **Productos del desarrollador**
-4. Click en **"Crear producto del desarrollador"**
-5. Le ponés nombre ("Velocidad +10") y descripción
-6. Le subís un ícono (512x512)
-7. Le asignás un precio en Robux
-8. Guardás
-9. Copiás el **ID** del producto, desde el menú de los tres puntos (⋯) o desde la dirección del navegador
-
-> 💡 A diferencia del Pase, acá no hay una única compra que "se guarde": cada compra genera un **recibo** nuevo que el servidor tiene que procesar.
-
-### 14. Crear el botón del Producto
-
-Va en la **misma** `TiendaGui` que el botón del Pase:
-
-1. Click derecho en `TiendaGui` → Insert Object → **TextButton**, lo renombrás `ComprarVelocidad`
-2. Configurás sus propiedades:
-
-| Propiedad | Valor |
-|---|---|
-| **Size** | `{0.2, 0}, {0.08, 0}` |
-| **Position** | `{0.02, 0}, {0.9, 0}` |
-| **TextScaled** | `true` |
-| **Text** | `Cargando...` |
-
-3. Click derecho en `ComprarVelocidad` → Insert Object → **LocalScript**
-
-```
-StarterGui
-  └── TiendaGui (ScreenGui)
-        ├── ComprarPase (TextButton)
-        │     └── LocalScript
-        └── ComprarVelocidad (TextButton)
-              └── LocalScript
-```
-
-### 15. El código del botón del Producto (LocalScript dentro de ComprarVelocidad)
-
-```lua
--- Servicios
-local Players = game:GetService("Players")                        -- servicio que maneja a los jugadores
-local MarketplaceService = game:GetService("MarketplaceService")  -- servicio de compras de Roblox
-
--- Configuracion
-local ID_VELOCIDAD = 0000000                        -- reemplazar con el ID real del Producto
-
--- Referencias
-local jugador = Players.LocalPlayer                 -- el jugador que ve esta pantalla
-local boton = script.Parent                         -- el boton que contiene este script
-
--- Funciones
-local function mostrarPrecio()
-    local exito, info = pcall(function()            -- consulta protegida con pcall
-        return MarketplaceService:GetProductInfoAsync(ID_VELOCIDAD, Enum.InfoType.Product)  -- pide los datos del Producto
+local function alEntrar(jugador)
+    local exito, tienePase = pcall(function()       -- pcall: si Roblox no contesta, el script no se rompe
+        return MarketplaceService:UserOwnsGamePassAsync(jugador.UserId, ID_PASE)  -- ya lo compro antes?
     end)
-
-    if exito then                                   -- si la consulta funciono
-        boton.Text = "Velocidad +10 (" .. info.PriceInRobux .. " Robux)"  -- muestra el precio real
-    else
-        boton.Text = "No disponible"                -- avisa que algo fallo
+    if exito and tienePase then
+        darLinterna(jugador)                        -- se la da al entrar
     end
 end
 
-local function alTocarBoton()
-    MarketplaceService:PromptProductPurchase(jugador, ID_VELOCIDAD)  -- abre la ventana oficial de compra
+local function alComprarPase(jugador, idPase, comprado)
+    if comprado and idPase == ID_PASE then          -- pago y es este Pase
+        darLinterna(jugador)                        -- se la da al instante
+    end
 end
 
--- Inicio
-mostrarPrecio()                                     -- pone el precio real en el boton
-boton.Activated:Connect(alTocarBoton)               -- click con mouse o toque en celular
+Players.PlayerAdded:Connect(alEntrar)               -- cada vez que entra un jugador
+MarketplaceService.PromptGamePassPurchaseFinished:Connect(alComprarPase)  -- cada vez que termina una compra de Pase
+
+-- El Producto: Velocidad +10 por 60 segundos
+local function procesarCompra(recibo)
+    local jugador = Players:GetPlayerByUserId(recibo.PlayerId)  -- quien compro
+    local personaje = jugador and jugador.Character -- su personaje
+    local humanoid = personaje and personaje:FindFirstChild("Humanoid")
+    if not humanoid then
+        return Enum.ProductPurchaseDecision.NotProcessedYet  -- no esta: Roblox lo reintenta mas tarde
+    end
+
+    if recibo.ProductId == ID_VELOCIDAD then        -- compro la Velocidad
+        humanoid.WalkSpeed = humanoid.WalkSpeed + 10  -- suma 10 de velocidad
+        task.delay(60, function()                   -- a los 60 segundos...
+            humanoid.WalkSpeed = humanoid.WalkSpeed - 10  -- ...se la saca
+        end)
+    end
+
+    return Enum.ProductPurchaseDecision.PurchaseGranted  -- le avisa a Roblox que ya lo entregamos
+end
+
+MarketplaceService.ProcessReceipt = procesarCompra  -- Roblox llama a esta funcion con cada compra de Producto
 ```
 
-- Para Productos se usa `Enum.InfoType.Product` en vez de `GamePass`
-- `PromptProductPurchase` abre el diálogo. **No devuelve nada** ni espera a que el jugador compre
-- Este script es mucho más corto que el del Pase: como se puede comprar muchas veces, no hace falta `yaComprado` ni revisar si ya lo tiene
+**El Pase:**
+- `darLinterna` le pone una copia en **StarterGear** (Roblox se la devuelve cada vez que reaparece) y otra en **Backpack** (para tenerla ya). Así no la pierde al morir
+- `alEntrar`: con `UserOwnsGamePassAsync` le pregunta a Roblox si ese jugador ya compró el Pase. Si lo compró otro día, se la da al entrar
+- `alComprarPase`: si `comprado` es `true` y es este Pase, se la da en el momento
 
-> ⚠️ Si el ID queda en `0000000`, `PromptProductPurchase` tira error porque Roblox no encuentra ningún producto con ese número.
+**El Producto:**
+- `ProcessReceipt` es la función que Roblox llama **cada vez** que alguien paga un Producto, con un **recibo**: quién compró (`PlayerId`) y qué (`ProductId`)
+- Suma 10 a la **WalkSpeed** y `task.delay` se los resta a los 60 segundos, sin frenar el script. Si compra dos veces, suma 20, y cada compra se descuenta sola
+- `PurchaseGranted` le confirma a Roblox que ya entregamos. Con `NotProcessedYet`, Roblox **lo reintenta** más tarde, así nadie pierde lo que pagó
 
-### 16. El script de la entrega (ProductosDesarrollador)
+> ⚠️ Solo puede haber **un** `ProcessReceipt` en todo el juego. Si agregás otro Producto, va en este mismo script, con otro `if` para su ID.
 
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
-2. Lo renombrás `ProductosDesarrollador`
+### Paso 2: Probar el Pase
 
-```lua
--- Servicios
-local Players = game:GetService("Players")                        -- servicio que maneja a los jugadores
-local MarketplaceService = game:GetService("MarketplaceService")  -- servicio de compras de Roblox
+Reemplazás los `0000000000` por tus IDs, **en los dos scripts**, y le das **Play**.
 
--- Configuracion
-local ID_VELOCIDAD = 0000000                        -- el MISMO ID que en el LocalScript
-local VELOCIDAD_EXTRA = 10                          -- cuanto suma cada compra
-local DURACION = 600                                -- 600 segundos = 10 minutos
-local VELOCIDAD_NORMAL = 16                         -- velocidad normal de Roblox
+![Ya tenés el Pase](roblox/img/clase26/06-ya-tienes-el-pase.png)
+*Como sos el **creador** del juego, Roblox te regala tus propios Pases: arrancás con la Linterna (tecla **1**) y el botón te dice "Ya tienes este objeto". Un jugador que no lo compró ve la ventana para comprarlo.*
 
--- Estado
-local finBoost = {}                                 -- cuando termina el boost de cada jugador
+### Paso 3: Probar el Producto
 
--- Funciones
-local function procesarCompra(infoRecibo)
-    if infoRecibo.ProductId ~= ID_VELOCIDAD then    -- si no es este Producto
-        return Enum.ProductPurchaseDecision.NotProcessedYet  -- no lo procesa
-    end
+Tocás **Velocidad +10 (Producto)** → **Comprar**:
 
-    local jugador = Players:GetPlayerByUserId(infoRecibo.PlayerId)  -- busca al jugador que compro
-    local humanoid = jugador and jugador.Character and jugador.Character:FindFirstChild("Humanoid")  -- su Humanoid
-    if not humanoid then                            -- si no esta o no aparecio
-        return Enum.ProductPurchaseDecision.NotProcessedYet  -- Roblox reintenta mas tarde
-    end
+![Comprar la velocidad](roblox/img/clase26/07-comprar-velocidad.gif)
+*Después de comprar corrés más rápido. En Studio dice "Esta es una compra de prueba": no gasta Robux.*
 
-    humanoid.WalkSpeed = humanoid.WalkSpeed + VELOCIDAD_EXTRA  -- suma 10 de velocidad
+### Estructura final en el Explorer
 
-    local ahora = os.clock()                        -- el tiempo actual
-    local fin = (finBoost[jugador] or ahora) + DURACION  -- le suma 10 minutos a lo que le quedaba
-    finBoost[jugador] = fin                         -- guarda el nuevo final
+![Estructura final en el Explorer](roblox/img/clase26/08-explorer-final.png)
 
-    task.delay(fin - ahora, function()              -- espera hasta el final sin frenar el script
-        if finBoost[jugador] == fin then            -- si no compro otro despues de este
-            finBoost[jugador] = nil                 -- borra el boost
-            humanoid.WalkSpeed = VELOCIDAD_NORMAL   -- vuelve a la velocidad normal
-        end
-    end)
+### Problemas comunes
 
-    return Enum.ProductPurchaseDecision.PurchaseGranted  -- le confirma a Roblox que ya entregamos
-end
-
--- Inicio
-MarketplaceService.ProcessReceipt = procesarCompra  -- Roblox llama a esta funcion con cada compra
-```
-
-- `ProcessReceipt` es la función que Roblox llama **automáticamente** cada vez que se confirma un pago de un Producto del desarrollador
-- `infoRecibo.ProductId` indica qué se compró e `infoRecibo.PlayerId` quién lo compró
-- `PurchaseGranted` le confirma a Roblox que ya entregaste. Si devolvés `NotProcessedYet`, Roblox **reintenta más tarde**, así nadie pierde lo que pagó
-- `task.delay` programa la vuelta a la velocidad normal **sin frenar** `procesarCompra`, que tiene que devolver `PurchaseGranted` enseguida
-
-### 17. Cómo funciona el tiempo que se suma
-
-`finBoost` guarda, para cada jugador, **en qué momento termina** su boost.
-
-- `finBoost[jugador] or ahora`: si ya tenía un boost, parte de su final; si no tenía, parte de ahora
-- Le suma `DURACION` (10 minutos)
-- Cada `task.delay` revisa si sigue siendo el final más reciente. Si el jugador compró otra vez, `finBoost[jugador]` cambió, y ese delay viejo no hace nada
-
-**Ejemplo:**
-
-| Momento | Qué pasa | Velocidad | Termina a los |
-|---|---|---|---|
-| Minuto 0 | Compra 1 | 26 | 10 minutos |
-| Minuto 3 | Compra 2 | 36 | 20 minutos (le quedaban 7 + 10) |
-| Minuto 10 | El primer delay ve que no es el más nuevo, no hace nada | 36 | 20 minutos |
-| Minuto 20 | Se termina el boost | 16 | — |
-
-> 💡 Si el jugador muere, el personaje nuevo arranca con velocidad normal. Para una clase sencilla está bien así.
-
-### 18. Un solo ProcessReceipt en todo el juego
-
-> ⚠️ **Solo puede haber un `ProcessReceipt` en todo el juego.** Si lo escribís en dos scripts, el segundo pisa al primero y el primero deja de funcionar.
-
-Por eso el script se llama `ProductosDesarrollador` (en plural): si mañana agregás otro Producto, como "Curación completa", va **en este mismo script**, agregando otro `if` para su ID. No se crea un script nuevo.
-
-> ⚠️ **Nunca** uses `PromptProductPurchaseFinished` para entregar un Producto. Ese evento solo avisa que se cerró el diálogo, no que el pago se procesó.
-
-> 💡 Roblox tiene una función más nueva llamada `BindReceiptHandler`, pensada para reemplazar a `ProcessReceipt`. En nuestras pruebas en Studio **no recibió las compras de prueba**, así que usamos `ProcessReceipt`, que es la forma probada y sigue siendo válida.
-
-> 💡 Un boost temporal no hace falta guardarlo. Pero si vendés algo que se **acumula** (100 monedas, 5 vidas extra), Roblox **no** recuerda cuántas tiene cada jugador: eso se guarda con DataStore (Clase 31).
-
-### 19. Probar el Producto
-
-1. Reemplazás `0000000` por tu ID real, en el LocalScript **y** en `ProductosDesarrollador`
-2. Le das **Play** en Studio
-3. Revisás que el botón muestre "Velocidad +10 (X Robux)" con el precio real
-4. Caminás un poco para ver la velocidad normal
-5. Apretás el botón y confirmás la compra de prueba (no gasta Robux reales porque sos el dueño del juego)
-6. Caminás de nuevo y ves que vas más rápido
-7. Comprás otra vez y ves que vas **todavía más rápido**
-
-> 💡 Si no pasa nada, agregá `print("Compra recibida:", infoRecibo.ProductId)` como primera línea de `procesarCompra` y fijate en el **Output** si aparece. Si no aparece, el ID de los dos scripts no coincide.
-
-### 20. Estructura final completa en el Explorer
-
-```
-StarterGui
-  └── TiendaGui (ScreenGui)
-        ├── ComprarPase (TextButton)
-        │     └── LocalScript
-        └── ComprarVelocidad (TextButton)
-              └── LocalScript
-
-ServerScriptService
-  ├── PaseLinterna (Script)
-  └── ProductosDesarrollador (Script)
-
-ServerStorage
-  └── Linterna (Tool)
-        └── Handle (Part)
-              └── SpotLight
-```
-
-### 21. Extra: varios Pases en un solo script
-
-Si querés vender varios Pases, en vez de hacer un script por cada uno, se usa una **tabla** (Clase 21) donde cada ID tiene el nombre del ítem que entrega. Este script **reemplaza** a `PaseLinterna`:
-
-```lua
--- Servicios
-local Players = game:GetService("Players")                        -- servicio que maneja a los jugadores
-local MarketplaceService = game:GetService("MarketplaceService")  -- servicio de compras de Roblox
-local ServerStorage = game:GetService("ServerStorage")            -- donde estan guardados los items
-
--- Configuracion
-local MODO_PRUEBA = true                            -- true en Studio, false al publicar
-
-local PASES = {                                     -- tabla: ID del Pase -> nombre del item
-    [000000] = "Linterna",                          -- este Pase da la Linterna
-    [222222] = "EspadaDorada",                      -- este Pase da la EspadaDorada
-}
-
--- Funciones
-local function tienePase(jugador, idPase)
-    if MODO_PRUEBA then                             -- en prueba
-        return false                                -- simula que todavia no lo compro
-    end
-
-    local exito, resultado = pcall(function()       -- consulta protegida con pcall
-        return MarketplaceService:UserOwnsGamePassAsync(jugador.UserId, idPase)  -- le pregunta a Roblox
-    end)
-    return exito and resultado                      -- true solo si funciono y lo tiene
-end
-
-local function compraConfirmada(jugador, idPase)
-    if MODO_PRUEBA then                             -- en prueba
-        return true                                 -- confia en la compra simulada de Studio
-    end
-    return tienePase(jugador, idPase)               -- en el juego real, vuelve a preguntarle a Roblox
-end
-
-local function darItem(jugador, nombreItem)
-    if jugador.StarterGear:FindFirstChild(nombreItem) then  -- si ya lo tiene
-        return                                      -- no lo duplica
-    end
-
-    local item = ServerStorage:WaitForChild(nombreItem)  -- busca el item por su nombre
-    item:Clone().Parent = jugador.StarterGear       -- copia para cada respawn
-    item:Clone().Parent = jugador.Backpack          -- copia para ahora mismo
-end
-
-local function alEntrarJugador(jugador)
-    for idPase, nombreItem in PASES do              -- recorre todos los Pases de la tabla
-        if tienePase(jugador, idPase) then          -- si tiene este Pase
-            darItem(jugador, nombreItem)            -- le da su item
-        end
-    end
-end
-
-local function alTerminarCompra(jugador, idPase, comprado)
-    local nombreItem = PASES[idPase]                -- busca que item corresponde a ese Pase
-    if comprado and nombreItem and compraConfirmada(jugador, idPase) then  -- pago, existe en la tabla y esta confirmado
-        darItem(jugador, nombreItem)                -- le da el item
-    end
-end
-
--- Inicio
-for _, jugador in Players:GetPlayers() do           -- jugadores que ya estaban
-    alEntrarJugador(jugador)
-end
-
-Players.PlayerAdded:Connect(alEntrarJugador)        -- jugadores que entren despues
-MarketplaceService.PromptGamePassPurchaseFinished:Connect(alTerminarCompra)  -- compras durante la partida
-```
-
-- Si el ID no está en la tabla, `PASES[idPase]` da `nil` y no entrega nada
-- Agregar un Pase nuevo es **una sola línea** en la tabla, y el ítem tiene que existir en ServerStorage con ese mismo nombre
-- Cada botón de Pase sigue teniendo su propio LocalScript, igual al del paso 8 pero con su ID
+| Problema | Solución |
+|---|---|
+| Error al tocar un botón | Falta poner el ID: sigue en `0000000000` |
+| Roblox dice que el Pase no está disponible | No está **a la venta** (Paso 2 de la Parte 1) |
+| Compro la velocidad y no pasa nada | El ID del Producto no es el mismo en los dos scripts |
+| La Linterna desaparece al morir | Falta la copia en **StarterGear** |
 
 ## Ejercicio
 
-> Consigna: Creá un Pase que entregue un ítem premium y un Producto del desarrollador que dé velocidad extra por tiempo limitado, ambos verificados en el servidor.
+> Consigna: Agregá un segundo Producto del desarrollador, **Salto +20**, que suba la `JumpHeight` por 60 segundos.
 
 **Pistas:**
-1. Publicá el juego antes de ir al Dashboard, sino no aparece
-2. Acordate de poner el Pase **a la venta**
-3. El mismo ID tiene que estar en el LocalScript del botón y en el Script del servidor
-4. Poné el ítem del Pase en `StarterGear` además del `Backpack`, sino se pierde al morir
-5. Un solo `ProcessReceipt` en todo el juego: todos los Productos van en `ProductosDesarrollador`
-6. `MODO_PRUEBA` tiene que valer lo mismo en el LocalScript y en `PaseLinterna`: `true` para probar en Studio, `false` antes de publicar la versión final
+1. Crealo en el Creator Hub y copiá su ID
+2. Un botón nuevo con su `PromptProductPurchase`
+3. En `procesarCompra`, otro `if recibo.ProductId == ID_SALTO then` (no otro `ProcessReceipt`)
 
 ## Recursos
 
-- [Creator Dashboard](https://create.roblox.com/dashboard/creations)
-- [Documentación oficial de Pases](https://create.roblox.com/docs/production/monetization/passes)
-- [Documentación oficial de Productos del desarrollador](https://create.roblox.com/docs/production/monetization/developer-products)
-- [Documentación oficial de MarketplaceService](https://create.roblox.com/docs/reference/engine/classes/MarketplaceService)
+- [Creator Hub](https://create.roblox.com/dashboard/creations)
+- [Pases](https://create.roblox.com/docs/production/monetization/passes)
+- [Productos del desarrollador](https://create.roblox.com/docs/production/monetization/developer-products)
