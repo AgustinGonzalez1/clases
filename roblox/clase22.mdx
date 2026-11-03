@@ -103,7 +103,7 @@ local jugadorDetectado = nil                        -- a quien persigue (al prin
 local function detectarJugador()
     if estado == "persiguiendo" then return end     -- si ya persigue a alguien, no busca otro
 
-    for _, jugador in ipairs(Players:GetPlayers()) do  -- recorre todos los jugadores
+    for _, jugador in Players:GetPlayers() do          -- recorre todos los jugadores
         local personaje = jugador.Character         -- su personaje
         local rootJugador = personaje and personaje:FindFirstChild("HumanoidRootPart")  -- su parte central, si existe
 
@@ -154,7 +154,7 @@ end
 local function patrullar()
     humanoid.WalkSpeed = VELOCIDAD_PATRULLA         -- camina tranquilo
 
-    for _, punto in ipairs(puntos) do               -- recorre los puntos en orden
+    for _, punto in puntos do                       -- recorre los puntos en orden
         if estado ~= "patrullando" then return end  -- si detecto a alguien, corta la patrulla
         caminarHasta(punto)                         -- camina hasta este punto
 
@@ -244,7 +244,7 @@ local jugadorDetectado = nil                        -- a quien persigue (al prin
 local function detectarJugador()
     if estado == "persiguiendo" then return end     -- si ya persigue a alguien, no busca otro
 
-    for _, jugador in ipairs(Players:GetPlayers()) do  -- recorre todos los jugadores
+    for _, jugador in Players:GetPlayers() do          -- recorre todos los jugadores
         local personaje = jugador.Character         -- su personaje
         local rootJugador = personaje and personaje:FindFirstChild("HumanoidRootPart")  -- su parte central, si existe
 
@@ -277,7 +277,7 @@ end
 local function patrullar()
     humanoid.WalkSpeed = VELOCIDAD_PATRULLA         -- camina tranquilo
 
-    for _, punto in ipairs(puntos) do               -- recorre los puntos en orden
+    for _, punto in puntos do                       -- recorre los puntos en orden
         if estado ~= "patrullando" then return end  -- si detecto a alguien, corta la patrulla
         caminarHasta(punto)                         -- camina hasta este punto
 
@@ -437,7 +437,7 @@ local function detectarJugador()
         return                                      -- mientras persigue, no busca a otro
     end
 
-    for _, jugador in ipairs(Players:GetPlayers()) do  -- recorre todos los jugadores
+    for _, jugador in Players:GetPlayers() do          -- recorre todos los jugadores
         local personaje = jugador.Character
         local rootJugador = personaje and personaje:FindFirstChild("HumanoidRootPart")
 
@@ -466,7 +466,7 @@ local function buscarMasCercano()
     local masCercano = nil                          -- todavia no encontramos a nadie
     local menorDistancia = math.huge                -- arranca con un numero enorme
 
-    for _, jugador in ipairs(Players:GetPlayers()) do  -- recorre todos los jugadores
+    for _, jugador in Players:GetPlayers() do          -- recorre todos los jugadores
         local personaje = jugador.Character
         local rootJugador = personaje and personaje:FindFirstChild("HumanoidRootPart")
 

@@ -283,7 +283,7 @@ local function alTerminarCompra(jugador, idPase, comprado)
 end
 
 -- Inicio
-for _, jugador in ipairs(Players:GetPlayers()) do   -- jugadores que ya estaban antes de que corra el script
+for _, jugador in Players:GetPlayers() do           -- jugadores que ya estaban antes de que corra el script
     alEntrarJugador(jugador)
 end
 
@@ -589,7 +589,7 @@ local function darItem(jugador, nombreItem)
 end
 
 local function alEntrarJugador(jugador)
-    for idPase, nombreItem in pairs(PASES) do       -- recorre todos los Pases de la tabla
+    for idPase, nombreItem in PASES do              -- recorre todos los Pases de la tabla
         if tienePase(jugador, idPase) then          -- si tiene este Pase
             darItem(jugador, nombreItem)            -- le da su item
         end
@@ -604,7 +604,7 @@ local function alTerminarCompra(jugador, idPase, comprado)
 end
 
 -- Inicio
-for _, jugador in ipairs(Players:GetPlayers()) do   -- jugadores que ya estaban
+for _, jugador in Players:GetPlayers() do           -- jugadores que ya estaban
     alEntrarJugador(jugador)
 end
 

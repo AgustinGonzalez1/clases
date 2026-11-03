@@ -61,7 +61,7 @@ end)
 
 bloque.TouchEnded:Connect(function(mano)
     local humanoid = mano.Parent.Humanoid
-    wait(0.5)   -- evita el problema del rebote
+    task.wait(0.5) -- evita el problema del rebote
     humanoid.WalkSpeed = 16
 end)
 ```

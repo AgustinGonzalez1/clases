@@ -39,7 +39,7 @@ table.remove(tesoros, 1)         -- quita el elemento en la posicion 1
 ```lua
 local tesoros = {"Moneda", "Gema", "Rubi"}
 
-for i, tesoro in ipairs(tesoros) do
+for i, tesoro in tesoros do
     print(i, tesoro)
 end
 ```
@@ -132,7 +132,7 @@ cofre.Touched:Connect(function(mano)
     local humanoid = mano.Parent:FindFirstChild("Humanoid")
     if humanoid then
         print("--- Tesoros recolectados ---")
-        for i, tesoro in ipairs(tesoros) do
+        for i, tesoro in tesoros do
             print(i, tesoro)
         end
     end

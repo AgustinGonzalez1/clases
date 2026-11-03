@@ -51,7 +51,7 @@ bloque.Touched:Connect(function(mano)
     local humanoid = personaje.Humanoid
     humanoid.Jump = true        -- hace saltar
     humanoid.JumpHeight = 100   -- aumenta la altura
-    wait(0.5)
+    task.wait(0.5)
     humanoid.JumpHeight = 7.2   -- vuelve al valor normal
 end)
 ```

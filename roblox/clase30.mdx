@@ -21,19 +21,21 @@ Juntamos monedas en el mapa y las gastamos en una tienda que se abre con la **E*
 
 Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Folder**, la renombrás `Monedas`.
 
+> 📝 **Qué es una Folder:** una carpeta para ordenar objetos. No se ve en el juego; el script la recorre para encontrar todas las monedas juntas.
+
 ### Paso 2: Crear la moneda
 
 Click derecho en `Monedas` → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Moneda` y le cambiás:
 
-| Propiedad | Valor |
-|---|---|
-| **Shape** | `Cylinder` |
-| **Size** | `0.5, 3, 3` |
-| **Orientation** | `0, 90, 0` |
-| **Color** | `255, 200, 0` (amarillo) |
-| **Material** | `Neon` |
-| **Anchored** | `true` |
-| **CanCollide** | `false` (para atravesarla) |
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Shape** | `Cylinder` | Le da forma de cilindro, como una moneda |
+| **Size** | `0.5, 3, 3` | Finita (0.5) y redonda (3 de diámetro) |
+| **Orientation** | `0, 90, 0` | La gira para que quede parada, de frente |
+| **Color** | `255, 200, 0` | Amarillo, para que parezca de oro |
+| **Material** | `Neon` | La hace brillar |
+| **Anchored** | `true` | Queda fija en el aire, no se cae |
+| **CanCollide** | `false` | Se puede atravesar sin chocar |
 
 ### Paso 3: Duplicarla
 
@@ -86,7 +88,11 @@ for _, moneda in carpetaMonedas:GetChildren() do    -- recorre todas las monedas
 end
 ```
 
-Es el script de la Clase 28, pero la columna se llama `Monedas`.
+Es el script de la Clase 28, pero la columna se llama `Monedas`:
+
+- `crearTabla` le arma a cada jugador su `leaderstats` con la columna `Monedas` en 0
+- Al tocar una moneda suma `VALOR_MONEDA` (10), la esconde y a los 5 segundos vuelve a aparecer
+- El control de `CanTouch` evita que una moneda dé plata varias veces
 
 **Probalo:** Play, apretá **Tab** para ver la tabla y tocá una moneda: sumás 10.
 
@@ -94,14 +100,37 @@ Es el script de la Clase 28, pero la columna se llama `Monedas`.
 
 ### Paso 1: Crear el puesto
 
-Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Tienda`, con **Size** `8, 4, 4`, **Material** `Wood`, color marrón y **Anchored** en `true`. La ponés al final de la fila de monedas.
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Tienda` y la ponés al final de la fila de monedas:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `8, 4, 4` | Un mostrador ancho y bajo |
+| **Material** | `Wood` | Que parezca un puesto de madera |
+| **Color** | Marrón | Que combine con la madera |
+| **Anchored** | `true` | Que no se caiga ni se mueva al chocarla |
 
 ![Las monedas y la tienda](roblox/img/clase30/01-escena.png)
 *Así queda el mapa: las monedas en fila y la tienda al final.*
 
 ### Paso 2: El cartel de la E
 
-Click derecho en `Tienda` → Insert Object (**Insertar objeto**) → **ProximityPrompt**. Solo le cambiás **ActionText** a `Abrir tienda` y **ObjectText** a `Tienda`.
+> 📝 **Qué es un ProximityPrompt:** el cartel de "apretá E" que aparece al acercarte a un objeto. Roblox lo muestra solo; con el evento `Triggered` sabemos cuándo lo apretaron.
+
+Click derecho en `Tienda` → Insert Object (**Insertar objeto**) → **ProximityPrompt**. Cambiás las dos marcadas con ✏️; las otras vienen bien así:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **ActionText** ✏️ | `Abrir tienda` | El texto de la acción, al lado de la tecla |
+| **ObjectText** ✏️ | `Tienda` | El nombre del objeto, arriba de la acción |
+| **KeyboardKeyCode** | `E` | La tecla que hay que apretar |
+| **HoldDuration** | `0` | Segundos que hay que **mantener** la tecla. Con `0` alcanza con apretarla; con `2`, dejarla apretada (como para abrir un cofre) |
+| **MaxActivationDistance** | `10` | A cuántos studs aparece el cartel |
+| **RequiresLineOfSight** | ✔ | Si hay una pared en el medio, no aparece |
+| **ClickablePrompt** | ✔ | También se puede tocar con el mouse o el dedo (para celular) |
+| **Exclusivity** | `OnePerButton` | Si hay varios carteles cerca con la misma tecla, muestra solo el más cercano |
+| **Enabled** | ✔ | Apagado, el cartel no aparece |
+
+Las demás (GamepadKeyCode, Style, UIOffset…) son para joystick o para carteles hechos a mano; no las usamos.
 
 ![Propiedades del ProximityPrompt](roblox/img/clase30/02-proximityprompt.png)
 *La tecla ya viene en E, y aparece a 10 studs.*
@@ -114,18 +143,31 @@ Click derecho en `Tienda` → Insert Object (**Insertar objeto**) → **Proximit
 
 ### Paso 1: El RemoteEvent
 
-Click derecho en **ReplicatedStorage** → Insert Object (**Insertar objeto**) → **RemoteEvent**, lo renombrás `Comprar`. Es por donde el botón le pide la compra al servidor (Clase 23).
+Click derecho en **ReplicatedStorage** → Insert Object (**Insertar objeto**) → **RemoteEvent**, lo renombrás `Comprar`.
+
+> 📝 **Qué es un RemoteEvent:** un "teléfono" entre el cliente y el servidor (Clase 23). El botón llama con `FireServer`, el servidor atiende con `OnServerEvent` y contesta con `FireClient`. Va en **ReplicatedStorage** porque ahí lo ven los dos.
 
 ### Paso 2: La ventana
 
+> 📝 **Qué es un ScreenGui:** la "capa" donde va todo lo que se dibuja en pantalla. Lo que pongas en **StarterGui** se le copia a cada jugador al entrar. El **Frame** es un rectángulo que agrupa los botones.
+
 1. Click derecho en **StarterGui** → **ScreenGui**, la renombrás `TiendaGui`
-2. Adentro, un **Frame** llamado `Ventana`, con **Size** `{0.3, 0}, {0.45, 0}`, **Position** `{0.35, 0}, {0.25, 0}` y fondo oscuro
+2. Adentro, un **Frame** llamado `Ventana`:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `{0.3, 0}, {0.45, 0}` | Ocupa el 30% del ancho y el 45% del alto de la pantalla |
+| **Position** | `{0.35, 0}, {0.25, 0}` | La centra: 35% desde la izquierda y 25% desde arriba |
+| **BackgroundColor3** | Oscuro | El fondo de la ventana |
+| **Visible** | `false` | Arranca cerrada; el LocalScript la abre con la E |
 
 > 💡 Dejá **Visible** en `true` mientras la armás, y al terminar ponelo en `false`, así arranca cerrada.
 
 ### Paso 3: Los botones y textos
 
-Adentro de `Ventana`, todos con **TextScaled** en `true`:
+> 📝 **TextLabel o TextButton:** los dos muestran texto, pero el **TextButton** además se puede tocar: avisa con el evento `Activated`.
+
+Adentro de `Ventana`, todos con **TextScaled** en `true` (el texto se agranda o achica para llenar el recuadro):
 
 | Objeto | Nombre | Text |
 |---|---|---|
@@ -178,9 +220,10 @@ end)
 comprar.OnClientEvent:Connect(mostrarMensaje)       -- cuando el servidor responde, muestra el mensaje
 ```
 
-- La **E** abre la ventana y **Cerrar** la cierra
+- `prompt.Triggered`: cuando apretás la **E**, abre la ventana (`Visible = true`); **Cerrar** la cierra
 - Cada botón manda **solo el nombre** del poder, nunca el precio
-- Lo que responde el servidor se muestra en `Mensaje`
+- `FireServer("Velocidad")` le pide la compra al servidor por el RemoteEvent
+- `OnClientEvent`: lo que responde el servidor se muestra en `Mensaje`
 
 ### ⚡ Parte 4: Cobrar en el servidor
 
@@ -232,8 +275,11 @@ end
 comprar.OnServerEvent:Connect(alPedirCompra)        -- cada vez que un boton pide una compra
 ```
 
+- `OnServerEvent` recibe el pedido: quién lo pidió (`jugador`) y qué quiere (`nombreItem`)
 - El precio sale de la lista `PRECIOS` del servidor
 - Si no te alcanza, te dice cuánto te falta; si ya lo compraste, no te cobra de nuevo
+- Si te alcanza: resta las monedas, marca el poder con un atributo y cambia **WalkSpeed** a 32 (velocidad, normal 16) o **JumpHeight** a 20 (altura del salto, normal 7.2)
+- `FireClient` le contesta al jugador el mensaje
 - El poder dura hasta que morís: el personaje nuevo arranca normal
 
 > ⚠️ El precio **nunca** lo manda el botón. Si lo mandara, un tramposo podría comprar todo por 0 monedas.

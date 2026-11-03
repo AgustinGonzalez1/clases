@@ -47,7 +47,8 @@ local npc = workspace:WaitForChild("rig")           -- espera a que el NPC apare
 local cabeza = npc:WaitForChild("Head")              -- espera a que la cabeza este lista
 local texto = cabeza.BillboardGui.TextLabel          -- texto que flota sobre la cabeza
 
-local jugador = game.Players.LocalPlayer             -- el jugador que ejecuta este script
+local Players = game:GetService("Players")           -- servicio que maneja a los jugadores
+local jugador = Players.LocalPlayer                  -- el jugador que ejecuta este script
 local personaje = jugador.Character                  -- personaje fisico del jugador
 local rootPart = personaje.HumanoidRootPart          -- parte central del jugador
 

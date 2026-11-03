@@ -100,7 +100,8 @@ local botonJugar = frame:WaitForChild("Jugar")
 local textoTiempo = screenGui:WaitForChild("TextoTiempo")
 local textoResultado = screenGui:WaitForChild("TextoResultado")
 
-local jugador = game.Players.LocalPlayer
+local Players = game:GetService("Players")
+local jugador = Players.LocalPlayer
 local personaje = jugador.Character or jugador.CharacterAdded:Wait()
 local humanoid = personaje:WaitForChild("Humanoid")
 
@@ -112,7 +113,7 @@ local tiempo = 30
 local jugando = false
 
 -- Conecta el Touched de cada objeto UNA sola vez (no cada partida)
-for i, objeto in ipairs(objetos) do
+for i, objeto in objetos do
     objeto.Touched:Connect(function(mano)
         if mano.Parent == personaje and jugando and objeto.CanTouch then
             tiempo = tiempo + 5
@@ -137,7 +138,7 @@ meta.Touched:Connect(function(mano)
         textoResultado.Visible = true
         jugando = false
 
-        wait(3)
+        task.wait(3)
         textoResultado.Visible = false
         frame.Visible = true
         tiempo = 30
@@ -145,19 +146,19 @@ meta.Touched:Connect(function(mano)
 end)
 
 -- El boton Jugar arranca la partida
-botonJugar.MouseButton1Click:Connect(function()
+botonJugar.Activated:Connect(function()
     frame.Visible = false
     jugando = true
 
     -- Reinicia todos los objetos para la nueva partida
-    for i, objeto in ipairs(objetos) do
+    for i, objeto in objetos do
         objeto.Transparency = 0
         objeto.CanTouch = true
     end
 
     while tiempo > 0 and jugando do
         textoTiempo.Text = "Tiempo: " .. tiempo
-        wait(1)
+        task.wait(1)
         tiempo = tiempo - 1
     end
 

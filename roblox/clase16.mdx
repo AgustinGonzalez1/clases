@@ -11,7 +11,7 @@ Armamos un menú principal con botones de "Jugar" y "Opciones", y le agregamos u
 
 - Entender qué es una ScreenGui y para qué sirve un Frame
 - Crear un menú con título y botones
-- Detectar clicks con MouseButton1Click
+- Detectar clicks con Activated
 - Animar la desaparición del menú con TweenService
 - Evitar que el menú vuelva a aparecer si el personaje muere y reaparece
 
@@ -57,12 +57,12 @@ Dentro del Frame, insertás tres elementos:
 
 Todos con **TextScaled = true** y **BackgroundTransparency = 1** (menos el Frame, que mantiene su color de fondo).
 
-### 5. Detectar el click con MouseButton1Click
+### 5. Detectar el click con Activated
 
-`MouseButton1Click` es el evento que se dispara cuando el jugador hace click izquierdo sobre un botón:
+`Activated` es el evento que se dispara cuando el jugador aprieta un botón, con el mouse, tocándolo en el celular o con un joystick:
 
 ```lua
-boton.MouseButton1Click:Connect(function()
+boton.Activated:Connect(function()
     print("Se hizo click")
 end)
 ```
@@ -79,7 +79,7 @@ local botonOpciones = frame:WaitForChild("Opciones") -- el boton Opciones
 local titulo = frame:WaitForChild("TextLabel")       -- el TextLabel del titulo
 local TweenService = game:GetService("TweenService") -- para animar la transicion
 
-botonJugar.MouseButton1Click:Connect(function()      -- se dispara al hacer click en Jugar
+botonJugar.Activated:Connect(function()              -- se dispara al hacer click en Jugar
     -- Crea todos los tweens al mismo tiempo
     local tweenFondo = TweenService:Create(frame, TweenInfo.new(1), {
         BackgroundTransparency = 1                   -- el fondo se hace transparente

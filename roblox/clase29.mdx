@@ -5,143 +5,103 @@ mision: "Una barra de XP que sube al completar retos."
 
 # Clase 29: ¡Sube de Nivel! Sistema de XP 🌟
 
-El jugador gana XP (puntos de experiencia) al completar retos del obby, sube de nivel cuando junta suficiente, y lo ve todo en una barra que se llena en pantalla.
+Completás retos del obby, ganás XP y subís de nivel, con una barra que se llena en pantalla.
 
 ## Objetivos
 
-- Entender qué es una curva de progreso
 - Guardar el nivel y la XP de cada jugador con atributos
-- Mostrar una barra de XP animada en pantalla
+- Subir de nivel con una curva de progreso
+- Mostrar una barra de XP animada
 
 ## Contenido
 
-### 1. ¿Qué es un sistema de XP?
+La **curva de progreso** dice cuánta XP pide cada nivel. La nuestra: **nivel × 100** (el 1 pide 100, el 2 pide 200, el 3 pide 300). Al subir, lo que sobra se guarda.
 
-Hacés cosas, ganás **XP**, y cuando juntás suficiente, **subís de nivel**. La **curva de progreso** es la regla que dice cuánta XP pide cada nivel. Nosotros usamos una simple: **cada nivel pide 100 × nivel**.
+### 🧱 Parte 1: Los retos
 
-| Nivel | XP para subir |
-|---|---|
-| 1 | 100 |
-| 2 | 200 |
-| 3 | 300 |
+### Paso 1: Las dos carpetas
 
-> 💡 Al subir, lo que sobra se guarda: si tenías 90 de 100 y ganaste 50, pasás al nivel 2 con 40 de 200.
+1. Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Folder**, la renombrás `Obby` y metés adentro todas las plataformas del recorrido
+2. Otra **Folder** en Workspace, llamada `Retos`: acá van los bloques que dan XP
 
-### 2. Paso 1: Tener el obby en su carpeta
+> 📝 **Para qué dos carpetas:** `Obby` es solo para ordenar (ningún script la usa). `Retos` la recorre el script con un `for` para conectar cada reto: todo lo que esté adentro da XP.
 
-Si todavía no lo tenés, armás el recorrido y guardás **todos** sus bloques en una carpeta:
+> ⚠️ Los retos van en su **propia** carpeta, no adentro de `Obby`: el script recorre `Retos`.
 
-1. Click derecho en **Workspace** → Insert Object → **Folder**, la renombrás `Obby`
-2. Metés adentro todas las plataformas y obstáculos
+### Paso 2: El primer reto
 
-```
-Workspace
-  └── Obby (Folder)
-        ├── Plataforma
-        ├── Plataforma
-        └── ...
-```
-
-Esta carpeta es **solo para ordenar**: ningún script la usa.
-
-### 3. Paso 2: Crear la carpeta de retos
-
-1. Click derecho en **Workspace** → Insert Object → **Folder**
-2. La renombrás `Retos`
-
-```
-Workspace
-  ├── Obby (Folder)
-  └── Retos (Folder)       ← acá van los bloques que dan XP
-```
-
-> ⚠️ Los retos van en su **propia** carpeta, no adentro de `Obby`. El script va a recorrer `Retos` y darle XP a todo lo que encuentre adentro.
-
-### 4. Paso 3: Crear el primer reto
-
-1. Click derecho en `Retos` → Insert Object → **Part**
-2. La renombrás `Reto1`
-3. En Properties:
+Click derecho en `Retos` → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Reto1`:
 
 | Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| **Anchored** | `true` | Que no se caiga |
-| **CanCollide** | `false` | Que se pueda atravesar, como un premio |
-| **Material** | `Neon` | Que brille y se note |
+| **Anchored** | `true` | Queda fijo, no se cae |
+| **CanCollide** | `false` | Se atraviesa, como un premio que agarrás al pasar |
+| **Material** | `Neon` | Brilla y se nota de lejos |
 | **Color** | Uno llamativo | Que se distinga de las plataformas |
 
-4. Lo ubicás al final del primer tramo del obby
+Lo ponés al final del primer tramo del obby.
 
-### 5. Paso 4: Decirle cuánta XP da
+### Paso 3: La XP en un atributo
 
-Cada reto guarda **su propia XP** en un **atributo** (Clase 27), así no hace falta tocar el código para cambiarla:
+Cada reto guarda su XP en un **atributo** (Clase 27), así se cambia sin tocar el código:
 
-1. Con `Reto1` seleccionado, bajás hasta el final del panel **Properties**
-2. En la sección **Atributos**, click en **+ Agregar atributo**
-3. **Nombre**: `XP`
-4. **Tipo**: `number`
-5. Click en **Guardar**
-6. En el atributo que apareció, escribís `50`
+> 📝 **Qué es un atributo:** un dato con nombre que le pegás a un objeto, como una etiqueta (`XP = 50`). El script lo lee con `GetAttribute("XP")`.
 
-### 6. Paso 5: Ponerle un cartel con la XP
+1. Con `Reto1` seleccionado, bajás hasta el final de **Propiedades**
+2. En **Atributos**, click en **+**
+3. **Nombre** `XP`, **Tipo** `number` → **Guardar**
+4. Le escribís `50`
 
-Para que el jugador sepa cuánto da cada reto antes de llegar, le ponemos un cartel flotante arriba, como el del NPC de la Clase 10:
+![El atributo XP del reto](roblox/img/clase29/01-atributo-xp.png)
+*Al final de Propiedades, en **Atributos**: XP = 50.*
 
-1. Click derecho en `Reto1` → Insert Object → **BillboardGui**, lo renombrás `Cartel`
-2. En Properties:
+> 💡 No lo confundas con **Etiquetas**, la sección de arriba: son nombres sin valor para marcar objetos. Para guardar un número, como la XP, va un atributo.
+
+### Paso 4: El cartel
+
+Un cartel flotante con la XP, como el del NPC de la Clase 10:
+
+1. Click derecho en `Reto1` → Insert Object (**Insertar objeto**) → **BillboardGui**, lo renombrás `Cartel`
+
+> 📝 **Qué es un BillboardGui:** un cartel pegado a una Part que siempre mira a la cámara. Adentro lleva textos, como un ScreenGui pero en el mundo 3D.
 
 | Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| **Size** | `{0, 120}, {0, 40}` | Tamaño fijo en píxeles: el cartel se ve igual de grande de cerca y de lejos |
-| **StudsOffset** | `0, 3, 0` | Lo sube 3 studs, para que flote arriba del reto |
-| **AlwaysOnTop** | `true` | Se ve aunque haya una pared en el medio |
+| **Size** ✏️ | `{0, 120}, {0, 40}` | 120 × 40 píxeles fijos: se ve del mismo tamaño de cerca y de lejos |
+| **StudsOffset** ✏️ | `0, 3, 0` | Lo sube 3 studs, para que flote arriba del reto |
+| **AlwaysOnTop** ✏️ | `true` | Se ve aunque haya algo en el medio |
+| **MaxDistance** | infinito | Desde qué distancia deja de verse |
+| **Adornee** | vacío | A qué Part se pega. Vacío = a la Part que lo contiene (el reto) |
 
-3. Click derecho en `Cartel` → Insert Object → **TextLabel**
-4. En Properties:
+*✏️ = las que cambiamos. Las demás (Brightness, LightInfluence…) quedan como vienen.*
+
+2. Adentro de `Cartel`, un **TextLabel**:
 
 | Propiedad | Valor | Para qué sirve |
 |---|---|---|
 | **Size** | `{1, 0}, {1, 0}` | Ocupa todo el cartel |
-| **BackgroundTransparency** | `1` | Sin fondo, solo el texto |
+| **BackgroundTransparency** | `1` | Sin fondo, solo las letras |
 | **TextScaled** | `true` | El texto se ajusta al tamaño del cartel |
-| **TextColor3** | El mismo color que el reto | Que se note que el cartel es de ese reto |
-| **TextStrokeTransparency** | `0` | Le pone un borde negro a las letras, para que se lean sobre cualquier fondo |
+| **TextColor3** | El color del reto | Que se note de qué reto es |
+| **TextStrokeTransparency** | `0` | Borde negro en las letras, para leerlas sobre cualquier fondo |
 | **Text** | `+50 XP` | Lo que dice el cartel |
 
-```
-Workspace
-  └── Retos (Folder)
-        └── Reto1 (XP = 50)
-              └── Cartel (BillboardGui)
-                    └── TextLabel ("+50 XP")
-```
+> 💡 Hacé el cartel **antes** de duplicar: con **Ctrl + D** se copia junto con el reto.
 
-> 💡 Lo hacemos **antes** de duplicar: así, al hacer **Ctrl + D**, el cartel se copia junto con el reto y solo hay que cambiarle el texto.
+### Paso 5: Más retos
 
-### 7. Paso 6: Crear más retos
+**Ctrl + D** sobre `Reto1` y armás:
+- `Reto2`, más adelante: atributo `XP` en `150` y cartel `+150 XP`
+- `Reto3`, al final: atributo `XP` en `300` y cartel `+300 XP`
 
-1. Seleccionás `Reto1` y **Ctrl + D** para duplicarlo
-2. Lo renombrás `Reto2`, lo ubicás más adelante en el obby, le cambiás el atributo `XP` a `150` y el texto del cartel a `+150 XP`
-3. Repetís para un `Reto3` al final, con `XP` en `300` y el cartel en `+300 XP`
+![El obby con los tres retos](roblox/img/clase29/02-escena.png)
+*Los tres retos con su cartel. Cuanto más lejos, más XP.*
 
-```
-Workspace
-  ├── Obby (Folder)
-  └── Retos (Folder)
-        ├── Reto1 (XP = 50)
-        │     └── Cartel → TextLabel ("+50 XP")
-        ├── Reto2 (XP = 150)
-        │     └── Cartel → TextLabel ("+150 XP")
-        └── Reto3 (XP = 300)
-              └── Cartel → TextLabel ("+300 XP")
-```
+### ⚙️ Parte 2: El servidor
 
-> 💡 Cuanto más difícil es llegar al reto, más XP conviene que dé.
+### Paso 1: El script Experiencia
 
-### 8. Paso 7: El script del servidor
-
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
-2. Lo renombrás `Experiencia`
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `Experiencia`:
 
 ```lua
 local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
@@ -190,43 +150,48 @@ for _, reto in carpetaRetos:GetChildren() do        -- recorre todos los retos
 end
 ```
 
-**Qué hace cada parte:**
+- **Al entrar**: cada jugador arranca con los atributos `Nivel` = 1 y `XP` = 0
+- **Al tocar un reto**: le da la XP del atributo, **una sola vez** por reto (la tabla `completados`, Clase 21)
+- **`darXP`**: el `while` (Clase 20) sube varios niveles de golpe si alcanza, y cada nivel da **+2 de velocidad** (**WalkSpeed**, que arranca en 16)
+- `SetAttribute` guarda `Nivel` y `XP` en el jugador; como lo hace el servidor, la barra del cliente se entera sola
 
-- **Al entrar** (`PlayerAdded`): le pone al jugador dos atributos, `Nivel` en 1 y `XP` en 0
-- **Al tocar un reto** (`alTocarReto`): revisa que sea un jugador y que no haya hecho ese reto antes, y le da la XP que dice el atributo del reto
-- **Al dar XP** (`darXP`): suma la XP y, mientras alcance, sube de nivel. Usa `while` (Clase 20) por si un reto da tanta XP que sube **varios niveles de golpe**
-- `completados` es una tabla de tablas (Clase 21): cada jugador puede hacer cada reto **una sola vez**. Se marca antes de dar la XP porque `Touched` se dispara por cada parte del cuerpo
-- La recompensa es **+2 de velocidad** por cada nivel que sube
+> ⚠️ `GetAttribute` y `SetAttribute` van con **dos t**. Con una sola, la XP nunca se suma.
 
-> ⚠️ Ojo con escribir bien `GetAttribute` y `SetAttribute`, con **dos t**. Con una sola, el script tira error al tocar el reto y la XP nunca se suma.
+### 📊 Parte 3: La barra
 
-### 9. Paso 8: Crear la barra
+### Paso 1: Armar la barra
 
-1. Click derecho en **StarterGui** → Insert Object → **ScreenGui**, la renombrás `XPGui`
-2. Click derecho en `XPGui` → Insert Object → **Frame**, lo renombrás `Fondo`:
-   - **Size**: `{0.4, 0}, {0.05, 0}`
-   - **Position**: `{0.3, 0}, {0.92, 0}`
-   - **BackgroundColor3**: gris oscuro
-3. Click derecho en `Fondo` → Insert Object → **Frame**, lo renombrás `Relleno`:
-   - **Size**: `{0, 0}, {1, 0}` (arranca vacío)
-   - **BackgroundColor3**: verde
-4. Click derecho en `Fondo` → Insert Object → **TextLabel**, lo renombrás `TextoNivel`:
-   - **Size**: `{1, 0}, {1, 0}`
-   - **BackgroundTransparency**: `1`
-   - **TextScaled**: `true`
-   - **ZIndex**: `2` (para que el relleno no lo tape)
-5. Click derecho en `Fondo` → Insert Object → **LocalScript**
+La barra son dos rectángulos: el `Fondo` gris y, encima, el `Relleno` verde que se estira según la XP.
 
-```
-StarterGui
-  └── XPGui (ScreenGui)
-        └── Fondo (Frame)
-              ├── Relleno (Frame)
-              ├── TextoNivel (TextLabel)
-              └── LocalScript
-```
+1. Click derecho en **StarterGui** → **ScreenGui**, la renombrás `XPGui`
+2. Adentro, un **Frame** `Fondo`:
 
-### 10. Paso 9: El código de la barra
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `{0.4, 0}, {0.05, 0}` | 40% del ancho y 5% del alto de la pantalla |
+| **Position** | `{0.3, 0}, {0.92, 0}` | Centrada y abajo de todo |
+| **BackgroundColor3** | Gris oscuro | La parte vacía de la barra |
+
+3. Adentro de `Fondo`, un **Frame** `Relleno`:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `{0, 0}, {1, 0}` | Ancho 0: arranca vacía. El script le cambia el ancho |
+| **BackgroundColor3** | Verde | La parte llena de la barra |
+
+4. Adentro de `Fondo`, un **TextLabel** `TextoNivel`:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `{1, 0}, {1, 0}` | Ocupa toda la barra |
+| **BackgroundTransparency** | `1` | Sin fondo, para ver la barra detrás |
+| **TextScaled** | `true` | El texto se ajusta al tamaño |
+| **TextColor3** | Blanco | Que se lea sobre el gris y el verde |
+| **ZIndex** | `2` | Lo dibuja encima del relleno, que tiene 1 |
+
+### Paso 2: El LocalScript
+
+Click derecho en `Fondo` → Insert Object (**Insertar objeto**) → **LocalScript**:
 
 ```lua
 local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
@@ -250,62 +215,45 @@ jugador:GetAttributeChangedSignal("XP"):Connect(actualizarBarra)     -- y cada v
 jugador:GetAttributeChangedSignal("Nivel"):Connect(actualizarBarra)  -- o el nivel
 ```
 
-- La barra **no calcula nada**: solo lee los atributos que guardó el servidor
-- `xp / necesaria` da un número de 0 a 1: con 50 de 100 da `0.5`, o sea, media barra
-- `UDim2.new(porcentaje, 0, 1, 0)`: el ancho según la XP y todo el alto (Clase 16)
+- La barra **no calcula nada**: lee los atributos que guardó el servidor
+- `xp / necesaria` da de 0 a 1: con 50 de 100, media barra
+- `TweenService` anima el cambio de tamaño en medio segundo, en vez de saltar de golpe
+- `GetAttributeChangedSignal` vuelve a dibujar la barra cada vez que cambian la XP o el nivel
 - `nivel * 100` tiene que ser **la misma curva** que en el servidor
 
-### 11. Estructura final en el Explorer
+**Probalo:** Play. La barra arranca vacía:
 
-```
-Workspace
-  ├── Obby (Folder)
-  │     └── (todas las plataformas)
-  └── Retos (Folder)
-        ├── Reto1 (XP = 50)
-        │     └── Cartel (BillboardGui)
-        │           └── TextLabel ("+50 XP")
-        ├── Reto2 (XP = 150)
-        │     └── Cartel (BillboardGui)
-        │           └── TextLabel ("+150 XP")
-        └── Reto3 (XP = 300)
-              └── Cartel (BillboardGui)
-                    └── TextLabel ("+300 XP")
+![La barra al empezar](roblox/img/clase29/03-barra-inicio.png)
 
-StarterGui
-  └── XPGui (ScreenGui)
-        └── Fondo (Frame)
-              ├── Relleno (Frame)
-              ├── TextoNivel (TextLabel)
-              └── LocalScript
+### Paso 3: Probar todo
 
-ServerScriptService
-  └── Experiencia (Script)
-```
+Caminás por el obby y pasás por los tres retos:
 
-### 12. Probar
+![Subiendo de nivel](roblox/img/clase29/04-subir-nivel.gif)
+*Reto1: 50 / 100. Reto2: sube al **nivel 2** con 100 / 200. Reto3: sube al **nivel 3**.*
 
-1. **Play**: la barra arranca en `Nivel 1 — 0 / 100 XP`
-2. Llegás a `Reto1`: la barra se llena hasta la mitad, `50 / 100`
-3. Lo volvés a tocar: no pasa nada
-4. Llegás a `Reto2`: sumás 150, subís al **nivel 2**, quedás en `100 / 200` y corrés un poco más rápido
-5. Llegás a `Reto3`: sumás 300 y subís al **nivel 3**
+![Nivel 3](roblox/img/clase29/05-nivel-3.png)
+*Al final: **Nivel 3 — 200 / 300 XP** (50 + 150 + 300 = 500, menos 100 y 200 que costaron los niveles). Si volvés a pasar por un reto, no suma.*
 
-### 13. Problemas comunes
+### Estructura final en el Explorer
+
+![Estructura final en el Explorer](roblox/img/clase29/06-explorer-final.png)
+
+### Problemas comunes
 
 | Problema | Solución |
 |---|---|
-| Un reto no da XP | Revisar que tenga el atributo `XP` y que esté dentro de `Retos`, no de `Obby` |
+| Un reto no da XP | Tiene que tener el atributo `XP` y estar dentro de `Retos`, no de `Obby` |
 | Error `GetAtribute is not a valid member` | Falta una t: es `GetAttribute` |
-| No se ve el texto de la barra | Poner **ZIndex** del TextoNivel en `2` |
-| La barra se pasa del fondo | Revisar que la curva sea `nivel * 100` en los dos scripts |
-| Al morir pierdo la velocidad | Es normal en esta versión: el personaje nuevo arranca con 16 |
+| No se lee el texto de la barra | **TextColor3** blanco y **ZIndex** `2` en `TextoNivel` |
+| La barra se pasa del fondo | La curva tiene que ser `nivel * 100` en los dos scripts |
+| Al morir pierdo la velocidad | Es normal: el personaje nuevo arranca con 16 |
 
-### 14. Extras
+### Extras
 
-**Una curva más difícil:** cambiá `nivel * 100` por `100 * 1.5 ^ (nivel - 1)` en los dos scripts. Los niveles altos cuestan mucho más, como en muchos juegos de Roblox.
+**Una curva más difícil:** cambiá `nivel * 100` por `100 * 1.5 ^ (nivel - 1)` en los dos scripts.
 
-**El nivel se pierde al salir:** se guarda en la Clase 31 (DataStore).
+**El nivel se pierde al salir:** se guarda con DataStore en la Clase 31.
 
 ## Ejercicio
 
@@ -313,11 +261,11 @@ ServerScriptService
 
 **Pistas:**
 1. Dos carpetas: `Obby` para el recorrido y `Retos` para los bloques que dan XP
-2. Cada reto lleva un atributo `XP` y un cartel con lo que da
+2. Cada reto lleva un atributo `XP` y un cartel
 3. El servidor sube los niveles; la barra solo muestra
 
 ## Recursos
 
-- [Documentación oficial de Attributes](https://create.roblox.com/docs/studio/properties#attributes)
-- [Documentación oficial de BillboardGui](https://create.roblox.com/docs/reference/engine/classes/BillboardGui)
-- [Documentación oficial de TweenService](https://create.roblox.com/docs/reference/engine/classes/TweenService)
+- [Attributes](https://create.roblox.com/docs/studio/properties#attributes)
+- [BillboardGui](https://create.roblox.com/docs/reference/engine/classes/BillboardGui)
+- [TweenService](https://create.roblox.com/docs/reference/engine/classes/TweenService)

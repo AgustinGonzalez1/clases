@@ -38,7 +38,8 @@ Va en un **LocalScript** dentro del Tool.
 
 ```lua
 local tool = script.Parent                            -- el Tool (la pistola)
-local jugador = game.Players.LocalPlayer              -- el jugador que ejecuta este script
+local Players = game:GetService("Players")            -- servicio que maneja a los jugadores
+local jugador = Players.LocalPlayer                   -- el jugador que ejecuta este script
 local personaje = jugador.Character                   -- personaje fisico del jugador
 local canon = tool:WaitForChild("Canon")              -- espera a que el Canon este listo
 local TweenService = game:GetService("TweenService")  -- para animar la bala

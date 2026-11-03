@@ -60,7 +60,8 @@ Es un **LocalScript** porque la cámara es de cada jugador: la cinemática se ve
 ```lua
 local camera = workspace.CurrentCamera              -- la camara del jugador
 local TweenService = game:GetService("TweenService")  -- para animar la camara
-local jugador = game.Players.LocalPlayer            -- el jugador que ve la cinematica
+local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
+local jugador = Players.LocalPlayer                 -- el jugador que ve la cinematica
 local personaje = jugador.Character or jugador.CharacterAdded:Wait()  -- espera a que aparezca su personaje
 local humanoid = personaje:WaitForChild("Humanoid") -- para frenarlo mientras dura
 

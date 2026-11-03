@@ -65,7 +65,7 @@ local boton = screenGui:WaitForChild("TextButton")  -- espera a que el boton est
 local ReplicatedStorage = game:GetService("ReplicatedStorage")  -- accede al servicio compartido
 local evento = ReplicatedStorage:WaitForChild("ActivarTrampa")  -- espera a que el RemoteEvent exista
 
-boton.MouseButton1Click:Connect(function()   -- se dispara cuando el jugador hace click
+boton.Activated:Connect(function()           -- se dispara cuando el jugador hace click
     evento:FireServer()                       -- le pide al servidor que active la trampa
 end)
 ```
@@ -112,7 +112,7 @@ evento.OnServerEvent:Connect(function(jugador)   -- se dispara cuando cualquier 
         end
     end)
 
-    wait(2)                                        -- la trampa queda activa por 2 segundos
+    task.wait(2)                                   -- la trampa queda activa por 2 segundos
 
     trampa.Color = Color3.fromRGB(255, 255, 255)   -- vuelve a su color normal
     conexion:Disconnect()                           -- deja de escuchar toques, ya no hace mas daño

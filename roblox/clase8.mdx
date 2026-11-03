@@ -61,7 +61,7 @@ bloque.Touched:Connect(function()
     local tween = TweenService:Create(clon, info, meta)
     tween:Play()
 
-    wait(2)
+    task.wait(2)
     clon:Destroy()
 
     activado = false

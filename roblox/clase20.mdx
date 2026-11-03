@@ -24,11 +24,11 @@ local contador = 0
 while contador < 5 do
     contador = contador + 1
     print(contador)
-    wait(1)
+    task.wait(1)
 end
 ```
 
-> ⚠️ Un `while` siempre necesita un `wait()` adentro, sino Roblox se cuelga intentando repetirlo infinitas veces por segundo.
+> ⚠️ Un `while` siempre necesita un `task.wait()` adentro, sino Roblox se cuelga intentando repetirlo infinitas veces por segundo.
 
 **Ejemplo en Roblox:**
 ```lua
@@ -41,7 +41,7 @@ bloque.Touched:Connect(function(mano)
         tocando = true
         while tocando and humanoid.Health > 0 do
             humanoid.Health = humanoid.Health - 10
-            wait(0.5)
+            task.wait(0.5)
         end
     end
 end)
@@ -56,7 +56,7 @@ end)
 ```lua
 for i = 1, 5 do
     print(i)
-    wait(1)
+    task.wait(1)
 end
 ```
 
@@ -71,7 +71,7 @@ for i = 1, 100 do
     bloque.Color = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255))
     local tween = TweenService:Create(bloque, TweenInfo.new(0.5), {Color = Color3.fromRGB(255, 255, 255)})
     tween:Play()
-    wait(0.5)
+    task.wait(0.5)
 end
 ```
 
@@ -83,7 +83,7 @@ local Lighting = game:GetService("Lighting")
 while true do                      -- se repite para siempre
     for hora = 0, 24, 0.1 do       -- avanza la hora de a poquito
         Lighting.ClockTime = hora  -- cambia la hora del dia
-        wait(1)
+        task.wait(1)
     end
 end
 ```
@@ -112,11 +112,11 @@ local texto = bloque.BillboardGui.TextLabel
 
 for i = 10, 1, -1 do
     texto.Text = tostring(i)  -- convierte el numero en texto
-    wait(1)
+    task.wait(1)
 end
 
 texto.Text = "¡GO!"
-wait(1)
+task.wait(1)
 texto.Text = ""
 ```
 

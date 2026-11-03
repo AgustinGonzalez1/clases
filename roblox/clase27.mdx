@@ -5,114 +5,84 @@ mision: "Armar un obby con 3 checkpoints y un sistema de 3 vidas que te devuelve
 
 # Clase 27: Checkpoints y Vidas ❤️
 
-Hacemos que el jugador reaparezca en el último checkpoint que tocó, y le agregamos un contador de vidas que se muestra en pantalla con corazones.
+Al morir reaparecés en el último checkpoint que tocaste. Tenés 3 vidas, que se ven como corazones; si las perdés todas, volvés al inicio.
 
 ## Objetivos
 
-- Usar SpawnLocations como checkpoints
-- Cambiar dónde reaparece un jugador con `RespawnLocation`
-- Detectar cuándo muere un jugador con `Humanoid.Died`
-- Usar Attributes (atributos) para compartir datos del servidor con el cliente sin RemoteEvents
-- Repetir texto con `string.rep` para mostrar las vidas como corazones
+- Usar SpawnLocations como checkpoints con `RespawnLocation`
+- Contar las vidas con `Humanoid.Died` y atributos
+- Mostrar las vidas como corazones con `string.rep`
 
 ## Contenido
 
-### 1. ¿Qué es una SpawnLocation?
+### 🚩 Parte 1: Checkpoints
 
-Una **SpawnLocation** es una Part especial que marca **dónde aparece el jugador**. La plantilla Baseplate ya trae una. Si hay varias, Roblox puede usar cualquiera de ellas.
-
-| Propiedad | Qué hace | Valor para el obby |
-|---|---|---|
-| **Neutral** | Si está en `true`, sirve para cualquier jugador. Si está en `false`, solo para un equipo | `true` |
-| **Duration** | Segundos de escudo protector (ForceField) al aparecer | `0` |
-| **Enabled** | Si se puede usar para aparecer | `true` |
-| **Anchored** | Que no se caiga | `true` |
-
-> 💡 `Duration` en `0` saca el escudo brillante que aparece alrededor del personaje al reaparecer, que en un obby no hace falta.
-
-### 2. ¿Qué es RespawnLocation?
-
-Cada jugador tiene una propiedad `RespawnLocation`: indica en **qué SpawnLocation va a reaparecer** la próxima vez que muera.
+Una **SpawnLocation** es una Part que marca dónde aparece el jugador. Cada jugador tiene la propiedad `RespawnLocation`, que dice en cuál reaparece al morir:
 
 ```lua
 jugador.RespawnLocation = workspace.Checkpoints["2"]  -- la proxima vez aparece en el checkpoint 2
 ```
 
-Ese es todo el truco de los checkpoints: cuando el jugador toca uno, cambiamos su `RespawnLocation` a ese checkpoint.
+Ese es todo el truco: cuando toca un checkpoint, cambiamos su `RespawnLocation`.
 
-### 3. ¿Qué son los Attributes?
+### Paso 1: El inicio
 
-Un **Attribute** (atributo) es un dato con nombre que se le puede pegar a cualquier objeto de Roblox, como una etiqueta con un valor:
+Seleccionás la **SpawnLocation** que trae la plantilla y la renombrás `Inicio`. Tiene, además de las de cualquier Part, estas propiedades propias:
 
-```lua
-jugador:SetAttribute("Vidas", 3)            -- le guarda el atributo Vidas con el valor 3
-print(jugador:GetAttribute("Vidas"))        -- imprime: 3
-```
+| Propiedad | Sección | Valor | Para qué sirve |
+|---|---|---|---|
+| **Duration** ✏️ | Campo de fuerza | `0` | Segundos de escudo (ForceField) al aparecer. En un obby no hace falta |
+| **Neutral** ✏️ | Equipos | `true` | Cualquier jugador puede aparecer acá, no solo un equipo |
+| **TeamColor** | Equipos | — | El equipo que aparece acá; solo cuenta si **Neutral** está en `false` |
+| **AllowTeamChangeOnTouch** | Equipos | ✗ | Si al tocarla te cambia de equipo |
 
-Lo importante: si el **servidor** le pone un atributo a un jugador, ese atributo **viaja solo al cliente**. Así el cliente puede mostrar las vidas en pantalla **sin necesitar un RemoteEvent** (Clase 23).
+*✏️ = las que cambiamos. Las de equipos se usan cuando hay equipos; acá no.*
 
-| Función | Qué hace |
-|---|---|
-| `SetAttribute("Nombre", valor)` | Guarda o cambia el atributo |
-| `GetAttribute("Nombre")` | Lee el valor actual |
-| `GetAttributeChangedSignal("Nombre")` | Evento que avisa cada vez que ese atributo cambia |
+### Paso 2: Los checkpoints
 
-> 💡 Mientras jugás en Studio, si seleccionás tu jugador en **Players**, vas a ver el atributo `Vidas` en el panel Properties, en la sección **Atributos**. Sirve mucho para revisar que todo funcione.
+1. Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Folder**, la renombrás `Checkpoints`
+2. Click derecho en `Checkpoints` → Insert Object (**Insertar objeto**) → **SpawnLocation**, la renombrás `1`
+3. Igual que el `Inicio`: **Duration** en `0` y **Neutral** en `true`. Además, **Color** verde para que se note que es un checkpoint
+4. Repetís para el `2` y el `3`, y los ponés en orden a lo largo del obby
 
-### 4. Repetir texto con string.rep
+![Propiedades del checkpoint](roblox/img/clase27/01-propiedades-checkpoint.png)
+*Así se ven en Propiedades: **Duration** en **Campo de fuerza** y **Neutral** en **Equipos**.*
 
-Para mostrar las vidas como corazones (❤️❤️❤️) necesitamos repetir un texto varias veces. En Lua eso se hace con `string.rep(texto, cantidad)`:
+> ⚠️ Los nombres tienen que ser **números** (`1`, `2`, `3`): el script los usa para saber cuál está más adelante.
 
-```lua
-print(string.rep("❤️", 3))    -- imprime: ❤️❤️❤️
-print(string.rep("⭐", 5))    -- imprime: ⭐⭐⭐⭐⭐
-```
+### Paso 3: El bloque de la muerte
 
-> ⚠️ En Lua **no** se puede hacer `"❤️" * 3`. El `*` es solo para multiplicar números y tira error (`attempt to perform arithmetic on a string value`). Esa forma de repetir texto existe en otros lenguajes como Python, pero no en Lua.
+Para probar. Una **Part** en Workspace llamada `BloqueMuerte`, después del checkpoint `1`:
 
-### 5. Cómo vamos a organizar los scripts
-
-Igual que en la Clase 26, un script por tarea, todos con el mismo orden interno (Servicios → Configuración → Referencias → Funciones → Inicio):
-
-| Script | Dónde va | Qué hace |
+| Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| `Checkpoints` | ServerScriptService | Cambia el punto de reaparición al tocar un checkpoint |
-| `Vidas` | ServerScriptService | Resta vidas al morir y te manda al inicio si llegan a 0 |
-| LocalScript | Dentro de `TextoVidas` | Muestra las vidas en pantalla como corazones |
-| Script | Dentro de `BloqueMuerte` | Mata al jugador al tocarlo (para probar) |
+| **Color** | Rojo | Que se note que es peligroso |
+| **Anchored** | `true` | Que no se mueva |
 
-### 🚩 Parte 1: Checkpoints
+Adentro, un **Script** (el de la Clase 7). Cuando lo toca un personaje, le pone la vida (`Health`) en 0:
 
-### 6. Preparar la SpawnLocation de inicio
+```lua
+-- Referencias
+local bloque = script.Parent                        -- el bloque que contiene este script
 
-1. En el Workspace, seleccionás la **SpawnLocation** que trae la plantilla
-2. La renombrás `Inicio`
-3. En Properties: **Neutral** en `true`, **Duration** en `0`
+-- Funciones
+local function alTocar(parteQueToco)
+    local humanoid = parteQueToco.Parent:FindFirstChild("Humanoid")  -- busca si lo toco un personaje
+    if humanoid then                                -- si fue un personaje
+        humanoid.Health = 0                         -- lo mata
+    end
+end
 
-### 7. Crear los checkpoints
-
-1. Click derecho en **Workspace** → Insert Object → **Folder**, la renombrás `Checkpoints`
-2. Click derecho en `Checkpoints` → Insert Object → **SpawnLocation**
-3. La renombrás `1`
-4. En Properties: **Neutral** en `true`, **Duration** en `0`, y un color llamativo (por ejemplo verde)
-5. Repetís para crear `2` y `3`
-6. Los ubicás a lo largo del obby, en orden: el `1` después del primer tramo, el `2` en el medio, el `3` cerca del final
-
-```
-Workspace
-  ├── Inicio (SpawnLocation)
-  └── Checkpoints (Folder)
-        ├── 1 (SpawnLocation)
-        ├── 2 (SpawnLocation)
-        └── 3 (SpawnLocation)
+-- Inicio
+bloque.Touched:Connect(alTocar)                     -- cuando algo toca el bloque
 ```
 
-> ⚠️ Los nombres tienen que ser **números** (`1`, `2`, `3`). El script usa ese número para saber qué checkpoint está más adelante.
+![El obby con los checkpoints](roblox/img/clase27/02-escena.png)
+*El `Inicio`, los checkpoints `1`, `2` y `3` en verde, y el `BloqueMuerte` en rojo.*
 
-### 8. El script Checkpoints
+### Paso 4: El script Checkpoints
 
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
-2. Lo renombrás `Checkpoints`
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `Checkpoints`:
 
 ```lua
 -- Servicios
@@ -144,66 +114,64 @@ local function alEntrarJugador(jugador)
 end
 
 -- Inicio
-for _, checkpoint in ipairs(carpetaCheckpoints:GetChildren()) do  -- recorre todos los checkpoints
+for _, checkpoint in carpetaCheckpoints:GetChildren() do          -- recorre todos los checkpoints
     checkpoint.Touched:Connect(function(parteQueToco)             -- cuando algo toca este checkpoint
         alTocarCheckpoint(checkpoint, parteQueToco)
     end)
 end
 
-for _, jugador in ipairs(Players:GetPlayers()) do   -- jugadores que ya estaban antes de que corra el script
+for _, jugador in Players:GetPlayers() do           -- jugadores que ya estaban antes de que corra el script
     alEntrarJugador(jugador)
 end
 
 Players.PlayerAdded:Connect(alEntrarJugador)        -- jugadores que entren despues
 ```
 
-- `GetPlayerFromCharacter(parteQueToco.Parent)` recibe el personaje y devuelve el jugador. Si lo que tocó no es un personaje (una pelota, otra Part), devuelve `nil`
-- `tonumber(spawn.Name)` convierte el nombre `"2"` en el número `2`. Como `"Inicio"` no es un número, devuelve `nil`, y el `or 0` lo transforma en `0`
-- `alEntrarJugador` pone el inicio apenas entra el jugador. Sin esto, como hay varias SpawnLocations, Roblox podría hacerlo aparecer **al azar en cualquier checkpoint**
-- El `for` recorre la carpeta (Clases 20 y 21), así si mañana agregás un checkpoint `4`, funciona solo, sin tocar el código
+- `Touched` avisa cuando alguien pisa un checkpoint, y ahí se cambia su `RespawnLocation`
+- `tonumber(spawn.Name)` convierte `"2"` en `2`. `"Inicio"` no es un número, así que con el `or 0` vale `0`
+- El checkpoint **solo avanza**: si estás en el 3 y pisás el 1, no retrocedés
+- `alEntrarJugador` pone a todos en `Inicio`; sin esto, Roblox podría hacerlos aparecer en cualquier checkpoint
+- El `for` recorre la carpeta (Clase 21): si agregás un checkpoint `4`, funciona solo
 
-### 9. Por qué los checkpoints solo avanzan
-
-Sin el `if numeroNuevo > numeroActual`, si el jugador está en el checkpoint 3 y por error pisa el 1, volvería a reaparecer en el 1 y perdería su progreso.
-
-| Está en | Toca | ¿Cambia? |
-|---|---|---|
-| Inicio (0) | 1 | ✅ Sí, 1 es mayor que 0 |
-| 1 | 2 | ✅ Sí |
-| 3 | 1 | ❌ No, 1 es menor que 3 |
-| 2 | 2 | ❌ No, es el mismo |
-
-Además, esto resuelve otro problema: `Touched` se dispara **por cada parte del cuerpo** que toca el checkpoint. Como después del primer toque ya no es "más adelante", los toques repetidos no hacen nada.
+**Probalo:** Play, pasá por el `1` y pisá el bloque rojo: reaparecés en el `1`.
 
 ### ❤️ Parte 2: Vidas
 
-### 10. Crear el texto de las vidas
+Las vidas se guardan en un **atributo** del jugador. Si el servidor lo cambia, el cliente se entera solo, sin RemoteEvent:
 
-1. Click derecho en **StarterGui** → Insert Object → **ScreenGui**, la renombrás `VidasGui`
-2. Click derecho en `VidasGui` → Insert Object → **TextLabel**, lo renombrás `TextoVidas`
-3. Configurás sus propiedades:
-
-| Propiedad | Valor |
-|---|---|
-| **Size** | `{0.2, 0}, {0.08, 0}` |
-| **Position** | `{0.02, 0}, {0.02, 0}` |
-| **TextScaled** | `true` |
-| **BackgroundTransparency** | `1` |
-| **TextXAlignment** | `Left` |
-| **Text** | `...` |
-
-4. Click derecho en `TextoVidas` → Insert Object → **LocalScript**
-
-```
-StarterGui
-  └── VidasGui (ScreenGui)
-        └── TextoVidas (TextLabel)
-              └── LocalScript
+```lua
+jugador:SetAttribute("Vidas", 3)            -- le guarda el atributo Vidas con el valor 3
+print(jugador:GetAttribute("Vidas"))        -- imprime: 3
 ```
 
-> 💡 `TextXAlignment` en `Left` hace que los corazones queden pegados a la izquierda. Así, cuando perdés una vida, el corazón que desaparece es el de la derecha, como en los videojuegos.
+### Paso 1: El texto de las vidas
 
-### 11. El código del texto (LocalScript dentro de TextoVidas)
+1. Click derecho en **StarterGui** → **ScreenGui**, la renombrás `VidasGui`
+2. Adentro, un **TextLabel** llamado `TextoVidas`:
+
+> 📝 **Qué es un ScreenGui:** la "capa" donde va todo lo que se dibuja en pantalla. Lo que pongas en **StarterGui** se le copia a cada jugador al entrar.
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `{0.2, 0}, {0.08, 0}` | 20% del ancho y 8% del alto de la pantalla |
+| **Position** | `{0.02, 0}, {0.02, 0}` | Arriba a la izquierda, con un pequeño margen |
+| **TextScaled** | `true` | Los corazones se ajustan al tamaño del recuadro |
+| **BackgroundTransparency** | `1` | Sin fondo, solo los corazones |
+| **TextXAlignment** | `Left` | Pegados a la izquierda: al perder una vida, se va el de la derecha |
+| **Text** | `...` | Lo que se ve hasta que llegan las vidas del servidor |
+
+### Paso 2: El LocalScript
+
+Para repetir el corazón se usa `string.rep`:
+
+```lua
+print(string.rep("❤️", 3))    -- imprime: ❤️❤️❤️
+print(string.rep("⭐", 5))    -- imprime: ⭐⭐⭐⭐⭐
+```
+
+> ⚠️ En Lua **no** se puede hacer `"❤️" * 3`: tira error. Eso es de Python.
+
+Click derecho en `TextoVidas` → Insert Object (**Insertar objeto**) → **LocalScript**:
 
 ```lua
 -- Servicios
@@ -229,15 +197,14 @@ actualizarTexto()                                   -- muestra las vidas apenas 
 jugador:GetAttributeChangedSignal("Vidas"):Connect(actualizarTexto)  -- y cada vez que cambian
 ```
 
-- Este script **no calcula nada**: solo muestra lo que el servidor guardó en el atributo `Vidas`
-- `string.rep("❤️", vidas)` repite el corazón: con 3 vidas muestra ❤️❤️❤️, con 2 muestra ❤️❤️
-- `GetAttributeChangedSignal("Vidas")` avisa cada vez que el servidor cambia las vidas, así los corazones se actualizan solos
-- El `if vidas then` cubre el primer instante del juego, cuando el atributo todavía no llegó del servidor. Sin ese control, `string.rep` recibiría `nil` como cantidad y tiraría error
+- **No calcula nada**: solo muestra el atributo `Vidas` que guarda el servidor
+- `string.rep("❤️", vidas)` repite el corazón: con 3 vidas muestra ❤️❤️❤️
+- `GetAttributeChangedSignal` avisa cada vez que cambian las vidas
+- El `if vidas then` cubre el primer instante, cuando el atributo todavía no llegó
 
-### 12. El script Vidas
+### Paso 3: El script Vidas
 
-1. Click derecho en **ServerScriptService** → Insert Object → **Script**
-2. Lo renombrás `Vidas`
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `Vidas`:
 
 ```lua
 -- Servicios
@@ -281,89 +248,63 @@ local function alEntrarJugador(jugador)
 end
 
 -- Inicio
-for _, jugador in ipairs(Players:GetPlayers()) do   -- jugadores que ya estaban antes de que corra el script
+for _, jugador in Players:GetPlayers() do           -- jugadores que ya estaban antes de que corra el script
     alEntrarJugador(jugador)
 end
 
 Players.PlayerAdded:Connect(alEntrarJugador)        -- jugadores que entren despues
 ```
 
-- `humanoid.Died` es un evento que se dispara cuando la vida del personaje llega a 0
-- Cada vez que el jugador reaparece, Roblox crea un **personaje nuevo** con un **Humanoid nuevo**. Por eso `CharacterAdded` vuelve a conectar el `Died` en cada reaparición
-- El `if jugador.Character` cubre el caso de que el personaje ya haya aparecido antes de que el script conectara `CharacterAdded`
-- Cambiar `RespawnLocation` dentro de `alMorir` funciona porque el jugador tarda unos segundos en reaparecer, y para ese momento ya sabe que tiene que volver al inicio
+- `SetAttribute("Vidas", 3)` le da las vidas al entrar
+- `humanoid.Died` avisa cuando el personaje muere; le resta una vida
+- Con 0 vidas: vuelve a `Inicio` y recupera las 3
+- Al reaparecer hay un **Humanoid nuevo**: por eso `CharacterAdded` vuelve a conectar el `Died`
 
-### 13. Crear un bloque de la muerte para probar
+> ⚠️ `SetAttribute` y `GetAttribute` van con **dos t**. Con `SetAtribute` las vidas nunca se guardan y los corazones no cambian.
 
-Reutilizamos el bloque de la Clase 7:
+**Probalo:** Play. Arriba a la izquierda aparecen los tres corazones:
 
-1. Insertás una **Part** en el Workspace, la renombrás `BloqueMuerte` y la pintás de rojo
-2. **Anchored** en `true`
-3. Click derecho en la Part → Insert Object → **Script**
+![Las vidas al empezar](roblox/img/clase27/03-vidas-inicio.png)
 
-```lua
--- Referencias
-local bloque = script.Parent                        -- el bloque que contiene este script
+### Paso 4: Probar todo
 
--- Funciones
-local function alTocar(parteQueToco)
-    local humanoid = parteQueToco.Parent:FindFirstChild("Humanoid")  -- busca si lo toco un personaje
-    if humanoid then                                -- si fue un personaje
-        humanoid.Health = 0                         -- lo mata
-    end
-end
+Pasás por el `1` y pisás el bloque rojo:
 
--- Inicio
-bloque.Touched:Connect(alTocar)                     -- cuando algo toca el bloque
-```
+![Morir y reaparecer en el checkpoint](roblox/img/clase27/04-morir-checkpoint.gif)
+*Perdés un corazón y reaparecés en el checkpoint `1`.*
 
-Lo ubicás **después** de algún checkpoint, así podés probar que reaparecés ahí.
+Seguís hasta el `2`, volvés a pisar el bloque y reaparecés en el `2` con un corazón. Al perder el último, volvés al inicio con los tres:
 
-### 14. Probar todo
+![De vuelta al inicio](roblox/img/clase27/05-vuelve-inicio.png)
 
-1. Le das **Play** en Studio
-2. Revisás que arriba a la izquierda aparezcan **❤️❤️❤️** y que arranques en `Inicio`
-3. Tocás el checkpoint `1` y después el `BloqueMuerte`: tenés que reaparecer en el `1` con **❤️❤️**
-4. Avanzás hasta el `2`, volvés a tocar el `1`, y morís: tenés que reaparecer en el `2` (no retrocede) con **❤️**
-5. Morís una vez más: al llegar a 0 volvés a `Inicio` con **❤️❤️❤️**
-6. Si algo no anda, seleccioná tu jugador en **Players** y mirá el atributo `Vidas` en Properties
+> 💡 Si algo falla, mientras jugás seleccioná tu jugador en **Players** y mirá el atributo `Vidas` en Propiedades.
 
-### 15. Estructura final completa en el Explorer
+### Estructura final en el Explorer
 
-```
-Workspace
-  ├── Inicio (SpawnLocation)
-  ├── Checkpoints (Folder)
-  │     ├── 1 (SpawnLocation)
-  │     ├── 2 (SpawnLocation)
-  │     └── 3 (SpawnLocation)
-  └── BloqueMuerte (Part)
-        └── Script
+![Estructura final en el Explorer](roblox/img/clase27/06-explorer-final.png)
 
-StarterGui
-  └── VidasGui (ScreenGui)
-        └── TextoVidas (TextLabel)
-              └── LocalScript
+### Problemas comunes
 
-ServerScriptService
-  ├── Checkpoints (Script)
-  └── Vidas (Script)
-```
+| Problema | Solución |
+|---|---|
+| Al empezar aparezco en cualquier checkpoint | La SpawnLocation de inicio tiene que llamarse `Inicio` |
+| Reaparezco en el inicio aunque toqué un checkpoint | Los checkpoints se llaman `1`, `2`, `3` y están dentro de `Checkpoints` |
+| Los corazones no cambian al morir | Revisá que diga `SetAttribute`, con dos t (mirá el Output) |
+| Se queda en `...` | Falta el script `Vidas` en ServerScriptService |
+| Aparece un escudo brillante | **Duration** en `0` en todas las SpawnLocations |
 
 ## Ejercicio
 
-> Consigna: Armá un obby con 3 checkpoints y un sistema de 3 vidas mostradas como corazones. Si el jugador pierde todas las vidas, vuelve al inicio.
+> Consigna: Armá un obby con 3 checkpoints y 3 vidas mostradas como corazones. Si el jugador pierde todas, vuelve al inicio.
 
 **Pistas:**
-1. Los checkpoints tienen que llamarse `1`, `2` y `3`, y estar dentro de la carpeta `Checkpoints`
-2. Todas las SpawnLocations con **Neutral** en `true` y **Duration** en `0`
-3. El servidor guarda las vidas con `SetAttribute`, y el cliente solo las muestra con `string.rep`
-4. Poné varios `BloqueMuerte` entre checkpoints para que el obby tenga desafío
-5. Como extra, cambiá `VIDAS_INICIALES` a 5 y verificá que aparezcan 5 corazones. Si se ven muy chicos, agrandá el **Size** del TextLabel
+1. Los checkpoints se llaman `1`, `2` y `3`, dentro de `Checkpoints`
+2. El servidor guarda las vidas con `SetAttribute`; el cliente solo las muestra
+3. Como extra, cambiá `VIDAS_INICIALES` a 5
 
 ## Recursos
 
-- [Documentación oficial de SpawnLocation](https://create.roblox.com/docs/reference/engine/classes/SpawnLocation)
-- [Documentación oficial de Player.RespawnLocation](https://create.roblox.com/docs/reference/engine/classes/Player#RespawnLocation)
-- [Documentación oficial de Attributes](https://create.roblox.com/docs/studio/properties#attributes)
-- [Documentación oficial de string.rep](https://create.roblox.com/docs/reference/engine/libraries/string#rep)
+- [SpawnLocation](https://create.roblox.com/docs/reference/engine/classes/SpawnLocation)
+- [Player.RespawnLocation](https://create.roblox.com/docs/reference/engine/classes/Player#RespawnLocation)
+- [Attributes](https://create.roblox.com/docs/studio/properties#attributes)
+- [string.rep](https://create.roblox.com/docs/reference/engine/libraries/string#rep)

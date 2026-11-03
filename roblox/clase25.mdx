@@ -99,7 +99,8 @@ Reutilizamos `Magnitude` (Clases 10 y 22) para que la música baje su volumen cu
 
 ```lua
 local enemigo = workspace.Enemigo.HumanoidRootPart      -- la posicion del enemigo
-local jugador = game.Players.LocalPlayer
+local Players = game:GetService("Players")
+local jugador = Players.LocalPlayer
 local personaje = jugador.Character or jugador.CharacterAdded:Wait()
 
 game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces por segundo
