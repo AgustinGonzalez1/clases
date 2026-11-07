@@ -1,65 +1,126 @@
 ---
 title: "Clase 3: Construyendo con Bloques 🧱"
-mision: "Armar un castillo o laberinto simple usando Parts."
+mision: "Armar un castillo o laberinto simple usando piezas, agrupadas en un modelo con nombre."
 ---
 
 # Clase 3: Construyendo con Bloques 🧱
 
-Creamos y modificamos Parts para construir estructuras como castillos o laberintos.
+Construimos un castillo con piezas: paredes, torres y techos. Aprendemos a anclarlas, a usar otras formas y a ordenar todo en un modelo.
 
 ## Objetivos
 
-- Insertar y modificar Parts
-- Cambiar la forma de una Part
-- Agrupar Parts en un Model y nombrarlas correctamente
+- Insertar piezas con distintas formas: bloque, esfera, cuña y cilindro
+- Usar Size, Anchored, CanCollide y Transparency
+- Agrupar las piezas en un modelo y ponerles nombres
 
 ## Contenido
 
-### 1. Insertar una Part
+### 🧱 Parte 1: Las piezas
 
-Desde **Home** → click en **Part**, o click derecho en el Workspace → Insert Object → Part.
+### Paso 1: Elegir la forma
 
-### 2. Modificar la Part
+Abrís un **Baseplate** (como en la Clase 1). En **Inicio**, la flechita al lado de **Pieza** abre un menú con las formas:
 
-Desde **Properties**:
+![Menú de Pieza](roblox/img/clase3/01-menu-pieza.png)
+*Bloque, Esfera, Cuña, Cuña de esquina y Cilindro.*
 
-| Propiedad | Qué controla |
+| Forma | Para qué sirve en el castillo |
 |---|---|
-| **Size** | El tamaño en los tres ejes (X, Y, Z) |
-| **Color** | El color del bloque |
-| **Material** | La textura |
-| **Anchored** | Si el bloque cae o se queda fijo en el aire |
+| **Bloque** | Piso y paredes |
+| **Cilindro** | Torres |
+| **Cuña** | Techos inclinados |
+| **Esfera** | Adornos |
 
-**Ejemplo:** con **Ctrl + D** duplicás una Part seleccionada. Útil para construir paredes repetidas.
+> 💡 También se puede cambiar la forma de una pieza que ya existe, con la propiedad **Shape** (Block, Ball, Cylinder, Wedge).
 
-### 3. Cambiar la forma de la Part
+### Paso 2: Las propiedades que más vamos a usar
 
-1. Seleccionás la Part
-2. Properties → **Shape** → elegís entre **Block**, **Ball** (esfera), **Cylinder**, **Wedge**
+Seleccionás una pared y buscás en **Propiedades**:
 
-### 4. Agrupar las Parts en un Model
+![Propiedades de una pared](roblox/img/clase3/02-propiedades-pared.png)
+*Están en distintas secciones: Aspecto, Transformar, Colisión y Pieza.*
 
-1. Seleccionás todas las Parts de tu construcción (Ctrl + click)
-2. Click derecho → **Group** (Ctrl+G)
-3. Se crea un **Model** con todas las Parts adentro
-4. Lo renombrás con un nombre descriptivo
+| Sección | Propiedad | Valor | Para qué sirve |
+|---|---|---|---|
+| Aspecto | **Transparency** | `0` | Qué tan transparente es: `0` se ve, `1` invisible |
+| Transformar | **Size** ✏️ | `30, 10, 2` | Ancho, alto y grosor (X, Y, Z) en studs. Es lo mismo que estirarla con **Escalar** |
+| Colisión | **CanCollide** | ✅ | Si se puede chocar. Sin tilde, el personaje la atraviesa |
+| Pieza | **Anchored** ✏️ | ✅ | Si queda fija. Sin tilde, se cae con la gravedad |
 
-### 5. Nombrar los objetos
+**Color** y **Material** ya los vimos en la Clase 1.
 
-1. Click derecho sobre cada objeto en el Explorer → **Rename**
-2. Le ponés nombres descriptivos como `ParedNorte`, `Puerta`, `Torre`
+### Paso 3: Anclar siempre
 
-> 💡 Nombrar bien los objetos es importante porque en clases futuras los vamos a referenciar desde código.
+Probalo: un bloque **anclado** (verde) y uno **sin anclar** (rojo), en el aire. Con **Probar → Ejecutar** (F8) corre la física sin el personaje:
+
+![Bloque anclado y sin anclar](roblox/img/clase3/03-anchored.gif)
+*El rojo, sin Anchored, se cae. El verde queda flotando.*
+
+> ⚠️ Todo lo que construyas tiene que estar **anclado**. Si no, al probar las paredes se caen o se empujan. Se ancla seleccionando las piezas y tocando **Anclar** en la pestaña **Inicio**.
+
+### 🏰 Parte 2: El castillo
+
+### Paso 4: Armarlo
+
+Con las herramientas de la Clase 1 (Mover, Escalar, Girar) y **Ctrl + D** para duplicar:
+
+1. **Piso:** un bloque de `30, 1, 30`
+2. **Paredes:** 4 bloques de `2` de grosor y `10` de alto, en los bordes del piso
+3. **Entrada:** la pared de adelante en dos partes, con un hueco en el medio, y un bloque arriba del hueco
+4. **Torres:** 4 cilindros, uno en cada esquina, girados para que queden parados
+5. **Techos:** dos cuñas arriba de cada torre, una mirando para cada lado
+
+> 💡 Con la casilla **1 studs** marcada (al lado de **Geométrico**), las piezas se mueven de a 1 stud y las paredes quedan pegadas sin huecos.
+
+### Paso 5: Agrupar y nombrar
+
+1. Click derecho en cada pieza del Explorador → **Cambiar nombre** (o F2): `Piso`, `ParedNorte`, `Torre1`…
+2. Seleccionás todas las piezas (click en la primera y **Shift + click** en la última del Explorador)
+3. **Ctrl + G** (o **Grupo** en **Inicio**): se crea un **Model**
+4. Lo renombrás `Castillo`
+
+![El modelo Castillo en el Explorador](roblox/img/clase3/04-modelo-castillo.png)
+*Todas las piezas quedan adentro del modelo y se mueven juntas.*
+
+> 📝 **Qué es un Model:** una carpeta que agrupa piezas para moverlas, copiarlas o borrarlas juntas. Con un click en el modelo, se selecciona el castillo entero.
+
+> 💡 Los nombres claros son importantes: cuando empecemos a programar (Clase 6), el código va a buscar las piezas por su nombre.
+
+![El castillo terminado](roblox/img/clase3/05-castillo.png)
+*Piso, cuatro paredes con entrada, cuatro torres y sus techos.*
+
+## Probar todo
+
+1. Le das **▶** y entrás al castillo por la entrada
+2. Nada se cae y no podés atravesar las paredes
+3. En el Explorador, todo está adentro de `Castillo`
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| Al probar, las paredes se caen | No están ancladas | Seleccionarlas y **Anclar** |
+| Atravieso una pared | **CanCollide** desmarcado | Marcarlo |
+| El cilindro queda acostado | El cilindro de Roblox crece a lo largo del eje X | Girarlo 90° con **Girar** |
+| Quedan huecos entre paredes | Movimiento libre | Marcar **1 studs** y acomodarlas |
+| No puedo seleccionar una pieza sola | Está adentro del modelo | Click en ella en el Explorador, o **Alt + click** en la vista 3D |
+
+## Extras
+
+- **Laberinto:** en vez del castillo, paredes largas formando pasillos, con una entrada y una salida
+- **Ventanas:** una pieza con **Material** `Glass` y **Transparency** `0.5`
 
 ## Ejercicio
 
-> Consigna: Armá un castillo o laberinto simple con al menos 4 paredes, una entrada y 2 materiales distintos.
+> Consigna: Armá un castillo o un laberinto simple con al menos 4 paredes, una entrada y 2 materiales distintos. Agrupalo en un modelo con nombre.
 
 **Pistas:**
-1. Usá `Ctrl+D` para duplicar paredes rápido en vez de crearlas de cero
-2. Agrupá todo en un Model con nombre descriptivo antes de terminar
-3. Probá combinar Shape `Wedge` para hacer techos inclinados
+1. **Ctrl + D** para duplicar paredes
+2. Anclá todo antes de probar
+3. Cilindros para torres y cuñas para techos
+4. **Ctrl + G** para agrupar y F2 para renombrar
 
 ## Recursos
 
-- [Documentación oficial de Parts](https://create.roblox.com/docs/reference/engine/classes/Part)
+- [Documentación oficial de Parts](https://create.roblox.com/docs/parts)
+- [Documentación oficial de Models](https://create.roblox.com/docs/parts/models)

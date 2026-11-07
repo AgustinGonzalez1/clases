@@ -1,122 +1,176 @@
 ---
 title: "Clase 5: Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨"
-mision: "Crear un rig personalizado y hacer al menos 1 animación funcional."
+mision: "Crear un rig personalizado con piezas, conectarlo con RigLink y hacer al menos 1 animación funcional."
 ---
 
 # Clase 5: Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨
 
-Construimos un personaje propio con Parts, lo convertimos en un rig animable y lo animamos con el Animation Editor.
+Armamos un muñeco propio con piezas, lo convertimos en un rig con el plugin **RigLink** y lo animamos con el Editor de clips, como en la Clase 4.
 
 ## Objetivos
 
 - Construir un personaje con 6 piezas visibles y una raíz invisible
-- Conectar las partes con Motor6D para armar un rig
-- Animar el rig propio con el Animation Editor
+- Agregarle un Humanoid
+- Unir las piezas con Motor6D usando RigLink, con el punto de giro en hombros, cuello y caderas
+- Animar el rig propio
 
 ## Contenido
 
-### 1. Construir las partes
+### 🧱 Parte 1: El muñeco
 
-Usamos un **rig personalizado** para este muñeco. Creás las siguientes Parts:
+### Paso 1: Las 7 piezas
 
-| Parte | Nombre en Studio |
-|---|---|
-| Cuerpo central | `Torso` |
-| Raíz invisible | `HumanoidRootPart` |
-| Cabeza | `Head` |
-| Brazo izquierdo | `LeftArm` |
-| Brazo derecho | `RightArm` |
-| Pierna izquierda | `LeftLeg` |
-| Pierna derecha | `RightLeg` |
+Insertás 7 piezas (como en la Clase 3), con **Anchored** marcado mientras construís, y las renombrás **exactamente** así:
 
-> ⚠️ Activá **Anchored = true** en todas mientras construís.
-
-La raíz es una Part aparte, del tamaño del torso y en su misma posición, con **Transparency = 1** y **CanCollide = false**. El torso sigue visible.
-
-### 2. Agregar el Humanoid
-
-1. Agrupás todas las Parts en un **Model** (Ctrl+G)
-2. Click derecho sobre el Model → Insert Object → **Humanoid**; verificás **RigType = R6**
-3. Si no tiene un **Animator**, lo insertás dentro del Humanoid
-
-### 3. Conectar las partes con Motor6D
-
-Esta tabla es la referencia para conectar con RigLink en el paso siguiente. **No crees antes los Motor6D manualmente.**
-
-| Nombre del Motor6D | Va en / Part0 | Part1 |
+| Nombre | Qué es | Tamaño de ejemplo |
 |---|---|---|
-| RootJoint | HumanoidRootPart | Torso |
-| Neck | Torso | Head |
-| LeftShoulder | Torso | LeftArm |
-| RightShoulder | Torso | RightArm |
-| LeftHip | Torso | LeftLeg |
-| RightHip | Torso | RightLeg |
+| `Torso` | El cuerpo | `4, 4, 2` |
+| `HumanoidRootPart` | La raíz invisible | `4, 4, 2` (igual al Torso, en el mismo lugar) |
+| `Head` | La cabeza | `2, 2, 2` |
+| `LeftArm` / `RightArm` | Los brazos | `1, 4, 1` |
+| `LeftLeg` / `RightLeg` | Las piernas | `1.5, 4, 1.5` |
 
-> 💡 Motor6D sigue siendo válido para este rig de Parts. En este muñeco, Head se conecta a Torso mediante Neck.
+A la `HumanoidRootPart` le ponés **Transparency** en `1` y le sacás **CanCollide**: no se ve, pero es la pieza que sostiene a todas las demás.
 
-### 4. Ajustar el punto de giro con el plugin RigLink
+> ⚠️ Los nombres van en inglés y con mayúsculas tal cual. Roblox los usa para saber qué es cada parte.
 
-**RigLink** crea los Motor6D conservando la posición de las piezas y permite elegir visualmente el punto de giro.
+### Paso 2: Agrupar y agregar el Humanoid
 
-**Paso 1: Instalar el plugin**
+1. Seleccionás las 7 piezas y **Ctrl + G**. Renombrás el modelo (por ejemplo `Muneco`)
+2. Click derecho en el modelo → Insertar objeto → **Humanoid**
+3. En el Humanoid, **RigType** en `R6` (es el tipo de rig de 6 partes)
+4. Seleccionás el modelo y en **PrimaryPart** elegís `HumanoidRootPart`
 
-1. Abrís la [publicación de RigLink de IrishFix](https://devforum.roblox.com/t/riglink-%E2%80%93-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684)
-2. Desde su enlace al Creator Store, instalás el plugin gratuito
-3. Lo abrís en Studio desde **Plugins**
+![El muñeco y sus piezas](roblox/img/clase5/01-partes.png)
+*El modelo con el Humanoid y las 7 piezas adentro.*
 
-**Paso 2: Conectar las partes**
+> 📝 **Qué es un Humanoid:** el objeto que convierte un modelo en un personaje: le da vida, le permite caminar y hace que el Editor de clips lo reconozca.
 
-1. Activás el plugin desde la pestaña **Plugins**
-2. Seleccionás las dos partes a unir (por ejemplo `Torso` y `RightArm`, con Ctrl+click)
-3. Aparecen los handles (flechas roja, verde y azul) en el punto donde el plugin sugiere la unión
-4. Confirmás la conexión y revisás el nombre, Part0 y Part1 del Motor6D según la tabla
+### 🔗 Parte 2: Unir las piezas con RigLink
 
-Creás cada unión una sola vez. Para la raíz y el torso, el punto de unión queda en su centro compartido.
+### Paso 3: Qué es un Motor6D
 
-**Paso 3: Ajustar el punto de giro manualmente (si hace falta)**
+> 📝 **Qué es un Motor6D:** una articulación que une dos piezas y deja que una gire respecto de la otra. Es lo que el Editor de clips mueve al animar. **Part0** es la pieza fija (el Torso) y **Part1** la que se mueve (el brazo).
 
-Si el punto sugerido no queda exactamente en el hombro:
+Son 6 uniones:
 
-1. Antes de confirmar la conexión, activás **Manual Alignment**
-2. Arrastrás el punto de giro al hombro; si necesitás moverlo libremente, desactivás **Lock Alignment**
-3. Confirmás la unión. Si ya habías creado una incorrecta, deshacela antes de repetir
+| Nombre del Motor6D | Part0 | Part1 | Punto de giro |
+|---|---|---|---|
+| `RootJoint` | HumanoidRootPart | Torso | Centro del torso |
+| `Neck` | Torso | Head | Cuello |
+| `LeftShoulder` | Torso | LeftArm | Hombro izquierdo |
+| `RightShoulder` | Torso | RightArm | Hombro derecho |
+| `LeftHip` | Torso | LeftLeg | Cadera izquierda |
+| `RightHip` | Torso | RightLeg | Cadera derecha |
 
-> 💡 El punto de giro (pivote) es lo que hace que el brazo cuelgue naturalmente desde el hombro al animarlo, en vez de girar "flotando" desde su propio centro.
+> ⚠️ Si creás los Motor6D a mano (Insertar objeto), las piezas **saltan al centro** del torso. Por eso usamos RigLink: une las piezas sin moverlas.
 
-Repetís las conexiones de la tabla: cabeza y extremidades al **Torso**, y Torso a **HumanoidRootPart**. Los pivotes van en el cuello, los hombros y las caderas.
+### Paso 4: Instalar y abrir RigLink
 
-### 5. Asignar el PrimaryPart
+1. Abrís la [publicación de RigLink en el DevForum](https://devforum.roblox.com/t/riglink-%E2%80%93-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684) y, desde su enlace a la tienda de creadores, lo instalás gratis
+2. En Studio, pestaña **Plugins** → **RigLink**
 
-1. Seleccionás el **Model**
-2. Properties → **PrimaryPart** → seleccionás **HumanoidRootPart**
-3. Para animarlo fijo en el lugar, dejás **solo HumanoidRootPart anclada** y desanclás las seis piezas visibles
+![El botón de RigLink](roblox/img/clase5/02-boton-riglink.png)
+*Aparece en la pestaña Plugins.*
 
-### 6. Animar el rig
-
-1. **Avatar → Animation Editor**
-2. Seleccionás el Model
-3. El editor detecta las uniones y te deja mover cada parte
-4. Creás los keyframes y publicás
-
-### 7. Problemas comunes
-
-| Problema | Causa |
+| Opción del panel | Para qué sirve |
 |---|---|
-| Animation Editor no muestra las partes | Falta el Humanoid o Motor6D mal configurados |
-| Una extremidad no se anima | Sigue anclada o su Motor6D está mal conectado |
-| El Humanoid muere al probar | Revisá Torso, Head y la unión Neck |
-| El brazo salta al centro del torso al conectarlo | C0/C1 en su valor default; usá RigLink (Paso 4) para conectarlo sin que se mueva |
-| El brazo gira desde el medio en vez del hombro | El punto de giro no está en el hombro; ajustalo con "Manual Alignment" en RigLink |
+| **Manual Alignment** | Te deja mover el punto de giro con flechas antes de confirmar |
+| **Lock Alignment** | Mueve el punto solo sobre la superficie de la pieza. Apagado, lo movés libre |
+| **Pivot Mirroring** | Refleja el punto de giro en el lado opuesto |
+| **Link Selected** | Empieza a unir las dos piezas seleccionadas |
+
+### Paso 5: Unir el Torso con el brazo
+
+1. Seleccionás **primero el Torso** y después, con **Ctrl + click**, el **RightArm**. RigLink las muestra en ese orden
+2. Tocás **Link Selected**
+
+![Torso y RightArm seleccionados](roblox/img/clase5/03-seleccion.png)
+*Arriba, el orden de la selección. Abajo, Link Selected.*
+
+3. En el panel aparecen **Part0** (Torso), **Part1** (RightArm) y **Name**: le escribís `RightShoulder`
+4. Sobre el muñeco aparecen flechas en el punto de giro. Si no quedó en el hombro, arrastrás la flecha verde hasta arriba del brazo
+
+![Mover el punto de giro al hombro](roblox/img/clase5/06-mover-pivote.gif)
+*La flecha verde sube el punto hasta el hombro.*
+
+5. Tocás **Confirm Link**
+
+![Panel antes de confirmar](roblox/img/clase5/04-confirmar.png)
+*Part0, Part1, el nombre y Confirm Link.*
+
+### Paso 6: Las demás uniones
+
+Repetís el Paso 5 con cada fila de la tabla del Paso 3: el **Torso** (o la HumanoidRootPart, en el RootJoint) siempre primero. Al terminar, adentro del Torso quedan los Motor6D:
+
+![Los Motor6D en el Explorador](roblox/img/clase5/05-motor6d.png)
+*Las uniones adentro del Torso. En Propiedades, **C0** guarda dónde quedó el punto de giro.*
+
+### Paso 7: Desanclar
+
+Dejás **solo la HumanoidRootPart** con **Anchored**, y les sacás el Anchored a las 6 piezas visibles. Si una queda anclada, esa parte no se va a mover al animar.
+
+### 🎬 Parte 3: Animarlo
+
+### Paso 8: Animar con el Editor de clips
+
+Igual que en la Clase 4: **Avatar → Editor de clips**, click en el muñeco, **Girar** y arrastrás un anillo.
+
+![El brazo gira desde el hombro](roblox/img/clase5/07-brazo-desde-hombro.gif)
+*Los anillos quedan en el hombro, no en el medio del brazo: el brazo gira como uno de verdad.*
+
+Hacés una animación corta (saludo, caminar o quieto respirando) y la guardás con **⋯ → Guardar**.
+
+```
+Workspace
+  └── Muneco (Model, PrimaryPart = HumanoidRootPart)
+        ├── Humanoid (RigType = R6)
+        ├── HumanoidRootPart (anclada, invisible)
+        │     └── RootJoint
+        ├── Torso
+        │     ├── Neck
+        │     ├── LeftShoulder
+        │     ├── RightShoulder
+        │     ├── LeftHip
+        │     └── RightHip
+        ├── Head
+        ├── LeftArm
+        ├── RightArm
+        ├── LeftLeg
+        └── RightLeg
+```
+
+## Probar todo
+
+1. El Editor de clips reconoce el muñeco al hacer click
+2. Cada brazo gira desde el hombro, cada pierna desde la cadera y la cabeza desde el cuello
+3. Ninguna pieza se separa ni salta al animar
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| El Editor de clips no reconoce el muñeco | Falta el Humanoid | Insertar un Humanoid en el modelo |
+| Las piezas saltan al centro del torso | El Motor6D se creó a mano | Borrarlo y unir con RigLink |
+| El brazo gira desde el medio | El punto de giro no está en el hombro | Deshacer la unión, repetirla con **Manual Alignment** y subir la flecha |
+| Una parte no se mueve al animar | Sigue anclada | Sacarle **Anchored** |
+| El muñeco se cae o se desarma | La HumanoidRootPart no está anclada o falta el RootJoint | Anclarla y revisar el RootJoint |
+| Part0 y Part1 quedaron al revés | Se seleccionó primero el brazo | Repetir la unión eligiendo primero el Torso |
+
+## Extras
+
+- **Un monstruo:** cambiás formas y colores de las 6 piezas (cabeza esfera, brazos más largos, piernas más cortas). Los nombres y las uniones son los mismos
+- **Brazos con codo:** dos piezas por brazo (`RightUpperArm` y `RightLowerArm`) y un Motor6D más entre ellas
 
 ## Ejercicio
 
-> Consigna: Creá un rig personalizado y hacé al menos 1 animación funcional (idle, caminar o saludo).
+> Consigna: Creá un rig personalizado con piezas y hacé al menos 1 animación funcional (quieto, caminar o saludo).
 
 **Pistas:**
-1. Respetá los nombres y las conexiones de las tablas para este rig personalizado
-2. Usá el plugin **RigLink** para conectar las partes sin que salten de lugar
-3. Si el punto de giro no queda en el hombro, usá "Manual Alignment" para ajustarlo a mano
-4. Si el Animation Editor no muestra las partes, revisá que el Humanoid esté agregado
+1. Respetá los nombres de las piezas y de las uniones
+2. Siempre el Torso primero al seleccionar con RigLink
+3. Si el punto de giro no queda en el hombro, usá **Manual Alignment**
+4. Solo la HumanoidRootPart anclada
 
 ## Recursos
 

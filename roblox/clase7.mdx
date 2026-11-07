@@ -5,76 +5,144 @@ mision: "Crear tu bloque de la muerte."
 
 # Clase 7: Bloque de la muerte y bloque de supersalto 💀🦘
 
-Accedemos a las propiedades del Humanoid para crear bloques que afectan al jugador.
+Con lo de la Clase 6 (propiedad, método y evento) llegamos al personaje: un bloque que te mata y otro que te hace saltar altísimo.
 
 ## Objetivos
 
-- Conocer las propiedades principales del Humanoid
-- Programar un bloque que quita toda la vida
-- Programar un bloque que aumenta el salto temporalmente
+- Conocer el Humanoid y sus propiedades
+- Encontrar al personaje que tocó un bloque
+- Programar un bloque de la muerte y un bloque de supersalto
 
 ## Contenido
 
-### 1. Conocer el Humanoid
+### 🧍 Parte 1: El Humanoid
 
-Cada personaje tiene un objeto **Humanoid** con propiedades que podés modificar desde código.
+### Paso 1: Qué es el Humanoid
 
-| Propiedad | Qué controla | Valor default |
+> 📝 **Qué es el Humanoid:** el objeto que tiene adentro cada personaje y guarda su vida, su velocidad y su salto. Cambiando sus propiedades desde código, cambiás al personaje.
+
+| Propiedad | Para qué sirve | Valor normal |
 |---|---|---|
-| `Health` | Salud actual | 100 |
-| `WalkSpeed` | Velocidad de caminar | 16 |
-| `JumpHeight` | Altura del salto | 7.2 |
-| `Jump` | Hace saltar al personaje | false |
+| `Health` | La vida. En `0`, el personaje muere | `100` |
+| `WalkSpeed` | Qué tan rápido camina | `16` |
+| `JumpHeight` | Qué tan alto salta | `7.2` |
+| `Jump` | En `true`, lo hace saltar | `false` |
 
-### 2. Crear el bloque de la muerte
-
-1. Insertás una Part en el Workspace y le agregás un **Script**
-2. El código accede al personaje que tocó el bloque y le pone la salud en 0
-
-```lua
-local bloque = script.Parent
-
-bloque.Touched:Connect(function(mano)
-    local personaje = mano.Parent
-    local humanoid = personaje.Humanoid
-    humanoid.Health = 0   -- pone la salud en 0
-end)
-```
-
-### 3. Crear el bloque de supersalto
-
-```lua
-local bloque = script.Parent
-
-bloque.Touched:Connect(function(mano)
-    local personaje = mano.Parent
-    local humanoid = personaje.Humanoid
-    humanoid.Jump = true        -- hace saltar
-    humanoid.JumpHeight = 100   -- aumenta la altura
-    task.wait(0.5)
-    humanoid.JumpHeight = 7.2   -- vuelve al valor normal
-end)
-```
-
-### 4. Dónde va el script
-
-El script va **dentro del bloque** (Part) en el Workspace:
+### Paso 2: Cómo llegar al personaje que tocó
 
 ```
 Workspace
-  └── Bloque (Part)
+  └── profeagustin (Model: el personaje)
+        ├── Humanoid
+        ├── LeftFoot   ← esto es lo que toca el bloque
+        ├── RightFoot
+        └── ...
+```
+
+Cuando el personaje toca el bloque, `Touched` nos da **la parte del cuerpo** que tocó (un pie, por ejemplo). Su `.Parent` es el personaje, y adentro está el `Humanoid`:
+
+- `mano` → la parte que tocó (`LeftFoot`)
+- `mano.Parent` → el personaje
+- `mano.Parent.Humanoid` → su Humanoid
+
+### 💀 Parte 2: El bloque de la muerte
+
+### Paso 3: El bloque
+
+Insertás una **Pieza**, la renombrás `BloqueMuerte`, la pintás de rojo y le marcás **Anchored**. Adentro, un **Script**:
+
+```
+Workspace
+  └── BloqueMuerte (Part)
         └── Script
 ```
+
+### Paso 4: El código
+
+```lua
+local bloque = script.Parent                 -- el bloque que contiene el script
+
+bloque.Touched:Connect(function(mano)        -- cuando algo toca el bloque, "mano" es la parte que toco
+    local personaje = mano.Parent            -- el modelo del personaje
+    local humanoid = personaje.Humanoid      -- su Humanoid
+    humanoid.Health = 0                      -- pone la vida en 0: muere
+end)
+```
+
+- `function(mano)`: lo que va entre paréntesis es lo que nos manda el evento. `Touched` manda la parte que tocó; el nombre `mano` lo elegimos nosotros
+- `humanoid.Health = 0` es una propiedad, como en la Clase 6
+
+Probalo: le das **▶**, caminás hasta el bloque rojo y el personaje se desarma y reaparece en la SpawnLocation.
+
+![Bloque de la muerte](roblox/img/clase7/02-bloque-muerte.gif)
+*El personaje pisa el bloque rojo y se desarma.*
+
+> ⚠️ **Un error rojo en la Salida que no rompe nada:** si el bloque lo toca primero el **pelo** o un sombrero, `mano.Parent` no es el personaje sino el accesorio, y no tiene Humanoid. Probado en Studio:
+>
+> ![Error del accesorio](roblox/img/clase7/01-error-accesorio.png)
+> *`Humanoid is not a valid member of Accessory "Pal Hair"`.*
+>
+> El bloque igual te mata, porque enseguida lo toca un pie.
+
+### 🦘 Parte 3: El bloque de supersalto
+
+### Paso 5: El código
+
+Otra pieza, verde, con su Script:
+
+```lua
+local bloque = script.Parent
+
+bloque.Touched:Connect(function(mano)
+    local personaje = mano.Parent
+    local humanoid = personaje.Humanoid
+    humanoid.Jump = true        -- lo hace saltar
+    humanoid.JumpHeight = 100   -- salta muchisimo mas alto
+    task.wait(0.5)              -- espera medio segundo
+    humanoid.JumpHeight = 7.2   -- vuelve al salto normal
+end)
+```
+
+- `task.wait(0.5)` frena el código medio segundo antes de seguir. Le da tiempo al salto a arrancar con la altura nueva
+- Al final se devuelve el `JumpHeight` a `7.2`, si no el personaje quedaría saltando alto para siempre
+
+Probalo: al pisar el bloque verde salta muy alto, y después vuelve a saltar normal. En la prueba de Studio, `JumpHeight` pasó a `100` y volvió a `7.2`.
+
+![Bloque de supersalto](roblox/img/clase7/03-bloque-salto.gif)
+*Al pisar el bloque verde sale disparado hacia arriba.*
+
+## Probar todo
+
+1. Al tocar el bloque rojo, el personaje muere y reaparece
+2. Al pisar el verde, sale volando hacia arriba
+3. Después del supersalto, Espacio vuelve a saltar normal
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| Error `Humanoid is not a valid member of Accessory` | Lo tocó el pelo o un sombrero | No rompe nada: el bloque igual funciona |
+| El bloque se cae | Le falta **Anchored** | Marcarlo |
+| Salta alto para siempre | Falta la línea que vuelve a `7.2` | Agregarla después del `task.wait` |
+| No salta alto | Falta `humanoid.Jump = true` o el `JumpHeight` | Revisar las dos líneas |
+| Error `Humanoid is not a valid member of Model` | Escribiste `humanoid` con minúscula al buscarlo | Es `personaje.Humanoid`, con H mayúscula |
+
+## Extras
+
+- **Bloque lento:** `humanoid.WalkSpeed = 4`, y después de un `task.wait(2)`, `humanoid.WalkSpeed = 16`
+- **Bloque que lastima:** `humanoid.Health = humanoid.Health - 20` saca 20 de vida en vez de matarte
 
 ## Ejercicio
 
 > Consigna: Creá tu bloque de la muerte.
 
 **Pistas:**
-1. Recordá acceder al Humanoid a través de `mano.Parent.Humanoid`
-2. Probá también armar el bloque de supersalto como práctica extra
-3. Testealo entrando al juego y tocando el bloque con tu personaje
+1. El Humanoid se encuentra con `mano.Parent.Humanoid`
+2. `Health = 0` lo mata
+3. Como práctica extra, armá el de supersalto
+4. Probalo entrando al juego y tocándolo
 
 ## Recursos
 
 - [Documentación oficial de Humanoid](https://create.roblox.com/docs/reference/engine/classes/Humanoid)
+- [Documentación oficial de task.wait](https://create.roblox.com/docs/reference/engine/libraries/task#wait)

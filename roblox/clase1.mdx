@@ -1,83 +1,200 @@
 ---
 title: "Clase 1: ¡Hola, Roblox Studio! 🤩"
-mision: "Crear tu primer mundo usando una plantilla Baseplate, con al menos 2 Parts insertadas y personalizadas."
+mision: "Crear tu primer mundo con la plantilla Baseplate, con al menos 2 piezas de distinto color y material, y recorrerlo con tu personaje."
 ---
 
 # Clase 1: ¡Hola, Roblox Studio! 🤩
 
-Instalamos Roblox Studio, conocemos la interfaz y damos nuestros primeros clics construyendo con Parts.
+Instalamos Roblox Studio, conocemos la pantalla y construimos nuestro primer mundo con piezas.
 
 ## Objetivos
 
-- Instalar Roblox Studio y crear una cuenta
-- Reconocer las secciones principales de la interfaz
-- Insertar y modificar tu primera Part
+- Instalar Roblox Studio y abrir la plantilla Baseplate
+- Reconocer las partes de la pantalla y mover la cámara
+- Insertar una pieza, moverla, cambiarle el tamaño, girarla y cambiarle el color y el material
+- Probar el mundo con tu personaje y guardarlo
 
 ## Contenido
 
-### 1. Instalación
+### 🚀 Parte 1: Abrir Roblox Studio
 
-1. Entrás a **roblox.com** y creás una cuenta gratuita
-2. Descargás **Roblox Studio** desde [create.roblox.com](https://create.roblox.com/)
-3. Iniciás sesión con tu cuenta y abrís el programa
+### Paso 1: Instalar
 
-### 2. Conocer la interfaz
+1. Si no tenés cuenta de Roblox, creás una gratis en [roblox.com](https://www.roblox.com/). Si ya jugás, usás la misma
+2. Descargás **Roblox Studio** desde [create.roblox.com](https://create.roblox.com/) y lo instalás
+3. Lo abrís e iniciás sesión con tu cuenta
 
-Al abrir Studio vas a ver varias secciones importantes:
+### Paso 2: Abrir la plantilla Baseplate
 
-| Sección | Qué es |
+En la pantalla de inicio, en **Abrir una plantilla**, hacés click en **Baseplate**.
+
+![Pantalla de inicio de Studio](roblox/img/clase1/01-plantilla-baseplate.png)
+*La plantilla **Baseplate**, abajo de tus experiencias recientes.*
+
+> 📝 **Qué es una plantilla:** un mundo que ya viene armado para empezar. Baseplate trae solo un piso gris y el lugar donde aparece tu personaje.
+
+### 🖥️ Parte 2: La pantalla de Studio
+
+### Paso 3: Conocer las partes de la pantalla
+
+![Las partes de la pantalla de Studio](roblox/img/clase1/02-interfaz.png)
+*Las cinco zonas que vas a usar en todas las clases: arriba la barra de herramientas, en el medio la vista 3D, a la derecha el Explorador y Propiedades, y abajo la Salida.*
+
+| Zona | Para qué sirve |
 |---|---|
-| **Viewport** | El mundo 3D donde construís y ves tu juego |
-| **Explorer** | La jerarquía de todos los objetos del juego |
-| **Properties** | Las propiedades del objeto que tengas seleccionado |
+| **Barra de herramientas** | Las pestañas (**Inicio**, **Avatar**, **Modelo**…) y los botones para construir |
+| **Vista 3D** (Viewport) | El mundo donde construís y probás |
+| **Explorador** (Explorer) | La lista de todo lo que hay en tu juego |
+| **Propiedades** (Properties) | Las características del objeto que tengas seleccionado: color, tamaño, material… |
+| **Salida** (Output) | Mensajes de Studio. La vamos a usar cuando empecemos a programar, en la Clase 6 |
 
-**Ejemplo:** hacés click en cualquier objeto del Explorer y en el panel Properties vas a ver sus características, como el color, tamaño y posición.
+Dentro de **Workspace**, en el Explorador, ya hay algunas cosas:
 
-> 💡 Si no ves el panel Properties (o el Explorer) en pantalla, abrilos desde el menú **Window** (Ventana) o los controles de **Home**.
-
-### 3. Abrir una plantilla Baseplate
-
-1. Al crear un proyecto nuevo, elegís la plantilla **Baseplate**
-2. Esto te da un mundo vacío con un piso para empezar a construir
-
-**Para mostrar en vivo:** botón derecho del mouse para mirar alrededor, W/A/S/D para desplazarte y F para enfocar una pieza seleccionada.
-
-### 4. Insertar tu primera Part
-
-1. Desde la pestaña **Home** → click en **Part**
-2. Aparece un bloque en el centro del mundo
-
-Con la Part seleccionada, usás las herramientas de la barra superior:
-
-| Herramienta | Qué hace |
+| Objeto | Qué es |
 |---|---|
-| **Seleccionar** | Selecciona objetos |
-| **Mover** | Mueve el objeto en el mundo |
-| **Escalar** | Cambia el tamaño del objeto |
-| **Girar** | Rota el objeto |
+| **Workspace** | Todo lo que está en el mundo. Lo que pongas acá se ve en el juego |
+| **Camera** | La cámara con la que mirás el mundo |
+| **Terrain** | El terreno (montañas, agua). Por ahora está vacío; lo usamos en la Clase 2 |
+| **SpawnLocation** | La plataforma donde aparece tu personaje al probar |
+| **Baseplate** | El piso gris |
 
-### 5. Modificar la Part
+> 💡 Si cerraste el **Explorador** o **Propiedades**, los volvés a abrir con los botones **Explorador** y **Propiedades** de la pestaña **Inicio**, o desde el menú **Ventana**.
 
-Desde el panel **Properties** podés cambiar cómo se ve tu bloque:
+### Paso 4: Mover la cámara
 
-| Propiedad | Qué controla |
+![Mover la cámara en Studio](roblox/img/clase1/03-camara.gif)
+*La cámara gira con click derecho, avanza con W, se acerca y se aleja con la rueda, y con F enfoca el SpawnLocation.*
+
+| Control | Qué hace |
 |---|---|
-| **Color** | El color del bloque |
-| **Material** | La textura (SmoothPlastic, Metal, Wood...) |
+| **Click derecho** apretado + mover el mouse | Gira la cámara |
+| **W A S D** | Avanza, retrocede y va hacia los costados |
+| **Q** / **E** | Baja / sube |
+| **Rueda del mouse** | Acerca y aleja |
+| Seleccionar un objeto + **F** | Lleva la cámara hasta ese objeto |
 
-**Ejemplo:** seleccionás la Part, buscás **Color** en Properties y elegís uno nuevo. Después probás cambiar **Material** a **Wood** para ver cómo cambia la textura.
+> 💡 Con **Shift** apretado, la cámara se mueve más lento. Sirve para acomodarte cerca de algo chico.
+
+### 🧱 Parte 3: Tu primera pieza
+
+### Paso 5: Insertar una pieza
+
+En la pestaña **Inicio**, hacés click en **Pieza** (Part). Aparece un bloque gris donde está mirando la cámara, y en el Explorador aparece **Part** adentro de Workspace.
+
+![Insertar una pieza](roblox/img/clase1/04-insertar-pieza.png)
+*El botón **Pieza**, la pieza nueva en el mundo y su nombre en el Explorador.*
+
+> 📝 **Qué es una pieza (Part):** el bloque básico de Roblox. Con piezas se arman pisos, paredes, obstáculos… casi todo lo que vas a construir.
+
+### Paso 6: Mover, escalar y girar
+
+Con la pieza seleccionada, elegís una herramienta de la pestaña **Inicio**:
+
+| Herramienta | Atajo | Qué aparece | Para qué sirve |
+|---|---|---|---|
+| **Seleccionar** | Ctrl + 1 | — | Elegir objetos con un click |
+| **Mover** | Ctrl + 2 | Flechas | Llevar la pieza a otro lugar |
+| **Escalar** | Ctrl + 3 | Esferas | Hacerla más grande o más chica |
+| **Girar** | Ctrl + 4 | Anillos | Rotarla |
+
+![Mover, escalar y girar una pieza](roblox/img/clase1/05-mover-escalar-girar.gif)
+*Primero **Mover** (se arrastra la flecha roja), después **Escalar** (las esferas roja y verde) y al final **Girar** (el anillo verde).*
+
+> 💡 Al lado de **Geométrico** están las casillas **1 studs** y **45°**. Con **1 studs** la pieza se mueve de a 1 stud (la medida de Roblox), así queda pareja. Con **45°** gira de a 45 grados.
+
+> ⚠️ Si arrastrás la pieza desde el medio, sin agarrar una flecha, se mueve libre por el piso y puede terminar lejos. Si pasa, **Ctrl + Z** la vuelve a su lugar.
+
+### Paso 7: Cambiar el color y el material
+
+En **Propiedades**, sección **Aspecto**:
+
+![Color y material en Propiedades](roblox/img/clase1/06-color-material.png)
+*Cambiamos **Color** a rojo y **Material** a **Wood** (madera).*
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Color** ✏️ | `255, 0, 0` (rojo) | El color de la pieza. Hacés click en el cuadradito para elegirlo |
+| **Material** ✏️ | `Wood` | La textura: madera, metal, pasto, ladrillo… |
+| **BrickColor** | (cambia solo) | Lo mismo que Color, pero con una lista de colores con nombre. Se actualiza cuando cambiás Color |
+| **CastShadow** | ✅ | Si la pieza hace sombra |
+| **Transparency** | `0` | Qué tan transparente es: `0` se ve entera, `1` es invisible |
+| **Reflectance** | `0` | Cuánto refleja, como un espejo: de `0` a `1` |
+
+**MaterialVariant** queda vacío: sirve para versiones especiales de un material y no lo usamos.
+
+Algunos materiales para probar: `Plastic` (el que viene), `SmoothPlastic`, `Wood`, `Brick`, `Metal`, `Grass`, `Glass` y `Neon` (brilla).
+
+> 💡 **Ctrl + D** duplica la pieza seleccionada. Así armás la segunda más rápido y después le cambiás el color y el material.
+
+### ▶️ Parte 4: Probar y guardar
+
+### Paso 8: Probar tu mundo
+
+Hacés click en **▶** (Probar), arriba a la izquierda. Tu personaje aparece en la SpawnLocation y lo manejás con **W A S D** y **Espacio** para saltar. Para terminar, apretás el **cuadrado rojo**.
+
+![Botones de Probar y Detener](roblox/img/clase1/07-boton-probar.png)
+*▶ arranca la prueba y el cuadrado rojo la termina.*
+
+Probalo: caminá hasta tus piezas y subite a una.
+
+![Probar el mundo con el personaje](roblox/img/clase1/08-probar.gif)
+*El personaje camina hasta las dos piezas y salta.*
+
+> ⚠️ Lo que cambies mientras estás probando **no se guarda**: al terminar, todo vuelve a como estaba. Para seguir construyendo, primero terminá la prueba con el cuadrado rojo.
+
+### Paso 9: Guardar
+
+Menú **Archivo**:
+
+![Opciones para guardar](roblox/img/clase1/09-guardar.png)
+*Las dos formas de guardar.*
+
+| Opción | Dónde queda | Para qué sirve |
+|---|---|---|
+| **Guardar en Roblox** | En tu cuenta, en internet | Abrirlo desde cualquier compu, en **Mis experiencias recientes**. Es la que usamos siempre |
+| **Guardar en un archivo** | Un archivo `.rbxl` en tu compu | Tener una copia propia o llevarla en un pendrive |
+
+> 💡 La primera vez te pide un nombre. Poné uno claro, por ejemplo `Clase 1 - Mi primer mundo`.
+
+## Probar todo
+
+1. Hay al menos 2 piezas, cada una con un color y un material distintos
+2. Le das **▶**, caminás hasta las piezas y te subís a una
+3. Terminás la prueba y guardás con **Archivo → Guardar en Roblox**
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| No veo el Explorador o Propiedades | Se cerró el panel | Pestaña **Inicio** → **Explorador** / **Propiedades** |
+| Propiedades está vacío | No hay nada seleccionado | Click en la pieza, en el mundo o en el Explorador |
+| La pieza se fue lejos al arrastrarla | La agarraste del medio y no de una flecha | **Ctrl + Z** y moverla con las flechas |
+| No aparece la pieza nueva | Aparece donde mira la cámara, quizás lejos o tapada | Seleccionarla en el Explorador y apretar **F** |
+| Los botones de construir están grises | La prueba sigue andando | Terminarla con el cuadrado rojo |
+| Se borró lo que cambié | Lo hiciste con la prueba andando | Terminar la prueba y volver a hacerlo |
+
+## Extras
+
+| Atajo | Qué hace |
+|---|---|
+| **Ctrl + Z** | Deshace el último cambio |
+| **Ctrl + Y** | Rehace lo que deshiciste |
+| **Supr** | Borra lo seleccionado |
+| **Ctrl + D** | Duplica lo seleccionado |
+
+La flechita al lado de **Pieza** trae otras formas: esfera, cuña y cilindro. Las usamos en la Clase 3.
 
 ## Ejercicio
 
-> Consigna: Creá tu primer mundo usando una plantilla Baseplate, con al menos 2 Parts insertadas, cada una con un color y material distinto.
+> Consigna: Creá tu primer mundo con la plantilla Baseplate, con al menos 2 piezas, cada una con un color y un material distintos. Probalo con tu personaje y guardalo.
 
 **Pistas:**
-1. Recordá que la pestaña **Home** tiene el botón para insertar Parts
-2. Usá **Ctrl+D** para duplicar una Part y ahorrar tiempo
-3. Todo lo visual se ajusta desde el panel **Properties**
-
-**Cierre de clase:** guardar una copia local desde **File → Save to File** (o **Download a Copy**, según el proyecto).
+1. La pieza se inserta desde **Inicio → Pieza**
+2. Con **Ctrl + D** duplicás una pieza en vez de crearla de cero
+3. **Color** y **Material** están en Propiedades, sección **Aspecto**
+4. Le das **▶** para probar y guardás con **Archivo → Guardar en Roblox**
 
 ## Recursos
 
-- [Documentación oficial de Roblox Studio](https://create.roblox.com/docs)
+- [Documentación oficial de Roblox Studio](https://create.roblox.com/docs/studio)
+- [Documentación oficial de Parts](https://create.roblox.com/docs/parts)

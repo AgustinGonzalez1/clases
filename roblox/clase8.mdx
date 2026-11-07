@@ -5,21 +5,23 @@ mision: "Tocar un bloque que se clone, se anime y luego desaparezca."
 
 # Clase 8: Bloque teletransportador 🔀
 
-Programamos un bloque teletransportador con un emisor y un receptor, y además un bloque que se clona, se anima y desaparece.
+Un bloque que te teletransporta a otro lugar, y otro que al tocarlo se copia, se mueve solo y desaparece.
 
 ## Objetivos
 
-- Teletransportar al jugador de un bloque a otro
-- Usar Clone() y Destroy()
+- Teletransportar al jugador con `MoveTo`
+- Usar `Clone()` y `Destroy()`
 - Animar un objeto con TweenService
 
 ## Contenido
 
-### 1. Crear el bloque emisor y el receptor
+### 🔀 Parte 1: El teletransportador
 
-1. Insertás dos Parts en el Workspace
-2. Una la nombrás `Emisor` (con el Script adentro)
-3. La otra la nombrás `Receptor` (marca el destino, sin script)
+### Paso 1: Los dos bloques
+
+1. Insertás dos piezas ancladas
+2. Una la renombrás `Emisor` y le ponés un **Script** adentro
+3. La otra la renombrás `Receptor`: marca el destino, no lleva script
 
 ```
 Workspace
@@ -27,56 +29,118 @@ Workspace
   └── Receptor (Part)
 ```
 
-### 2. Programar el teletransporte
+### Paso 2: El código
 
 ```lua
-local emisor = script.Parent
-local receptor = workspace.Receptor
+local emisor = script.Parent                   -- el bloque que contiene el script
+local receptor = workspace.Receptor            -- el bloque destino, buscado por su nombre
 
-emisor.Touched:Connect(function(mano)
-    local personaje = mano.Parent
-    personaje:MoveTo(receptor.Position)   -- mueve al jugador a la posicion del receptor
+emisor.Touched:Connect(function(mano)          -- cuando algo toca el emisor
+    local personaje = mano.Parent              -- el personaje que lo toco (Clase 7)
+    personaje:MoveTo(receptor.Position)        -- lo lleva a la posicion del receptor
 end)
 ```
 
-> ⚠️ El bloque receptor tiene que llamarse exactamente `Receptor`. Si lo movés en el mapa, la teletransportación cambia sola sin tocar el código.
+- `workspace.Receptor` busca en el Workspace la pieza que se llama `Receptor`. Por eso el nombre tiene que ser exacto
+- `MoveTo(posicion)` es un **método** del personaje: lo lleva a esa posición y lo deja parado **arriba** de lo que haya ahí
+- `receptor.Position` es la posición del bloque destino
 
-### 3. Crear un bloque que se clona, se anima y desaparece
+Probalo: al pisar el Emisor aparecés arriba del Receptor. En la prueba de Studio, el personaje quedó a 3 studs del centro del Receptor (parado encima).
+
+![Teletransporte](roblox/img/clase8/01-teletransporte.gif)
+*Pisa el Emisor (azul) y aparece arriba del Receptor (celeste).*
+
+> 💡 Si movés el Receptor en el mapa, el teletransporte cambia solo, sin tocar el código.
+
+### 🎞️ Parte 2: El bloque que se clona y se anima
+
+### Paso 3: Qué es TweenService
+
+> 📝 **Qué es TweenService:** un servicio que anima propiedades de a poco. Le decís "llevá este bloque de acá hasta allá en 2 segundos" y Roblox arma el movimiento.
+
+Un tween necesita tres cosas:
+
+| Qué | Para qué sirve | En el código |
+|---|---|---|
+| El objeto | Qué se anima | `clon` |
+| La info | Cuánto dura | `TweenInfo.new(2)` |
+| La meta | Cómo tiene que quedar | `{Position = ...}` |
+
+### Paso 4: El código
+
+Otra pieza, con este Script adentro:
 
 ```lua
 local bloque = script.Parent
-local TweenService = game:GetService("TweenService")
-local activado = false
+local TweenService = game:GetService("TweenService")  -- el servicio de animaciones
+local activado = false                                -- si ya hay un clon andando
 
 bloque.Touched:Connect(function()
-    if activado then return end
+    if activado then return end                -- si ya hay un clon, no hace nada
     activado = true
 
-    local clon = bloque:Clone()               -- crea una copia
-    clon.Color = Color3.fromRGB(255, 0, 0)
-    clon.Parent = workspace
+    local clon = bloque:Clone()                -- crea una copia
+    clon.Script:Destroy()                      -- le saca el script a la copia (Clase 6)
+    clon.Color = Color3.fromRGB(255, 0, 0)     -- la pinta de rojo
+    clon.Parent = workspace                    -- la pone en el mundo
 
     local info = TweenInfo.new(2)              -- duracion: 2 segundos
-    local meta = {Position = clon.Position + Vector3.new(10, 5, 0)}
-    local tween = TweenService:Create(clon, info, meta)
-    tween:Play()
+    local meta = {Position = clon.Position + Vector3.new(10, 5, 0)}  -- 10 al costado y 5 arriba
+    local tween = TweenService:Create(clon, info, meta)  -- prepara la animacion
+    tween:Play()                               -- la arranca
 
-    task.wait(2)
-    clon:Destroy()
+    task.wait(2)                               -- espera a que termine
+    clon:Destroy()                             -- borra la copia
 
-    activado = false
+    activado = false                           -- ya se puede volver a tocar
 end)
 ```
+
+- `game:GetService("TweenService")` trae el servicio de animaciones
+- `activado` evita que se creen muchos clones a la vez: `Touched` se dispara por cada parte del cuerpo, y sin esto aparecería un clon por cada pie
+- `if activado then return end`: si ya hay un clon andando, corta acá
+- `TweenService:Create(objeto, info, meta)` prepara la animación y `:Play()` la arranca
+- `clon:Destroy()` borra la copia para no llenar el mapa
+
+> ⚠️ **¿Por qué `clon.Script:Destroy()`?** Igual que en la Clase 6: `Clone()` copia también el Script. Sin esa línea, el clon rojo, al ser tocado, se clona a sí mismo, y esa copia **no se borra nunca**. Probado en Studio: sin la línea quedaba un bloque de más en el mapa 5 segundos después; con la línea, solo el original.
+
+Probalo: al tocar el bloque aparece una copia roja que se va hacia arriba y al costado durante 2 segundos y desaparece.
+
+![Bloque que se clona](roblox/img/clase8/02-clon-animado.gif)
+*La copia roja sube y se va al costado, y a los 2 segundos desaparece.*
+
+## Probar todo
+
+1. El Emisor te lleva arriba del Receptor
+2. El otro bloque crea **una** copia roja que se mueve y desaparece
+3. Tocándolo varias veces seguidas, nunca hay más de una copia
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| Error `Receptor is not a valid member of Workspace` | El destino tiene otro nombre | Renombrarlo exactamente `Receptor` |
+| Aparecés adentro del piso | — | `MoveTo` te deja arriba; si pasa, subí un poco el Receptor |
+| Quedan bloques rojos en el mapa | Falta `clon.Script:Destroy()` | Agregar la línea |
+| Aparecen muchos clones juntos | Falta la variable `activado` | Revisar las líneas de `activado` |
+| El clon no se mueve | Falta `tween:Play()` | Agregarlo |
+
+## Extras
+
+- `TweenInfo.new(2, Enum.EasingStyle.Bounce)` hace que el movimiento rebote al final
+- En la meta se pueden animar otras propiedades a la vez: `{Position = ..., Transparency = 1}` hace que se desvanezca mientras se mueve
 
 ## Ejercicio
 
 > Consigna: Programá un bloque que se clone, se anime y luego desaparezca al ser tocado.
 
 **Pistas:**
-1. Usá una variable `activado` para que no se creen varios clones a la vez
-2. `TweenInfo.new(segundos)` define cuánto dura la animación
-3. No olvides destruir el clon al final para no llenar el mapa
+1. Usá `activado` para que no se creen varios clones a la vez
+2. Sacale el script a la copia con `clon.Script:Destroy()`
+3. `TweenInfo.new(segundos)` define cuánto dura la animación
+4. No te olvides de destruir el clon al final
 
 ## Recursos
 
 - [Documentación oficial de TweenService](https://create.roblox.com/docs/reference/engine/classes/TweenService)
+- [Documentación oficial de Model:MoveTo](https://create.roblox.com/docs/reference/engine/classes/Model#MoveTo)

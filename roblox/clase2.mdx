@@ -1,86 +1,164 @@
 ---
 title: "Clase 2: El Arte de Crear Paisajes 🏞️"
-mision: "Diseñar un mapa natural con colinas y un lago usando el Terrain Editor."
+mision: "Diseñar un mapa natural con colinas y un lago usando el Editor de terreno."
 ---
 
 # Clase 2: El Arte de Crear Paisajes 🏞️
 
-Esculpimos terrenos, montañas y ríos, y ajustamos las luces y el cielo de nuestro mundo.
+Con el Editor de terreno levantamos colinas, cavamos un lago y cambiamos la hora del día y el cielo.
 
 ## Objetivos
 
-- Usar el Terrain Editor para generar y modelar terreno
-- Crear colinas y un lago
-- Ajustar la iluminación y el cielo del mapa
+- Abrir el Editor de terreno y conocer sus herramientas
+- Hacer colinas con Esculpir y un lago con Dibujar y Nivel del mar
+- Cambiar la hora del día y agregar nubes
 
 ## Contenido
 
-### 1. Abrir el Terrain Editor
+### 🌱 Parte 1: El terreno
 
-Se abre desde **Home → Terrain Editor** o **Window → 3D → Terrain Editor**. Es la herramienta principal para crear paisajes naturales.
+### Paso 1: Abrir la plantilla Flat Terrain
 
-### 2. Generar una base con Generate
+En la pantalla de inicio elegís **Flat Terrain**: un mundo que ya viene con un piso de pasto, listo para modelar.
 
-1. Dentro del Terrain Editor → **Create → Generate**
-2. Elegís los **Biomes** disponibles y el tamaño de la región (**Size**)
-3. Genera un terreno automático como punto de partida
+![Plantilla Flat Terrain](roblox/img/clase2/01-flat-terrain.png)
+*Está al lado de Baseplate.*
 
-### 3. Modelar el terreno con Add, Subtract y Smooth
+> 📝 **Qué es el terreno (Terrain):** un piso natural que se modela con pinceles, como si fuera plastilina: se sube, se baja, se alisa y se pinta con materiales como pasto, roca, arena o agua.
 
-En **Edit → Draw**, elegís el modo **Add** o **Subtract**. **Smooth** sigue siendo una herramienta aparte.
+### Paso 2: Abrir el Editor de terreno
 
-| Herramienta | Qué hace |
+Pestaña **Inicio** → **Terreno**. A la izquierda aparece el **Editor de terreno**, con dos pestañas: **Crear** (generar o borrar terreno de golpe) y **Editar** (modelarlo a mano). Usamos **Editar**.
+
+| Herramienta | Para qué sirve |
 |---|---|
-| **Add** | Agrega tierra donde pintás con el mouse |
-| **Subtract** | Excava el terreno, hace hoyos o depresiones |
-| **Smooth** | Suaviza los bordes bruscos |
+| **Esculpir** | Sube o baja la tierra de a poco. Ideal para colinas y montañas |
+| **Dibujar** | Agrega o saca terreno con el material que elijas |
+| **Alisar** | Suaviza los bordes y los picos |
+| **Aplanar** | Deja una zona pareja, para construir encima |
+| **Pintar** | Cambia el material sin cambiar la forma |
+| **Nivel del mar** | Llena una zona con agua a la misma altura |
+| **Llenar** | Rellena un espacio con un material |
 
-**Ejemplo — hacer una colina:**
-1. **Add** con material **Grass**, pintás hacia arriba para levantar tierra
-2. **Smooth** para suavizar los bordes
+### ⛰️ Parte 2: Colinas y lago
 
-**Ejemplo — hacer un lago:**
-1. **Subtract** para hacer una depresión en el terreno
-2. **Add** con material **Water** para rellenarla
+### Paso 3: Una colina con Esculpir
 
-**Opcional para la demostración:** **Sea Level** permite llenar una región con agua a una altura uniforme; puede reemplazar el segundo paso del lago.
+Elegís **Esculpir**, dejás **Modo pincel** en **Añadir** y pasás el mouse con el click apretado sobre el pasto. Cada pasada la sube un poco más.
 
-### 4. Aplicar materiales con Paint
+![Esculpir una colina](roblox/img/clase2/02-esculpir-colina.gif)
+*Pasando varias veces por el mismo lugar, la colina va creciendo.*
 
-**Paint** cambia el material del terreno sin modificar su forma.
+![Opciones de Esculpir](roblox/img/clase2/03-esculpir.png)
+*Las dos opciones que más se tocan: Tamaño y Fuerza.*
+
+| Opción | Valor | Para qué sirve |
+|---|---|---|
+| **Modo pincel** | `Añadir` / `Sustraer` | Subir o bajar la tierra |
+| **Tamaño del pincel** ✏️ | `30` | Qué tan grande es la zona que modifica |
+| **Fuerza** ✏️ | `0.3` | Cuánto sube en cada pasada. Con `1` crece muy rápido y cuesta controlarla |
+| **Forma del pincel** | esfera | Esfera, cubo o cilindro |
+
+> 💡 Si algo sale mal, **Ctrl + Z** lo deshace.
+
+### Paso 4: El pozo del lago
+
+Elegís **Dibujar**, cambiás **Modo pincel** a **Sustraer** y cavás un pozo en una zona plana.
+
+![Cavar el pozo del lago](roblox/img/clase2/04-cavar-lago.gif)
+*Con Sustraer, el pincel saca tierra.*
+
+### Paso 5: Llenarlo con agua
+
+Elegís **Nivel del mar**. Aparece una caja: la ubicás sobre el pozo con sus flechas (o escribiendo **Tamaño** y **Posición**) y hacés click en **Crear**. Se llena de agua todo el hueco que quede dentro de la caja.
+
+![Nivel del mar](roblox/img/clase2/05-nivel-del-mar.png)
+*La caja tiene que cubrir todo el pozo. **Evaporar** saca el agua.*
+
+![El lago terminado](roblox/img/clase2/06-lago.png)
+*El agua queda pareja, a la misma altura.*
+
+> ⚠️ Si el agua queda cortada de un lado, es porque la caja no cubría todo el pozo. **Evaporar**, agrandar o mover la caja, y **Crear** de nuevo.
+
+### Paso 6: Pintar
+
+Con **Pintar** elegís un material abajo, en **Configuración de material** (roca, arena, nieve…), y pasás el pincel. La forma no cambia, solo el material.
 
 | Material | Para qué se usa |
 |---|---|
-| **Grass** | Llanuras y colinas |
-| **Rock** | Montañas y acantilados |
-| **Sand** | Playas y desiertos |
-| **Snow** | Cimas nevadas |
+| **Grass** (pasto) | Llanuras y colinas |
+| **Rock** (roca) | Montañas y acantilados |
+| **Sand** (arena) | Orillas y desiertos |
+| **Snow** (nieve) | Cimas |
 
-### 5. Ajustar luces y cielo
+> 💡 Marcá **Omitir agua** para pintar la orilla sin tapar el lago.
 
-Se configuran desde el objeto **Lighting** en el Explorer:
+![Mapa con colina, roca y lago](roblox/img/clase2/07-escena.png)
+*Una colina de pasto, una de roca y el lago.*
 
-| Propiedad | Qué controla |
-|---|---|
-| **Ambient** | Color de luz general del mundo |
-| **Brightness** | Intensidad de la luz |
-| **TimeOfDay** | Hora del día (formato HH:MM:SS) |
+### ☀️ Parte 3: Luz y cielo
 
-Para cambiar el cielo:
-1. Seleccionás **Lighting** → Insert Object → **Sky**
-2. Podés cambiar las texturas de cada cara del skybox
+### Paso 7: La hora del día
 
-**Ejemplo:** probá `TimeOfDay = 06:00:00` para un amanecer.
+En el Explorador seleccionás **Lighting** y, en **Propiedades** (sección **Datos**), cambiás **ClockTime**.
+
+![ClockTime en Propiedades](roblox/img/clase2/09-clocktime.png)
+*ClockTime es la hora con un solo número.*
+
+![El mapa a distintas horas](roblox/img/clase2/08-hora-del-dia.png)
+*A las 7 (amanecer), a las 14:30 y a las 17:36 (atardecer): cambian la luz y las sombras.*
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **ClockTime** ✏️ | `7` | La hora, de `0` a `24`. `12` es mediodía y `0` medianoche |
+| **TimeOfDay** | (cambia solo) | La misma hora escrita como `07:00:00` |
+| **Brightness** | `3` | Qué tan fuerte es la luz del sol |
+
+### Paso 8: Nubes y niebla
+
+- **Nubes:** click derecho en **Terrain** (adentro de Workspace) → Insertar objeto → **Clouds**
+- **Niebla:** dentro de **Lighting** ya hay un **Atmosphere**; subís su **Density** para más niebla
+
+![Nubes y niebla](roblox/img/clase2/10-nubes.png)
+*Clouds con Cover en 0.6 y la niebla un poco más densa.*
+
+| Objeto | Propiedad | Para qué sirve |
+|---|---|---|
+| **Clouds** | **Cover** ✏️ (`0.6`) | Cuánto cielo tapan las nubes: `0` nada, `1` todo |
+| **Clouds** | **Density** | Qué tan espesas son |
+| **Atmosphere** | **Density** ✏️ (`0.45`) | Cuánta niebla hay a lo lejos |
+
+## Probar todo
+
+1. Le das **▶** y caminás hasta la colina y el lago
+2. Te metés al agua: el personaje nada
+3. Probás otra hora con **ClockTime**
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| La colina crece demasiado rápido | **Fuerza** muy alta | Bajarla a `0.3` |
+| El agua queda cortada | La caja de Nivel del mar no cubre todo el pozo | Agrandarla o moverla y **Crear** de nuevo |
+| Pinté encima del agua | **Omitir agua** desmarcado | Ctrl + Z, marcarlo y pintar de nuevo |
+| No encuentro ClockTime | Está en la sección **Datos** de Lighting | Bajar en Propiedades |
+
+## Extras
+
+- **Crear → Generar** arma un terreno entero automático (montañas, ríos, biomas). Sirve de punto de partida
+- **Sky:** en la **Caja de herramientas** hay cielos listos (atardeceres, espacio). Lo arrastrás adentro de **Lighting** y reemplaza al cielo que viene
 
 ## Ejercicio
 
-> Consigna: Diseñá un mapa natural con al menos 2 colinas y un lago.
+> Consigna: Diseñá un mapa natural con al menos 2 colinas y un lago, y elegí una hora del día para tu mundo.
 
 **Pistas:**
-1. Usá `Smooth` después de `Add` para que las colinas no queden con picos irregulares
-2. Combiná `Subtract` + `Water` para el lago
-3. Probá distintos materiales en cada zona del mapa
+1. Colinas con **Esculpir** y fuerza baja
+2. Lago con **Dibujar → Sustraer** y después **Nivel del mar**
+3. **Pintar** para darle roca o arena a algunas zonas
+4. **ClockTime** en Lighting para la hora
 
 ## Recursos
 
-- [Documentación oficial del Terrain Editor](https://create.roblox.com/docs/studio/terrain-editor)
+- [Documentación oficial del Editor de terreno](https://create.roblox.com/docs/studio/terrain-editor)
+- [Documentación oficial de Lighting](https://create.roblox.com/docs/environment/lighting)

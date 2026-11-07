@@ -5,27 +5,36 @@ mision: "Aplicar métodos, propiedades y eventos en un bloque propio."
 
 # Clase 9: Programación creativa 🎨🎮
 
-Con todo lo aprendido, esta clase es libre: cada alumno crea el bloque que quiera aplicando métodos, propiedades y eventos.
+Repasamos todo lo de las Clases 6 a 8 con cuatro bloques de ejemplo, y después cada uno inventa el suyo.
 
 ## Objetivos
 
-- Repasar los 3 pilares del scripting: propiedad, método y evento
-- Crear distintos tipos de bloques interactivos
-- Aplicar `BodyVelocity` para mover al jugador
+- Repasar propiedad, método y evento
+- Conocer el evento `TouchEnded`
+- Armar bloques con comportamientos distintos
+- Crear un bloque propio
 
 ## Contenido
 
-### 1. Repasar los 3 pilares
+### 🧩 Parte 1: Los 3 pilares
 
-Cualquier bloque que crees tiene que usar:
+Cualquier bloque que crees combina estas tres cosas (Clase 6):
 
-| Pilar | Ejemplos |
-|---|---|
-| **Propiedad** | Color, Size, Transparency, WalkSpeed |
-| **Método** | Clone(), Destroy() |
-| **Evento** | Touched, TouchEnded |
+| Pilar | Qué es | Ejemplos |
+|---|---|---|
+| **Propiedad** | Una característica | `Color`, `Size`, `Transparency`, `WalkSpeed` |
+| **Método** | Una acción | `Clone()`, `Destroy()`, `MoveTo()` |
+| **Evento** | Algo que pasa | `Touched` (lo tocan), `TouchEnded` (lo dejan de tocar) |
 
-### 2. Bloque invisible
+> 📝 **Qué es TouchEnded:** el evento contrario a `Touched`: se dispara cuando algo **deja de tocar** el bloque.
+
+Cada bloque de ejemplo es una **Pieza anclada** con un **Script** adentro.
+
+### 👻 Parte 2: Cuatro bloques de ejemplo
+
+### Paso 1: Bloque invisible
+
+Se vuelve invisible al tocarlo y reaparece al soltarlo.
 
 ```lua
 local bloque = script.Parent
@@ -39,7 +48,17 @@ bloque.TouchEnded:Connect(function()
 end)
 ```
 
-### 3. Bloque que se achica
+![Bloque invisible](roblox/img/clase9/01-bloque-invisible.gif)
+*Al pararse encima desaparece, y titila mientras sigue arriba.*
+
+- `Transparency = 1` lo hace invisible y `0` lo vuelve a mostrar
+- `Touched` lo esconde y `TouchEnded` lo muestra
+
+> ⚠️ Probado en Studio: si te quedás parado encima, el bloque **titila** (aparece y desaparece). Al caminar, cada pie lo toca y lo suelta todo el tiempo, y cada vez que uno lo suelta, `TouchEnded` lo vuelve a mostrar. Es normal con estos dos eventos.
+
+### Paso 2: Bloque que se achica
+
+Cada vez que lo tocan, se achica medio stud por lado.
 
 ```lua
 local bloque = script.Parent
@@ -49,7 +68,13 @@ bloque.Touched:Connect(function()
 end)
 ```
 
-### 4. Bloque que aumenta la velocidad
+- `bloque.Size - Vector3.new(0.5, 0.5, 0.5)` toma el tamaño actual y le resta medio stud en X, Y y Z
+
+> ⚠️ Probado en Studio: `Touched` se dispara **por cada parte del cuerpo** y muchas veces por segundo, así que al pisarlo se achica de golpe hasta casi desaparecer. Se nota más si el bloque es chico. Tocalo apenas, de costado, para verlo achicarse de a poco.
+
+### Paso 3: Bloque de velocidad
+
+Mientras lo tocás, corrés muy rápido.
 
 ```lua
 local bloque = script.Parent
@@ -66,9 +91,19 @@ bloque.TouchEnded:Connect(function(mano)
 end)
 ```
 
-### 5. Bloque que te empuja hacia un lugar
+![Bloque de velocidad](roblox/img/clase9/02-bloque-velocidad.gif)
+*Al pasar por el bloque amarillo sale corriendo mucho más rápido.*
 
-Este bloque mueve al jugador automáticamente en una dirección usando `BodyVelocity`.
+- `WalkSpeed = 50` hace correr al personaje (lo normal es `16`)
+- Al soltarlo, espera medio segundo y vuelve a `16`
+
+> 💡 **¿Por qué el `task.wait(0.5)`?** Por el mismo "rebote" del bloque invisible: al caminar, los pies sueltan y vuelven a tocar el bloque. La espera hace que no vuelva a 16 en medio de la carrera. En la prueba de Studio: `WalkSpeed` pasó a `50` arriba del bloque y volvió a `16` al bajarse.
+
+> ⚠️ Como en la Clase 7, si lo toca primero el pelo aparece un error rojo en la Salida (`Humanoid is not a valid member of Accessory`). No rompe nada: el bloque igual funciona.
+
+### Paso 4: Bloque que te empuja
+
+Al tocarlo, te empuja hacia un costado.
 
 ```lua
 local bloque = script.Parent
@@ -87,20 +122,57 @@ bloque.Touched:Connect(function(mano)
 end)
 ```
 
-- `BodyVelocity` es un objeto que aplica una fuerza constante sobre una Part
-- `Velocity` define la dirección y velocidad del empuje
-- `MaxForce` controla en qué ejes aplica esa fuerza. `math.huge` significa "sin límite de fuerza"
-- Se destruye después de un tiempo para que el empuje no sea infinito
+![Bloque que empuja](roblox/img/clase9/03-bloque-empuje.gif)
+*Al tocarlo, el personaje sale empujado hacia el costado.*
+
+- `BodyVelocity` es un objeto que, puesto adentro de una pieza, la empuja con una velocidad
+- `Velocity` es hacia dónde y qué tan rápido: `50` en el eje X
+- `MaxForce` dice en qué ejes empuja y con cuánta fuerza. `math.huge` es "sin límite"
+- `Destroy()` lo borra a los 0,5 segundos, si no te empujaría para siempre
+
+Probado en Studio: el personaje salió empujado unos 26 studs hacia el costado.
+
+### 🎨 Parte 3: Tu bloque propio
+
+### Paso 5: Inventar
+
+Combiná al menos **una propiedad, un método y un evento** en un bloque que no sea igual a los ejemplos. Algunas ideas:
+
+| Idea | Qué usa |
+|---|---|
+| Bloque que cambia de color al tocarlo y vuelve al soltarlo | `Touched`, `TouchEnded`, `Color` |
+| Bloque que se clona al tocarlo (con el arreglo de la Clase 8) | `Touched`, `Clone()`, `Destroy()` |
+| Bloque que te hace lento | `Touched`, `TouchEnded`, `WalkSpeed` |
+| Bloque que te teletransporta y se pone transparente | `Touched`, `MoveTo()`, `Transparency` |
+
+## Probar todo
+
+1. El invisible desaparece al tocarlo y reaparece al bajarte
+2. El que se achica se hace más chico
+3. El de velocidad te hace correr y al bajarte volvés a la normal
+4. El de empuje te lanza hacia un costado
+5. Tu bloque propio hace lo que pensaste
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| El invisible titila | `TouchEnded` se dispara cada vez que un pie lo suelta | Es normal con estos eventos |
+| El que se achica desaparece de golpe | `Touched` se dispara muchas veces seguidas | Tocarlo de costado; con un bloque más grande se nota menos |
+| Sigo rápido para siempre | Falta el `TouchEnded` que vuelve a `16` | Agregarlo |
+| El empuje no termina | Falta el `empuje:Destroy()` | Agregarlo después de la espera |
+| Error rojo `Accessory` | Lo tocó el pelo | No rompe nada: el bloque igual funciona |
 
 ## Ejercicio
 
 > Consigna: Aplicá métodos, propiedades y eventos en un bloque propio, original y distinto a los ejemplos vistos.
 
 **Pistas:**
-1. Combiná al menos una propiedad, un método y un evento en tu bloque
+1. Combiná al menos una propiedad, un método y un evento
 2. Podés mezclar ideas de los ejemplos (por ejemplo invisible + empuje)
-3. Probá tu bloque varias veces para asegurarte que no se rompe al tocarlo repetidas veces
+3. Probá tu bloque varias veces para asegurarte de que no se rompe al tocarlo seguido
 
 ## Recursos
 
+- [Documentación oficial de BasePart.TouchEnded](https://create.roblox.com/docs/reference/engine/classes/BasePart#TouchEnded)
 - [Documentación oficial de BodyVelocity](https://create.roblox.com/docs/reference/engine/classes/BodyVelocity)

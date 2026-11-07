@@ -5,30 +5,39 @@ mision: "Crear un NPC con diálogos distintos según la cercanía del jugador."
 
 # Clase 10: ¡Hola, Amigo NPC! 👋
 
-Creamos un NPC que detecta la distancia del jugador y muestra distintos diálogos con un BillboardGui.
+Un NPC con un texto flotando sobre la cabeza, que cambia según qué tan cerca estés.
 
 ## Objetivos
 
-- Agregar un BillboardGui a un NPC
-- Medir distancias con Magnitude
-- Actualizar texto en tiempo real con RunService.Heartbeat
+- Agregar un BillboardGui con un TextLabel a un NPC
+- Medir distancias con `Magnitude`
+- Actualizar el texto todo el tiempo con `RunService.Heartbeat`
 
 ## Contenido
 
-### 1. Crear el NPC
+### 🧍 Parte 1: El NPC y su cartel
 
-Reutilizás el rig de la Clase 5, o armás uno nuevo con Humanoid. Lo nombrás `rig` y lo ubicás en el Workspace.
+### Paso 1: El NPC
 
-### 2. Agregar el BillboardGui
+Insertás un rig con **Inicio → Personaje** (como en la Clase 4) o usás el de la Clase 5. Lo renombrás `rig` y lo dejás en el Workspace.
 
-1. Click derecho sobre la **Head** del NPC → Insert Object → **BillboardGui**
-2. Dentro del BillboardGui → Insert Object → **TextLabel**
+> 📝 **Qué es un NPC:** un personaje que no maneja ningún jugador ("Non-Player Character"). En Roblox es un modelo con Humanoid, igual que tu personaje.
 
-| Propiedad | Valor | Para qué sirve |
-|---|---|---|
-| BillboardGui → **StudsOffset** | `0, 2, 0` | Sube el texto sobre la cabeza |
-| TextLabel → **TextScaled** | `true` | El texto se ajusta al tamaño |
-| TextLabel → **BackgroundTransparency** | `1` | Fondo transparente |
+### Paso 2: El BillboardGui
+
+1. Click derecho en la **Head** del rig → **Insertar** → **BillboardGui**
+2. Click derecho en el BillboardGui → **Insertar** → **TextLabel**
+
+> 📝 **Qué es un BillboardGui:** un cartel que flota en el mundo 3D pegado a una pieza, y que siempre mira a la cámara. Adentro lleva un **TextLabel**, que es el texto.
+
+| Objeto | Propiedad | Valor | Para qué sirve |
+|---|---|---|---|
+| BillboardGui | **Size** ✏️ | `{8, 0}, {2, 0}` | Tamaño del cartel, en studs (8 de ancho, 2 de alto) |
+| BillboardGui | **StudsOffset** ✏️ | `0, 2, 0` | Lo sube 2 studs, arriba de la cabeza |
+| TextLabel | **Size** ✏️ | `{1, 0}, {1, 0}` | Ocupa todo el cartel |
+| TextLabel | **TextScaled** ✏️ | ✅ | La letra se agranda para llenar el cartel |
+| TextLabel | **BackgroundTransparency** ✏️ | `1` | Saca el fondo blanco |
+| TextLabel | **Text** | `Label` | El texto; lo cambia el script |
 
 ```
 Workspace
@@ -38,23 +47,26 @@ Workspace
                     └── TextLabel
 ```
 
-### 3. El LocalScript
+### 📏 Parte 2: El script
 
-Va en **StarterPlayer → StarterPlayerScripts**.
+### Paso 3: Dónde va
+
+Click derecho en **StarterPlayer → StarterCharacterScripts** → **Insertar** → **LocalScript**.
+
+> 📝 **Por qué StarterCharacterScripts:** lo que pongas acá se copia **adentro de tu personaje** cada vez que aparece. Así el script siempre sabe cuál es tu personaje (`script.Parent`) y vuelve a arrancar si te morís.
+
+### Paso 4: El código
 
 ```lua
+local RunService = game:GetService("RunService")    -- para revisar algo en cada frame
 local npc = workspace:WaitForChild("rig")           -- espera a que el NPC aparezca
-local cabeza = npc:WaitForChild("Head")              -- espera a que la cabeza este lista
-local texto = cabeza.BillboardGui.TextLabel          -- texto que flota sobre la cabeza
+local cabeza = npc:WaitForChild("Head")             -- espera a que la cabeza este lista
+local texto = cabeza.BillboardGui.TextLabel         -- texto que flota sobre la cabeza
+local personaje = script.Parent                     -- este script esta adentro del personaje
+local rootPart = personaje:WaitForChild("HumanoidRootPart")  -- parte central del personaje
 
-local Players = game:GetService("Players")           -- servicio que maneja a los jugadores
-local jugador = Players.LocalPlayer                  -- el jugador que ejecuta este script
-local personaje = jugador.Character                  -- personaje fisico del jugador
-local rootPart = personaje.HumanoidRootPart          -- parte central del jugador
-
-game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces por segundo
+RunService.Heartbeat:Connect(function()             -- corre en cada frame (unas 60 veces por segundo)
     local distancia = (cabeza.Position - rootPart.Position).Magnitude  -- distancia real
-
     if distancia < 10 then
         texto.Text = "¡Hola! Estás muy cerca 👋"
     elseif distancia < 20 then
@@ -65,15 +77,60 @@ game:GetService("RunService").Heartbeat:Connect(function()  -- corre 60 veces po
 end)
 ```
 
+- `WaitForChild("rig")` espera a que el objeto exista antes de usarlo. Evita el error "Head is not a valid member" cuando el script arranca antes de que cargue el NPC
+- `script.Parent` es tu personaje, porque el script está adentro de él
+- `HumanoidRootPart` es la pieza central del personaje: su posición es "dónde estás"
+- `(cabeza.Position - rootPart.Position).Magnitude` resta las dos posiciones y `Magnitude` da la **distancia en studs** entre ellas
+- `Heartbeat` corre la función todo el tiempo, así el texto se actualiza mientras caminás
+- `if / elseif / else` elige el texto según la distancia
+
+> ⚠️ **Cambio respecto de la versión anterior:** antes el LocalScript iba en **StarterPlayerScripts** y buscaba al personaje con `Players.LocalPlayer.Character`. Probado en Studio: funcionaba hasta que te morías; después de reaparecer, el script seguía mirando al **personaje viejo** y el texto quedaba congelado. En StarterCharacterScripts vuelve a arrancar con cada personaje nuevo, y el código queda más corto.
+
+### Paso 5: Probar
+
+Le das **▶** y caminás hacia el NPC:
+
+![Lejos del NPC](roblox/img/clase10/01-lejos.png)
+*A más de 20 studs no hay texto.*
+
+![Cerca del NPC](roblox/img/clase10/02-cerca.png)
+*Entre 10 y 20 studs: "Te veo por ahí...".*
+
+![Después de morir](roblox/img/clase10/03-despues-de-morir.png)
+*Después de morir y reaparecer, sigue funcionando: cerca muestra el texto y lejos se borra.*
+
+## Probar todo
+
+1. Lejos del NPC no hay texto
+2. Acercándote aparece "Te veo por ahí..." y, muy cerca, "¡Hola! Estás muy cerca 👋"
+3. Morís (por ejemplo con el bloque de la Clase 7), reaparecés y sigue funcionando
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| Error `Head is not a valid member of Model` | El script corrió antes de que cargara el NPC | Usar `WaitForChild`, como en el código |
+| El texto no cambia nunca | El LocalScript está en otro lugar | Tiene que estar en **StarterCharacterScripts** |
+| Después de morir el texto se congela | El script está en StarterPlayerScripts | Moverlo a StarterCharacterScripts y usar `script.Parent` |
+| El texto sale con fondo blanco | **BackgroundTransparency** en `0` | Ponerlo en `1` |
+| La letra es muy chica | **TextScaled** desmarcado | Marcarlo |
+| Error `rig is not a valid member` | El NPC tiene otro nombre | Renombrarlo `rig` |
+
+## Extras
+
+- **Un tercer mensaje:** otro `elseif distancia < 5 then` antes de los demás
+
 ## Ejercicio
 
 > Consigna: Creá un NPC con al menos 2 diálogos distintos según qué tan cerca esté el jugador.
 
 **Pistas:**
-1. `Magnitude` calcula la distancia real entre dos posiciones en 3D
-2. `RunService.Heartbeat` corre constantemente, ideal para chequear distancia
-3. Probá agregar un tercer mensaje para una distancia intermedia
+1. `Magnitude` da la distancia real entre dos posiciones
+2. `Heartbeat` corre todo el tiempo: ideal para revisar la distancia
+3. El LocalScript va en **StarterCharacterScripts**
+4. Probá agregar un tercer mensaje para otra distancia
 
 ## Recursos
 
 - [Documentación oficial de BillboardGui](https://create.roblox.com/docs/reference/engine/classes/BillboardGui)
+- [Documentación oficial de RunService.Heartbeat](https://create.roblox.com/docs/reference/engine/classes/RunService#Heartbeat)

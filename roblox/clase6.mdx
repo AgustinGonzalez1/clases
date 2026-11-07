@@ -5,73 +5,147 @@ mision: "Programar un método, una propiedad y un evento en un Part."
 
 # Clase 6: Nuestro primer print 💻
 
-Damos nuestros primeros pasos en programación con Lua: hacemos un print, usamos variables y empezamos a programar un bloque.
+Escribimos nuestro primer código en Luau: un print, variables y un bloque que cambia de color, se copia y avisa cuando lo tocan.
 
 ## Objetivos
 
-- Hacer tu primer print en la consola
-- Usar variables
-- Aplicar una propiedad, un método y un evento sobre un Part
+- Insertar un Script y hacer un print
+- Guardar datos en variables
+- Usar una propiedad, un método y un evento sobre un Part
 
 ## Contenido
 
-### 1. Insertar un Script
+### 📜 Parte 1: El primer script
 
-1. Click derecho sobre una Part → Insert Object → **Script**
-2. Se abre el editor de código
+### Paso 1: Insertar un Script
 
-### 2. Hacer tu primer print
+1. Insertás una **Pieza** y la renombrás `Bloque` (como en la Clase 3)
+2. Click derecho en `Bloque` en el Explorador → **Insertar** → **Script**
+3. Se abre el editor de código, con un `print("Hello world!")` de ejemplo: lo borrás
 
-```lua
-print("Hola mundo")
-```
+> 📝 **Qué es un Script:** un objeto que guarda código. El código corre cuando le das **▶**. Si está adentro de una pieza, puede manejar esa pieza.
 
-Al darle Play, `"Hola mundo"` aparece en la consola (Output).
-
-### 3. Usar variables
+### Paso 2: El print
 
 ```lua
-local nombre = "Roblox"
-local numero = 10
-print(nombre)   -- imprime: Roblox
-print(numero)   -- imprime: 10
+print("Hola mundo")   -- escribe el texto en la Salida
 ```
 
-> 💡 `local` significa que la variable solo existe dentro del script donde se declara.
+- `print` muestra lo que está entre paréntesis en la **Salida** (Output), la ventana de abajo
+- El texto va entre comillas `" "`
+- Todo lo que va después de `--` es un **comentario**: Roblox lo ignora, es una nota para nosotros
 
-### 4. Referenciar el bloque y usar una propiedad
+### Paso 3: Variables
+
+```lua
+local nombre = "Roblox"   -- variable con un texto
+local numero = 10         -- variable con un numero
+print(nombre)             -- imprime: Roblox
+print(numero)             -- imprime: 10
+```
+
+- Una **variable** es una caja con nombre donde guardás un dato para usarlo después
+- `local` crea la variable. Solo existe adentro de este script
+- Los textos van entre comillas; los números, sin comillas
+
+### 🧱 Parte 2: Propiedad, método y evento
+
+Todo objeto de Roblox tiene tres tipos de cosas:
+
+| Qué | Qué es | Cómo se escribe | Ejemplo |
+|---|---|---|---|
+| **Propiedad** | Una característica | `objeto.Propiedad = valor` | `bloque.Color` |
+| **Método** | Una acción que hace | `objeto:Metodo()` | `bloque:Clone()` |
+| **Evento** | Algo que le pasa | `objeto.Evento:Connect(function() ... end)` | `bloque.Touched` |
+
+> ⚠️ Las propiedades y los eventos usan **punto** `.`, y los métodos usan **dos puntos** `:`.
+
+### Paso 4: Una propiedad
 
 ```lua
 local bloque = script.Parent                -- el Part que contiene el script
-bloque.Color = Color3.fromRGB(255, 0, 0)    -- propiedad: cambia el color
+bloque.Color = Color3.fromRGB(255, 0, 0)    -- propiedad: lo pinta de rojo
 ```
 
-### 5. Usar un método
+- `script` es el propio script, y `.Parent` es lo que lo contiene: el `Bloque`. Así no hay que buscarlo por nombre
+- `Color3.fromRGB(rojo, verde, azul)` arma un color con tres números de `0` a `255`, los mismos que ves en **Color** en Propiedades
+
+### Paso 5: Un método
 
 ```lua
-local clon = bloque:Clone()   -- metodo: crea una copia del bloque
-clon.Parent = workspace       -- la agrega al mundo
+local clon = bloque:Clone()                       -- metodo: crea una copia del bloque
+clon.Script:Destroy()                             -- metodo: le saca el script a la copia
+clon.Position = bloque.Position + Vector3.new(8, 0, 0)  -- la corre 8 studs al costado
+clon.Parent = workspace                           -- la agrega al mundo
 ```
 
-### 6. Usar un evento
+- `Clone()` hace una copia, pero la deja "en el aire": hasta que no le ponés `Parent = workspace`, no aparece en el mundo
+- `Destroy()` borra un objeto. Acá le borramos el script a la copia
+- `Vector3.new(8, 0, 0)` es un movimiento de 8 studs en X. Sumado a la posición del bloque, deja la copia al lado
+
+> ⚠️ **¿Por qué hay que borrarle el script a la copia?** `Clone()` copia el bloque **con todo lo que tiene adentro**, también el Script. La copia, al aparecer, corre su script y se vuelve a clonar, y esa copia otra vez… Probado en Studio: sin esa línea aparecen **81 bloques** encimados y la Salida muestra `Maximum re-entrancy depth (80) exceeded`.
+
+### Paso 6: Un evento
 
 ```lua
-bloque.Touched:Connect(function()
-    print("me tocaron!")
+bloque.Touched:Connect(function()   -- cuando algo toca el bloque...
+    print("me tocaron!")            -- ...escribe esto en la Salida
 end)
 ```
 
-**Ejemplo:** cada vez que algo toca el bloque, imprime `"me tocaron!"` en la consola.
+- `Touched` es el evento de "me tocaron"
+- `:Connect(function() ... end)` dice qué hacer cada vez que pasa. Lo de adentro corre **cada vez** que lo tocan
+- El `end)` cierra la función y el paréntesis de `Connect`
+
+### Paso 7: Probar
+
+Le das **▶** y caminás hasta el bloque:
+
+![El bloque rojo, su copia y la Salida](roblox/img/clase6/01-resultado.png)
+*El bloque se pintó de rojo, la copia apareció al costado y la Salida muestra los prints una sola vez.*
+
+> 💡 Al pararte sobre el bloque, "me tocaron!" aparece muchas veces: `Touched` se dispara por **cada parte del cuerpo** que lo toca (pies, piernas…).
+
+## Probar todo
+
+1. La Salida muestra `Hola mundo`, `Roblox` y `10` una sola vez
+2. El bloque está rojo y hay una copia al costado (y solo una)
+3. Al tocarlo, aparece `me tocaron!`
+
+## Estructura final en el Explorador
+
+```
+Workspace
+  └── Bloque (Part)
+        └── Script
+```
+
+## Problemas comunes
+
+| Problema | Causa | Solución |
+|---|---|---|
+| No aparece nada en la Salida | La ventana Salida está cerrada | Pestaña **Vista** (o **Ventana**) → **Salida** |
+| Aparecen muchísimos bloques | La copia tiene el script y se vuelve a clonar | Agregar `clon.Script:Destroy()` |
+| No veo la copia | Quedó encima del original | Correrla con `Position` |
+| Error en rojo `Expected ')'` | Falta cerrar un paréntesis o el `end)` | Revisar que cada `(` tenga su `)` |
+| `Color3.fromRGB` no pinta | Está escrito con otra mayúscula | Luau distingue mayúsculas: `Color3`, `fromRGB` |
+
+## Extras
+
+- `bloque.Transparency = 0.5` y `bloque.Size = Vector3.new(10, 1, 10)` son otras propiedades para probar
+- `bloque.Touched:Connect(function() bloque.Color = Color3.fromRGB(0, 0, 255) end)` combina un evento con una propiedad: al tocarlo se pone azul
 
 ## Ejercicio
 
 > Consigna: Programá un método, una propiedad y un evento del Part.
 
 **Pistas:**
-1. Empezá siempre con `local bloque = script.Parent` para referenciar tu Part
-2. Probá combinar el evento `Touched` con un cambio de propiedad
-3. Usá la consola (Output) para verificar que tu código corre bien
+1. Empezá siempre con `local bloque = script.Parent`
+2. Propiedad con punto, método con dos puntos
+3. Probá combinar `Touched` con un cambio de propiedad
+4. Mirá la **Salida** para ver tus prints y los errores
 
 ## Recursos
 
-- [Documentación oficial de eventos y propiedades](https://create.roblox.com/docs/scripting)
+- [Documentación oficial de scripting en Roblox](https://create.roblox.com/docs/scripting)
+- [Documentación oficial de BasePart.Touched](https://create.roblox.com/docs/reference/engine/classes/BasePart#Touched)
