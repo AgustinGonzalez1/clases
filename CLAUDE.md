@@ -56,17 +56,17 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 | 4 | Roblox | Clase 27: Checkpoints y Vidas ❤️ | 2026-11-02 |
 | 5 | Roblox | Clase 26: ¡A Ganar Robux! (Monetización) 💰 | 2026-11-03 |
 | 6 | Roblox | Clase 1: ¡Hola, Roblox Studio! 🤩 | 2026-11-07 |
-| 7 | Roblox | Clase 2: El Arte de Crear Paisajes 🏞️ (repaso, falta revisión del usuario) | 2026-11-07 |
-| 8 | Roblox | Clase 3: Construyendo con Bloques 🧱 (repaso, falta revisión del usuario) | 2026-11-07 |
-| 9 | Roblox | Clase 4: ¡A Mover el Esqueleto! 🕺 (falta revisión del usuario) | 2026-11-07 |
-| 10 | Roblox | Clase 5: Rig Personalizado + Animación 🧍‍♂️✨ (falta revisión del usuario) | 2026-11-07 |
-| 11 | Roblox | Clase 6: Nuestro primer print 💻 (falta revisión del usuario) | 2026-11-07 |
-| 12 | Roblox | Clase 7: Bloque de la muerte y supersalto 💀🦘 (falta revisión del usuario) | 2026-11-07 |
-| 13 | Roblox | Clase 8: Bloque teletransportador 🔀 (falta revisión del usuario) | 2026-11-07 |
-| 14 | Roblox | Clase 9: Programación creativa 🎨🎮 (falta revisión del usuario) | 2026-11-07 |
-| 15 | Roblox | Clase 10: ¡Hola, Amigo NPC! 👋 (falta revisión del usuario) | 2026-11-07 |
+| 7 | Roblox | Clase 2: El Arte de Crear Paisajes 🏞️ (repaso) | 2026-11-07 |
+| 8 | Roblox | Clase 3: Construyendo con Bloques 🧱 (repaso) | 2026-11-07 |
+| 9 | Roblox | Clase 4: ¡A Mover el Esqueleto! 🕺 | 2026-11-07 |
+| 10 | Roblox | Clase 5: Rig Personalizado + Animación 🧍‍♂️✨ | 2026-11-07 |
+| 11 | Roblox | Clase 6: Nuestro primer print 💻 | 2026-11-07 |
+| 12 | Roblox | Clase 7: Bloque de la muerte y supersalto 💀🦘 | 2026-11-07 |
+| 13 | Roblox | Clase 8: Bloque teletransportador 🔀 | 2026-11-07 |
+| 14 | Roblox | Clase 9: Programación creativa 🎨🎮 | 2026-11-07 |
+| 15 | Roblox | Clase 10: ¡Hola, Amigo NPC! 👋 | 2026-11-07 |
 
-### Estado (2026-11-03)
+### Estado (actualizado 2026-11-07)
 
 - Roblox 27, 28, 29 y 30: hechas con el estilo nuevo y probadas en Studio. La 30 vende solo poderes simples (Super Velocidad y Super Salto), porque el usuario no quiere cosas elaboradas que no entran en la clase
 - Roblox 29: el código no se tocó; se agregó **TextColor3 blanco** al `TextoNivel`, porque en negro no se leía sobre el fondo gris
@@ -74,7 +74,7 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 - Roblox 26 (2026-11-03): el usuario la pidió **más corta pero funcional**. Se rehízo de 635 a ~250 líneas: un solo LocalScript en `TiendaGui` (los dos botones, textos fijos, sin pedir el precio), un solo Script `Compras` (Pase + `ProcessReceipt`), sin `MODO_PRUEBA`, sin `compraConfirmada`, sin `finBoost` (cada compra suma 10 y `task.delay(60)` resta 10) y sin el extra de varios Pases. Probado en Studio: velocidad 16→26→36→26→16 y la Linterna sigue al morir
 - Datos de prueba de la 26: experiencia `Clase 26 - Compras con Robux` (id 10774578210, privada), Pase `Linterna Premium` 2070421465 (25 R$), Producto `Velocidad +10` 3728068772 (10 R$). Proyecto en `codilab\clase26.rbxlx`
 - **Pases en Studio:** el creador del juego ya es dueño de sus Pases (`UserOwnsGamePassAsync` da true y la compra dice "Ya tienes este objeto"), así que el flujo de compra del Pase no se puede ver con la cuenta del creador. Los Productos sí: Studio muestra "compra de prueba" y no cobra
-- Siguiente (cambiado el 2026-11-07): **Roblox 1 a 5**, cuando el usuario dé el OK. Primero un **resumen** de las 5 clases (qué tiene cada una, qué está mal y qué propongo cambiar). Él lo lee y decide si seguimos con eso; recién después se rehacen. Después, los otros cursos
+- **Siguiente (2026-11-07):** Roblox 1 a 10 terminadas, aprobadas y pusheadas (commit `e32ba97`). Sigue **Roblox 11** (la espada) en adelante, de corrido, y el usuario revisa en bloque. Después, los otros cursos
 - **Revisar los ejemplos de Roblox (pedido del 2026-11-07):** en cada clase, revisar si cada ejemplo es la mejor forma de hacerlo y la más fácil para un alumno. Si no, buscar la mejor forma posible (documentación oficial, prácticas recomendadas) y proponerla en el resumen, sin cambiar el código hasta que el usuario lo apruebe
 - **Roblox 1 a 5, decisiones del usuario (2026-11-07):** aprobó todos los cambios del resumen. Clase 1: probar con Play, guardar (Guardar en Roblox / en archivo), cámara con GIF. Clase 2: Esculpir para colinas, plantilla Flat Terrain, ClockTime + Atmosphere + Clouds (Sky como extra). Clase 3: CanCollide, Transparency, ajuste de 1 stud, menú Pieza y ejemplo del castillo paso a paso. Clase 4: rig **R15 de "Mi avatar"** (Inicio → Personaje → Generar rig → R15 → Mi avatar), Avatar → Editor de clips, primero el saludo y después el caminar, explicar guardar y publicar. Clase 5: **se queda con RigLink**, que para el usuario es lo mejor y lo más fácil
 - **Código cambiado en Roblox 6–10 (2026-11-07, avisado al usuario, falta su OK):** 6 y 8: `clon.Script:Destroy()` después de `Clone()` (sin eso, la 6 hacía 81 bloques con "Maximum re-entrancy depth" y la 8 dejaba un clon para siempre); la 6 además corre la copia 8 studs con `Position`. 10: el LocalScript pasó de StarterPlayerScripts a **StarterCharacterScripts** con `script.Parent` como personaje (antes, al morir, el texto quedaba congelado). 7 y 9: código igual; se avisa del error rojo del accesorio (se arregla con `if` en la 19, porque antes no se ven condicionales). 9: BodyVelocity intacto. GIF de 7, 8 y 9 agregados (cámara fija desde el cliente: Scriptable, arriba y detrás del SpawnLocation; bloques adelante)
@@ -143,6 +143,7 @@ En lo demás:
 - Videos o GIF cortos solo donde ayuden a ver un movimiento (por ejemplo, tocar una moneda y ver cómo suben los puntos). Se guardan en `<curso>/img/claseNN/` como `.mp4` o `.gif`
 - Grabar la pantalla: ffmpeg con `gdigrab` está en `C:\Users\Agust\AppData\Local\Programs\Python\Python313\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe` (no está en el PATH). Puede capturar la pantalla entera o una sola ventana por título
 - **Studio se puede manejar desde PowerShell** (SetCursorPos/mouse_event/SendKeys): la escena se arma pegando Lua en la barra de comandos y ejecutándolo con Ctrl+Enter, y se prueba con Play, Tab, WASD y E. Hay dos monitores: el principal (donde está Studio) arranca en (1080, 522) de la captura `gdigrab -i desktop`. Cuidado: Ctrl+A/Supr con un script abierto en el editor lo borra, y arrastrar la barra de título de un panel lo desacopla. Después de apretar Stop, confirmar con una captura que la prueba terminó (pestañas Cliente/Servidor). Al agrandar el Explorer para la captura final, el divisor queda pegado a la barra de título de Propiedades: si se agarra la barra, el panel queda flotando; se vuelve a acoplar arrastrándolo sobre el Explorer y soltándolo en la guía de abajo. Al darle Play, el cliente puede tardar más de 20 s en cargar: esperar a ver el personaje antes de moverlo. Para probar muertes y checkpoints, caminar de verdad (W/S): teletransportar con `PivotTo` desde el cliente da resultados falsos, porque el servidor todavía ve al personaje en el lugar anterior. Si la clase renombra la SpawnLocation de la plantilla, guardar sus valores y devolverlos al limpiar
+- **Herramientas guardadas:** los scripts para manejar Studio y hacer capturas/GIF están en `Escritorio\codilab\herramientas-studio\` (ver su `LEEME.md`). Para GIF con personaje: cámara fija desde el cliente (`CameraType = Scriptable`, arriba y detrás del SpawnLocation, mirando a los bloques), click en la vista antes de caminar (si no, las teclas van a la barra de comandos) y bloques anchos adelante del SpawnLocation. Si el modo de prueba queda en **Ejecutar** (por F8), volver a **Probar** con el desplegable de arriba a la izquierda
 - **Finales de línea:** no todos son iguales: la mayoría de los `.mdx` están en CRLF, pero algunos (por ejemplo roblox 22 a 25) están en LF. Mantener el que tenga cada archivo. `sed -i` de Git Bash los pasa a LF: editar con Python (`newline='
 '`) o restaurarlos después
 - **Generar una clase sin tocar el código:** escribir una plantilla con `{{C0}}`, `{{C1}}`… y llenarla con los bloques de código sacados del `.mdx` original, y comprobar que quedaron idénticos
