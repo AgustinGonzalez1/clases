@@ -105,6 +105,8 @@ end)
 
 Al tocarlo, te empuja hacia un costado.
 
+> 📝 **Qué es un LinearVelocity:** un objeto que empuja una pieza con una velocidad fija. Necesita un **Attachment**, que es el punto de la pieza desde donde empuja.
+
 ```lua
 local bloque = script.Parent
 
@@ -112,25 +114,31 @@ bloque.Touched:Connect(function(mano)
     local personaje = mano.Parent
     local rootPart = personaje.HumanoidRootPart
 
-    local empuje = Instance.new("BodyVelocity")
-    empuje.Velocity = Vector3.new(50, 0, 0)              -- empuja hacia el eje X
-    empuje.MaxForce = Vector3.new(math.huge, 0, math.huge)
+    local adjunto = Instance.new("Attachment")          -- el punto de donde se empuja
+    adjunto.Parent = rootPart
+
+    local empuje = Instance.new("LinearVelocity")
+    empuje.Attachment0 = adjunto                         -- empuja desde ese punto
+    empuje.VectorVelocity = Vector3.new(50, 0, 0)        -- hacia el eje X
+    empuje.ForceLimitMode = Enum.ForceLimitMode.PerAxis  -- fuerza por eje
+    empuje.MaxAxesForce = Vector3.new(math.huge, 0, math.huge)
     empuje.Parent = rootPart
 
-    wait(0.5)
+    task.wait(0.5)
     empuje:Destroy()   -- deja de empujar
+    adjunto:Destroy()
 end)
 ```
 
 ![Bloque que empuja](roblox/img/clase9/03-bloque-empuje.gif)
 *Al tocarlo, el personaje sale empujado hacia el costado.*
 
-- `BodyVelocity` es un objeto que, puesto adentro de una pieza, la empuja con una velocidad
-- `Velocity` es hacia dónde y qué tan rápido: `50` en el eje X
-- `MaxForce` dice en qué ejes empuja y con cuánta fuerza. `math.huge` es "sin límite"
-- `Destroy()` lo borra a los 0,5 segundos, si no te empujaría para siempre
+- `Attachment` es el punto desde donde empuja; lo ponemos en la `HumanoidRootPart` (el centro del personaje)
+- `VectorVelocity` es hacia dónde y qué tan rápido: `50` en el eje X
+- `ForceLimitMode` y `MaxAxesForce` dicen en qué ejes empuja: X y Z sin límite (`math.huge`), Y en `0` para que no te levante
+- `Destroy()` borra el empuje y el punto a los 0,5 segundos; si no, te empujaría para siempre
 
-Probado en Studio: el personaje salió empujado unos 26 studs hacia el costado.
+> 💡 Antes se usaba `BodyVelocity`, que hacía lo mismo sin el Attachment. Roblox lo marcó como obsoleto: si lo ves en tutoriales viejos, es esto mismo.
 
 ### 🎨 Parte 3: Tu bloque propio
 
@@ -179,6 +187,7 @@ Workspace
 | El que se achica desaparece de golpe | `Touched` se dispara muchas veces seguidas. Tocarlo de costado; con un bloque más grande se nota menos |
 | Sigo rápido para siempre | Falta el `TouchEnded` que vuelve a `16`. Agregarlo |
 | El empuje no termina | Falta el `empuje:Destroy()`. Agregarlo después de la espera |
+| No te empuja | Falta `empuje.Attachment0 = adjunto`. Sin el punto, no empuja |
 | Error rojo `Accessory` | Lo tocó el pelo. No rompe nada: el bloque igual funciona |
 
 ### Extras
@@ -198,4 +207,4 @@ Workspace
 ## Recursos
 
 - [Documentación oficial de BasePart.TouchEnded](https://create.roblox.com/docs/reference/engine/classes/BasePart#TouchEnded)
-- [Documentación oficial de BodyVelocity](https://create.roblox.com/docs/reference/engine/classes/BodyVelocity)
+- [Documentación oficial de LinearVelocity](https://create.roblox.com/docs/reference/engine/classes/LinearVelocity)

@@ -86,7 +86,7 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 - **Siguiente (2026-11-07):** Roblox 1 a 10 terminadas, aprobadas y pusheadas (commit `e32ba97`). Sigue **Roblox 11** (la espada) en adelante, de corrido, y el usuario revisa en bloque. Después, los otros cursos
 - **Revisar los ejemplos de Roblox (pedido del 2026-11-07):** en cada clase, revisar si cada ejemplo es la mejor forma de hacerlo y la más fácil para un alumno. Si no, buscar la mejor forma posible (documentación oficial, prácticas recomendadas) y proponerla en el resumen, sin cambiar el código hasta que el usuario lo apruebe
 - **Roblox 1 a 5, decisiones del usuario (2026-11-07):** aprobó todos los cambios del resumen. Clase 1: probar con Play, guardar (Guardar en Roblox / en archivo), cámara con GIF. Clase 2: Esculpir para colinas, plantilla Flat Terrain, ClockTime + Atmosphere + Clouds (Sky como extra). Clase 3: CanCollide, Transparency, ajuste de 1 stud, menú Pieza y ejemplo del castillo paso a paso. Clase 4: rig **R15 de "Mi avatar"** (Inicio → Personaje → Generar rig → R15 → Mi avatar), Avatar → Editor de clips, primero el saludo y después el caminar, explicar guardar y publicar. Clase 5: **se queda con RigLink**, que para el usuario es lo mejor y lo más fácil
-- **Código cambiado en Roblox 6–10 (2026-11-07, aprobado y pusheado):** 6 y 8: `clon.Script:Destroy()` después de `Clone()` (sin eso, la 6 hacía 81 bloques con "Maximum re-entrancy depth" y la 8 dejaba un clon para siempre); la 6 además corre la copia 8 studs con `Position`. 10: el LocalScript pasó de StarterPlayerScripts a **StarterCharacterScripts** con `script.Parent` como personaje (antes, al morir, el texto quedaba congelado). 7 y 9: código igual; se avisa del error rojo del accesorio (se arregla con `if` en la 19, porque antes no se ven condicionales). 9: BodyVelocity intacto. GIF de 7, 8 y 9 agregados (cámara fija desde el cliente: Scriptable, arriba y detrás del SpawnLocation; bloques adelante)
+- **Código cambiado en Roblox 6–10 (2026-11-07, aprobado y pusheado):** 6 y 8: `clon.Script:Destroy()` después de `Clone()` (sin eso, la 6 hacía 81 bloques con "Maximum re-entrancy depth" y la 8 dejaba un clon para siempre); la 6 además corre la copia 8 studs con `Position`. 10: el LocalScript pasó de StarterPlayerScripts a **StarterCharacterScripts** con `script.Parent` como personaje (antes, al morir, el texto quedaba congelado). 7 y 9: código igual; se avisa del error rojo del accesorio (se arregla con `if` en la 19, porque antes no se ven condicionales). 9: BodyVelocity pasado a LinearVelocity el 2026-11-10. GIF de 7, 8 y 9 agregados (cámara fija desde el cliente: Scriptable, arriba y detrás del SpawnLocation; bloques adelante)
 - **Notas de Studio (2026-11-07):** el Animation Editor ahora es **Avatar → Editor de clips**; para ver los anillos al posar hay que tocar **Girar** en la barra (lo dijo el usuario). RigLink está instalado (pestaña Plugins): Link Selected → Part0/Part1/Name + flechas del pivote → Confirm Link; crea el Motor6D en Part0 sin mover las piezas. No publicar animaciones en la cuenta del usuario al sacar capturas (cancelar la ventana)
 - **Cambio de ritmo (2026-11-07, más tarde):** el usuario pidió hacer **Roblox 2 a 10 de corrido**, sin esperar su OK entre clases; él las revisa todas juntas al final. Las clases básicas (2 Terreno y 3 Bloques) van como un **repaso por arriba**, sin tanto detalle. **De la 4 en adelante, con más detalle**, porque son más rebuscadas. Si falta algo, se agrega. Hay que basarse en los **planes de estudio** (Google Doc, una pestaña por curso):
   - Roblox: https://docs.google.com/document/d/1RGVJiNUjVLDVjAyMF3nJi728Q9DsTvp4GSm8HTgLtEM/edit?tab=t.0
@@ -104,15 +104,15 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 
 ### Formas viejas en el código de Roblox (2026-11-02)
 
-El usuario pidió pasar todo a la forma recomendada **menos el BodyVelocity**, que lo quiere analizar él. Hecho el 2026-11-02:
+El usuario pidió pasar todo a la forma recomendada (el BodyVelocity lo analizó él y pasó a LinearVelocity el 2026-11-10). Hecho el 2026-11-02:
 
 | Forma vieja | Recomendada | Clases | Estado |
 |---|---|---|---|
 | `game.Players.LocalPlayer` | `local Players = game:GetService("Players")` y `Players.LocalPlayer` (`LocalPlayer` en sí no es viejo) | 10, 12, 15, 24, 25 | ✅ Hecho |
-| `wait(n)` | `task.wait(n)` | 7, 8, 9, 20, 23, 24 | ✅ Hecho (en la 9, menos el bloque del BodyVelocity) |
+| `wait(n)` | `task.wait(n)` | 7, 8, 9, 20, 23, 24 | ✅ Hecho |
 | `MouseButton1Click` | `Activated` (mouse, toque y joystick) | 16, 23, 24 | ✅ Hecho (en la 16 también el texto que lo explicaba) |
 | `for _, x in ipairs(t)` / `pairs(t)` | `for _, x in t` | 21, 22, 24, 26, 27 | ✅ Hecho |
-| `BodyVelocity` y `.Velocity` | `LinearVelocity` con un Attachment (BodyVelocity está obsoleto) | 9 | ⏳ **Pendiente: lo analiza el usuario.** El bloque entero (con su `wait(0.5)`) quedó sin tocar |
+| `BodyVelocity` y `.Velocity` | `LinearVelocity` con un Attachment (BodyVelocity está obsoleto) | 9 | ✅ **Hecho (2026-11-10):** el usuario comparó en Studio y eligió `LinearVelocity` + Attachment, con `ForceLimitMode` PerAxis y `MaxAxesForce` (X y Z sin límite, Y en 0). Antes: El bloque entero (con su `wait(0.5)`) quedó sin tocar |
 
 Están bien y no hay que tocarlas: `Heartbeat`, `animator:LoadAnimation` (ya usan el Animator), `task.delay`. De acá en adelante, todo código nuevo va con las formas recomendadas.
 
