@@ -6,7 +6,7 @@ Material de las clases de programación que da el usuario en Codilab. Cada clase
 
 ```
 clases codilab/
-├── index.html        visor de las clases (sidebar por curso)
+├── index.html        visor de las clases (sidebar por curso; modos Clásico, Por partes y Proyector)
 ├── manifest.json     lista de cursos y clases: { nombre, carpeta, clases: [{ titulo, archivo }] }
 ├── ejemplo.mdx       plantilla de una clase, con el formato de roblox/clase30.mdx
 ├── roblox/           curso de Roblox (Luau) — clase1.mdx ... clase30.mdx
@@ -72,9 +72,11 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 | 13 | Roblox | Clase 8: Bloque teletransportador 🔀 | 2026-11-07 |
 | 14 | Roblox | Clase 9: Programación creativa 🎨🎮 | 2026-11-07 |
 | 15 | Roblox | Clase 10: ¡Hola, Amigo NPC! 👋 | 2026-11-07 |
+| 16 | Roblox | Clase 11: Tu Primera Arma: La Espada ⚔️ | 2026-11-10 |
 
 ### Estado (actualizado 2026-11-07)
 
+- **Roblox 11 (2026-11-10), hecha, probada en Studio y aprobada:** sin código, como se decidió en el chat ("lo mejor esta clase es solo hacer la espada"). Tool `Espada` en el Workspace, que se agarra del piso. Las piezas van desancladas y armadas **paradas**, con **Grip → Orientation `0, 90, 0`**: con el Grip en 0 queda parada pero con el filo para los costados (lo vio el usuario); con 90 en Y, el filo queda para adelante (probado mirando desde atrás y de costado). Antes, la clase decía `0, 0, -90`. Los WeldConstraint van en cadena: uno en `Handle` (Handle+Guardia) y otro en `Guardia` (Guardia+Hoja). Se probó también todo al Handle, pero el usuario prefirió la cadena porque "pegar lo que se toca" lo entienden mejor los chicos. Hay una nota que aclara que la soldadura no necesita que las piezas se toquen. Probado: 1 guarda y saca la espada; con una pieza anclada, el personaje queda trabado; Backspace **no** la soltó en Studio, por eso no se nombra. Para el GIF: SpawnLocation achicado a 2×1×2 (después vuelve a 12×1×12) y espada acostada a lo ancho del camino, con el Handle en x = 0
 - **Repaso de la Clase 30 (2026-11-10):** cumple el formato, está probada y queda **tal como está** (pedido del usuario). Es el modelo para todas las clases
 
 - Roblox 27, 28, 29 y 30: hechas con el estilo nuevo y probadas en Studio. La 30 vende solo poderes simples (Super Velocidad y Super Salto), porque el usuario no quiere cosas elaboradas que no entran en la clase
@@ -145,6 +147,7 @@ En lo demás:
   - "Estructura final en el Explorer" lleva **las dos cosas**: primero el árbol en texto (solo lo que arma la clase, con sangría `└──` y el tipo entre paréntesis) y después la captura. Hecho en la 26 a la 30 (en la 30 solo se agregó el árbol)
   - **La 1 a la 10 pasaron al formato de la 30 (2026-11-10):** Pasos que arrancan en 1 en cada Parte; "Probar todo" como último Paso (en la 6 y la 10 se juntó con el paso "Probar"); cierre con `###` adentro de Contenido; la Parte 5 Extra de la 4 (Editor facial) pasó a Extras; el árbol de la 5 se movió al Explorer final; la 9 tiene Extras nuevo (color al azar y medio fantasma, probado en Studio y aprobado por el usuario). El Explorer final de la 1 a la 10 ya tiene árbol y captura (2026-11-10). Las escenas se armaron con Lua en una Baseplate nueva, sin guardar. Los objetos se marcan con el atributo `_demo` y `Selection:Set` abre las carpetas del Explorer. Antes hay que agrandar el Explorer bajando el divisor (y≈465 del monitor). Si un rig abierto no entra, se unen dos recortes en una imagen, como en la 10. Ver `herramientas-studio\explorer-final.ps1` y `explorer-head.lua`
 - **Títulos (2026-11-10):** los títulos siguen al `temario.txt`, más el emoji si el temario no lo tiene, y "Cutscenes" bien escrito. Cambiaron la 4 (+ "(Animaciones con Editor)"), la 15 (🧊) y la 28 ("El Salón de la Fama (Leaderboards) 🥇"). En `manifest.json`, los títulos de Roblox son iguales al `title` de cada `.mdx`
+- **Visor (2026-11-10):** `index.html` tiene tres modos. **Por partes** (el de arranque) muestra una Parte por pantalla, con pestañas y Anterior/Siguiente. **Proyector** muestra un Paso por pantalla en grande, con flechas y Esc. **Clásico** es todo seguido. El visor corta solo por los `###` de Parte y Paso, así que las clases tienen que respetar ese formato. Lo que va después de la última Parte (Estructura final, Problemas comunes, Extras) es el "Cierre". El usuario probó y descartó "Retoques" (notas de colores, tablas plegadas, zoom) y "Tarjetas" (pasos plegables): no volver a proponerlos
 - **La plantilla es `ejemplo.mdx`:** tiene el formato de la 30 con todas las reglas en comentarios. Toda clase nueva o rehecha arranca de ahí
 - Español rioplatense con voseo ("le das Play", "tocás", "apretá")
 - Studio del usuario está **en español**: incluir los nombres de los menús en español ("Insertar → Insertar objeto…", "Servidor y clientes") junto a los nombres en inglés

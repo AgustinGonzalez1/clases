@@ -298,12 +298,12 @@
     .meta-tag span { color: var(--text); }
 
     /* Markdown styles */
-    #content {
+    #content, #view {
       line-height: 1.75;
       font-size: 15px;
     }
 
-    #content h1 {
+    #content h1, #view h1 {
       font-size: 26px;
       font-weight: 700;
       margin-bottom: 20px;
@@ -313,7 +313,7 @@
       letter-spacing: -0.2px;
     }
 
-    #content h2 {
+    #content h2, #view h2 {
       font-size: 18px;
       font-weight: 600;
       margin: 36px 0 12px;
@@ -322,7 +322,7 @@
       border-left: 3px solid var(--accent);
     }
 
-    #content h3 {
+    #content h3, #view h3 {
       font-size: 15px;
       font-weight: 600;
       margin: 24px 0 10px;
@@ -331,7 +331,7 @@
     }
 
     /* Partes y Pasos, cada uno con su color */
-    #content h3.parte {
+    #content h3.parte, #view h3.parte {
       font-size: 17px;
       color: var(--parte);
       opacity: 1;
@@ -340,21 +340,21 @@
       border-left: 3px solid var(--parte);
     }
 
-    #content h3.paso {
+    #content h3.paso, #view h3.paso {
       color: var(--paso);
       opacity: 1;
     }
 
-    #content p { margin-bottom: 14px; color: var(--text); }
+    #content p, #view p { margin-bottom: 14px; color: var(--text); }
 
-    #content ul, #content ol {
+    #content ul, #content ol, #view ul, #view ol {
       margin: 0 0 14px 20px;
       color: var(--text);
     }
 
-    #content li { margin-bottom: 6px; }
+    #content li, #view li { margin-bottom: 6px; }
 
-    #content code {
+    #content code, #view code {
       background: var(--tag-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
@@ -364,7 +364,7 @@
       color: #b8a07a;
     }
 
-    #content pre {
+    #content pre, #view pre {
       background: #14141e;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -373,7 +373,7 @@
       position: relative;
     }
 
-    #content pre .copy-btn {
+    #content pre .copy-btn, #view pre .copy-btn {
       position: absolute;
       top: 8px;
       right: 8px;
@@ -389,11 +389,11 @@
       font-family: inherit;
     }
 
-    #content pre:hover .copy-btn { opacity: 1; }
-    #content pre .copy-btn:hover { background: var(--active-bg); color: var(--text); }
-    #content pre .copy-btn.copied { color: #7aad8a; border-color: #7aad8a; }
+    #content pre:hover .copy-btn, #view pre:hover .copy-btn { opacity: 1; }
+    #content pre .copy-btn:hover, #view pre .copy-btn:hover { background: var(--active-bg); color: var(--text); }
+    #content pre .copy-btn.copied, #view pre .copy-btn.copied { color: #7aad8a; border-color: #7aad8a; }
 
-    #content pre code {
+    #content pre code, #view pre code {
       background: none;
       border: none;
       padding: 16px;
@@ -403,7 +403,7 @@
       line-height: 1.6;
     }
 
-    #content blockquote {
+    #content blockquote, #view blockquote {
       border-left: 3px solid var(--accent);
       padding: 10px 16px;
       margin: 16px 0;
@@ -412,16 +412,16 @@
       color: var(--muted);
     }
 
-    #content blockquote p { margin: 0; color: var(--muted); }
+    #content blockquote p, #view blockquote p { margin: 0; color: var(--muted); }
 
-    #content table {
+    #content table, #view table {
       width: 100%;
       border-collapse: collapse;
       margin: 16px 0;
       font-size: 14px;
     }
 
-    #content th {
+    #content th, #view th {
       background: var(--tag-bg);
       border: 1px solid var(--border);
       padding: 8px 12px;
@@ -430,20 +430,20 @@
       color: var(--text);
     }
 
-    #content td {
+    #content td, #view td {
       border: 1px solid var(--border);
       padding: 8px 12px;
       color: var(--muted);
     }
 
-    #content tr:hover td { background: var(--tag-bg); }
+    #content tr:hover td, #view tr:hover td { background: var(--tag-bg); }
 
-    #content img { max-width: 100%; height: auto; border-radius: 6px; }
+    #content img, #view img { max-width: 100%; height: auto; border-radius: 6px; }
 
-    #content a { color: var(--accent); text-decoration: none; }
-    #content a:hover { color: var(--accent-hover); text-decoration: underline; }
+    #content a, #view a { color: var(--accent); text-decoration: none; }
+    #content a:hover, #view a:hover { color: var(--accent-hover); text-decoration: underline; }
 
-    #content hr {
+    #content hr, #view hr {
       border: none;
       border-top: 1px solid var(--border);
       margin: 24px 0;
@@ -467,6 +467,69 @@
       color: #c07080;
       font-size: 14px;
     }
+
+    /* ═════ Modos de lectura: Clásico, Por partes y Proyector ═════ */
+    #modebar {
+      display: none; gap: 6px; flex-wrap: wrap; align-items: center;
+      margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+    }
+    #modebar .lbl { font-size: 12px; color: var(--muted); margin-right: 4px; }
+    #modebar button, #pager button {
+      background: var(--tag-bg); border: 1px solid var(--border); border-radius: 999px;
+      color: var(--muted); font: inherit; font-size: 13px; padding: 5px 14px; cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    #modebar button:hover, #pager button:hover:not(:disabled) { color: var(--text); background: var(--active-bg); }
+    #modebar button.on { color: #111118; background: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+    /* Pestañas de Partes */
+    #tabs { display: none; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
+    #tabs .tab {
+      font-size: 13px; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+      border: 1px solid var(--border); color: var(--muted); background: transparent;
+      font-family: inherit; display: flex; align-items: center; gap: 6px;
+    }
+    #tabs .tab .n {
+      width: 20px; height: 20px; border-radius: 50%; display: inline-grid; place-items: center;
+      font-size: 11px; background: var(--tag-bg); border: 1px solid var(--border);
+    }
+    #tabs .tab:hover { color: var(--text); }
+    #tabs .tab.on { color: var(--text); border-color: var(--parte); background: rgba(224,180,90,.08); }
+    #tabs .tab.on .n { background: var(--parte); color: #111118; border-color: var(--parte); }
+    #tabs .tab.done .n { background: rgba(127,179,224,.25); color: var(--text); }
+
+    /* Barra de progreso (proyector) */
+    #progress { display: none; height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 18px; overflow: hidden; }
+    #progress div { height: 100%; background: var(--accent); transition: width .25s ease; }
+    #crumb { display: none; font-size: 13px; color: var(--parte); margin-bottom: 6px; letter-spacing: .3px; }
+
+    #view { display: none; }
+    #view.page { animation: entra .22s ease; }
+    @keyframes entra { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    #pager {
+      display: none; justify-content: space-between; align-items: center;
+      margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border);
+    }
+    #pager button { font-size: 14px; padding: 9px 20px; border-radius: 10px; }
+    #pager button.next { color: #111118; background: var(--accent); border-color: var(--accent); font-weight: 600; }
+    #pager button:disabled { opacity: .35; cursor: default; }
+    #pager .count { font-size: 13px; color: var(--muted); }
+
+    /* Proyector */
+    body.proyector #sidebar { width: 0; min-width: 0; border-right: none; }
+    body.proyector #sidebar-open-btn { display: none !important; }
+    body.proyector #main { padding: 28px 56px; }
+    body.proyector #main-inner { max-width: 1100px; }
+    body.proyector #view { font-size: 19px; }
+    body.proyector #view h3.paso { font-size: 30px; margin-top: 4px; }
+    body.proyector #view h3.parte { font-size: 30px; }
+    body.proyector #view h3 { font-size: 26px; }
+    body.proyector #view h1 { font-size: 34px; }
+    body.proyector #view pre code { font-size: 16px; }
+    body.proyector #view table { font-size: 17px; }
+    body.proyector #meta-bar { display: none !important; }
+
   </style>
 </head>
 <body>
@@ -495,8 +558,19 @@
     </div>
     <div id="loading">Cargando clase...</div>
     <div id="error"></div>
+    <div id="modebar">
+      <span class="lbl">Ver:</span>
+      <button data-mode="clasico">📜 Clásico</button>
+      <button data-mode="partes">📑 Por partes</button>
+      <button data-mode="proyector">🖥️ Proyector</button>
+    </div>
     <div id="meta-bar"></div>
+    <div id="tabs"></div>
+    <div id="progress"><div></div></div>
+    <div id="crumb"></div>
     <div id="content"></div>
+    <div id="view"></div>
+    <div id="pager"><button class="prev">← Anterior</button><span class="count"></span><button class="next">Siguiente →</button></div>
   </div>
 </main>
 
@@ -579,21 +653,12 @@
         else if (/Parte \d+/.test(t)) h.classList.add('parte');
       });
 
-      // Syntax highlight + copy button
-      content.querySelectorAll('pre code').forEach(block => {
-        hljs.highlightElement(block);
-        const btn = document.createElement('button');
-        btn.className = 'copy-btn';
-        btn.textContent = 'Copiar';
-        btn.addEventListener('click', () => {
-          navigator.clipboard.writeText(block.innerText).then(() => {
-            btn.textContent = '✓ Copiado';
-            btn.classList.add('copied');
-            setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
-          });
-        });
-        block.parentElement.appendChild(btn);
-      });
+      content.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+      currentFile = `${carpeta}/${archivo}`;
+      sections = splitSections(content);
+      page = 0;
+      document.getElementById('modebar').style.display = 'flex';
+      render();
 
       // Scroll to top
       document.getElementById('main').scrollTop = 0;
@@ -655,6 +720,139 @@
       nav.innerHTML = `<div style="padding:16px;font-size:13px;color:#f85149;">Error: ${e.message}</div>`;
     }
   }
+
+
+  /* ═════ Modos de lectura: Clásico, Por partes y Proyector ═════ */
+  let mode = 'partes', sections = null, page = 0, currentFile = '';
+  try { mode = localStorage.getItem('modo') || 'partes'; } catch (e) {}
+  if (!['clasico', 'partes', 'proyector'].includes(mode)) mode = 'partes';
+
+  const $ = id => document.getElementById(id);
+  const isH = (n, tag) => n.tagName === tag;
+  const txt = n => n.textContent.trim();
+
+  // Corta la clase en: intro, partes (con sus pasos), cierre y final
+  function splitSections(root) {
+    const s = { intro: [], partes: [], cierre: [], final: [] };
+    let state = 'intro', parte = null;
+    for (const n of [...root.children]) {
+      if (isH(n, 'H2') && /Ejercicio|Recursos/i.test(txt(n))) state = 'final';
+      else if (isH(n, 'H2') && /^Contenido$/i.test(txt(n))) { state = 'contenido'; continue; }
+      else if (isH(n, 'H3') && n.classList.contains('parte')) { state = 'parte'; parte = { title: txt(n), head: n, pre: [], pasos: [] }; s.partes.push(parte); continue; }
+      else if (state === 'parte' && isH(n, 'H3') && !n.classList.contains('paso') && parte.head) state = 'cierre';
+      else if ((state === 'contenido' || (state === 'parte' && !parte.head)) && isH(n, 'H3')) {
+        // clases viejas sin Partes: cada ### es una sección
+        state = 'parte'; parte = { title: txt(n), head: null, pre: [], pasos: [] }; s.partes.push(parte);
+      }
+
+      if (state === 'intro') s.intro.push(n);
+      else if (state === 'final') s.final.push(n);
+      else if (state === 'cierre') {
+        if (isH(n, 'H3') || !s.cierre.length) s.cierre.push({ title: txt(n), nodes: [n] }); else s.cierre.at(-1).nodes.push(n);
+      } else if (state === 'parte') {
+        if (isH(n, 'H3') && n.classList.contains('paso')) parte.pasos.push({ title: txt(n), nodes: [n] });
+        else if (parte.pasos.length) parte.pasos.at(-1).nodes.push(n);
+        else parte.pre.push(n);
+      }
+    }
+    return s;
+  }
+
+  const partNodes = p => [...(p.head ? [p.head] : []), ...p.pre, ...p.pasos.flatMap(x => x.nodes)];
+  const short = t => t.replace(/^(\S+)\s+Parte \d+:\s*/, '$1 ').replace(/^Parte \d+:\s*/i, '');
+
+  function pagesFor(m) {
+    const s = sections, P = [];
+    if (m === 'partes') {
+      P.push({ label: '🎯 Inicio', nodes: s.intro });
+      s.partes.forEach(p => P.push({ label: short(p.title), nodes: partNodes(p) }));
+      if (s.cierre.length) P.push({ label: '✅ Cierre', nodes: s.cierre.flatMap(c => c.nodes) });
+      if (s.final.length) P.push({ label: '📝 Ejercicio', nodes: s.final });
+    } else if (m === 'proyector') {
+      P.push({ crumb: '', nodes: s.intro });
+      s.partes.forEach(p => {
+        const crumb = p.title;
+        if (p.pre.length || !p.pasos.length) P.push({ crumb: '', nodes: [...(p.head ? [p.head] : []), ...p.pre] });
+        p.pasos.forEach(x => P.push({ crumb, nodes: x.nodes }));
+      });
+      s.cierre.forEach(c => P.push({ crumb: '✅ Cierre', nodes: c.nodes }));
+      if (s.final.length) P.push({ crumb: '', nodes: s.final });
+    }
+    return P;
+  }
+
+  function cloneInto(el, nodes) { nodes.forEach(n => el.appendChild(n.cloneNode(true))); }
+
+  function render() {
+    if (!sections) return;
+    const content = $('content'), view = $('view'), tabs = $('tabs'), pager = $('pager'), prog = $('progress'), crumb = $('crumb');
+    document.body.classList.toggle('proyector', mode === 'proyector');
+    document.querySelectorAll('#modebar [data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === mode));
+    [tabs, pager, prog, crumb].forEach(e => e.style.display = 'none');
+    view.innerHTML = ''; view.className = '';
+
+    if (mode === 'clasico') {
+      content.style.display = 'block'; view.style.display = 'none';
+      wire(content);
+      return;
+    }
+    content.style.display = 'none'; view.style.display = 'block';
+
+    const P = pagesFor(mode);
+    page = Math.max(0, Math.min(page, P.length - 1));
+    const pg = P[page];
+    cloneInto(view, pg.nodes);
+    void view.offsetWidth; view.className = 'page';
+
+    if (mode === 'partes') {
+      tabs.style.display = 'flex'; tabs.innerHTML = '';
+      P.forEach((p, i) => {
+        const b = document.createElement('button');
+        b.className = 'tab' + (i === page ? ' on' : '') + (i < page ? ' done' : '');
+        b.innerHTML = `<span class="n">${i + 1}</span>${p.label}`;
+        b.onclick = () => go(i);
+        tabs.appendChild(b);
+      });
+    } else {
+      prog.style.display = 'block'; prog.firstElementChild.style.width = `${((page + 1) / P.length) * 100}%`;
+      if (pg.crumb) { crumb.style.display = 'block'; crumb.textContent = pg.crumb; }
+    }
+    pager.style.display = 'flex';
+    pager.querySelector('.prev').disabled = page === 0;
+    pager.querySelector('.next').disabled = page === P.length - 1;
+    pager.querySelector('.count').textContent = `${page + 1} de ${P.length}`;
+    wire(view);
+    $('main').scrollTop = 0;
+  }
+
+  function go(i) { page = i; render(); }
+
+  // Botones de copiar
+  function wire(root) {
+    root.querySelectorAll('pre').forEach(pre => {
+      pre.querySelectorAll('.copy-btn').forEach(b => b.remove());
+      const block = pre.querySelector('code'); if (!block) return;
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn'; btn.textContent = 'Copiar';
+      btn.addEventListener('click', () => navigator.clipboard.writeText(block.innerText).then(() => {
+        btn.textContent = '✓ Copiado'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      }));
+      pre.appendChild(btn);
+    });
+  }
+
+  document.querySelectorAll('#modebar [data-mode]').forEach(b => b.onclick = () => {
+    mode = b.dataset.mode; page = 0; try { localStorage.setItem('modo', mode); } catch (e) {} render();
+  });
+  $('pager').querySelector('.prev').onclick = () => go(page - 1);
+  $('pager').querySelector('.next').onclick = () => go(page + 1);
+  document.addEventListener('keydown', e => {
+    if (!sections || mode === 'clasico') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { const n = pagesFor(mode).length; if (page < n - 1) go(page + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { if (page > 0) go(page - 1); }
+    if (e.key === 'Escape' && mode === 'proyector') { mode = 'partes'; page = 0; render(); }
+  });
 
   loadManifest();
 </script>

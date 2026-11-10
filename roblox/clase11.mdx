@@ -5,77 +5,178 @@ mision: "Diseñar tu espada con estilo propio."
 
 # Clase 11: Tu Primera Arma: La Espada ⚔️
 
-Clase 100% visual, sin código. Construimos y personalizamos una espada usando Parts, la convertimos en Tool y la ajustamos para que quede bien en la mano del personaje.
+Armamos una espada con tres piezas, la convertimos en Tool y la agarramos del piso. Es una clase sin código.
 
 ## Objetivos
 
-- Construir una espada con 3 partes
-- Convertirla en un Tool agarrable
-- Unir las partes con WeldConstraint y ajustar el Grip
+- Armar una espada con tres Parts
+- Convertirla en un Tool que se agarra del mundo
+- Acomodarla en la mano con el Grip
+- Unir las piezas con WeldConstraint
 
 ## Contenido
 
-### 1. ¿Qué es un Tool?
+### 🗡️ Parte 1: Las piezas
 
-Un **Tool** es un tipo especial de objeto en Roblox que el jugador puede agarrar y equipar. Cuando está en el **Workspace**, el jugador lo agarra al acercarse. Cuando está en el **StarterPack**, aparece directo en su inventario al spawnear.
+### Paso 1: El mango
 
-### 2. Las 3 partes de la espada
+En la pestaña **Inicio** → **Pieza** (como en la Clase 3), la renombrás `Handle` y le cambiás:
 
-| Parte | Nombre en Studio | Descripción |
+| Propiedad | Valor | Para qué sirve |
 |---|---|---|
-| Mango | `Handle` | Part corta, donde el personaje agarra la espada |
-| Guardia | `Guardia` | Part ancha y corta entre el mango y la hoja |
-| Hoja | `Hoja` | Part larga y fina, la parte principal |
+| **Size** ✏️ | `0.5, 2, 0.5` | Un mango finito y parado |
+| **Position** ✏️ | `0, 1, -10` | Apoyado en el piso, adelante del SpawnLocation |
+| **Color** ✏️ | `110, 70, 40` | Marrón, como la madera |
+| **Material** ✏️ | `Wood` | Que parezca de madera |
+| **Anchored** ✏️ | ☐ desmarcado | Si queda anclado, al agarrar la espada te quedás trabado |
 
-> ⚠️ El nombre `Handle` es obligatorio. Roblox lo usa como punto de agarre del Tool.
+> ⚠️ El nombre `Handle` es obligatorio, con H mayúscula: es la pieza que agarra la mano. Con otro nombre, la espada no se puede agarrar.
 
-### 3. Crear el Tool en el Workspace
+### Paso 2: La guardia y la hoja
 
-1. Click derecho sobre **Workspace** → Insert Object → **Tool**
-2. Arrastrás las 3 Parts dentro del Tool
+Dos piezas más, también con **Anchored** desmarcado:
+
+| Pieza | Size | Position | Color | Material |
+|---|---|---|---|---|
+| `Guardia` | `2.5, 0.4, 0.6` | `0, 2.2, -10` | `200, 160, 40` | `Metal` |
+| `Hoja` | `0.6, 5, 0.2` | `0, 4.9, -10` | `200, 200, 210` | `Metal` |
+
+- La **guardia** es la barra ancha entre el mango y la hoja
+- La **hoja** es larga y finita
+
+> 💡 Armala **parada**, con la hoja para arriba. Así, en la mano solo hay que girarla un poco con el Grip (Parte 2).
+
+![La espada armada](roblox/img/clase11/01-espada.png)
+*El mango de madera, la guardia dorada y la hoja de metal, una arriba de la otra.*
+
+### 🧰 Parte 2: Convertirla en Tool
+
+### Paso 1: El Tool
+
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Tool**, lo renombrás `Espada`. Después arrastrás `Handle`, `Guardia` y `Hoja` adentro del Tool, en el Explorador.
+
+> 📝 **Qué es un Tool:** una herramienta que el personaje puede agarrar y llevar en la mano. Si está en el **Workspace**, la agarrás al tocarla; aparece abajo, en la barra de herramientas.
 
 ```
 Workspace
-  └── Tool
-        ├── Handle
-        ├── Guardia
-        └── Hoja
+  └── Espada (Tool)
+        ├── Guardia (Part)
+        ├── Handle (Part)
+        └── Hoja (Part)
 ```
 
-### 4. Unir las partes con WeldConstraint
+![Propiedades del Tool](roblox/img/clase11/02-propiedades-tool.png)
+*RequiresHandle marcado: por eso el mango se tiene que llamar Handle.*
 
-1. **Handle** → Insert Object → **WeldConstraint** → `Part0=Handle` / `Part1=Guardia`
-2. **Guardia** → Insert Object → **WeldConstraint** → `Part0=Guardia` / `Part1=Hoja`
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Name** ✏️ | `Espada` | El nombre que aparece en la barra de herramientas |
+| **CanBeDropped** | ✔ | Si la herramienta se puede soltar. Por ahora no la usamos |
+| **ManualActivationOnly** | ☐ | Es para cuando el Tool tiene código; por ahora no se usa |
+| **RequiresHandle** | ✔ | Necesita una pieza llamada `Handle` para agarrarlo |
+| **Enabled** | ✔ | Si lo desmarcás, el Tool no se puede usar |
+| **ToolTip** | *(vacío)* | Texto que aparece al pasar el mouse por la barra |
+| **TextureId** | *(vacío)* | Una imagen para la barra; vacío, muestra el nombre |
+| **Grip** ✏️ | Orientation `0, 90, 0` | Cómo la sostiene la mano. Lo acomodamos en el Paso 3 |
+
+Las demás (LevelOfDetail, ModelStreamingMode…) quedan como vienen.
+
+### Paso 2: Unir las piezas
+
+> 📝 **Qué es un WeldConstraint:** una "soldadura" que pega dos piezas para que se muevan juntas. Va adentro de una pieza y une **Part0** con **Part1**.
+
+1. Click derecho en `Handle` → Insert Object (**Insertar objeto**) → **WeldConstraint**
+2. En Propiedades hacés click en **Part0** y después en `Handle` en el Explorador; en **Part1**, lo mismo con `Guardia`
+3. Click derecho en `Guardia` → otro **WeldConstraint**, con **Part0** `Guardia` y **Part1** `Hoja`
+
+![Propiedades del WeldConstraint](roblox/img/clase11/03-propiedades-weld.png)
+*El de la Guardia: Part0 y Part1 son las dos piezas que quedan pegadas.*
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Part0** ✏️ | `Handle` (o `Guardia`) | La primera pieza de la unión |
+| **Part1** ✏️ | `Guardia` (o `Hoja`) | La pieza que se pega a la primera |
+| **Enabled** | ✔ | Si lo desmarcás, la unión se suelta |
+| **Active** | ✔ (gris) | Se marca solo cuando la unión está funcionando |
+
+- Van en cadena: el mango se pega a la guardia, y la guardia a la hoja
+- Sin ellas, al agarrar la espada te llevás solo el mango y lo demás se cae
+
+> 💡 La soldadura no necesita que las piezas se toquen: guarda la distancia que tienen. Igual, pegar cada pieza a la que toca es más fácil de seguir.
+
+### Paso 3: Acomodar el Grip
+
+Si le das **▶** así, la espada queda parada pero con el filo para los costados. Hay que girarla 90°.
+
+> 📝 **Qué es el Grip:** cómo la mano agarra el `Handle`. **Position** es dónde la agarra y **Orientation**, para dónde mira la espada.
+
+Seleccionás `Espada` y en Propiedades, sección **Transformar** → **Grip**:
+
+![El Grip en Propiedades](roblox/img/clase11/04-grip.png)
+*Orientation en 0, 90, 0: la espada gira 90° y el filo queda para adelante.*
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Position** | `0, 0, 0` | Dónde la agarra la mano. Si queda muy arriba o muy abajo, cambiás el segundo número |
+| **Orientation** ✏️ | `0, 90, 0` | Para dónde mira la espada. El `90` la gira sobre sí misma |
+
+### Paso 4: Probar todo
+
+Le das **▶**, caminás hasta la espada y la tocás:
+
+![Agarrar la espada](roblox/img/clase11/05-agarrar-espada.gif)
+*Al pisar el mango, el personaje levanta la espada, con el filo para adelante, y aparece en la barra de abajo.*
+
+1. La espada aparece en la barra de herramientas, abajo
+2. Queda parada en la mano, con el filo para adelante y las tres piezas juntas
+3. Con **1** la guardás y la volvés a sacar
+
+> 💡 Al darle **▶**, la espada puede caerse y quedar acostada en el piso: es normal, porque no está anclada. Se agarra igual tocando el mango.
+
+### Estructura final en el Explorer
 
 ```
 Workspace
-  └── Tool
-        ├── Handle
-        │     └── WeldConstraint (Part0=Handle / Part1=Guardia)
-        ├── Guardia
-        │     └── WeldConstraint (Part0=Guardia / Part1=Hoja)
-        └── Hoja
+  └── Espada (Tool)
+        ├── Guardia (Part)
+        │     └── WeldConstraint (Guardia + Hoja)
+        ├── Handle (Part)
+        │     ├── TouchInterest
+        │     └── WeldConstraint (Handle + Guardia)
+        └── Hoja (Part)
 ```
 
-### 5. Ajustar el Grip
+![Estructura final en el Explorer](roblox/img/clase11/06-explorer-final.png)
 
-En Properties del Tool:
+> 📝 El **TouchInterest** lo pone Roblox solo: es lo que avisa que tocaste el mango para agarrar la espada. No hay que crearlo ni borrarlo.
 
-| Propiedad | Valor recomendado |
+### Problemas comunes
+
+| Problema | Solución |
 |---|---|
-| **Grip → Orientation** | `0, 0, -90` |
+| La espada no se puede agarrar | El mango no se llama `Handle`. Renombralo, con H mayúscula |
+| Agarro solo el mango y lo demás se cae | Falta un WeldConstraint. Uno en `Handle` (con la Guardia) y otro en `Guardia` (con la Hoja) |
+| Al agarrarla me quedo trabado o me caigo | Alguna pieza está anclada. Desmarcá **Anchored** en las tres |
+| La espada queda acostada en la mano | La armaste acostada. Armala parada, con la hoja para arriba |
+| El filo mira para los costados | Falta el Grip. En `Espada`, **Grip → Orientation** en `0, 90, 0` |
+| Un WeldConstraint no une nada | Le falta **Part0** o **Part1**. Completá los dos |
 
-Ajustás hasta que se vea natural en la mano del personaje.
+### Extras
+
+- **Detalles:** una gema en la guardia (otra Part chiquita, con un WeldConstraint a la `Guardia`)
+- **Hoja que brilla:** **Material** `Neon` en la hoja
+- **En el inventario desde el principio:** movés la `Espada` a **StarterPack**; en vez de agarrarla del piso, aparece en la barra al empezar
 
 ## Ejercicio
 
-> Consigna: Diseñá tu espada con estilo propio, con colores y materiales personalizados.
+> Consigna: Diseñá tu espada con estilo propio: tus colores, tus materiales y al menos un detalle extra.
 
 **Pistas:**
-1. Recordá nombrar el mango exactamente `Handle`
-2. Sin WeldConstraint la espada se desarma al agarrarla
-3. Si queda torcida en la mano, ajustá `Grip → Orientation`
+1. El mango se llama `Handle`, con H mayúscula
+2. Las piezas sin anclar, y unidas en cadena con WeldConstraint: mango con guardia, guardia con hoja
+3. Armala parada y acomodá el Grip: **Orientation** en `0, 90, 0`
 
 ## Recursos
 
 - [Documentación oficial de Tool](https://create.roblox.com/docs/reference/engine/classes/Tool)
+- [Documentación oficial de WeldConstraint](https://create.roblox.com/docs/reference/engine/classes/WeldConstraint)
