@@ -21,6 +21,8 @@
       --active-bg: #1d1d2b;
       --content-bg: #17171f;
       --tag-bg: #1c1c2a;
+      --parte: #e0b45a;
+      --paso: #7fb3e0;
     }
 
     body {
@@ -328,6 +330,21 @@
       opacity: 0.85;
     }
 
+    /* Partes y Pasos, cada uno con su color */
+    #content h3.parte {
+      font-size: 17px;
+      color: var(--parte);
+      opacity: 1;
+      margin-top: 40px;
+      padding-left: 10px;
+      border-left: 3px solid var(--parte);
+    }
+
+    #content h3.paso {
+      color: var(--paso);
+      opacity: 1;
+    }
+
     #content p { margin-bottom: 14px; color: var(--text); }
 
     #content ul, #content ol {
@@ -554,6 +571,13 @@
 
       marked.setOptions({ breaks: true, gfm: true });
       content.innerHTML = marked.parse(cleaned);
+
+      // Partes y Pasos con su color
+      content.querySelectorAll('h3').forEach(h => {
+        const t = h.textContent.trim();
+        if (/^Paso \d+/.test(t)) h.classList.add('paso');
+        else if (/Parte \d+/.test(t)) h.classList.add('parte');
+      });
 
       // Syntax highlight + copy button
       content.querySelectorAll('pre code').forEach(block => {

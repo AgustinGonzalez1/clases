@@ -146,7 +146,7 @@ print(jugador:GetAttribute("Vidas"))        -- imprime: 3
 
 ### Paso 1: El texto de las vidas
 
-1. Click derecho en **StarterGui** → **ScreenGui**, la renombrás `VidasGui`
+1. Click derecho en **StarterGui** → Insert Object (**Insertar objeto**) → **ScreenGui**, la renombrás `VidasGui`
 2. Adentro, un **TextLabel** llamado `TextoVidas`:
 
 > 📝 **Qué es un ScreenGui:** la "capa" donde va todo lo que se dibuja en pantalla. Lo que pongas en **StarterGui** se le copia a cada jugador al entrar.
@@ -265,6 +265,7 @@ Players.PlayerAdded:Connect(alEntrarJugador)        -- jugadores que entren desp
 **Probalo:** Play. Arriba a la izquierda aparecen los tres corazones:
 
 ![Las vidas al empezar](roblox/img/clase27/03-vidas-inicio.png)
+*Los tres corazones arriba a la izquierda.*
 
 ### Paso 4: Probar todo
 
@@ -276,6 +277,7 @@ Pasás por el `1` y pisás el bloque rojo:
 Seguís hasta el `2`, volvés a pisar el bloque y reaparecés en el `2` con un corazón. Al perder el último, volvés al inicio con los tres:
 
 ![De vuelta al inicio](roblox/img/clase27/05-vuelve-inicio.png)
+*Sin vidas: de vuelta en el Inicio con los tres corazones.*
 
 > 💡 Si algo falla, mientras jugás seleccioná tu jugador en **Players** y mirá el atributo `Vidas` en Propiedades.
 
