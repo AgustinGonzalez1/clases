@@ -8,7 +8,7 @@ Material de las clases de programación que da el usuario en Codilab. Cada clase
 clases codilab/
 ├── index.html        visor de las clases (sidebar por curso)
 ├── manifest.json     lista de cursos y clases: { nombre, carpeta, clases: [{ titulo, archivo }] }
-├── ejemplo.mdx       plantilla base de una clase
+├── ejemplo.mdx       plantilla de una clase, con el formato de roblox/clase30.mdx
 ├── roblox/           curso de Roblox (Luau) — clase1.mdx ... clase30.mdx
 ├── scratch/          curso de Scratch — clase1.mdx ... clase29.mdx (NO son borradores)
 ├── python/           curso de Python
@@ -35,6 +35,13 @@ Para cada clase:
 
 No cambiar el código ya acordado sin avisar. Si hace falta, decir qué se cambió y por qué.
 
+### Temario de cada curso (fuente de verdad del contenido)
+
+El usuario deja el temario de cada curso en un `temario.txt` dentro de la carpeta del curso. Cada clase respeta lo que dice ahí: tema, misión y lo que se vio hasta ese momento.
+
+- **Roblox:** `roblox/temario.txt` (2026-11-10). Son **36 clases** en 6 módulos. Del 31 al 36 todavía no hay `.mdx`: 31 DataStore, 32 Multijugador, 33 IA, 34 Optimización, 35 LinkedIn y 36 Presentación final. Por eso está bien que la 28, la 29 y la 30 manden a la **Clase 31** para DataStore
+- **Scratch, Python y Web:** todavía faltan (el usuario los va a pasar). Mientras tanto, usar el Google Doc de los planes de estudio
+
 ### Chats de cada curso (claude.ai)
 
 Ahí se discute cada clase antes de armarla. Se leen con el navegador.
@@ -51,14 +58,14 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 | # | Curso | Clase | Fecha |
 |---|---|---|---|
 | 1 | Roblox | Clase 30: Tiendas y Monedas Virtuales 🛍️ | 2026-11-02 |
-| 2 | Roblox | Clase 28: Tablas de Puntos (Leaderboards) 🏆 | 2026-11-02 |
+| 2 | Roblox | Clase 28: El Salón de la Fama (Leaderboards) 🥇 | 2026-11-02 |
 | 3 | Roblox | Clase 29: ¡Sube de Nivel! Sistema de XP 🌟 | 2026-11-02 |
 | 4 | Roblox | Clase 27: Checkpoints y Vidas ❤️ | 2026-11-02 |
 | 5 | Roblox | Clase 26: ¡A Ganar Robux! (Monetización) 💰 | 2026-11-03 |
 | 6 | Roblox | Clase 1: ¡Hola, Roblox Studio! 🤩 | 2026-11-07 |
 | 7 | Roblox | Clase 2: El Arte de Crear Paisajes 🏞️ (repaso) | 2026-11-07 |
 | 8 | Roblox | Clase 3: Construyendo con Bloques 🧱 (repaso) | 2026-11-07 |
-| 9 | Roblox | Clase 4: ¡A Mover el Esqueleto! 🕺 | 2026-11-07 |
+| 9 | Roblox | Clase 4: ¡A Mover el Esqueleto! (Animaciones con Editor) 🕺 | 2026-11-07 |
 | 10 | Roblox | Clase 5: Rig Personalizado + Animación 🧍‍♂️✨ | 2026-11-07 |
 | 11 | Roblox | Clase 6: Nuestro primer print 💻 | 2026-11-07 |
 | 12 | Roblox | Clase 7: Bloque de la muerte y supersalto 💀🦘 | 2026-11-07 |
@@ -67,6 +74,8 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 | 15 | Roblox | Clase 10: ¡Hola, Amigo NPC! 👋 | 2026-11-07 |
 
 ### Estado (actualizado 2026-11-07)
+
+- **Repaso de la Clase 30 (2026-11-10):** cumple el formato, está probada y queda **tal como está** (pedido del usuario). Es el modelo para todas las clases
 
 - Roblox 27, 28, 29 y 30: hechas con el estilo nuevo y probadas en Studio. La 30 vende solo poderes simples (Super Velocidad y Super Salto), porque el usuario no quiere cosas elaboradas que no entran en la clase
 - Roblox 29: el código no se tocó; se agregó **TextColor3 blanco** al `TextoNivel`, porque en negro no se leía sobre el fondo gris
@@ -77,7 +86,7 @@ Lista para no pisarnos: si una clase está acá, ya está hecha y probada, y no 
 - **Siguiente (2026-11-07):** Roblox 1 a 10 terminadas, aprobadas y pusheadas (commit `e32ba97`). Sigue **Roblox 11** (la espada) en adelante, de corrido, y el usuario revisa en bloque. Después, los otros cursos
 - **Revisar los ejemplos de Roblox (pedido del 2026-11-07):** en cada clase, revisar si cada ejemplo es la mejor forma de hacerlo y la más fácil para un alumno. Si no, buscar la mejor forma posible (documentación oficial, prácticas recomendadas) y proponerla en el resumen, sin cambiar el código hasta que el usuario lo apruebe
 - **Roblox 1 a 5, decisiones del usuario (2026-11-07):** aprobó todos los cambios del resumen. Clase 1: probar con Play, guardar (Guardar en Roblox / en archivo), cámara con GIF. Clase 2: Esculpir para colinas, plantilla Flat Terrain, ClockTime + Atmosphere + Clouds (Sky como extra). Clase 3: CanCollide, Transparency, ajuste de 1 stud, menú Pieza y ejemplo del castillo paso a paso. Clase 4: rig **R15 de "Mi avatar"** (Inicio → Personaje → Generar rig → R15 → Mi avatar), Avatar → Editor de clips, primero el saludo y después el caminar, explicar guardar y publicar. Clase 5: **se queda con RigLink**, que para el usuario es lo mejor y lo más fácil
-- **Código cambiado en Roblox 6–10 (2026-11-07, avisado al usuario, falta su OK):** 6 y 8: `clon.Script:Destroy()` después de `Clone()` (sin eso, la 6 hacía 81 bloques con "Maximum re-entrancy depth" y la 8 dejaba un clon para siempre); la 6 además corre la copia 8 studs con `Position`. 10: el LocalScript pasó de StarterPlayerScripts a **StarterCharacterScripts** con `script.Parent` como personaje (antes, al morir, el texto quedaba congelado). 7 y 9: código igual; se avisa del error rojo del accesorio (se arregla con `if` en la 19, porque antes no se ven condicionales). 9: BodyVelocity intacto. GIF de 7, 8 y 9 agregados (cámara fija desde el cliente: Scriptable, arriba y detrás del SpawnLocation; bloques adelante)
+- **Código cambiado en Roblox 6–10 (2026-11-07, aprobado y pusheado):** 6 y 8: `clon.Script:Destroy()` después de `Clone()` (sin eso, la 6 hacía 81 bloques con "Maximum re-entrancy depth" y la 8 dejaba un clon para siempre); la 6 además corre la copia 8 studs con `Position`. 10: el LocalScript pasó de StarterPlayerScripts a **StarterCharacterScripts** con `script.Parent` como personaje (antes, al morir, el texto quedaba congelado). 7 y 9: código igual; se avisa del error rojo del accesorio (se arregla con `if` en la 19, porque antes no se ven condicionales). 9: BodyVelocity intacto. GIF de 7, 8 y 9 agregados (cámara fija desde el cliente: Scriptable, arriba y detrás del SpawnLocation; bloques adelante)
 - **Notas de Studio (2026-11-07):** el Animation Editor ahora es **Avatar → Editor de clips**; para ver los anillos al posar hay que tocar **Girar** en la barra (lo dijo el usuario). RigLink está instalado (pestaña Plugins): Link Selected → Part0/Part1/Name + flechas del pivote → Confirm Link; crea el Motor6D en Part0 sin mover las piezas. No publicar animaciones en la cuenta del usuario al sacar capturas (cancelar la ventana)
 - **Cambio de ritmo (2026-11-07, más tarde):** el usuario pidió hacer **Roblox 2 a 10 de corrido**, sin esperar su OK entre clases; él las revisa todas juntas al final. Las clases básicas (2 Terreno y 3 Bloques) van como un **repaso por arriba**, sin tanto detalle. **De la 4 en adelante, con más detalle**, porque son más rebuscadas. Si falta algo, se agrega. Hay que basarse en los **planes de estudio** (Google Doc, una pestaña por curso):
   - Roblox: https://docs.google.com/document/d/1RGVJiNUjVLDVjAyMF3nJi728Q9DsTvp4GSm8HTgLtEM/edit?tab=t.0
@@ -123,14 +132,20 @@ Falta probar en Studio las clases 7 a 26 con estos cambios: se van a probar cuan
 En lo demás:
 
 - Frontmatter con `title` y `mision`, después `# Título` y una descripción corta
-- `## Objetivos` → `## Contenido` con secciones numeradas (`### 1.`, `### 2.`…) agrupadas en Partes con emoji (`### 🏆 Parte 1: ...`)
+- `## Objetivos` → `## Contenido` con Partes con emoji (`### 🏆 Parte 1: ...`) y adentro Pasos (`### Paso 1: ...`), como la Clase 30
 - Pasos numerados y concretos: "Click derecho en **ServerScriptService** → Insert Object → **Script**", "Lo renombrás `Leaderboard`"
 - Tablas de propiedades (Propiedad | Valor | Para qué sirve)
 - Árbol del Explorer en bloque de texto (`├──`, `└──`)
 - Código comentado línea por línea, en español **sin tildes dentro del código**, y debajo viñetas que explican las partes clave
 - Notas con `> 💡` (tip) y `> ⚠️` (error común)
 - Referencias a clases anteriores ("Como en la Clase 7…")
-- Cierre: "Probar todo", "Estructura final en el Explorer", "Problemas comunes" (Problema | Causa | Solución), "Extras", `## Ejercicio` (consigna + pistas) y `## Recursos` (links a la documentación oficial)
+- Cierre: "Probar todo", "Estructura final en el Explorer", "Problemas comunes", "Extras", `## Ejercicio` (consigna + pistas) y `## Recursos` (links a la documentación oficial)
+- **Decidido por el usuario (2026-11-10), igual en todas las clases:**
+  - "Problemas comunes" lleva 2 columnas: `Problema | Solución`. La causa va adentro de la solución: "La causa. Lo que hay que hacer". Hecho en la 1 a la 10
+  - "Estructura final en el Explorer" lleva **las dos cosas**: primero el árbol en texto (solo lo que arma la clase, con sangría `└──` y el tipo entre paréntesis) y después la captura. Hecho en la 26 a la 30 (en la 30 solo se agregó el árbol)
+  - **La 1 a la 10 pasaron al formato de la 30 (2026-11-10):** Pasos que arrancan en 1 en cada Parte; "Probar todo" como último Paso (en la 6 y la 10 se juntó con el paso "Probar"); cierre con `###` adentro de Contenido; la Parte 5 Extra de la 4 (Editor facial) pasó a Extras; el árbol de la 5 se movió al Explorer final; la 9 tiene Extras nuevo (color al azar y medio fantasma). El Explorer final de la 1 a la 10 ya tiene árbol y captura (2026-11-10). Las escenas se armaron con Lua en una Baseplate nueva, sin guardar. Los objetos se marcan con el atributo `_demo` y `Selection:Set` abre las carpetas del Explorer. Antes hay que agrandar el Explorer bajando el divisor (y≈465 del monitor). Si un rig abierto no entra, se unen dos recortes en una imagen, como en la 10. Ver `herramientas-studio\explorer-final.ps1` y `explorer-head.lua`
+- **Títulos (2026-11-10):** los títulos siguen al `temario.txt`, más el emoji si el temario no lo tiene, y "Cutscenes" bien escrito. Cambiaron la 4 (+ "(Animaciones con Editor)"), la 15 (🧊) y la 28 ("El Salón de la Fama (Leaderboards) 🥇"). En `manifest.json`, los títulos de Roblox son iguales al `title` de cada `.mdx`
+- **La plantilla es `ejemplo.mdx`:** tiene el formato de la 30 con todas las reglas en comentarios. Toda clase nueva o rehecha arranca de ahí
 - Español rioplatense con voseo ("le das Play", "tocás", "apretá")
 - Studio del usuario está **en español**: incluir los nombres de los menús en español ("Insertar → Insertar objeto…", "Servidor y clientes") junto a los nombres en inglés
 

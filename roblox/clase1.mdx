@@ -35,7 +35,7 @@ En la pantalla de inicio, en **Abrir una plantilla**, hacés click en **Baseplat
 
 ### 🖥️ Parte 2: La pantalla de Studio
 
-### Paso 3: Conocer las partes de la pantalla
+### Paso 1: Conocer las partes de la pantalla
 
 ![Las partes de la pantalla de Studio](roblox/img/clase1/02-interfaz.png)
 *Las cinco zonas que vas a usar en todas las clases: arriba la barra de herramientas, en el medio la vista 3D, a la derecha el Explorador y Propiedades, y abajo la Salida.*
@@ -60,7 +60,7 @@ Dentro de **Workspace**, en el Explorador, ya hay algunas cosas:
 
 > 💡 Si cerraste el **Explorador** o **Propiedades**, los volvés a abrir con los botones **Explorador** y **Propiedades** de la pestaña **Inicio**, o desde el menú **Ventana**.
 
-### Paso 4: Mover la cámara
+### Paso 2: Mover la cámara
 
 ![Mover la cámara en Studio](roblox/img/clase1/03-camara.gif)
 *La cámara gira con click derecho, avanza con W, se acerca y se aleja con la rueda, y con F enfoca el SpawnLocation.*
@@ -77,7 +77,7 @@ Dentro de **Workspace**, en el Explorador, ya hay algunas cosas:
 
 ### 🧱 Parte 3: Tu primera pieza
 
-### Paso 5: Insertar una pieza
+### Paso 1: Insertar una pieza
 
 En la pestaña **Inicio**, hacés click en **Pieza** (Part). Aparece un bloque gris donde está mirando la cámara, y en el Explorador aparece **Part** adentro de Workspace.
 
@@ -86,7 +86,7 @@ En la pestaña **Inicio**, hacés click en **Pieza** (Part). Aparece un bloque g
 
 > 📝 **Qué es una pieza (Part):** el bloque básico de Roblox. Con piezas se arman pisos, paredes, obstáculos… casi todo lo que vas a construir.
 
-### Paso 6: Mover, escalar y girar
+### Paso 2: Mover, escalar y girar
 
 Con la pieza seleccionada, elegís una herramienta de la pestaña **Inicio**:
 
@@ -104,7 +104,7 @@ Con la pieza seleccionada, elegís una herramienta de la pestaña **Inicio**:
 
 > ⚠️ Si arrastrás la pieza desde el medio, sin agarrar una flecha, se mueve libre por el piso y puede terminar lejos. Si pasa, **Ctrl + Z** la vuelve a su lugar.
 
-### Paso 7: Cambiar el color y el material
+### Paso 3: Cambiar el color y el material
 
 En **Propiedades**, sección **Aspecto**:
 
@@ -128,7 +128,7 @@ Algunos materiales para probar: `Plastic` (el que viene), `SmoothPlastic`, `Wood
 
 ### ▶️ Parte 4: Probar y guardar
 
-### Paso 8: Probar tu mundo
+### Paso 1: Probar tu mundo
 
 Hacés click en **▶** (Probar), arriba a la izquierda. Tu personaje aparece en la SpawnLocation y lo manejás con **W A S D** y **Espacio** para saltar. Para terminar, apretás el **cuadrado rojo**.
 
@@ -142,7 +142,7 @@ Probalo: caminá hasta tus piezas y subite a una.
 
 > ⚠️ Lo que cambies mientras estás probando **no se guarda**: al terminar, todo vuelve a como estaba. Para seguir construyendo, primero terminá la prueba con el cuadrado rojo.
 
-### Paso 9: Guardar
+### Paso 2: Guardar
 
 Menú **Archivo**:
 
@@ -156,24 +156,34 @@ Menú **Archivo**:
 
 > 💡 La primera vez te pide un nombre. Poné uno claro, por ejemplo `Clase 1 - Mi primer mundo`.
 
-## Probar todo
+### Paso 3: Probar todo
 
 1. Hay al menos 2 piezas, cada una con un color y un material distintos
 2. Le das **▶**, caminás hasta las piezas y te subís a una
 3. Terminás la prueba y guardás con **Archivo → Guardar en Roblox**
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| No veo el Explorador o Propiedades | Se cerró el panel | Pestaña **Inicio** → **Explorador** / **Propiedades** |
-| Propiedades está vacío | No hay nada seleccionado | Click en la pieza, en el mundo o en el Explorador |
-| La pieza se fue lejos al arrastrarla | La agarraste del medio y no de una flecha | **Ctrl + Z** y moverla con las flechas |
-| No aparece la pieza nueva | Aparece donde mira la cámara, quizás lejos o tapada | Seleccionarla en el Explorador y apretar **F** |
-| Los botones de construir están grises | La prueba sigue andando | Terminarla con el cuadrado rojo |
-| Se borró lo que cambié | Lo hiciste con la prueba andando | Terminar la prueba y volver a hacerlo |
+```
+Workspace
+  ├── Part
+  └── Part
+```
 
-## Extras
+![Estructura final en el Explorer](roblox/img/clase1/10-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| No veo el Explorador o Propiedades | Se cerró el panel. Pestaña **Inicio** → **Explorador** / **Propiedades** |
+| Propiedades está vacío | No hay nada seleccionado. Click en la pieza, en el mundo o en el Explorador |
+| La pieza se fue lejos al arrastrarla | La agarraste del medio y no de una flecha. **Ctrl + Z** y moverla con las flechas |
+| No aparece la pieza nueva | Aparece donde mira la cámara, quizás lejos o tapada. Seleccionarla en el Explorador y apretar **F** |
+| Los botones de construir están grises | La prueba sigue andando. Terminarla con el cuadrado rojo |
+| Se borró lo que cambié | Lo hiciste con la prueba andando. Terminar la prueba y volver a hacerlo |
+
+### Extras
 
 | Atajo | Qué hace |
 |---|---|

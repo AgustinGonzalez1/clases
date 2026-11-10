@@ -60,7 +60,7 @@ Todo objeto de Roblox tiene tres tipos de cosas:
 
 > ⚠️ Las propiedades y los eventos usan **punto** `.`, y los métodos usan **dos puntos** `:`.
 
-### Paso 4: Una propiedad
+### Paso 1: Una propiedad
 
 ```lua
 local bloque = script.Parent                -- el Part que contiene el script
@@ -70,7 +70,7 @@ bloque.Color = Color3.fromRGB(255, 0, 0)    -- propiedad: lo pinta de rojo
 - `script` es el propio script, y `.Parent` es lo que lo contiene: el `Bloque`. Así no hay que buscarlo por nombre
 - `Color3.fromRGB(rojo, verde, azul)` arma un color con tres números de `0` a `255`, los mismos que ves en **Color** en Propiedades
 
-### Paso 5: Un método
+### Paso 2: Un método
 
 ```lua
 local clon = bloque:Clone()                       -- metodo: crea una copia del bloque
@@ -85,7 +85,7 @@ clon.Parent = workspace                           -- la agrega al mundo
 
 > ⚠️ **¿Por qué hay que borrarle el script a la copia?** `Clone()` copia el bloque **con todo lo que tiene adentro**, también el Script. La copia, al aparecer, corre su script y se vuelve a clonar, y esa copia otra vez… Probado en Studio: sin esa línea aparecen **81 bloques** encimados y la Salida muestra `Maximum re-entrancy depth (80) exceeded`.
 
-### Paso 6: Un evento
+### Paso 3: Un evento
 
 ```lua
 bloque.Touched:Connect(function()   -- cuando algo toca el bloque...
@@ -97,7 +97,7 @@ end)
 - `:Connect(function() ... end)` dice qué hacer cada vez que pasa. Lo de adentro corre **cada vez** que lo tocan
 - El `end)` cierra la función y el paréntesis de `Connect`
 
-### Paso 7: Probar
+### Paso 4: Probar todo
 
 Le das **▶** y caminás hasta el bloque:
 
@@ -106,13 +106,11 @@ Le das **▶** y caminás hasta el bloque:
 
 > 💡 Al pararte sobre el bloque, "me tocaron!" aparece muchas veces: `Touched` se dispara por **cada parte del cuerpo** que lo toca (pies, piernas…).
 
-## Probar todo
-
 1. La Salida muestra `Hola mundo`, `Roblox` y `10` una sola vez
 2. El bloque está rojo y hay una copia al costado (y solo una)
 3. Al tocarlo, aparece `me tocaron!`
 
-## Estructura final en el Explorador
+### Estructura final en el Explorer
 
 ```
 Workspace
@@ -120,17 +118,19 @@ Workspace
         └── Script
 ```
 
-## Problemas comunes
+![Estructura final en el Explorer](roblox/img/clase6/02-explorer-final.png)
 
-| Problema | Causa | Solución |
-|---|---|---|
-| No aparece nada en la Salida | La ventana Salida está cerrada | Pestaña **Vista** (o **Ventana**) → **Salida** |
-| Aparecen muchísimos bloques | La copia tiene el script y se vuelve a clonar | Agregar `clon.Script:Destroy()` |
-| No veo la copia | Quedó encima del original | Correrla con `Position` |
-| Error en rojo `Expected ')'` | Falta cerrar un paréntesis o el `end)` | Revisar que cada `(` tenga su `)` |
-| `Color3.fromRGB` no pinta | Está escrito con otra mayúscula | Luau distingue mayúsculas: `Color3`, `fromRGB` |
+### Problemas comunes
 
-## Extras
+| Problema | Solución |
+|---|---|
+| No aparece nada en la Salida | La ventana Salida está cerrada. Pestaña **Vista** (o **Ventana**) → **Salida** |
+| Aparecen muchísimos bloques | La copia tiene el script y se vuelve a clonar. Agregar `clon.Script:Destroy()` |
+| No veo la copia | Quedó encima del original. Correrla con `Position` |
+| Error en rojo `Expected ')'` | Falta cerrar un paréntesis o el `end)`. Revisar que cada `(` tenga su `)` |
+| `Color3.fromRGB` no pinta | Está escrito con otra mayúscula. Luau distingue mayúsculas: `Color3`, `fromRGB` |
+
+### Extras
 
 - `bloque.Transparency = 0.5` y `bloque.Size = Vector3.new(10, 1, 10)` son otras propiedades para probar
 - `bloque.Touched:Connect(function() bloque.Color = Color3.fromRGB(0, 0, 255) end)` combina un evento con una propiedad: al tocarlo se pone azul

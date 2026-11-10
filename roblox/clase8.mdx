@@ -54,7 +54,7 @@ Probalo: al pisar el Emisor aparecés arriba del Receptor. En la prueba de Studi
 
 ### 🎞️ Parte 2: El bloque que se clona y se anima
 
-### Paso 3: Qué es TweenService
+### Paso 1: Qué es TweenService
 
 > 📝 **Qué es TweenService:** un servicio que anima propiedades de a poco. Le decís "llevá este bloque de acá hasta allá en 2 segundos" y Roblox arma el movimiento.
 
@@ -66,7 +66,7 @@ Un tween necesita tres cosas:
 | La info | Cuánto dura | `TweenInfo.new(2)` |
 | La meta | Cómo tiene que quedar | `{Position = ...}` |
 
-### Paso 4: El código
+### Paso 2: El código
 
 Otra pieza, con este Script adentro:
 
@@ -109,23 +109,36 @@ Probalo: al tocar el bloque aparece una copia roja que se va hacia arriba y al c
 ![Bloque que se clona](roblox/img/clase8/02-clon-animado.gif)
 *La copia roja sube y se va al costado, y a los 2 segundos desaparece.*
 
-## Probar todo
+### Paso 3: Probar todo
 
 1. El Emisor te lleva arriba del Receptor
 2. El otro bloque crea **una** copia roja que se mueve y desaparece
 3. Tocándolo varias veces seguidas, nunca hay más de una copia
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| Error `Receptor is not a valid member of Workspace` | El destino tiene otro nombre | Renombrarlo exactamente `Receptor` |
-| Aparecés adentro del piso | — | `MoveTo` te deja arriba; si pasa, subí un poco el Receptor |
-| Quedan bloques rojos en el mapa | Falta `clon.Script:Destroy()` | Agregar la línea |
-| Aparecen muchos clones juntos | Falta la variable `activado` | Revisar las líneas de `activado` |
-| El clon no se mueve | Falta `tween:Play()` | Agregarlo |
+```
+Workspace
+  ├── Emisor (Part)
+  │     └── Script
+  ├── Part (el que se clona)
+  │     └── Script
+  └── Receptor (Part)
+```
 
-## Extras
+![Estructura final en el Explorer](roblox/img/clase8/03-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Error `Receptor is not a valid member of Workspace` | El destino tiene otro nombre. Renombrarlo exactamente `Receptor` |
+| Aparecés adentro del piso | `MoveTo` te deja arriba; si pasa, subí un poco el Receptor |
+| Quedan bloques rojos en el mapa | Falta `clon.Script:Destroy()`. Agregar la línea |
+| Aparecen muchos clones juntos | Falta la variable `activado`. Revisar las líneas de `activado` |
+| El clon no se mueve | Falta `tween:Play()`. Agregarlo |
+
+### Extras
 
 - `TweenInfo.new(2, Enum.EasingStyle.Bounce)` hace que el movimiento rebote al final
 - En la meta se pueden animar otras propiedades a la vez: `{Position = ..., Transparency = 1}` hace que se desvanezca mientras se mueve

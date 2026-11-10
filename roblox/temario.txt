@@ -1,0 +1,140 @@
+🎮 Curso de Creación de Videojuegos con Roblox 🎮
+ ¡Conviértete en un creador de universos! En este curso, aprenderás a diseñar, programar y publicar tus propios videojuegos en la increíble plataforma de Roblox.
+💻 ¿Qué necesitas para empezar?
+Computadora o laptop con Windows o macOS.
+
+
+Conexión a Internet estable.
+
+
+Cuenta de Roblox (¡es gratis!).
+
+
+Roblox Studio instalado (te enseñamos cómo hacerlo).
+
+
+¡Muuuchas ganas de crear y divertirte!
+
+
+
+🚀 Plan de Vuelo: 36 Clases de Pura Creación
+
+Módulo 1: ¡Despegue! Fundamentos, Animaciones y Personajes (Clases 1–5)
+Clase 1: ¡Hola, Roblox Studio! 🤩
+ Instalamos el programa, conocemos la interfaz y damos nuestros primeros clics.
+ 📥 Misión: Crear tu primer mundo usando una plantilla baseplate.
+Clase 2: El Arte de Crear Paisajes 🏞️
+ Esculpimos terrenos, montañas y ríos; ajustamos luces y cielos.
+ 📥 Misión: Diseñar un mapa natural con colinas y un lago.
+Clase 3: Construyendo con Bloques 🧱
+ Creamos y modificamos Parts para construir estructuras.
+ 📥 Misión: Armar un castillo o laberinto simple.
+Clase 4: ¡A Mover el Esqueleto! (Animaciones con Editor) 🕺
+ Creamos animaciones en el Animation Editor (caminar, saludar, bailar).
+ 📥 Misión: Exportar y previsualizar 2 animaciones propias.
+Clase 5: Tu Propio Personaje: Rig Personalizado + Animación 🧍‍♂️✨
+ Tomamos un monstruo o personaje armado con Parts, lo convertimos en un rig (Humanoid + uniones), organizamos el modelo y lo animamos con el Animation Editor.
+ 📥 Misión: Crear un rig personalizado y hacer al menos 1 animación funcional (idle, caminar o saludo).
+
+Módulo 2: Fundamentos de Programación para Roblox (Clases 6–9)
+Clase 6: Nuestro primer print
+ Hacemos nuestro primer print, usamos variables y creamos una variable para referenciar a un part y empezar a programar un bloque.
+ 📥 Misión: programar un método, una propiedad y un evento del Part.
+Clase 7: Bloque de la muerte y bloque de supersalto
+Con lo aprendido en la clase 6, creamos un bloque de la muerte y un bloque de supersalto accediendo a las propiedades del humanoide.
+ 📥 Misión: Crear tu bloque de la muerte.
+Clase 8: Bloque teletransportador
+ Llegados a este punto, ya sabés programar. Haremos un bloque teletransportador.
+ 📥 Misión: Tocar un bloque que se clone, se anime y luego desaparezca.
+Clase 9: Programación creativa 🎨🎮
+ Con todo lo aprendido, esta clase será para que crees el part que vos quieras.
+ 📥 Misión: Aplicar métodos, propiedades y eventos.
+
+Módulo 3: Diseño Visual y Objetos Geniales (Clases 10–17)
+Clase 10: ¡Hola, Amigo NPC! 👋
+ NPC que saluda según distancia con BillboardGui y animación de saludo.
+ 📥 Misión: Diálogos distintos por cercanía.
+Clase 11: Tu Primera Arma: La Espada ⚔️
+ Modelado y personalización estética.
+ 📥 Misión: Diseñar tu espada con estilo propio.
+Clase 12: La Pistola de Rayos 🔫
+ Herramienta que dispara proyectiles.
+ 📥 Misión: Galería de tiro con conteo de aciertos.
+Clase 13: Tu Primer Auto 🚗
+ Usamos HingeConstraints y Attachments.
+ 📥 Misión: Crear un auto de carreras.
+Clase 14: Animaciones con Código 🎬
+ Reproducir animaciones por tecla/evento.
+ 📥 Misión: Ataque al presionar una tecla.
+Clase 15: Cutscences en Roblox 🧊
+ Creamos una primer cinemática con un código básico dentro del servicio StarterGui.
+ 📥 Misión: Tu primer cinemática.
+Clase 16: Cutscences 2 📜
+ Menú principal con “Jugar” y “Opciones”.
+ 📥 Misión: Flujo de inicio con transición a nivel.
+Clase 17: Efectos y Pulido Visual ✨
+ Partículas, luces y feedbacks.
+ 📥 Misión: 3 efectos para acciones clave.
+
+Módulo 4: El Poder del Código (Scripting) (Clases 18–25)
+Clase 18: El ABC del Código: Variables 🔤
+ Tipos, asignación, concatenación y scope básico.
+ 📥 Misión: Mini calculadora en la consola.
+Clase 19: Tomando Decisiones con Lógica 🤔
+ if/elseif/else, comparadores y operadores lógicos.
+ 📥 Misión: Puerta con contraseña secreta.
+Clase 20: ¡Repite, Repite! (Bucles) 🔄
+ for, while, temporizadores y ciclos de juego.
+ 📥 Misión: Cuenta regresiva para carrera.
+Clase 21: Guardando Tesoros en Tablas 📦
+ Tablas como inventario y configuraciones.
+ 📥 Misión: Inventario simple con agregar/quitar ítems.
+Clase 22: Enemigos con IA Básica 🤖
+ Patrulla, persecución y estados simples.
+ 📥 Misión: Enemigo que patrulla y persigue al verte.
+Clase 23: ¡Scripts que Hablan entre Sí! 📡
+ ReplicatedStorage, RemoteEvents y arquitectura cliente-servidor.
+ 📥 Misión: Botón que activa una trampa en otra zona.
+Clase 24: Proyecto Intermedio 1 🏆
+ Nivel jugable con objetivo, UI y enemigo.
+ 📥 Misión: Prototipo con feedback del profe.
+Clase 25: Sonidos, Música y Feedback Auditivo 🎧
+ SFX, música dinámica y mezcla básica.
+ 📥 Misión: 3 SFX + 1 música de fondo reactiva.
+
+Módulo 5: Sistemas Pro y Monetización (Clases 26–32)
+Clase 26: ¡A Ganar Robux! (Monetización) 💰
+ Game Passes y Developer Products.
+ 📥 Misión: Ítem premium con verificación de compra.
+Clase 27: Checkpoints y Vidas ❤️
+ Respawn y progreso parcial.
+ 📥 Misión: Volver al último checkpoint al morir.
+Clase 28: El Salón de la Fama (Leaderboards) 🥇
+ Puntuación persistente y ranking.
+ 📥 Misión: Tabla que se actualiza con puntos.
+Clase 29: ¡Sube de Nivel! Sistema de XP 🌟
+ Curva de progreso y recompensas.
+ 📥 Misión: Barra de XP que sube al completar retos.
+Clase 30: Tiendas y Monedas Virtuales 🛍️
+ Economía básica y compras en juego.
+ 📥 Misión: Tienda para comprar ítems con moneda.
+Clase 31: ¡Que no se Pierda Nada! (DataStore) 💾
+ Guardado de datos seguro y UpdateAsync.
+ 📥 Misión: Guardar nombre y puntos del jugador.
+Clase 32: Multijugador con Amigos 👨‍👩‍👧‍👦
+ Lobby, equipos y comunicación.
+ 📥 Misión: Lobby donde elegís equipo.
+
+Módulo 6: IA Creativa, Optimización y Cierre (Clases 33–36)
+Clase 33: Programando con Asistentes IA 🤖✍️
+ Cómo pedirle buen código a la IA y validarlo.
+ 📥 Misión: Sistema de día/noche asistido por IA.
+Clase 34: ¡Optimizando tu Juego! ⚡
+ Rendimiento, organización, limpieza y profiling.
+ 📥 Misión: Reducir lag en un nivel con métricas.
+Clase 35: ¡Todos a LinkedIn! ✨
+ Preparamos perfiles profesionales para mostrar proyectos.
+ 📥 Misión: Dejar listo tu perfil (título, bio, medios).
+Clase 36: 🎓 Presentación Final y Graduación
+ Mostramos el juego al mundo y celebramos.
+ 📥 Misión: Presentar el proyecto final en vivo o en video y recibir tu certificado.

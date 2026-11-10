@@ -47,7 +47,7 @@ Cuando el personaje toca el bloque, `Touched` nos da **la parte del cuerpo** que
 
 ### 💀 Parte 2: El bloque de la muerte
 
-### Paso 3: El bloque
+### Paso 1: El bloque
 
 Insertás una **Pieza**, la renombrás `BloqueMuerte`, la pintás de rojo y le marcás **Anchored**. Adentro, un **Script**:
 
@@ -57,7 +57,7 @@ Workspace
         └── Script
 ```
 
-### Paso 4: El código
+### Paso 2: El código
 
 ```lua
 local bloque = script.Parent                 -- el bloque que contiene el script
@@ -86,7 +86,7 @@ Probalo: le das **▶**, caminás hasta el bloque rojo y el personaje se desarma
 
 ### 🦘 Parte 3: El bloque de supersalto
 
-### Paso 5: El código
+### Paso 1: El código
 
 Otra pieza, verde, con su Script:
 
@@ -111,23 +111,35 @@ Probalo: al pisar el bloque verde salta muy alto, y después vuelve a saltar nor
 ![Bloque de supersalto](roblox/img/clase7/03-bloque-salto.gif)
 *Al pisar el bloque verde sale disparado hacia arriba.*
 
-## Probar todo
+### Paso 2: Probar todo
 
 1. Al tocar el bloque rojo, el personaje muere y reaparece
 2. Al pisar el verde, sale volando hacia arriba
 3. Después del supersalto, Espacio vuelve a saltar normal
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| Error `Humanoid is not a valid member of Accessory` | Lo tocó el pelo o un sombrero | No rompe nada: el bloque igual funciona |
-| El bloque se cae | Le falta **Anchored** | Marcarlo |
-| Salta alto para siempre | Falta la línea que vuelve a `7.2` | Agregarla después del `task.wait` |
-| No salta alto | Falta `humanoid.Jump = true` o el `JumpHeight` | Revisar las dos líneas |
-| Error `Humanoid is not a valid member of Model` | Escribiste `humanoid` con minúscula al buscarlo | Es `personaje.Humanoid`, con H mayúscula |
+```
+Workspace
+  ├── BloqueMuerte (Part)
+  │     └── Script
+  └── Part (verde, supersalto)
+        └── Script
+```
 
-## Extras
+![Estructura final en el Explorer](roblox/img/clase7/04-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Error `Humanoid is not a valid member of Accessory` | Lo tocó el pelo o un sombrero. No rompe nada: el bloque igual funciona |
+| El bloque se cae | Le falta **Anchored**. Marcarlo |
+| Salta alto para siempre | Falta la línea que vuelve a `7.2`. Agregarla después del `task.wait` |
+| No salta alto | Falta `humanoid.Jump = true` o el `JumpHeight`. Revisar las dos líneas |
+| Error `Humanoid is not a valid member of Model` | Escribiste `humanoid` con minúscula al buscarlo. Es `personaje.Humanoid`, con H mayúscula |
+
+### Extras
 
 - **Bloque lento:** `humanoid.WalkSpeed = 4`, y después de un `task.wait(2)`, `humanoid.WalkSpeed = 16`
 - **Bloque que lastima:** `humanoid.Health = humanoid.Health - 20` saca 20 de vida en vez de matarte

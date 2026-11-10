@@ -60,7 +60,7 @@ Probalo: un bloque **anclado** (verde) y uno **sin anclar** (rojo), en el aire. 
 
 ### 🏰 Parte 2: El castillo
 
-### Paso 4: Armarlo
+### Paso 1: Armarlo
 
 Con las herramientas de la Clase 1 (Mover, Escalar, Girar) y **Ctrl + D** para duplicar:
 
@@ -72,7 +72,7 @@ Con las herramientas de la Clase 1 (Mover, Escalar, Girar) y **Ctrl + D** para d
 
 > 💡 Con la casilla **1 studs** marcada (al lado de **Geométrico**), las piezas se mueven de a 1 stud y las paredes quedan pegadas sin huecos.
 
-### Paso 5: Agrupar y nombrar
+### Paso 2: Agrupar y nombrar
 
 1. Click derecho en cada pieza del Explorador → **Cambiar nombre** (o F2): `Piso`, `ParedNorte`, `Torre1`…
 2. Seleccionás todas las piezas (click en la primera y **Shift + click** en la última del Explorador)
@@ -89,23 +89,37 @@ Con las herramientas de la Clase 1 (Mover, Escalar, Girar) y **Ctrl + D** para d
 ![El castillo terminado](roblox/img/clase3/05-castillo.png)
 *Piso, cuatro paredes con entrada, cuatro torres y sus techos.*
 
-## Probar todo
+### Paso 3: Probar todo
 
 1. Le das **▶** y entrás al castillo por la entrada
 2. Nada se cae y no podés atravesar las paredes
 3. En el Explorador, todo está adentro de `Castillo`
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| Al probar, las paredes se caen | No están ancladas | Seleccionarlas y **Anclar** |
-| Atravieso una pared | **CanCollide** desmarcado | Marcarlo |
-| El cilindro queda acostado | El cilindro de Roblox crece a lo largo del eje X | Girarlo 90° con **Girar** |
-| Quedan huecos entre paredes | Movimiento libre | Marcar **1 studs** y acomodarlas |
-| No puedo seleccionar una pieza sola | Está adentro del modelo | Click en ella en el Explorador, o **Alt + click** en la vista 3D |
+```
+Workspace
+  └── Castillo (Model)
+        ├── Piso (Part)
+        ├── ParedNorte (Part)
+        ├── ...
+        ├── Torre1 (Part)
+        └── ...
+```
 
-## Extras
+![Estructura final en el Explorer](roblox/img/clase3/06-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Al probar, las paredes se caen | No están ancladas. Seleccionarlas y **Anclar** |
+| Atravieso una pared | **CanCollide** desmarcado. Marcarlo |
+| El cilindro queda acostado | El cilindro de Roblox crece a lo largo del eje X. Girarlo 90° con **Girar** |
+| Quedan huecos entre paredes | Movimiento libre. Marcar **1 studs** y acomodarlas |
+| No puedo seleccionar una pieza sola | Está adentro del modelo. Click en ella en el Explorador, o **Alt + click** en la vista 3D |
+
+### Extras
 
 - **Laberinto:** en vez del castillo, paredes largas formando pasillos, con una entrada y una salida
 - **Ventanas:** una pieza con **Material** `Glass` y **Transparency** `0.5`

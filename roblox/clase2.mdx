@@ -42,7 +42,7 @@ Pestaña **Inicio** → **Terreno**. A la izquierda aparece el **Editor de terre
 
 ### ⛰️ Parte 2: Colinas y lago
 
-### Paso 3: Una colina con Esculpir
+### Paso 1: Una colina con Esculpir
 
 Elegís **Esculpir**, dejás **Modo pincel** en **Añadir** y pasás el mouse con el click apretado sobre el pasto. Cada pasada la sube un poco más.
 
@@ -61,14 +61,14 @@ Elegís **Esculpir**, dejás **Modo pincel** en **Añadir** y pasás el mouse co
 
 > 💡 Si algo sale mal, **Ctrl + Z** lo deshace.
 
-### Paso 4: El pozo del lago
+### Paso 2: El pozo del lago
 
 Elegís **Dibujar**, cambiás **Modo pincel** a **Sustraer** y cavás un pozo en una zona plana.
 
 ![Cavar el pozo del lago](roblox/img/clase2/04-cavar-lago.gif)
 *Con Sustraer, el pincel saca tierra.*
 
-### Paso 5: Llenarlo con agua
+### Paso 3: Llenarlo con agua
 
 Elegís **Nivel del mar**. Aparece una caja: la ubicás sobre el pozo con sus flechas (o escribiendo **Tamaño** y **Posición**) y hacés click en **Crear**. Se llena de agua todo el hueco que quede dentro de la caja.
 
@@ -80,7 +80,7 @@ Elegís **Nivel del mar**. Aparece una caja: la ubicás sobre el pozo con sus fl
 
 > ⚠️ Si el agua queda cortada de un lado, es porque la caja no cubría todo el pozo. **Evaporar**, agrandar o mover la caja, y **Crear** de nuevo.
 
-### Paso 6: Pintar
+### Paso 4: Pintar
 
 Con **Pintar** elegís un material abajo, en **Configuración de material** (roca, arena, nieve…), y pasás el pincel. La forma no cambia, solo el material.
 
@@ -98,7 +98,7 @@ Con **Pintar** elegís un material abajo, en **Configuración de material** (roc
 
 ### ☀️ Parte 3: Luz y cielo
 
-### Paso 7: La hora del día
+### Paso 1: La hora del día
 
 En el Explorador seleccionás **Lighting** y, en **Propiedades** (sección **Datos**), cambiás **ClockTime**.
 
@@ -114,7 +114,7 @@ En el Explorador seleccionás **Lighting** y, en **Propiedades** (sección **Dat
 | **TimeOfDay** | (cambia solo) | La misma hora escrita como `07:00:00` |
 | **Brightness** | `3` | Qué tan fuerte es la luz del sol |
 
-### Paso 8: Nubes y niebla
+### Paso 2: Nubes y niebla
 
 - **Nubes:** click derecho en **Terrain** (adentro de Workspace) → Insertar objeto → **Clouds**
 - **Niebla:** dentro de **Lighting** ya hay un **Atmosphere**; subís su **Density** para más niebla
@@ -128,22 +128,34 @@ En el Explorador seleccionás **Lighting** y, en **Propiedades** (sección **Dat
 | **Clouds** | **Density** | Qué tan espesas son |
 | **Atmosphere** | **Density** ✏️ (`0.45`) | Cuánta niebla hay a lo lejos |
 
-## Probar todo
+### Paso 3: Probar todo
 
 1. Le das **▶** y caminás hasta la colina y el lago
 2. Te metés al agua: el personaje nada
 3. Probás otra hora con **ClockTime**
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| La colina crece demasiado rápido | **Fuerza** muy alta | Bajarla a `0.3` |
-| El agua queda cortada | La caja de Nivel del mar no cubre todo el pozo | Agrandarla o moverla y **Crear** de nuevo |
-| Pinté encima del agua | **Omitir agua** desmarcado | Ctrl + Z, marcarlo y pintar de nuevo |
-| No encuentro ClockTime | Está en la sección **Datos** de Lighting | Bajar en Propiedades |
+```
+Workspace
+  └── Terrain
+        └── Clouds
+Lighting
+  └── Atmosphere
+```
 
-## Extras
+![Estructura final en el Explorer](roblox/img/clase2/11-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| La colina crece demasiado rápido | **Fuerza** muy alta. Bajarla a `0.3` |
+| El agua queda cortada | La caja de Nivel del mar no cubre todo el pozo. Agrandarla o moverla y **Crear** de nuevo |
+| Pinté encima del agua | **Omitir agua** desmarcado. Ctrl + Z, marcarlo y pintar de nuevo |
+| No encuentro ClockTime | Está en la sección **Datos** de Lighting. Bajar en Propiedades |
+
+### Extras
 
 - **Crear → Generar** arma un terreno entero automático (montañas, ríos, biomas). Sirve de punto de partida
 - **Sky:** en la **Caja de herramientas** hay cielos listos (atardeceres, espacio). Lo arrastrás adentro de **Lighting** y reemplaza al cielo que viene

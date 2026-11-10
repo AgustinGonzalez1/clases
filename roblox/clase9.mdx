@@ -134,7 +134,7 @@ Probado en Studio: el personaje salió empujado unos 26 studs hacia el costado.
 
 ### 🎨 Parte 3: Tu bloque propio
 
-### Paso 5: Inventar
+### Paso 1: Inventar
 
 Combiná al menos **una propiedad, un método y un evento** en un bloque que no sea igual a los ejemplos. Algunas ideas:
 
@@ -145,7 +145,7 @@ Combiná al menos **una propiedad, un método y un evento** en un bloque que no 
 | Bloque que te hace lento | `Touched`, `TouchEnded`, `WalkSpeed` |
 | Bloque que te teletransporta y se pone transparente | `Touched`, `MoveTo()`, `Transparency` |
 
-## Probar todo
+### Paso 2: Probar todo
 
 1. El invisible desaparece al tocarlo y reaparece al bajarte
 2. El que se achica se hace más chico
@@ -153,15 +153,38 @@ Combiná al menos **una propiedad, un método y un evento** en un bloque que no 
 4. El de empuje te lanza hacia un costado
 5. Tu bloque propio hace lo que pensaste
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| El invisible titila | `TouchEnded` se dispara cada vez que un pie lo suelta | Es normal con estos eventos |
-| El que se achica desaparece de golpe | `Touched` se dispara muchas veces seguidas | Tocarlo de costado; con un bloque más grande se nota menos |
-| Sigo rápido para siempre | Falta el `TouchEnded` que vuelve a `16` | Agregarlo |
-| El empuje no termina | Falta el `empuje:Destroy()` | Agregarlo después de la espera |
-| Error rojo `Accessory` | Lo tocó el pelo | No rompe nada: el bloque igual funciona |
+```
+Workspace
+  ├── Part (invisible)
+  │     └── Script
+  ├── Part (se achica)
+  │     └── Script
+  ├── Part (velocidad)
+  │     └── Script
+  ├── Part (empuje)
+  │     └── Script
+  └── Part (tu bloque)
+        └── Script
+```
+
+![Estructura final en el Explorer](roblox/img/clase9/04-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| El invisible titila | `TouchEnded` se dispara cada vez que un pie lo suelta. Es normal con estos eventos |
+| El que se achica desaparece de golpe | `Touched` se dispara muchas veces seguidas. Tocarlo de costado; con un bloque más grande se nota menos |
+| Sigo rápido para siempre | Falta el `TouchEnded` que vuelve a `16`. Agregarlo |
+| El empuje no termina | Falta el `empuje:Destroy()`. Agregarlo después de la espera |
+| Error rojo `Accessory` | Lo tocó el pelo. No rompe nada: el bloque igual funciona |
+
+### Extras
+
+- **Color al azar:** en el `Touched`, `bloque.BrickColor = BrickColor.random()` lo pinta de un color distinto en cada toque
+- **Medio fantasma:** `bloque.Transparency = 0.5` y `bloque.CanCollide = false`: se ve a medias y lo atravesás
 
 ## Ejercicio
 

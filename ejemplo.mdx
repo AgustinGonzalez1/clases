@@ -1,54 +1,124 @@
 ---
-title: "Clase 1: Título de la Clase 🎯"
-mision: "Una frase clara de lo que el alumno logra al terminar esta clase."
+title: "Clase N: Título de la Clase 🎯"
+mision: "Lo que el alumno logra al terminar, en una frase (sale del temario.txt del curso)."
 ---
 
-# Clase 1: Título de la Clase 🎯
+<!--
+PLANTILLA DE UNA CLASE. Modelo real: roblox/clase30.mdx. Vale para los 4 cursos.
+- Al grano: una línea de descripción, objetivos cortos y enseguida las Partes.
+- Partes con emoji y adentro Pasos. Los Pasos empiezan en 1 en cada Parte.
+- Cada objeto nuevo: primero la nota "📝 Qué es…" y después su tabla.
+- Tablas: Propiedad | Valor | Para qué sirve. ✏️ en lo que se cambia. Las que no se usan, en una línea.
+- Código comentado línea por línea, sin tildes adentro del código, y viñetas abajo.
+- Capturas entre los pasos, en <curso>/img/claseNN/, con una línea en cursiva abajo. Solo cuadros rojos, sin texto.
+- Usar solo lo que se vio hasta esta clase (ver el temario.txt del curso).
+- Al final: Probar todo (último Paso), Estructura final (árbol en texto Y captura), Problemas comunes (2 columnas), Extras.
+  En Python y Web, la "Estructura final" es el árbol de carpetas y archivos del proyecto.
+- Voseo rioplatense. En Roblox, los menús en español junto al nombre en inglés.
+Estos comentarios no se ven en el visor.
+-->
 
-Breve descripción de lo que se va a ver en esta clase.
+# Clase N: Título de la Clase 🎯
+
+Una sola línea que dice qué hacemos en la clase.
 
 ## Objetivos
 
-- Aprender X
-- Entender Y
-- Practicar Z
+- Objetivo corto 1
+- Objetivo corto 2
+- Objetivo corto 3
 
 ## Contenido
 
-### 1. Primer tema
+### 🪙 Parte 1: Nombre de la parte
 
-Explicación del primer tema. Podés escribir texto normal, listas, tablas, código, etc.
+### Paso 1: Crear el objeto
 
-### 2. Código de ejemplo
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Moneda`.
 
-```python
-# Ejemplo en Python
-nombre = "Juan"
-print(f"Hola, {nombre}!")
+> 📝 **Qué es un Objeto:** qué es y para qué lo usamos, en una o dos líneas.
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Propiedad1** ✏️ | `valor` | Para qué sirve, corto |
+| **Propiedad2** ✏️ | `valor` | Para qué sirve, corto |
+| **Propiedad3** | `valor` | Una que no se cambia, pero que el alumno va a ver |
+
+Las demás (PropiedadX, PropiedadY…) quedan como vienen.
+
+### Paso 2: El código
+
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `NombreScript`:
+
+```lua
+local Players = game:GetService("Players")      -- comentario corto, sin tildes
+
+local function hacerAlgo(jugador)
+    print(jugador.Name)                          -- que hace esta linea
+end
+
+Players.PlayerAdded:Connect(hacerAlgo)          -- cuando pasa esto, llama a la funcion
 ```
 
-```javascript
-// Ejemplo en JavaScript
-const saludo = (nombre) => `Hola, ${nombre}!`;
-console.log(saludo("Juan"));
+- `hacerAlgo` hace tal cosa
+- `PlayerAdded` avisa cuando entra un jugador
+
+> 💡 Un tip corto.
+
+> ⚠️ Un error común y cómo evitarlo.
+
+**Probalo:** Play y hacés tal cosa: tiene que pasar esto.
+
+![Descripción de la captura](curso/img/claseNN/01-nombre.png)
+*Qué hay que mirar en la captura.*
+
+### 🏪 Parte 2: Nombre de la otra parte
+
+### Paso 1: Siguiente cosa
+
+Explicación breve, en una o dos líneas.
+
+### Paso 2: Probar todo
+
+Play y probás todo junto:
+
+![El resultado](curso/img/claseNN/02-resultado.gif)
+*Lo que se ve en el GIF.*
+
+1. Tiene que pasar esto
+2. Y esto otro
+
+### Estructura final en el Explorer
+
+```
+Workspace
+  ├── Monedas (Folder)
+  │     └── Moneda (Part)
+  └── Tienda (Part)
+ServerScriptService
+  └── NombreScript (Script)
 ```
 
-### 3. Tabla de referencia
+![Estructura final en el Explorer](curso/img/claseNN/03-explorer-final.png)
 
-| Concepto | Descripción         | Ejemplo     |
-|----------|---------------------|-------------|
-| Variable | Almacena un valor   | `x = 5`     |
-| Función  | Bloque reutilizable | `def foo():` |
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Lo que le pasa al alumno | La causa. Lo que hay que hacer |
+
+### Extras
+
+**Una idea más:** algo corto para el que termina antes, que use solo lo que ya vimos.
 
 ## Ejercicio
 
-> Consigna: Hacé un programa que pida el nombre del usuario y lo salude.
+> Consigna: La misión de la clase, dicha como tarea.
 
 **Pistas:**
-1. Usá `input()` para pedir datos
-2. Usá `print()` para mostrar el resultado
+1. Pista corta
+2. Pista corta
 
 ## Recursos
 
-- [Documentación oficial](https://docs.python.org)
-- [Video de referencia](#)
+- [Documentación oficial](https://create.roblox.com/docs)

@@ -301,6 +301,28 @@ Juntás más monedas y comprás el Super Salto:
 
 ### Estructura final en el Explorer
 
+```
+Workspace
+  ├── Monedas (Folder)
+  │     └── Moneda (Part) ×5
+  └── Tienda (Part)
+        └── ProximityPrompt
+ReplicatedStorage
+  └── Comprar (RemoteEvent)
+ServerScriptService
+  ├── Economia (Script)
+  └── Tienda (Script)
+StarterGui
+  └── TiendaGui (ScreenGui)
+        └── Ventana (Frame)
+              ├── LocalScript
+              ├── Titulo (TextLabel)
+              ├── ComprarVelocidad (TextButton)
+              ├── ComprarSalto (TextButton)
+              ├── Mensaje (TextLabel)
+              └── Cerrar (TextButton)
+```
+
 ![Estructura final en el Explorer](roblox/img/clase30/08-explorer-final.png)
 
 ### Problemas comunes

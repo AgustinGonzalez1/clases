@@ -49,13 +49,13 @@ Workspace
 
 ### 📏 Parte 2: El script
 
-### Paso 3: Dónde va
+### Paso 1: Dónde va
 
 Click derecho en **StarterPlayer → StarterCharacterScripts** → **Insertar** → **LocalScript**.
 
 > 📝 **Por qué StarterCharacterScripts:** lo que pongas acá se copia **adentro de tu personaje** cada vez que aparece. Así el script siempre sabe cuál es tu personaje (`script.Parent`) y vuelve a arrancar si te morís.
 
-### Paso 4: El código
+### Paso 2: El código
 
 ```lua
 local RunService = game:GetService("RunService")    -- para revisar algo en cada frame
@@ -86,7 +86,7 @@ end)
 
 > ⚠️ **Cambio respecto de la versión anterior:** antes el LocalScript iba en **StarterPlayerScripts** y buscaba al personaje con `Players.LocalPlayer.Character`. Probado en Studio: funcionaba hasta que te morías; después de reaparecer, el script seguía mirando al **personaje viejo** y el texto quedaba congelado. En StarterCharacterScripts vuelve a arrancar con cada personaje nuevo, y el código queda más corto.
 
-### Paso 5: Probar
+### Paso 3: Probar todo
 
 Le das **▶** y caminás hacia el NPC:
 
@@ -99,24 +99,37 @@ Le das **▶** y caminás hacia el NPC:
 ![Después de morir](roblox/img/clase10/03-despues-de-morir.png)
 *Después de morir y reaparecer, sigue funcionando: cerca muestra el texto y lejos se borra.*
 
-## Probar todo
-
 1. Lejos del NPC no hay texto
 2. Acercándote aparece "Te veo por ahí..." y, muy cerca, "¡Hola! Estás muy cerca 👋"
 3. Morís (por ejemplo con el bloque de la Clase 7), reaparecés y sigue funcionando
 
-## Problemas comunes
+### Estructura final en el Explorer
 
-| Problema | Causa | Solución |
-|---|---|---|
-| Error `Head is not a valid member of Model` | El script corrió antes de que cargara el NPC | Usar `WaitForChild`, como en el código |
-| El texto no cambia nunca | El LocalScript está en otro lugar | Tiene que estar en **StarterCharacterScripts** |
-| Después de morir el texto se congela | El script está en StarterPlayerScripts | Moverlo a StarterCharacterScripts y usar `script.Parent` |
-| El texto sale con fondo blanco | **BackgroundTransparency** en `0` | Ponerlo en `1` |
-| La letra es muy chica | **TextScaled** desmarcado | Marcarlo |
-| Error `rig is not a valid member` | El NPC tiene otro nombre | Renombrarlo `rig` |
+```
+Workspace
+  └── rig (Model)
+        └── Head
+              └── BillboardGui
+                    └── TextLabel
+StarterPlayer
+  └── StarterCharacterScripts
+        └── LocalScript
+```
 
-## Extras
+![Estructura final en el Explorer](roblox/img/clase10/04-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Error `Head is not a valid member of Model` | El script corrió antes de que cargara el NPC. Usar `WaitForChild`, como en el código |
+| El texto no cambia nunca | El LocalScript está en otro lugar. Tiene que estar en **StarterCharacterScripts** |
+| Después de morir el texto se congela | El script está en StarterPlayerScripts. Moverlo a StarterCharacterScripts y usar `script.Parent` |
+| El texto sale con fondo blanco | **BackgroundTransparency** en `0`. Ponerlo en `1` |
+| La letra es muy chica | **TextScaled** desmarcado. Marcarlo |
+| Error `rig is not a valid member` | El NPC tiene otro nombre. Renombrarlo `rig` |
+
+### Extras
 
 - **Un tercer mensaje:** otro `elseif distancia < 5 then` antes de los demás
 

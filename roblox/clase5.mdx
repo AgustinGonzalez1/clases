@@ -48,7 +48,7 @@ A la `HumanoidRootPart` le ponés **Transparency** en `1` y le sacás **CanColli
 
 ### 🔗 Parte 2: Unir las piezas con RigLink
 
-### Paso 3: Qué es un Motor6D
+### Paso 1: Qué es un Motor6D
 
 > 📝 **Qué es un Motor6D:** una articulación que une dos piezas y deja que una gire respecto de la otra. Es lo que el Editor de clips mueve al animar. **Part0** es la pieza fija (el Torso) y **Part1** la que se mueve (el brazo).
 
@@ -65,7 +65,7 @@ Son 6 uniones:
 
 > ⚠️ Si creás los Motor6D a mano (Insertar objeto), las piezas **saltan al centro** del torso. Por eso usamos RigLink: une las piezas sin moverlas.
 
-### Paso 4: Instalar y abrir RigLink
+### Paso 2: Instalar y abrir RigLink
 
 1. Abrís la [publicación de RigLink en el DevForum](https://devforum.roblox.com/t/riglink-%E2%80%93-a-simple-smarter-way-to-rig-models-in-studio-now-free/3680684) y, desde su enlace a la tienda de creadores, lo instalás gratis
 2. En Studio, pestaña **Plugins** → **RigLink**
@@ -80,7 +80,7 @@ Son 6 uniones:
 | **Pivot Mirroring** | Refleja el punto de giro en el lado opuesto |
 | **Link Selected** | Empieza a unir las dos piezas seleccionadas |
 
-### Paso 5: Unir el Torso con el brazo
+### Paso 3: Unir el Torso con el brazo
 
 1. Seleccionás **primero el Torso** y después, con **Ctrl + click**, el **RightArm**. RigLink las muestra en ese orden
 2. Tocás **Link Selected**
@@ -99,20 +99,20 @@ Son 6 uniones:
 ![Panel antes de confirmar](roblox/img/clase5/04-confirmar.png)
 *Part0, Part1, el nombre y Confirm Link.*
 
-### Paso 6: Las demás uniones
+### Paso 4: Las demás uniones
 
-Repetís el Paso 5 con cada fila de la tabla del Paso 3: el **Torso** (o la HumanoidRootPart, en el RootJoint) siempre primero. Al terminar, adentro del Torso quedan los Motor6D:
+Repetís el Paso 3 con cada fila de la tabla del Paso 1: el **Torso** (o la HumanoidRootPart, en el RootJoint) siempre primero. Al terminar, adentro del Torso quedan los Motor6D:
 
 ![Los Motor6D en el Explorador](roblox/img/clase5/05-motor6d.png)
 *Las uniones adentro del Torso. En Propiedades, **C0** guarda dónde quedó el punto de giro.*
 
-### Paso 7: Desanclar
+### Paso 5: Desanclar
 
 Dejás **solo la HumanoidRootPart** con **Anchored**, y les sacás el Anchored a las 6 piezas visibles. Si una queda anclada, esa parte no se va a mover al animar.
 
 ### 🎬 Parte 3: Animarlo
 
-### Paso 8: Animar con el Editor de clips
+### Paso 1: Animar con el Editor de clips
 
 Igual que en la Clase 4: **Avatar → Editor de clips**, click en el muñeco, **Girar** y arrastrás un anillo.
 
@@ -120,6 +120,14 @@ Igual que en la Clase 4: **Avatar → Editor de clips**, click en el muñeco, **
 *Los anillos quedan en el hombro, no en el medio del brazo: el brazo gira como uno de verdad.*
 
 Hacés una animación corta (saludo, caminar o quieto respirando) y la guardás con **⋯ → Guardar**.
+
+### Paso 2: Probar todo
+
+1. El Editor de clips reconoce el muñeco al hacer click
+2. Cada brazo gira desde el hombro, cada pierna desde la cadera y la cabeza desde el cuello
+3. Ninguna pieza se separa ni salta al animar
+
+### Estructura final en el Explorer
 
 ```
 Workspace
@@ -140,24 +148,20 @@ Workspace
         └── RightLeg
 ```
 
-## Probar todo
+![Estructura final en el Explorer](roblox/img/clase5/08-explorer-final.png)
 
-1. El Editor de clips reconoce el muñeco al hacer click
-2. Cada brazo gira desde el hombro, cada pierna desde la cadera y la cabeza desde el cuello
-3. Ninguna pieza se separa ni salta al animar
+### Problemas comunes
 
-## Problemas comunes
+| Problema | Solución |
+|---|---|
+| El Editor de clips no reconoce el muñeco | Falta el Humanoid. Insertar un Humanoid en el modelo |
+| Las piezas saltan al centro del torso | El Motor6D se creó a mano. Borrarlo y unir con RigLink |
+| El brazo gira desde el medio | El punto de giro no está en el hombro. Deshacer la unión, repetirla con **Manual Alignment** y subir la flecha |
+| Una parte no se mueve al animar | Sigue anclada. Sacarle **Anchored** |
+| El muñeco se cae o se desarma | La HumanoidRootPart no está anclada o falta el RootJoint. Anclarla y revisar el RootJoint |
+| Part0 y Part1 quedaron al revés | Se seleccionó primero el brazo. Repetir la unión eligiendo primero el Torso |
 
-| Problema | Causa | Solución |
-|---|---|---|
-| El Editor de clips no reconoce el muñeco | Falta el Humanoid | Insertar un Humanoid en el modelo |
-| Las piezas saltan al centro del torso | El Motor6D se creó a mano | Borrarlo y unir con RigLink |
-| El brazo gira desde el medio | El punto de giro no está en el hombro | Deshacer la unión, repetirla con **Manual Alignment** y subir la flecha |
-| Una parte no se mueve al animar | Sigue anclada | Sacarle **Anchored** |
-| El muñeco se cae o se desarma | La HumanoidRootPart no está anclada o falta el RootJoint | Anclarla y revisar el RootJoint |
-| Part0 y Part1 quedaron al revés | Se seleccionó primero el brazo | Repetir la unión eligiendo primero el Torso |
-
-## Extras
+### Extras
 
 - **Un monstruo:** cambiás formas y colores de las 6 piezas (cabeza esfera, brazos más largos, piernas más cortas). Los nombres y las uniones son los mismos
 - **Brazos con codo:** dos piezas por brazo (`RightUpperArm` y `RightLowerArm`) y un Motor6D más entre ellas

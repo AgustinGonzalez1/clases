@@ -1,9 +1,9 @@
 ---
-title: "Clase 28: Tablas de Puntos (Leaderboards) 🏆"
+title: "Clase 28: El Salón de la Fama (Leaderboards) 🥇"
 mision: "Armar una tabla de puntos que sume al juntar monedas y cuente las muertes de cada jugador."
 ---
 
-# Clase 28: Tablas de Puntos (Leaderboards) 🏆
+# Clase 28: El Salón de la Fama (Leaderboards) 🥇
 
 Armamos la tabla de arriba a la derecha: los puntos suben al juntar monedas y se cuentan las muertes.
 
@@ -251,6 +251,17 @@ Play, caminás por las monedas y al final pisás el bloque rojo:
 > 💡 Para ver que cada jugador tiene su tabla: pestaña **Probar** → **Clientes: 2**.
 
 ### Estructura final en el Explorer
+
+```
+Workspace
+  ├── Monedas (Folder)
+  │     └── Moneda (Part) ×5
+  └── BloqueMuerte (Part)
+        └── Script
+ServerScriptService
+  ├── Leaderboard (Script)
+  └── Monedas (Script)
+```
 
 ![Estructura final en el Explorer](roblox/img/clase28/07-explorer-final.png)
 

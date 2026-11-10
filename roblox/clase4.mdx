@@ -1,9 +1,9 @@
 ---
-title: "Clase 4: ¡A Mover el Esqueleto! 🕺"
+title: "Clase 4: ¡A Mover el Esqueleto! (Animaciones con Editor) 🕺"
 mision: "Crear, previsualizar y publicar 2 animaciones propias con el Editor de clips: un saludo y una caminata."
 ---
 
-# Clase 4: ¡A Mover el Esqueleto! 🕺
+# Clase 4: ¡A Mover el Esqueleto! (Animaciones con Editor) 🕺
 
 Animamos un personaje con el **Editor de clips**: armamos un saludo y una caminata con fotogramas clave, las guardamos y las publicamos para usarlas más adelante con código.
 
@@ -68,7 +68,7 @@ Pestaña **Avatar** → **Editor de clips**, y hacés click en el rig. Abajo apa
 
 ### 👋 Parte 2: El saludo (sin Loop)
 
-### Paso 5: Las poses del saludo
+### Paso 1: Las poses del saludo
 
 En el menú **⋯** → **Crear nuevo**, y lo llamás `Saludo`. Armás estas poses en el brazo derecho (**RightUpperArm** y **RightLowerArm**):
 
@@ -90,7 +90,7 @@ Probalo con el **▶** del editor:
 
 ### 🚶 Parte 3: La caminata (con Loop)
 
-### Paso 6: Las poses de la caminata
+### Paso 1: Las poses de la caminata
 
 **Crear nuevo** → `Caminar`. Trabajás con las 4 extremidades:
 
@@ -102,7 +102,7 @@ Probalo con el **▶** del editor:
 
 > 💡 La pose del final es **igual a la del principio**: así, al repetirse, no se nota el salto. Para copiarla: click derecho en los rombos del `0` → **Copiar**, barra en `1` → **Pegar**.
 
-### Paso 7: Activar Loop
+### Paso 2: Activar Loop
 
 Hacés click en el botón de **Loop** (la flecha en círculo, al lado de los controles de reproducción):
 
@@ -119,7 +119,7 @@ Hacés click en el botón de **Loop** (la flecha en círculo, al lado de los con
 
 ### 💾 Parte 4: Guardar y publicar
 
-### Paso 8: Guardar o publicar
+### Paso 1: Guardar o publicar
 
 Todo está en el menú **⋯** del editor:
 
@@ -134,7 +134,7 @@ Todo está en el menú **⋯** del editor:
 ![Cargar una animación guardada](roblox/img/clase4/05-cargar.png)
 *En **Cargar** aparecen todas las animaciones guardadas del rig.*
 
-### Paso 9: Publicar y copiar el ID
+### Paso 2: Publicar y copiar el ID
 
 **⋯ → Publicar en Roblox**. En la ventana ponés un **Título**, elegís el **Creador** y tocás **Guardar**. Al terminar, Studio muestra el **ID** de la animación: lo copiás y lo anotás.
 
@@ -145,9 +145,40 @@ Todo está en el menú **⋯** del editor:
 
 > ⚠️ Si el juego es de un **grupo**, en **Creador** elegí ese grupo. Una animación publicada por otra cuenta no se reproduce en el juego, y no avisa con ningún error.
 
-### 😀 Parte 5: Extra: el Editor facial
+### Paso 3: Probar todo
 
-En el editor tocás **Editor facial**. A la izquierda aparece una cara con puntos: arrastrás cada punto para mover cejas, ojos y boca. Cada cambio se guarda como un fotograma clave, igual que con el cuerpo.
+1. **Cargar → Saludo** y **▶**: saluda una vez y se detiene
+2. **Cargar → Caminar** y **▶**: camina sin parar
+3. Una de las dos publicada y su ID anotado
+
+### Estructura final en el Explorer
+
+```
+Workspace
+  └── TuAvatar (Model: el rig R15)
+ServerStorage
+  └── RBX_ANIMSAVES (aparece al guardar)
+        └── TuAvatar
+              ├── Saludo (animacion guardada)
+              └── Caminar (animacion guardada)
+```
+
+![Estructura final en el Explorer](roblox/img/clase4/12-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| El editor dice "Selecciona un rig" | No hiciste click en el rig. Click en el personaje en la vista 3D |
+| La caminata da un salto al repetirse | La última pose no es igual a la primera. Copiar los rombos del `0` al final |
+| La animación se repite y no debería | Loop activado. Desactivar el botón de Loop |
+| No aparecen los anillos para girar | No está activa la herramienta Girar. Tocar **Girar** en la barra de herramientas |
+| Perdí la animación al cerrar | No la guardaste. **⋯ → Guardar** antes de cerrar |
+| El Editor facial no hace nada | El avatar no tiene cabeza animable. Usar **Avatar skinned** |
+
+### Extras
+
+**El Editor facial:** en el editor tocás **Editor facial**. A la izquierda aparece una cara con puntos: arrastrás cada punto para mover cejas, ojos y boca. Cada cambio se guarda como un fotograma clave, igual que con el cuerpo.
 
 ![Editor facial](roblox/img/clase4/08-editor-facial.png)
 *Los puntos de la cara y el botón Editor facial.*
@@ -155,25 +186,6 @@ En el editor tocás **Editor facial**. A la izquierda aparece una cara con punto
 > ⚠️ Solo funciona si tu avatar tiene una **cabeza animable** (las que tienen cara 3D). Si el botón no hace nada, probá con **Avatar skinned** en Generar rig.
 
 > 💡 Combiná el saludo con una sonrisa en el mismo clip: queda mucho más expresivo.
-
-## Probar todo
-
-1. **Cargar → Saludo** y **▶**: saluda una vez y se detiene
-2. **Cargar → Caminar** y **▶**: camina sin parar
-3. Una de las dos publicada y su ID anotado
-
-## Problemas comunes
-
-| Problema | Causa | Solución |
-|---|---|---|
-| El editor dice "Selecciona un rig" | No hiciste click en el rig | Click en el personaje en la vista 3D |
-| La caminata da un salto al repetirse | La última pose no es igual a la primera | Copiar los rombos del `0` al final |
-| La animación se repite y no debería | Loop activado | Desactivar el botón de Loop |
-| No aparecen los anillos para girar | No está activa la herramienta Girar | Tocar **Girar** en la barra de herramientas |
-| Perdí la animación al cerrar | No la guardaste | **⋯ → Guardar** antes de cerrar |
-| El Editor facial no hace nada | El avatar no tiene cabeza animable | Usar **Avatar skinned** |
-
-## Extras
 
 - **Más rápida o más lenta:** seleccionás todos los rombos y los arrastrás más juntos o más separados
 - **Bailar:** una tercera animación con Loop, moviendo brazos, cadera y cabeza
