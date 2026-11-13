@@ -1,0 +1,125 @@
+🌐 Curso de Desarrollo Web: Crea tu Propio Internet 🌐
+¡Conviértete en un arquitecto de la web! Aprenderás a construir páginas web interactivas y divertidas desde cero, usando las mismas herramientas que los profesionales.
+
+💻 ¿Qué necesitas para empezar?
+Computadora o laptop con cualquier sistema operativo.
+Navegador web como Chrome, Firefox o Edge.
+Conexión a Internet estable.
+Editor de código como Replit (online) o Visual Studio Code (te ayudamos a instalarlo).
+¡Mucha imaginación para diseñar!
+
+🚀 Plan de Vuelo: 36 Clases para Conquistar la Web
+Módulo 1: Los Cimientos de la Web (HTML) (Clases 1-6)
+Clase 1: Nuestro primer sitio 🌍
+Instalamos las herramientas y creamos nuestra primer página.
+📥 Misión: Instalar Visual Studio Code y extensiones necesarias y crear la página index.html conociendo etiquetas header, main y footer.
+Clase 2: Creamos el encabezado 🛠️
+Analizamos encabezados de sitios conocidos y conocemos las etiquetas que forman parte de un encabezado.
+📥 Misión: Crear un encabezado y dejar lista la navegación entre páginas.
+Clase 3: CSS en el encabezado con Flexbox 🐸
+Dejamos listo nuestro encabezado profesional y jugamos con Flexbox Froggy.
+📥 Misión: Que nuestro encabezado se vea como soñamos.
+Clase 4: ¡Dando Contenido a la Web con Grids! 🖼️
+Trabajamos dentro del main, conocemos las etiquetas importantes de esta sección y conocemos grids.
+📥 Misión: Darle contenido al sitio y trabajar con grids.
+Clase 5: ¡Dando Contenido a la Web con Grids! 🖼️
+Trabajamos dentro del main, conocemos las etiquetas importantes de esta sección y conocemos grids.
+📥 Misión: Darle contenido al sitio y trabajar con grids.
+Clase 6: 🏆 Diseño responsive.
+Juntamos todo para crear nuestra primera página web completa.
+📥 Misión: Crear una página de biografía con tu foto, texto y enlaces.
+Clase 7: ¡Pseudo clases! 🌟
+Aplicamos efectos con :hover y demás pseudo clases.
+📥 Misión: Que tu sitio empiece a verse profesional.
+Módulo 2: ¡A Ponerle Color! (CSS) (Clases 7-14)
+Clase 8: Sass: Los superpoderes de CSS.
+Aprendemos a usar CSS para cambiar colores, fondos y tamaños.
+📥 Misión: Cambiar el color de fondo y el color del texto de tu página personal.
+Clase 9: Imagenes 🖼️
+Imágenes en HTML/CSS: tamaño, fondo, estilos y responsive.
+📥 Misión: Añadir imágenes aplicando estilos sobre ellas. TP.
+Clase 10: ¡Textos con Estilo! ✒️
+Cambiamos las fuentes, el tamaño y el grosor del texto.
+📥 Misión: Importar una fuente divertida de Google Fonts y usarla en tus títulos.
+Clase 11: Formularios y Tablas 📋
+Aprendemos a crear tablas para organizar datos y formularios de contacto.
+📥 Misión: Crear un formulario para que tus amigos puedan dejarte un mensaje.
+Clase 12: ¡Flexbox al Rescate! 💪
+Usamos Flexbox para crear diseños modernos y flexibles que se adaptan a todo.
+📥 Misión: Centrar todos los elementos de tu página usando display: flex.
+Clase 13: Diseño que se Adapta (Responsive) 📱
+Hacemos que nuestra web se vea genial en celulares, tablets y computadoras.
+📥 Misión: Hacer que el tamaño del texto sea más grande en la computadora y más pequeño en el celular.
+Clase 14: 🏆 Proyecto: ¡Una Landing Page!
+Diseñamos una página de presentación para un producto o idea que te guste.
+📥 Misión: Crear una landing page para tu superhéroe o videojuego favorito.
+Clase 15: Revisión de Proyectos
+Mostramos nuestras landing pages y aprendemos de los diseños de los demás.
+📥 Misión: Dar feedback positivo sobre 3 proyectos de tus compañeros.
+Módulo 3: ¡Dando Vida a la Web! (JavaScript) (Clases 15-22)
+Clase 16: ¡Hola, JavaScript! ✨
+Damos los primeros pasos con el lenguaje que hace que la web sea interactiva.
+📥 Misión: Escribir un script que muestre tu nombre en la consola del navegador.
+Clase 17: Decisiones y Operadores 🤔
+Usamos if/else para que nuestra página reaccione a diferentes situaciones.
+📥 Misión: Crear un script que muestre un saludo de "buenos días" o "buenas noches" según la hora.
+Clase 18: Bucles y Listas (Arrays) 🔄
+Aprendemos a repetir acciones y a manejar listas de datos.
+📥 Misión: Crear un array con tus comidas favoritas y mostrarlas una por una en la consola.
+Clase 19: ¡Funciones Mágicas! 🪄
+Creamos bloques de código reutilizables para hacer nuestra vida más fácil.
+📥 Misión: Crear una función que, al darle un número, te devuelva el doble.
+Clase 20: ¡Reaccionando a Clics! (Eventos) 🖱️
+Hacemos que la página responda cuando el usuario hace clic o mueve el mouse.
+📥 Misión: Crear un botón que, al hacerle clic, muestre una alerta divertida.
+Clase 21: Manipulando la Página (DOM) 🔧
+Aprendemos a cambiar el contenido y el estilo de la página usando JavaScript.
+📥 Misión: Crear un botón que cambie el color del título de tu página al hacerle clic.
+Clase 22: 🏆 Mini-Proyecto Interactivo
+Creamos nuestra primera aplicación web, como un juego de trivia o una lista de tareas.
+📥 Misión: Desarrollar un juego simple de "adivina el número" con JavaScript.
+Clase 23: Presentación de Proyectos
+Mostramos nuestras aplicaciones interactivas y explicamos cómo funcionan.
+📥 Misión: Explicar la parte más desafiante de programar tu mini-proyecto.
+Módulo 4: Herramientas de los Profesionales (Clases 23-29)
+Clase 24: Bootstrap: ¡Diseño Rápido! 🚀
+Usamos un framework de CSS para crear diseños increíbles en minutos.
+📥 Misión: Reconstruir una parte de tu página personal usando componentes de Bootstrap.
+Clase 25: Creando un Portfolio con Bootstrap
+Diseñamos una página profesional para mostrar nuestros proyectos.
+📥 Misión: Usar las grillas y tarjetas de Bootstrap para diseñar tu portfolio.
+Clase 26: ¡Hola, GitHub! 🐙
+Aprendemos a usar GitHub para guardar nuestro código y colaborar con otros.
+📥 Misión: Crear una cuenta en GitHub y subir tu primer proyecto.
+Clase 27: ¡Publicando Nuestra Web! ☁️
+Usamos GitHub Pages para que todo el mundo pueda ver nuestra página web gratis.
+📥 Misión: Publicar tu portfolio personal online.
+Clase 28: Diseñando para las Personas (UX/UI) 🧑‍🎨
+Aprendemos los secretos para que las páginas sean fáciles y agradables de usar.
+📥 Misión: Encontrar una página que te guste y explicar por qué es fácil de usar.
+Clase 29: 🏆 Proyecto: ¡Mi Portfolio Online!
+Pulimos y finalizamos nuestro portfolio profesional.
+📥 Misión: Asegurarte de que tu portfolio se vea bien en todos los dispositivos.
+Clase 30: ¡Presentación del Portfolio!
+Mostramos orgullosos nuestros portfolios publicados.
+📥 Misión: Compartir el enlace de tu portfolio y recibir feedback.
+Módulo 5: IA para Crear Webs (Clases 30-32)
+Clase 31: ¡Programando con un Copiloto IA! 🤖
+Usamos ChatGPT y GitHub Copilot para que nos ayuden a escribir código más rápido.
+📥 Misión: Pedirle a ChatGPT que genere el código HTML y CSS para un botón con un efecto genial.
+Clase 32: ¡Diseño con IA! 🎨
+Usamos IA para generar imágenes, textos e ideas para nuestras páginas.
+📥 Misión: Crear un logo para tu portfolio usando una herramienta de generación de imágenes con IA.
+Clase 33: 🏆 Proyecto: Web Asistida por IA
+Creamos una página web simple donde la IA nos ayuda con el contenido y el diseño.
+📥 Misión: Desarrollar una página sobre un animal fantástico, con texto e imágenes creados por IA.
+Módulo 6: ¡El Gran Proyecto Final! (Clases 33-36)
+Clase 34: La Idea para el Proyecto Final 📝
+Planeamos nuestro gran proyecto: un blog, una tienda, ¡lo que queramos!
+📥 Misión: Escribir una propuesta para tu proyecto final, describiendo qué hará.
+Clase 35: ¡Todos a LinkedIn!
+Preparamos nuestros perfiles en la red social de trabajos más importante, nos servirá cuando seamos más grandes.
+📥 Misión: Dejar listos nuestros perfiles.
+Clase 36: 🎓 ¡Presentación Final y Graduación!
+Mostramos nuestro increíble proyecto web al mundo.
+📥 Misión: Presentar tu proyecto final, explicando tu proceso y recibiendo tu certificado

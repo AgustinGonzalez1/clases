@@ -1,0 +1,180 @@
+---
+title: "Clase 28: Diseñando para las Personas (UX/UI) 🧑‍🎨"
+mision: "Encontrar una página que te guste y explicar por qué es fácil de usar."
+---
+
+# Clase 28: Diseñando para las Personas (UX/UI) 🧑‍🎨
+
+Aprendemos los 6 secretos que hacen que una página sea fácil y agradable de usar, y los buscamos en una página real.
+
+## Objetivos
+
+- Diferenciar UX y UI
+- Conocer los 6 secretos de una página fácil de usar
+- Analizar una página real con esos secretos
+- Explicar con tus palabras por qué una página es fácil de usar
+
+## Contenido
+
+### 🧑‍🎨 Parte 1: ¿Qué es UX y qué es UI?
+
+### Paso 1: Las dos palabras
+
+> 📝 **Qué es la UI (User Interface, interfaz de usuario):** es todo lo que **se ve** de una página: colores, letras, botones, imágenes.
+
+> 📝 **Qué es la UX (User Experience, experiencia de usuario):** es cómo **se siente usarla**: si encontrás rápido lo que buscás, si entendés qué hacer, si te dan ganas de volver.
+
+| | UI | UX |
+|---|---|---|
+| **Pregunta** | ¿Se ve bien? | ¿Es fácil de usar? |
+| **Ejemplo** | El botón es verde y redondeado | Encontrás el botón sin buscarlo y sabés qué hace |
+
+- Una página puede ser muy linda (buena UI) y aun así ser difícil de usar (mala UX)
+- Las dos van juntas: lo que se ve tiene que ayudar a usar la página
+
+### Paso 2: La página que vamos a analizar
+
+Vamos a analizar **[codilab.org](https://codilab.org)**, la página de nuestra escuela. Abrila en el navegador y seguila mientras leemos.
+
+![La página de inicio de codilab.org](desarrollo/img/clase28/01-codilab-inicio.png)
+*La pantalla de inicio de codilab.org en una compu.*
+
+> 💡 Antes de seguir: mirala 5 segundos y pensá en voz alta ¿de qué es la página? ¿qué te pide que hagas? Si lo sabés en 5 segundos, la página ya hizo bien su trabajo.
+
+### 🔍 Parte 2: Los 6 secretos
+
+### Paso 1: Jerarquía
+
+Lo más importante va **más grande y más arriba**. El ojo lee primero lo grande.
+
+![El título de codilab.org](desarrollo/img/clase28/02-jerarquia.png)
+*El título "Programá con Codey" es lo más grande de la pantalla: es lo primero que leés.*
+
+- ✅ Codilab: primero el título, después la descripción chica y abajo el botón
+- ❌ Mal: todos los textos del mismo tamaño, y no sabés por dónde empezar
+
+### Paso 2: Contraste
+
+El texto tiene que **diferenciarse bien del fondo** para leerse sin esfuerzo: claro sobre oscuro u oscuro sobre claro.
+
+![El texto chico de codilab.org sobre el dibujo](desarrollo/img/clase28/03-contraste.png)
+*El título blanco se lee perfecto, pero el texto chico de abajo cae arriba del dibujo del robot y cuesta un poco más.*
+
+- ✅ Codilab: título blanco sobre un fondo oscurecido
+- ⚠️ Para mejorar: el texto chico sobre un dibujo con muchos detalles. Se arregla con un fondo más liso o más oscuro detrás del texto
+
+> 💡 Encontrar algo para mejorar no quiere decir que la página sea mala: las páginas profesionales también se van mejorando todo el tiempo.
+
+### Paso 3: Espacio
+
+Dejar **aire** entre las cosas. Si todo está amontonado, el ojo se cansa y no sabe dónde mirar.
+
+![Las preguntas frecuentes de codilab.org](desarrollo/img/clase28/04-espacio.png)
+*Cada pregunta tiene su propia fila, separada por una línea y con espacio arriba y abajo.*
+
+- ✅ Codilab: las preguntas frecuentes, una por fila y con espacio
+- ❌ Mal: un bloque de texto gigante sin separaciones
+
+### Paso 4: Consistencia
+
+Las cosas que son iguales **se ven iguales en todo el sitio**: los mismos colores, las mismas letras y el mismo menú.
+
+![La sección de cursos de codilab.org](desarrollo/img/clase28/05-consistencia.png)
+*El menú de arriba es el mismo en todas las secciones, y cada curso muestra los datos en el mismo orden: nombre, edades y duración.*
+
+- ✅ Codilab: el mismo menú arriba, el amarillo para todos los botones y los íconos, y la misma letra en todos los títulos
+- ❌ Mal: un botón azul en una sección y uno rojo en otra que hace lo mismo
+
+### Paso 5: Botones claros
+
+Un botón tiene que **parecer un botón** y su texto tiene que **decir qué pasa** si lo tocás.
+
+![El botón principal de codilab.org](desarrollo/img/clase28/06-boton.png)
+*"Pedí tu clase gratis →" dice exactamente qué pasa, y la flecha invita a tocarlo.*
+
+- ✅ Codilab: texto claro, borde redondeado y flecha
+- ❌ Mal: un botón que dice "Click acá" (¿acá qué?) o texto que no parece botón
+- ⚠️ Para mejorar: el botón tiene solo el borde amarillo. Si estuviera **relleno** de amarillo, se destacaría todavía más
+
+### Paso 6: Que se pueda usar en el celular
+
+Mucha gente entra desde el celular: la página se tiene que **acomodar a la pantalla chica**.
+
+Para probarlo en la compu: en Chrome, **F12** y después **Ctrl + Shift + M** (el modo dispositivo). Arriba elegís un celular, por ejemplo *iPhone 12 Pro*.
+
+![codilab.org en un celular](desarrollo/img/clase28/07-celular.png)
+*En el celular, el menú se esconde en el botón ☰ y el botón principal queda grande y fácil de tocar con el dedo.*
+
+- ✅ Codilab: el menú pasa a ☰, los títulos se acomodan en dos renglones y nada se sale de la pantalla
+- ❌ Mal: tener que achicar con los dedos o mover la pantalla para los costados para leer
+
+> 💡 Esto ya lo vimos en el responsive (Clase 6 y Clase 13). En la Clase 29 lo pulimos en nuestro portfolio.
+
+### 🕵️ Parte 3: Detective de UX
+
+### Paso 1: El análisis de Codilab, completo
+
+Así queda la tabla de codilab.org con todo lo que vimos:
+
+| Secreto | ¿Lo cumple? | ¿Dónde se ve? |
+|---|---|---|
+| **Jerarquía** | ✅ | El título "Programá con Codey" es lo más grande y está arriba |
+| **Contraste** | ⚠️ | El título se lee perfecto; el texto chico sobre el dibujo cuesta un poco |
+| **Espacio** | ✅ | Las preguntas frecuentes van una por fila y separadas |
+| **Consistencia** | ✅ | El mismo menú, el mismo amarillo y la misma letra en todo el sitio |
+| **Botones claros** | ✅ | "Pedí tu clase gratis →" dice qué hace (podría ser relleno) |
+| **Celular** | ✅ | El menú pasa a ☰ y el botón queda grande |
+
+**Conclusión:** es fácil de usar porque en 5 segundos sabés que es una escuela de programación y que podés pedir una clase gratis. Lo que mejoraríamos: el contraste del texto chico.
+
+### Paso 2: Elegí tu página
+
+Elegí **una página que te guste y que uses seguido**: un juego, una tienda, una red social, la de tu club. Abrila en Chrome.
+
+> 💡 Que no sea codilab.org ni una que ya eligió un compañero: así después comparamos páginas distintas.
+
+### Paso 3: Completá tu tabla
+
+Copiá la tabla del Paso 1 en un archivo (en VS Code, en un documento o en una hoja) y completala con **tu** página:
+
+1. Mirala 5 segundos: ¿de qué es? ¿qué te pide que hagas?
+2. Recorré los 6 secretos uno por uno. Para cada uno, ✅, ⚠️ o ❌, y **dónde** lo viste
+3. Probala en modo celular (F12 → Ctrl + Shift + M)
+4. Escribí una conclusión de dos líneas: por qué es fácil de usar y qué le mejorarías
+
+### Paso 4: Contalo
+
+Cada uno muestra su página en pantalla y explica en un minuto:
+
+- De qué es la página
+- Dos secretos que cumple, mostrándolos en la página
+- Una cosa que le mejorarías
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| "Es linda" y no sé qué más decir | Lo lindo es la UI, solo una parte. Recorré los 6 secretos uno por uno y buscá dónde se ve cada uno |
+| Ctrl + Shift + M no hace nada | Primero hay que abrir las herramientas con F12. Si sigue sin andar, tocá el ícono del celular y la tablet, arriba a la izquierda del panel |
+| No encuentro nada para mejorar | Mirá el texto chico (¿se lee bien sobre el fondo?) y probala en modo celular: casi siempre aparece algo |
+| La página me pide iniciar sesión | Analizá la página de inicio, la que se ve antes de entrar, o elegí otra página |
+
+### Extras
+
+**Comprobá el contraste con números:** entrá a [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/), poné el color del texto y el del fondo, y fijate si dice **Pass** (pasa) o **Fail** (no pasa). Probalo con los colores de tu portfolio.
+
+## Ejercicio
+
+> Consigna: Encontrá una página que te guste y explicá por qué es fácil de usar, con la tabla de los 6 secretos y una conclusión.
+
+**Pistas:**
+1. Arrancá por la prueba de los 5 segundos: ¿de qué es la página y qué te pide que hagas?
+2. Para cada secreto, decí **dónde** lo viste ("el botón de arriba a la derecha…"), no solo ✅
+3. No te olvides de probarla en modo celular
+
+## Recursos
+
+- [codilab.org](https://codilab.org), la página que analizamos en la clase
+- [Modo dispositivo de Chrome](https://developer.chrome.com/docs/devtools/device-mode?hl=es)
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [Laws of UX](https://lawsofux.com/es/), las reglas de UX con dibujos

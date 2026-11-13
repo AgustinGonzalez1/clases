@@ -1,0 +1,122 @@
+🐍 Curso de Programación y Videojuegos con Python 🐍
+¡Domina el lenguaje de los genios! Python es súper poderoso y divertido. Aprenderás a programar desde cero y crearás tus propios videojuegos con la librería Pygame.
+
+💻 ¿Qué necesitas para empezar?
+Computadora o laptop con Windows, macOS o Linux.
+Conexión a Internet estable.
+Editor de código como Visual Studio Code (te enseñamos a instalarlo).
+¡Curiosidad y ganas de resolver desafíos!
+
+🚀 Plan de Vuelo: 36 Clases de Pura Lógica
+Módulo 1: Fundamentos de la Programación (Clases 1-9)
+Clase 1: ¡Bienvenido a Python! 👋
+Descubrimos qué es Python, escribimos nuestro primer "Hola, mundo".
+📥 Misión: Ejecutar tu primer programa.
+Clase 2: Guardando Información (Variables) 📦
+Aprendemos sobre tipos de datos (números, texto) y cómo guardarlos en variables.
+📥 Misión: Crear variables con tu nombre, edad y comida favorita, y mostrarlas.
+Clase 3: ¡El Usuario Manda! (Input) 💬
+Usamos input() para que el usuario pueda ingresar datos y hacemos operaciones matemáticas.
+📥 Misión: Crear un programa que pida dos números y muestre su suma y resta.
+Clase 4: Lógica y Comparaciones ⚖️
+Aprendemos a usar operadores para comparar valores (>, <, ==).
+📥 Misión: Escribir un programa que diga si un número es mayor o menor que 10.
+Clase 5: Tomando Decisiones (Condicionales) 🤔
+Usamos if y else para que nuestro programa tome caminos diferentes.
+📥 Misión: Crear un programa que te diga si puedes entrar a la montaña rusa según tu altura.
+Clase 6: ¡Más Decisiones! (Condicionales Anidados)
+Usamos elif para manejar múltiples condiciones a la vez.
+📥 Misión: Hacer un programa que te recomiende qué ropa usar según el clima.
+Clase 7: Listas de Cosas (Listas) y Conjuntos.📝
+Aprendemos a crear y manejar listas de elementos.
+📥 Misión: Crear una lista de compras y permitir al usuario agregar o quitar ítems.
+Clase 8: Diccionarios y Tuplas 📚
+Organizamos información más compleja con diccionarios y tuplas.
+📥 Misión: Crear un diccionario para guardar los datos de tu superhéroe favorito.
+Clase 9: Métodos Útiles 🛠️
+Descubrimos funciones ya hechas que nos facilitan la vida con textos y listas.
+📥 Misión: Crear un programa que ponga un texto en mayúsculas y cuente sus palabras.
+Módulo 2: Flujo y Modularidad (Clases 10-17)
+Clase 10: Bucles con for 🔄
+Aprendemos a repetir tareas para cada elemento de una lista.
+📥 Misión: Usar un bucle for para imprimir los nombres de tus amigos de una lista. 
+Clase 11: Bucles con while
+Repetimos código mientras una condición sea verdadera. ¡Ideal para juegos!
+📥 Misión: Crear un juego de adivinar un número secreto usando un bucle while.
+Clase 12: Funciones que ya Existen 🧩
+Exploramos las funciones integradas de Python que nos ahorran trabajo.
+📥 Misión: Escribir un programa que use 5 funciones integradas diferentes.
+Clase 13: ¡Crea tus Propias Funciones! (def) 🪄
+Aprendemos a crear nuestros propios bloques de código reutilizables.
+📥 Misión: Crear una función que reciba un nombre y devuelva un saludo personalizado.
+Clase 14: Funciones que Devuelven Valores (return)
+Hacemos que nuestras funciones nos entreguen un resultado.
+📥 Misión: Crear una función que calcule el área de un círculo y devuelva el resultado.
+Clase 15: Funciones Rápidas (lambda) ⚡
+Aprendemos a crear pequeñas funciones anónimas para tareas específicas.
+📥 Misión: Usar una función lambda para ordenar una lista de palabras por su longitud.
+Clase 16: El Poder de los Módulos 📦
+Importamos librerías como math y random para hacer cosas increíbles.
+📥 Misión: Crear un programa que genere un número aleatorio y calcule su raíz cuadrada.
+Clase 17: ¡A Dibujar con Turtle! 🐢
+Damos nuestros primeros pasos en gráficos creando dibujos con la librería Turtle.
+📥 Misión: Dibujar una casa simple usando el módulo Turtle.
+Módulo 3: ¡A Crear Videojuegos con Pygame! (Clases 18-26)
+Clase 18: Programación Orientada a Objetos 🕹️
+Hacemos nuestro código más entendible y reutilizable.
+📥 Misión: Aprender un paradigma fundamental de programación.
+Clase 19: Creamos la pantalla de Pygame 🕹️🎨
+Instalamos Pygame, creamos nuestra primera ventana de juego y trabajamos con el evento QUIT.
+📥 Misión: Crear una ventana que se pueda cerrar.
+Clase 20: ¡Dibujando un personaje! ⌨️
+Aprendemos a dibujar distintas formas.
+📥 Misión: Crear formas con el método draw del módulo pygame.
+Clase 21: ¡Moviendo el personaje!
+Aprendemos a mover el personaje con los eventos del teclado.
+📥 Misión: Hacer que el personaje se mueva con las teclas del teclado.
+Clase 22: ¡Cuidado con los Enemigos! 👾
+Creamos un enemigo simple que se mueva por la pantalla.
+📥 Misión: Hacer que el juego termine si el jugador choca contra el enemigo.
+Clase 23: Vidas y Puntuación ❤️
+Implementamos la lógica para llevar la cuenta de los puntos y las vidas.
+📥 Misión: Añadir un contador de puntos que suba al recoger monedas.
+Clase 24: ¡Música, Maestro! 🎶
+Agregamos música de fondo y efectos de sonido a nuestro juego.
+📥 Misión: Poner un sonido cuando recoges una moneda y otro cuando pierdes.
+Clase 25: Textos en Pantalla 📜
+Mostramos la puntuación y otros mensajes en la pantalla del juego.
+📥 Misión: Mostrar el puntaje y las vidas restantes en una esquina de la pantalla.
+Clase 26: 🏆 Proyecto Intermedio
+¡Creamos nuestro primer mini-juego completo!
+📥 Misión: Unir todo para crear un juego de "esquivar enemigos y recoger monedas".
+Módulo 4: Toques Finales y Proyecto Pro (Clases 27-36)
+Clase 27: Menús y Pantallas 🎬
+Creamos una pantalla de inicio, de pausa y de "Game Over".
+📥 Misión: Diseñar una pantalla de inicio con un botón para "Empezar a Jugar".
+Clase 28: ¡Guardando la Partida! 💾
+Aprendemos a usar archivos para guardar la puntuación más alta.
+📥 Misión: Guardar el "high score" y mostrarlo en el menú.
+Clase 29: ¡Más Difícil Todavía! 📈
+Hacemos que el juego se ponga más difícil a medida que avanzamos.
+📥 Misión: Aumentar la velocidad de los enemigos cada 10 monedas recogidas.
+Clase 30: Animando al Personaje 🏃
+Creamos animaciones simples para que nuestro personaje se vea más vivo.
+📥 Misión: Hacer que el personaje cambie de imagen al caminar para simular movimiento.
+Clase 31: Programando con Ayuda de la IA 🤖
+Usamos ChatGPT o Copilot para que nos den ideas y nos ayuden a programar.
+📥 Misión: Pedirle a una IA que genere una función para crear enemigos en lugares aleatorios.
+Clase 32: ¡Sé un Buen Director de IA!
+Aprendemos a hacerle las preguntas correctas a la IA para obtener el mejor código.
+📥 Misión: Pedirle a la IA que revise y explique una parte de tu código.
+Clase 33: ¡A Construir el Juego! (Parte 1) 👷
+Empezamos a programar nuestro proyecto final.
+📥 Misión: Implementar al personaje principal y sus movimientos.
+Clase 34: ¡A Construir el Juego! (Parte 2)
+Añadimos enemigos, niveles, sonidos y pulimos todo.
+📥 Misión: Terminar el desarrollo del juego, añadiendo todos los detalles.
+Clase 35: ¡Hora de trabajar con LinkedIn!
+Creamos nuestro perfil en la red social que usaremos para encontrar trabajo cuando seamos más grandes.
+📥 Misión: Preparar tu perfil.
+Clase 36: 🎓 ¡Presentación Final y Graduación!
+¡Mostramos nuestro increíble videojuego hecho en Python!
+📥 Misión: Grabar un video o presentar en vivo tu juego final y recibir tu certificado
