@@ -1,0 +1,230 @@
+---
+title: "Clase 31: ¡Que no se Pierda Nada! (DataStore) 💾"
+mision: "Guardar el nombre y las monedas de cada jugador, para que al volver a entrar las tenga de nuevo."
+---
+
+# Clase 31: ¡Que no se Pierda Nada! (DataStore) 💾
+
+Seguimos con el juego de la Clase 30: hacemos que las monedas se guarden al salir y vuelvan al entrar.
+
+## Objetivos
+
+- Preparar el juego para guardar datos
+- Cargar los datos de un jugador al entrar, con `GetAsync`
+- Guardarlos al salir, con `UpdateAsync`
+
+## Contenido
+
+### 🌐 Parte 1: Preparar el juego
+
+> 📝 **Qué es un DataStore:** un lugar en los servidores de Roblox donde el juego guarda datos que no se borran al salir. Hasta ahora, todo (monedas, puntos, nivel) vivía en el servidor y se perdía al cerrar el juego.
+
+### Paso 1: Publicar el juego
+
+Los DataStore funcionan solo en juegos **publicados**. Si tu juego de la 30 ya está publicado, salteá este paso.
+
+En Studio: **Archivo → Publicar** (`Alt + P`):
+
+| Campo | Valor | Para qué sirve |
+|---|---|---|
+| **Nombre** ✏️ | `Mi Tienda` (el que quieras) | El nombre del juego en Roblox |
+| **Descripción** | *(vacía)* | El texto que ven los jugadores en la página del juego |
+| **Creador** | `Yo` | De quién es el juego: tu cuenta o un grupo |
+| **Dispositivos** | Computadora, Teléfono, Tablet, RV | En qué aparatos se puede jugar |
+| **Creación en equipo** | ✔ | Guarda en la nube y deja que otros editen con vos |
+| **Intercambio de datos** | ✔ | Deja que Roblox use el juego para entrenar su IA. Lo podés apagar |
+
+Tocás **Siguiente**. Aparece la ventana **Gestionar audiencia**: tocás **Listo**. El juego queda **privado**: solo lo ves vos, hasta que decidas lanzarlo.
+
+Con **Creación en equipo** prendido, Studio vuelve a abrir el juego solo: esperá a que cargue.
+
+![Ventana de publicar](roblox/img/clase31/01-publicar.png)
+*El nombre del juego y Siguiente; lo demás puede quedar como viene.*
+
+### Paso 2: Darle permiso a Studio
+
+Para que el DataStore ande también cuando le das Play en Studio: **Archivo → Configuración de experiencia → Seguridad**.
+
+![Menú Archivo](roblox/img/clase31/02-configuracion.png)
+*Configuración de experiencia, en el menú Archivo.*
+
+| Opción | Valor | Para qué sirve |
+|---|---|---|
+| **Permitir las solicitudes HTTP** | apagado | Que el juego hable con páginas de internet. No lo usamos |
+| **Activar el acceso de Studio a los servicios API** ✏️ | prendido | Que el Play de Studio pueda usar el DataStore |
+| **Permitir ventas de terceros** | apagado | Vender objetos de otros creadores. No lo usamos |
+| **Permitir teletransporte de terceros** | apagado | Mandar jugadores a otros juegos. No lo usamos |
+
+Las demás (Secretos locales) quedan como vienen.
+
+Tocás **Guardar**.
+
+![Acceso a los servicios API](roblox/img/clase31/03-acceso-api.png)
+*Prendés el acceso de Studio a los servicios API y guardás.*
+
+> ⚠️ Con esto prendido, lo que pruebes en Studio se guarda **de verdad** en tu juego.
+
+### 💾 Parte 2: Guardar y cargar
+
+### Paso 1: El script Economia
+
+Abrís el script `Economia` de la Clase 30 (en **ServerScriptService**) y lo reemplazás entero por este. Lo nuevo son las líneas del DataStore, el final de `crearTabla` y la función `guardarDatos`:
+
+```lua
+local Players = game:GetService("Players")          -- servicio que maneja a los jugadores
+local DataStoreService = game:GetService("DataStoreService")  -- servicio que guarda datos en Roblox
+
+local almacen = DataStoreService:GetDataStore("DatosJugadores")  -- el "cajon" donde se guarda todo
+
+local VALOR_MONEDA = 10                             -- cuantas monedas da cada moneda del mapa
+local TIEMPO_REAPARICION = 5                        -- segundos que tarda en volver a aparecer
+
+local carpetaMonedas = workspace:WaitForChild("Monedas")  -- la carpeta con todas las monedas
+
+local function crearTabla(jugador)
+    local leaderstats = Instance.new("Folder")      -- crea la carpeta de la tabla
+    leaderstats.Name = "leaderstats"                -- con este nombre exacto, Roblox la muestra
+
+    local monedas = Instance.new("IntValue")        -- crea la columna de monedas
+    monedas.Name = "Monedas"                        -- el nombre que se ve en la tabla
+    monedas.Value = 0                               -- arranca sin monedas
+    monedas.Parent = leaderstats                    -- la mete en la carpeta
+
+    leaderstats.Parent = jugador                    -- le pone la carpeta al jugador
+
+    local clave = "Jugador_" .. jugador.UserId      -- la etiqueta de sus datos: el numero de su cuenta
+    local exito, datos = pcall(function()           -- pcall: si Roblox no contesta, el script no se rompe
+        return almacen:GetAsync(clave)              -- busca lo que tenia guardado
+    end)
+
+    if exito and datos then                         -- si contesto y tenia algo guardado
+        monedas.Value = datos.Monedas               -- le devuelve sus monedas
+        print("Cargado: " .. datos.Nombre .. " tiene " .. datos.Monedas .. " monedas")
+    end
+end
+
+local function guardarDatos(jugador)
+    local clave = "Jugador_" .. jugador.UserId      -- la misma etiqueta que al cargar
+    local monedas = jugador.leaderstats.Monedas.Value  -- cuantas monedas tiene ahora
+
+    local exito = pcall(function()                  -- si Roblox no contesta, el script no se rompe
+        almacen:UpdateAsync(clave, function(datosViejos)  -- actualiza lo que estaba guardado
+            return {                                -- lo nuevo que queda guardado
+                Nombre = jugador.Name,
+                Monedas = monedas,
+            }
+        end)
+    end)
+
+    if exito then
+        print("Guardado: " .. jugador.Name .. " con " .. monedas .. " monedas")
+    else
+        warn("No se pudo guardar a " .. jugador.Name)  -- avisa en naranja en la Salida
+    end
+end
+
+local function alTocarMoneda(moneda, parteQueToco)
+    local jugador = Players:GetPlayerFromCharacter(parteQueToco.Parent)  -- busca que jugador la toco
+    if not jugador or not moneda.CanTouch then return end  -- si no es un jugador o ya la agarraron, no hace nada
+
+    local monedas = jugador.leaderstats.Monedas     -- la columna de monedas de ese jugador
+    monedas.Value = monedas.Value + VALOR_MONEDA    -- le suma las monedas
+
+    moneda.Transparency = 1                         -- la hace invisible
+    moneda.CanTouch = false                         -- y que no se pueda volver a tocar
+    task.wait(TIEMPO_REAPARICION)                   -- espera unos segundos
+    moneda.Transparency = 0                         -- vuelve a aparecer
+    moneda.CanTouch = true                          -- y se puede agarrar de nuevo
+end
+
+Players.PlayerAdded:Connect(crearTabla)             -- cada vez que entra un jugador, le crea su tabla y carga sus datos
+Players.PlayerRemoving:Connect(guardarDatos)        -- cada vez que un jugador se va, guarda sus datos
+
+game:BindToClose(function()                         -- antes de que se apague el servidor
+    for _, jugador in Players:GetPlayers() do       -- recorre a los jugadores que quedan
+        guardarDatos(jugador)                       -- y guarda los datos de cada uno
+    end
+end)
+
+for _, moneda in carpetaMonedas:GetChildren() do    -- recorre todas las monedas de la carpeta
+    moneda.Touched:Connect(function(parteQueToco)   -- cuando alguien toca esta moneda
+        alTocarMoneda(moneda, parteQueToco)
+    end)
+end
+```
+
+**Abrir el cajón:**
+
+- `GetDataStore("DatosJugadores")` abre un "cajón" con ese nombre. Si no existe, Roblox lo crea solo
+- Adentro, cada jugador tiene su lugar, marcado con una **clave**: `Jugador_` más su `UserId`, el número de su cuenta. Se usa el número y no el nombre, porque el nombre se puede cambiar
+
+**Cargar al entrar** (al final de `crearTabla`):
+
+- `GetAsync(clave)` trae lo que estaba guardado con esa clave. La primera vez no hay nada, y `datos` queda vacío (`nil`): el jugador arranca con 0
+- Va adentro de un `pcall`, como en la Clase 26: si los servidores de Roblox no contestan, el juego sigue andando
+- Si había algo, le devuelve las monedas a la columna de la tabla
+
+> 📝 **Qué es UpdateAsync:** guarda datos en una clave, pero antes te muestra lo que había (`datosViejos`). Lo que devolvés con `return` es lo que queda guardado. Es la forma segura de guardar.
+
+**Guardar al salir** (`guardarDatos`):
+
+- Guarda una tabla con dos datos, como la lista de `PRECIOS` de la Clase 30: el `Nombre` del jugador y sus `Monedas`
+- `PlayerRemoving` la llama cuando un jugador se va
+- `BindToClose` la llama justo antes de que se apague el servidor. Es lo que pasa al tocar **Detener** en Studio, o cuando se va el último jugador
+- `print` y `warn` avisan en la **Salida** si se guardó o no
+
+### Paso 2: Probar todo
+
+1. **Play**, juntás las 5 monedas (50) y tocás **Detener**. En la Salida aparece el guardado:
+
+![Guardado en la Salida](roblox/img/clase31/04-guardado.png)
+*Al detener, el servidor guarda tus 50 monedas.*
+
+2. **Play** de nuevo, sin tocar nada. Arrancás con las 50 monedas:
+
+![Las monedas vuelven](roblox/img/clase31/05-monedas-vuelven.png)
+*La tabla arranca en 50, y la Salida dice que cargó tus datos.*
+
+> 💡 Si no ves la tabla, apretá **Tab**.
+
+### Estructura final en el Explorer
+
+```
+Workspace
+  ├── Monedas (Folder)
+  │     └── Moneda (Part) ×5
+  └── Tienda (Part)
+ServerScriptService
+  └── Economia (Script)
+```
+
+Lo demás de la Clase 30 (la ventana de la tienda, el RemoteEvent y el script `Tienda`) queda igual.
+
+![Estructura final en el Explorer](roblox/img/clase31/06-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Error rojo `You must publish this place to the web to access DataStore` y las monedas no suman | El juego no está publicado, y el script se corta en la línea del DataStore. Publicalo (Parte 1, Paso 1) |
+| Error rojo `StudioAccessToApisNotAllowed` y siempre arranco en 0 | A Studio le falta el permiso. Prendé **Activar el acceso de Studio a los servicios API** (Parte 1, Paso 2) |
+| Al volver a entrar arranco en 0 | La clave tiene que ser igual al cargar y al guardar: `"Jugador_" .. jugador.UserId`. Fijate también que en la Salida haya aparecido "Guardado" |
+| Al guardar la configuración aparece en naranja `Failed to parse secrets` | Es un aviso de Studio y no afecta al juego. Lo podés ignorar |
+
+### Extras
+
+**Guardar algo más:** sumá otro dato a la tabla que guarda `UpdateAsync` (por ejemplo `Visitas`), y al cargar, mostralo con `print`.
+
+## Ejercicio
+
+> Consigna: Hacé que tu juego guarde el nombre y las monedas de cada jugador, y que al volver a entrar las tenga de nuevo.
+
+**Pistas:**
+1. El juego tiene que estar publicado y con el acceso de Studio a los servicios API prendido
+2. La misma clave para cargar y para guardar: el `UserId` del jugador
+3. Probalo con Detener y Play: en la Salida tiene que aparecer "Guardado" y después "Cargado"
+
+## Recursos
+
+- [Data stores](https://create.roblox.com/docs/cloud-services/data-stores)
+- [DataStoreService](https://create.roblox.com/docs/reference/engine/classes/DataStoreService)
