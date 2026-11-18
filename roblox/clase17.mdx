@@ -5,79 +5,218 @@ mision: "Aplicar 3 efectos visuales (partículas, luces) para acciones clave del
 
 # Clase 17: Efectos y Pulido Visual ✨
 
-Agregamos partículas, luces y efectos visuales para darle vida al juego.
+Le damos vida al mapa con fuego, luces y partículas, y hacemos que un bloque "explote" en chispas al pisarlo.
 
 ## Objetivos
 
-- Conocer los efectos visuales disponibles en Roblox: Fire, Smoke, Sparkles, PointLight, ParticleEmitter
-- Combinar efectos para lograr resultados realistas
-- Controlar efectos desde código con la propiedad Enabled
+- Agregar fuego y luz a un objeto (una antorcha)
+- Crear partículas propias con un `ParticleEmitter`
+- Disparar un efecto desde el código cuando pasa algo (feedback)
 
 ## Contenido
 
-### 1. Agregar Fire
+### 🔥 Parte 1: La antorcha
 
-1. Seleccionás una Part → Insert Object → **Fire**
+### Paso 1: El palo y la punta
 
-| Propiedad | Qué controla |
-|---|---|
-| **Heat** | Intensidad del fuego |
-| **Size** | Tamaño de las llamas |
-| **Color / SecondaryColor** | Colores base y punta del fuego |
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part** dos veces. Una la renombrás `Palo` y la otra `Punta`, y la `Punta` la ponés arriba del palo:
 
-### 2. Agregar Smoke
+| Propiedad | Palo | Punta | Para qué sirve |
+|---|---|---|---|
+| **Size** | `1, 5, 1` | `1.5, 1, 1.5` | El palo, finito y alto; la punta, un cubo un poco más ancho |
+| **Material** | `Wood` | `Slate` | Madera para el palo, piedra oscura para la punta |
+| **Color** | `120, 70, 40` | `50, 40, 30` | Marrón y marrón oscuro |
+| **Anchored** | `true` | `true` | Que queden fijos y no se caigan |
 
-1. Seleccionás una Part → Insert Object → **Smoke**
+Seleccionás las dos, **Ctrl + G** para agruparlas (como en la Clase 3) y al **Model** lo renombrás `Antorcha`.
 
-| Propiedad | Qué controla |
-|---|---|
-| **Color** | Color del humo |
-| **Opacity** | Qué tan denso es |
-| **RiseVelocity** | Qué tan rápido sube |
-| **Size** | Tamaño de las partículas |
+### Paso 2: El fuego
 
-### 3. Agregar Sparkles y PointLight
+> 📝 **Qué es un Fire:** un efecto de llamas que ya viene hecho. Se pone adentro de una Part y sale fuego de ella.
 
-1. Insert Object → **Sparkles** (**SparkleColor** controla el color)
-2. Insert Object → **PointLight** (**Brightness**, **Range**, **Color**)
+Click derecho en `Punta` → Insert Object (**Insertar objeto**) → **Fire**:
 
-**Ejemplo:** Fire + PointLight naranja = antorcha realista. Fire + Smoke = fogón o volcán.
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Color** | `236, 139, 70` | El color de la base de la llama |
+| **SecondaryColor** ✏️ | `255, 230, 0` | El color de la punta de la llama (amarillo) |
+| **Heat** | `9` | Qué tan alto y rápido suben las llamas |
+| **Size** ✏️ | `3` | El tamaño de las llamas |
+| **TimeScale** | `1` | La velocidad de la animación (menos de 1 = cámara lenta) |
+| **Enabled** | ✔ | Apagado, el fuego no se ve |
 
-### 4. Agregar un ParticleEmitter
+> 💡 El fuego sale del **centro** de la Part. Por eso va en la `Punta` chiquita: si lo ponés en el palo alto, las llamas quedan tapadas adentro.
 
-1. Insert Object → **ParticleEmitter**
+### Paso 3: La luz
 
-| Propiedad | Qué controla |
-|---|---|
-| **Rate** | Partículas por segundo |
-| **Lifetime** | Cuánto dura cada partícula |
-| **Speed** | Velocidad de las partículas |
+> 📝 **Qué es un PointLight:** una luz que alumbra para todos lados, como una lamparita. Ilumina el piso y las paredes que tiene cerca.
 
-### 5. Controlar efectos con código
+Click derecho en `Punta` → Insert Object (**Insertar objeto**) → **PointLight**:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Color** ✏️ | `255, 150, 50` | Naranja, como la luz del fuego |
+| **Brightness** ✏️ | `3` | Qué tan fuerte alumbra |
+| **Range** ✏️ | `16` | Hasta cuántos studs llega la luz |
+| **Shadows** | ✘ | Si los objetos tiran sombra con esta luz |
+| **Enabled** | ✔ | Apagada, no alumbra |
+
+> 💡 La luz se nota mucho más de noche. En **Lighting** cambiá **ClockTime** a `20` para verla bien.
+
+**Probalo:** mirá la antorcha en la vista: tiene que tener llamas arriba y alumbrar el piso de naranja.
+
+![La antorcha de noche](roblox/img/clase17/01-antorcha.png)
+*Las llamas salen de la punta y la luz pinta el piso de naranja.*
+
+### ✨ Parte 2: El cristal mágico
+
+### Paso 1: El cristal
+
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `Cristal`:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `2, 4, 2` | Alto y finito, como un cristal |
+| **Color** | `0, 200, 255` | Celeste |
+| **Material** | `Neon` | Que brille |
+| **Anchored** | `true` | Que quede fijo |
+| **CanCollide** | `false` | Que se pueda atravesar |
+
+### Paso 2: Las partículas
+
+> 📝 **Qué es un ParticleEmitter:** una "fábrica" de partículas. Tira imágenes chiquitas (chispas, estrellas, humo) desde la Part, y cada una vive un rato y desaparece. Con él se hace casi cualquier efecto: magia, polvo, burbujas, nieve.
+
+Click derecho en `Cristal` → Insert Object (**Insertar objeto**) → **ParticleEmitter**. Ya tira partículas solo; le cambiás las marcadas con ✏️:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Color** ✏️ | `0, 200, 255` | El color de las partículas (celeste, como el cristal) |
+| **LightEmission** ✏️ | `1` | Que brillen. Con `0` se ven opacas |
+| **Size** ✏️ | `0.5` | El tamaño de cada partícula |
+| **Texture** | (la que viene) | La imagen de cada partícula. Se puede cambiar por otra (una estrella, un corazón) |
+| **Transparency** | `0` | Qué tan transparentes son |
+| **Lifetime** ✏️ | `1, 2` | Cuántos segundos vive cada una (entre 1 y 2) |
+| **Rate** | `20` | Cuántas partículas salen por segundo |
+| **Speed** ✏️ | `2, 4` | A qué velocidad salen |
+| **SpreadAngle** ✏️ | `180, 180` | Para dónde salen. Con `180` salen para todos lados |
+| **EmissionDirection** | `Top` | De qué cara de la Part salen |
+| **Enabled** | ✔ | Apagado, deja de tirar partículas |
+
+Las demás (Acceleration, Drag, Rotation, RotSpeed, Shape…) sirven para efectos más elaborados; quedan como vienen.
+
+> 💡 Andá cambiando los valores con el juego **parado**: los cambios se ven al instante en la vista, sin darle Play.
+
+**Probalo:** mirá el cristal en la vista: tiene que estar rodeado de chispitas celestes que brillan.
+
+![El cristal con partículas](roblox/img/clase17/02-cristal.png)
+*Las chispitas salen para todos lados y brillan por el LightEmission.*
+
+### 💥 Parte 3: El bloque que explota
+
+### Paso 1: El bloque
+
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Part**, la renombrás `BloqueMagico`:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `6, 1, 6` | Una baldosa ancha para pisarla |
+| **Color** | `170, 0, 255` | Violeta (con Neon se ve fucsia) |
+| **Material** | `Neon` | Que brille |
+| **Anchored** | `true` | Que quede fijo en el piso |
+
+### Paso 2: El estallido y el flash
+
+Adentro de `BloqueMagico` ponés dos cosas:
+
+1. Un **ParticleEmitter**, lo renombrás `Estallido`, con **Color** `255, 220, 0` (amarillo), **LightEmission** `1`, **Speed** `15`, **SpreadAngle** `180, 180` y ✏️ **Rate** `0`
+2. Un **PointLight** con **Color** `255, 220, 0`, **Brightness** `5`, **Range** `20` y ✏️ **Enabled** apagado
+
+> ⚠️ Con **Rate** en `0` el emisor no tira nada solo: las partículas las va a largar el código, todas juntas, de golpe.
+
+### Paso 3: El código
+
+Click derecho en `BloqueMagico` → Insert Object (**Insertar objeto**) → **Script**:
 
 ```lua
-local bloque = script.Parent
-local fuego = bloque:FindFirstChild("Fire")  -- referencia al efecto Fire
+local bloque = script.Parent                       -- el bloque que contiene el script
+local estallido = bloque.Estallido                 -- el ParticleEmitter
+local luz = bloque.PointLight                      -- la luz del flash
+local listo = true                                 -- si el bloque puede explotar ahora
 
-bloque.Touched:Connect(function()
-    fuego.Enabled = true    -- activa el fuego al tocar el bloque
-end)
-
-bloque.TouchEnded:Connect(function()
-    fuego.Enabled = false   -- desactiva el fuego al soltar
+bloque.Touched:Connect(function(mano)              -- cuando algo toca el bloque
+    local humanoid = mano.Parent:FindFirstChild("Humanoid")  -- busca si es un personaje
+    if humanoid and listo then                     -- si es un personaje y el bloque esta listo
+        listo = false                              -- que no vuelva a explotar enseguida
+        estallido:Emit(40)                         -- larga 40 particulas de golpe
+        luz.Enabled = true                         -- prende el flash
+        task.wait(0.3)                             -- espera un ratito
+        luz.Enabled = false                        -- apaga el flash
+        task.wait(1)                               -- espera un segundo
+        listo = true                               -- ya puede explotar de nuevo
+    end
 end)
 ```
 
+- `FindFirstChild("Humanoid")` busca el Humanoid como en la Clase 7, pero si lo que tocó no es un personaje (por ejemplo, una pelota) da `nil` en vez de un error
+- `Emit(40)` larga 40 partículas todas juntas: eso es el "estallido"
+- `listo` evita que explote muchas veces seguidas, porque `Touched` se dispara por cada parte del cuerpo (Clase 6)
+- `Enabled` prende y apaga la luz, igual que cualquier otra propiedad
+
+### Paso 4: Probar todo
+
+Play y probás todo junto:
+
+![Pisar el bloque mágico](roblox/img/clase17/03-estallido.gif)
+*Cada vez que el personaje pisa el bloque, salta una lluvia de chispas amarillas.*
+
+1. La antorcha tiene llamas y alumbra el piso de naranja
+2. El cristal está rodeado de chispitas celestes
+3. Al pisar el bloque violeta salta una lluvia de chispas amarillas con un flash de luz
+
+### Estructura final en el Explorer
+
+```
+Workspace
+  ├── Antorcha (Model)
+  │     ├── Palo (Part)
+  │     └── Punta (Part)
+  │           ├── Fire
+  │           └── PointLight
+  ├── Cristal (Part)
+  │     └── ParticleEmitter
+  └── BloqueMagico (Part)
+        ├── Estallido (ParticleEmitter)
+        ├── PointLight
+        └── Script
+```
+
+![Estructura final en el Explorer](roblox/img/clase17/04-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| La luz no se nota | Es de día y el sol la tapa. En **Lighting** poné **ClockTime** en `20`, o subí **Brightness** |
+| El bloque no larga chispas | El ParticleEmitter no se llama `Estallido` o no está adentro de `BloqueMagico`. Fijate el nombre en el Explorer y el error en la Salida (**Output**) |
+| El bloque tira chispas todo el tiempo, sin pisarlo | **Rate** quedó en el valor que viene. Ponelo en `0` |
+| Las partículas se ven negras u opacas | **LightEmission** está en `0`. Ponelo en `1` |
+| No se ven las llamas, o salen del medio del palo | El Fire sale del centro de la Part donde está. Tiene que ir adentro de la `Punta`, no del `Palo` |
+
+### Extras
+
+**Una fogata:** una Part con un **Fire** y un **Smoke** (humo) adentro. En el Smoke probá **Color** gris, **Opacity** `0.3` y **RiseVelocity** `3`.
+
 ## Ejercicio
 
-> Consigna: Aplicá 3 efectos visuales distintos para acciones clave de tu juego (por ejemplo una antorcha, un portal mágico, o un objeto coleccionable).
+> Consigna: Poné 3 efectos en acciones clave de tu juego: algo que brille para marcar un objeto importante, una luz para ambientar y un efecto que salte cuando el jugador hace algo.
 
 **Pistas:**
-1. Combiná al menos un efecto de partículas con un PointLight
-2. Probá controlar uno de los efectos con código usando `Enabled`
-3. Ajustá Color y Size hasta que se vea bien en tu mapa
+1. Combiná partículas con un PointLight del mismo color
+2. Para el efecto que salta, usá **Rate** en `0` y `Emit` desde el código
+3. Cambiá Color, Size y Speed hasta que se vea bien en tu mapa
 
 ## Recursos
 
-- [Documentación oficial de Fire](https://create.roblox.com/docs/reference/engine/classes/Fire)
 - [Documentación oficial de ParticleEmitter](https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter)
+- [Documentación oficial de Fire](https://create.roblox.com/docs/reference/engine/classes/Fire)
+- [Documentación oficial de PointLight](https://create.roblox.com/docs/reference/engine/classes/PointLight)
