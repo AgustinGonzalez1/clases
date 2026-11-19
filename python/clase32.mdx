@@ -1,0 +1,242 @@
+---
+title: "Clase 32: ¡Sé un Buen Director de IA! 🎬"
+mision: "Pedirle a la IA que revise y explique una parte de tu código."
+---
+
+# Clase 32: ¡Sé un Buen Director de IA! 🎬
+
+Aprendemos a hacerle buenas preguntas a la IA y la usamos para entender, simplificar y revisar nuestro propio juego.
+
+## Objetivos
+
+- Armar un buen pedido: quién sos, qué tenés, qué querés y cómo lo querés
+- Pedirle a la IA que **explique** una línea difícil
+- Pedirle que la **simplifique** con lo que ya sabemos
+- Pedirle que **revise** una parte y encuentre un error
+
+## Contenido
+
+### 🎬 Parte 1: Cómo pedirle bien a la IA
+
+### Paso 1: Las 4 partes de un buen pedido
+
+En la Clase 31 vimos que, si le pedimos poco, la IA inventa. Un buen director le da a la IA todo lo que necesita:
+
+| Parte | Qué le decimos | Ejemplo |
+|---|---|---|
+| **Quién soy** | Que sos principiante y qué sabés usar | "Tengo 12 años, sé usar if, for, while, listas, diccionarios y funciones" |
+| **Qué tengo** | El código real, copiado de tu juego | Pegás las líneas que te interesan |
+| **Qué quiero** | Una sola cosa, bien clara | "Explicame esta línea" / "Simplificala" / "Revisá si tiene errores" |
+| **Cómo lo quiero** | El formato de la respuesta | "Con un ejemplo con números", "sin usar cosas que no vi", "corto" |
+
+> 💡 Un pedido = una cosa. Si le pedís cinco cosas juntas, te da una respuesta larguísima y mezclada.
+
+### Paso 2: La IA también se equivoca
+
+Antes de pegar lo que te da, siempre:
+
+1. **Leelo:** ¿usa tus nombres de variables? ¿usa algo que no viste?
+2. **Preguntá** lo que no entiendas, en la misma conversación
+3. **Probalo** en el juego
+
+### 🔍 Parte 2: Pedirle que explique
+
+### Paso 1: La línea difícil
+
+Desde la Clase 22 tenemos esta línea, que evita que el jugador se salga de la pantalla:
+
+```python
+jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+```
+
+Funciona, pero es difícil de leer. Le pedimos a la IA que nos la explique.
+
+### Paso 2: El pedido
+
+```
+Soy principiante en Python, estoy haciendo un juego con Pygame.
+La pantalla mide 800 de ancho (ANCHO) y el jugador mide 40 (jugador_tamano).
+No entiendo esta linea de mi juego:
+
+jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+
+Explicamela paso a paso, con ejemplos con numeros.
+```
+
+- **Quién soy:** principiante, con Pygame
+- **Qué tengo:** la línea y lo que valen `ANCHO` y `jugador_tamano`
+- **Cómo lo quiero:** paso a paso y con números
+
+### Paso 3: Leer la respuesta
+
+Una respuesta típica explica que la línea hace dos cosas, de adentro hacia afuera:
+
+| Si `jugador_x` vale... | `min(jugador_x, 760)` | `max(0, ...)` | Resultado |
+|---|---|---|---|
+| `300` (en el medio) | `300` | `300` | No cambia |
+| `790` (se pasó a la derecha) | `760` | `760` | Queda en el borde derecho |
+| `-6` (se pasó a la izquierda) | `-6` | `0` | Queda en el borde izquierdo |
+
+- `min` elige el **más chico** de los dos: no deja pasar de `760` (que es `800 - 40`)
+- `max` elige el **más grande** de los dos: no deja bajar de `0`
+
+> ⚠️ La IA no siempre contesta igual. Si tu respuesta es distinta pero la entendés, está bien.
+
+### ✂️ Parte 3: Pedirle que lo simplifique
+
+### Paso 1: El pedido
+
+Seguimos en la misma conversación, así ya conoce la línea:
+
+```
+Gracias. Reescribila usando solo if, que es lo que mejor entiendo.
+Hacelo para jugador_x y para jugador_y (ALTO es 600).
+```
+
+### Paso 2: Cambiarlo en el juego
+
+**Dónde va:** dentro de `elif estado == "jugando":`, después del movimiento con las flechas. Borramos estas dos líneas:
+
+```python
+jugador_x = max(0, min(jugador_x, ANCHO - jugador_tamano))
+jugador_y = max(0, min(jugador_y, ALTO - jugador_tamano))
+```
+
+Y en su lugar va:
+
+```python
+# que el jugador no se salga de la pantalla
+if jugador_x < 0:                           # se paso por la izquierda
+    jugador_x = 0                           # lo dejamos en el borde
+if jugador_x > ANCHO - jugador_tamano:      # se paso por la derecha
+    jugador_x = ANCHO - jugador_tamano      # lo dejamos en el borde
+if jugador_y < 0:                           # se paso por arriba
+    jugador_y = 0
+if jugador_y > ALTO - jugador_tamano:       # se paso por abajo
+    jugador_y = ALTO - jugador_tamano
+```
+
+- Son más líneas, pero cada una se lee sola: "si se pasó, lo dejo en el borde"
+- Hace **exactamente lo mismo** que la línea con `max` y `min`
+
+**Probalo:** mantené apretada la flecha derecha. El jugador tiene que frenar en el borde, sin salirse.
+
+![El jugador frenado en el borde derecho](python/img/clase32/01-borde.png)
+*El jugador queda pegado al borde derecho y no se sale de la pantalla.*
+
+> 💡 Más corto no siempre es mejor. Si un código más largo se entiende mejor, conviene ese.
+
+### 🐞 Parte 4: Pedirle que revise
+
+### Paso 1: El pedido
+
+Ahora le pedimos que busque errores en el choque con los enemigos:
+
+```
+Este es el codigo que revisa si el jugador choca con un enemigo.
+"enemigos" es una lista de diccionarios con "x" e "y".
+Revisalo y decime si tiene algun error. No me des el codigo arreglado
+todavia: primero explicame que puede fallar.
+
+for enemigo in enemigos:
+    rect_enemigo = pygame.Rect(enemigo["x"], enemigo["y"], enemigo_tamano, enemigo_tamano)
+    if rect_jugador.colliderect(rect_enemigo):
+        vidas -= 1
+        jugador_x, jugador_y = 400, 300
+        if vidas <= 0:
+            estado = "gameover"
+            if puntaje > record:
+                record = puntaje
+                guardar_record(record)
+```
+
+- "No me des el código todavía" hace que primero **entendamos** el problema
+
+### Paso 2: El error que encuentra
+
+Una respuesta típica avisa: **si tocás dos enemigos al mismo tiempo, perdés dos vidas de golpe.**
+
+- El `for` revisa **todos** los enemigos, uno por uno
+- `rect_jugador` se calculó antes del `for` y no se mueve, aunque el jugador ya volvió al centro
+- Entonces cada enemigo que estaba encima resta una vida más
+
+**Probalo:** acercate a dos enemigos que estén juntos y dejá que te toquen a la vez.
+
+![Perdiste dos vidas de un solo choque](python/img/clase32/02-choque-antes.png)
+*Empezamos con 3 vidas y, después de un solo choque con dos enemigos, quedan 1.*
+
+### Paso 3: El arreglo
+
+Le pedimos el arreglo "con lo que ya sé". La solución más simple es un `break` (Clase 11): apenas choca con uno, deja de revisar los demás.
+
+**Dónde va:** al final del `if rect_jugador.colliderect(rect_enemigo):`, a la misma altura que `vidas -= 1`:
+
+```python
+for enemigo in enemigos:
+    rect_enemigo = pygame.Rect(enemigo["x"], enemigo["y"], enemigo_tamano, enemigo_tamano)
+    if rect_jugador.colliderect(rect_enemigo):
+        vidas -= 1                          # pierde una vida
+        jugador_x, jugador_y = 400, 300     # vuelve al centro
+        if vidas <= 0:
+            estado = "gameover"
+            if puntaje > record:
+                record = puntaje
+                guardar_record(record)
+        break  # ya choco: no sigue revisando los demas enemigos
+```
+
+- El `break` va **adentro del `if`**: solo corta el `for` cuando hubo un choque
+- Si lo ponés afuera del `if`, el `for` revisaría solo el primer enemigo, y los demás no te harían nada
+
+> ⚠️ Fijate la sangría del `if`: en el código de la Clase 31 lo de adentro estaba corrido 8 espacios en vez de 4. Funciona igual, pero queda más prolijo así.
+
+### Paso 4: Probar todo
+
+Abrí el juego y probá:
+
+1. Con la flecha derecha, el jugador frena en el borde (lo mismo con las otras flechas)
+2. Si te tocan dos enemigos juntos, perdés **una** sola vida
+
+![Ahora pierde una sola vida](python/img/clase32/03-choque-despues.png)
+*El mismo choque con dos enemigos: de 3 vidas quedan 2.*
+
+### Estructura final de la carpeta
+
+```
+python clases/
+  ├── clase32.py
+  ├── records.txt
+  ├── imagenes/
+  │     ├── caminar1.png
+  │     └── caminar2.png
+  └── sonidos/
+        └── moneda.mp3
+```
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| La IA me devolvió un código con cosas que no vi (`clamp`, `try`, `class`) | No le dijiste qué sabés usar. Pedile: "hacelo solo con if, for y while" |
+| La respuesta es larguísima y no entiendo nada | Le pediste muchas cosas juntas. Pedí una sola cosa por mensaje |
+| El jugador atraviesa el borde | Te faltó alguno de los 4 `if`, o usaste `ANCHO` donde va `ALTO`. Revisá que haya uno por cada lado |
+| Los enemigos ya no me sacan vidas (o solo uno) | El `break` quedó afuera del `if`. Tiene que estar adentro, a la altura de `vidas -= 1` |
+| `IndentationError` | Mezclaste espacios de más. Cada nivel adentro de un `if` o un `for` son 4 espacios |
+
+### Extras
+
+**Otro misterio:** pedile a la IA que te explique esta línea de la Clase 29, que acelera a los enemigos: `enemigo["vel_x"] += enemigo["vel_x"] // abs(enemigo["vel_x"])`. Después pedile que la reescriba con un `if`.
+
+## Ejercicio
+
+> Consigna: Elegí una parte de tu juego que no entiendas del todo, pedile a la IA que la revise y te la explique, y contá con tus palabras qué hace.
+
+**Pistas:**
+1. Una buena candidata es la animación: `frame_actual = (frame_actual + 1) % len(imagenes_jugador)`
+2. Usá las 4 partes del pedido: quién sos, qué tenés, qué querés y cómo lo querés
+3. Si la respuesta usa algo que no viste, preguntale qué es antes de usarlo
+
+## Recursos
+
+- [Funciones integradas de Python: max y min](https://docs.python.org/es/3/library/functions.html#max)
+- [pygame.Rect — colliderect](https://www.pygame.org/docs/ref/rect.html#pygame.Rect.colliderect)
