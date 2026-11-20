@@ -1,0 +1,349 @@
+---
+title: "Clase 29: 🏆 Proyecto: ¡Mi Portfolio Online!"
+mision: "Asegurarte de que tu portfolio se vea bien en todos los dispositivos."
+---
+
+# Clase 29: 🏆 Proyecto: ¡Mi Portfolio Online!
+
+Armamos nuestro portfolio con **Tailwind**, lo hacemos nuestro y nos aseguramos de que se vea bien en la compu, la tablet y el celular.
+
+## Objetivos
+
+- Conocer Tailwind y en qué se diferencia de Bootstrap
+- Armar la base de un portfolio: menú, presentación, proyectos y contacto
+- Personalizarlo con tu nombre, tu color y tus proyectos
+- Hacerlo responsive con `md:` y `lg:` y probarlo en los 3 tamaños
+
+## Contenido
+
+### 🎨 Parte 1: ¿Qué es Tailwind?
+
+### Paso 1: Bootstrap y Tailwind
+
+> 📝 **Qué es Tailwind:** es un framework de CSS, como Bootstrap. La diferencia es que Bootstrap te da **componentes armados** (`btn`, `card`) y Tailwind te da **clases chiquitas que hacen una sola cosa cada una**: `bg-indigo-600` pinta el fondo, `rounded-lg` redondea las esquinas. Con esas piezas armás lo que quieras.
+
+El mismo botón en los dos:
+
+```html
+<!-- Bootstrap: un componente ya armado -->
+<a class="btn btn-primary">Ver mis proyectos</a>
+
+<!-- Tailwind: cada clase hace una sola cosa -->
+<a class="bg-indigo-600 text-white px-6 py-3 rounded-lg">Ver mis proyectos</a>
+```
+
+- Con Bootstrap es más rápido, pero todas las páginas se parecen
+- Con Tailwind escribís más clases, pero el diseño es tuyo y no necesitás un archivo CSS
+
+### Paso 2: Sumar Tailwind a la página
+
+1. En VS Code, creá una carpeta `portfolio` y adentro un archivo `index.html`
+2. Tailwind se suma con una sola línea en el `<head>`:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+```
+
+- Como Bootstrap en la Clase 24, se carga de internet: sin conexión, no anda
+- Es un `<script>` y no un `<link>`: Tailwind lee las clases de tu página y arma el CSS solo
+
+Sin esa línea, la página se ve así:
+
+![La página sin Tailwind](desarrollo/img/clase29/01-sin-tailwind.png)
+*Las clases están escritas, pero sin Tailwind nadie las entiende: texto pelado, sin colores ni espacios.*
+
+### Paso 3: Cómo se leen las clases
+
+Casi todas siguen el mismo patrón: **qué cosa, guion, valor**.
+
+| Clase | Para qué sirve | Ejemplos |
+|---|---|---|
+| `bg-` | Color de fondo | `bg-indigo-600`, `bg-white` |
+| `text-` + color | Color del texto | `text-slate-600`, `text-white` |
+| `text-` + tamaño | Tamaño de la letra | `text-lg`, `text-3xl`, `text-5xl` |
+| `font-` | Grosor de la letra | `font-semibold`, `font-bold` |
+| `p-`, `px-`, `py-` | Espacio de adentro (padding): en todos lados, a los costados, arriba y abajo | `p-6`, `px-4`, `py-16` |
+| `mt-`, `mb-` | Espacio de afuera (margin): arriba o abajo | `mt-4`, `mb-8` |
+| `gap-` | Espacio entre los elementos de un `flex` o una `grid` | `gap-2`, `gap-6` |
+| `rounded-` | Esquinas redondeadas | `rounded-lg`, `rounded-full` (círculo) |
+| `shadow` | Sombra | `shadow` |
+| `flex`, `grid` | Flexbox (Clase 3) y grilla | `flex gap-6`, `grid grid-cols-3` |
+| `hover:` | Cambia algo al pasar el mouse | `hover:bg-indigo-700` |
+
+- Los colores van de **50** (clarito) a **950** (casi negro). El **600** queda bien en botones
+- En los espacios, cada número son 4 píxeles: `p-4` son 16 px
+
+> 💡 No hace falta memorizarlas: si no te acordás una, la buscás en la documentación de Tailwind (está en Recursos).
+
+### 🧱 Parte 2: La base del portfolio
+
+### Paso 1: Pegá la plantilla
+
+Borrá lo que tenga tu `index.html` y pegá esto:
+
+```html
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio de Agus</title>
+  <!-- Tailwind: con esta linea ya podemos usar todas sus clases -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+  <!-- MENU: arriba de todo y siempre visible -->
+  <header class="bg-white shadow sticky top-0">
+    <nav class="max-w-5xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-2">
+      <a href="#inicio" class="text-xl font-bold text-indigo-600">Agus.dev</a>
+      <div class="flex gap-6">
+        <a href="#sobre-mi" class="hover:text-indigo-600">Sobre mí</a>
+        <a href="#proyectos" class="hover:text-indigo-600">Proyectos</a>
+        <a href="#contacto" class="hover:text-indigo-600">Contacto</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- INICIO: quien sos y un boton a tus proyectos -->
+  <section id="inicio" class="max-w-5xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center gap-8">
+    <div class="w-40 h-40 shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-7xl">🧑‍💻</div>
+    <div class="text-center md:text-left">
+      <h1 class="text-4xl md:text-5xl font-bold">Hola, soy Agus 👋</h1>
+      <p class="mt-4 text-lg text-slate-600">Tengo 12 años y me encanta crear páginas web y videojuegos.</p>
+      <a href="#proyectos" class="inline-block mt-6 bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700">Ver mis proyectos →</a>
+    </div>
+  </section>
+
+  <!-- SOBRE MI: un parrafo y lo que sabes usar -->
+  <section id="sobre-mi" class="bg-white py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-4">Sobre mí</h2>
+      <p class="text-slate-600 max-w-2xl">Aprendo programación en Codilab. Me gusta pensar ideas nuevas y hacerlas realidad en la compu.</p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">HTML</span>
+        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">CSS</span>
+        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">JavaScript</span>
+        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Bootstrap</span>
+        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">Tailwind</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS: una tarjeta por proyecto -->
+  <section id="proyectos" class="max-w-5xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold mb-8">Mis proyectos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-5xl">🎲</div>
+        <h3 class="text-xl font-bold mt-4">Adiviná el número</h3>
+        <p class="text-slate-600 mt-2">Un juego en JavaScript: la compu piensa un número y vos lo tenés que adivinar.</p>
+        <a href="#" class="inline-block mt-4 text-indigo-600 font-semibold hover:underline">Ver proyecto →</a>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-5xl">🖱️</div>
+        <h3 class="text-xl font-bold mt-4">Botones que reaccionan</h3>
+        <p class="text-slate-600 mt-2">Una página que cambia de color y de texto cuando hacés clic.</p>
+        <a href="#" class="inline-block mt-4 text-indigo-600 font-semibold hover:underline">Ver proyecto →</a>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="text-5xl">🚀</div>
+        <h3 class="text-xl font-bold mt-4">Mi página con Bootstrap</h3>
+        <p class="text-slate-600 mt-2">Mi primera página armada con los componentes de Bootstrap.</p>
+        <a href="#" class="inline-block mt-4 text-indigo-600 font-semibold hover:underline">Ver proyecto →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACTO: solo tu GitHub, nada de datos personales -->
+  <section id="contacto" class="bg-indigo-600 text-white py-16 text-center">
+    <h2 class="text-3xl font-bold">¿Querés ver más?</h2>
+    <p class="mt-4">Todo mi código está en GitHub.</p>
+    <a href="https://github.com/" class="inline-block mt-6 bg-white text-indigo-600 font-semibold px-6 py-3 rounded-lg hover:bg-indigo-50">Ir a mi GitHub →</a>
+  </section>
+
+  <!-- PIE DE PAGINA -->
+  <footer class="text-center text-slate-500 py-6">
+    Hecho por Agus con Tailwind · 2026
+  </footer>
+
+</body>
+</html>
+```
+
+- `max-w-5xl mx-auto px-4`: el contenido no pasa de un ancho, queda centrado y con aire a los costados. Lo usan todas las secciones
+- `sticky top-0`: el menú queda pegado arriba cuando bajás
+- `href="#proyectos"` lleva a la sección con `id="proyectos"`, y `scroll-smooth` hace que baje suave
+- Las tarjetas son 3 `div` iguales adentro de una `grid`
+
+### Paso 2: Miralo en el navegador
+
+Abrí el `index.html` en Chrome (doble clic o Live Server).
+
+![El portfolio en la compu](desarrollo/img/clase29/02-portfolio-compu.png)
+*La base terminada: menú, presentación, sobre mí, tres proyectos y contacto.*
+
+| Sección | `id` | Para qué sirve |
+|---|---|---|
+| Menú | — | Ir a cada parte de la página |
+| Inicio | `inicio` | Que en 5 segundos se sepa quién sos y qué hacés (Clase 28) |
+| Sobre mí | `sobre-mi` | Contar un poco de vos y lo que sabés usar |
+| Proyectos | `proyectos` | Mostrar lo que hiciste, con un link a cada uno |
+| Contacto | `contacto` | Llevar a tu GitHub, donde está tu código |
+| Pie | — | Tu firma |
+
+### ✏️ Parte 3: Hacelo tuyo
+
+### Paso 1: Tu nombre y tus textos
+
+Cambiá `Agus` por tu nombre en el `<title>`, el menú, el saludo y el pie. Después cambiá la descripción, el párrafo de Sobre mí y el emoji 🧑‍💻 por uno que te represente.
+
+> ⚠️ El portfolio es público: lo puede ver cualquiera. Nada de apellido, dirección, teléfono ni escuela. Con tu nombre o un apodo alcanza.
+
+### Paso 2: Tu color
+
+El color principal es `indigo`. Para cambiarlo en toda la página de una sola vez:
+
+1. En VS Code, apretá **Ctrl + H** (buscar y reemplazar)
+2. Arriba escribí `indigo` y abajo el color nuevo, por ejemplo `emerald`
+3. Tocá **Reemplazar todo** (o **Ctrl + Alt + Enter**)
+
+Algunos colores para elegir: `red`, `orange`, `amber`, `emerald`, `teal`, `sky`, `blue`, `violet`, `pink`.
+
+![El portfolio en verde y con otro nombre](desarrollo/img/clase29/03-color-nombre.png)
+*Con `emerald` y otro nombre: el menú, el botón y los fondos cambiaron todos juntos.*
+
+> 💡 Acordate del contraste (Clase 28): el texto blanco sobre un `-600` se lee bien; sobre un `-300`, no.
+
+### Paso 3: Tus proyectos
+
+Cada tarjeta es un proyecto. Cambiá el emoji, el título, la descripción y el `href`:
+
+```html
+<div class="bg-white rounded-xl shadow p-6">
+  <!-- Un emoji que muestre de que se trata -->
+  <div class="text-5xl">🎲</div>
+  <!-- El nombre del proyecto -->
+  <h3 class="text-xl font-bold mt-4">Adiviná el número</h3>
+  <!-- Una o dos lineas que lo cuenten -->
+  <p class="text-slate-600 mt-2">Un juego en JavaScript: la compu piensa un número y vos lo tenés que adivinar.</p>
+  <!-- El link al proyecto publicado -->
+  <a href="#" class="inline-block mt-4 text-indigo-600 font-semibold hover:underline">Ver proyecto →</a>
+</div>
+```
+
+- En `href` va el link del proyecto en GitHub Pages (Clase 27). Si todavía no está publicado, dejá `#`
+- Para sumar un proyecto, copiá un `div` de tarjeta entero y pegalo abajo del último
+- Lo mismo con lo que sabés usar en Sobre mí: copiá un `<span>` y cambiale el texto
+- En Contacto, cambiá `https://github.com/` por el link de tu GitHub (Clase 26)
+
+### 📱 Parte 4: Que se vea bien en todos lados
+
+### Paso 1: Los prefijos `md:` y `lg:`
+
+> 📝 **Qué es un prefijo de pantalla:** `md:` adelante de una clase quiere decir "esto, **desde** pantallas medianas para arriba". Una clase sin prefijo vale en todas las pantallas, empezando por el celular.
+
+| Prefijo | Desde | Pantalla |
+|---|---|---|
+| (sin prefijo) | 0 px | Celular |
+| `md:` | 768 px | Tablet |
+| `lg:` | 1024 px | Compu |
+
+Es lo mismo que una media query, pero escrito adentro de la clase.
+
+### Paso 2: Dónde lo usa tu portfolio
+
+```html
+<!-- Menu: apilado en el celular, en fila desde la tablet -->
+<nav class="... flex flex-col md:flex-row ...">
+
+<!-- Tarjetas: 1 columna en el celular, 2 en la tablet y 3 en la compu -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<!-- Titulo: un poco mas chico en el celular -->
+<h1 class="text-4xl md:text-5xl font-bold">
+```
+
+| Clase | Celular | Tablet | Compu |
+|---|---|---|---|
+| `flex-col md:flex-row` (menú e inicio) | Uno abajo del otro | En fila | En fila |
+| `text-center md:text-left` (inicio) | Centrado | A la izquierda | A la izquierda |
+| `text-4xl md:text-5xl` (saludo) | Grande | Más grande | Más grande |
+| `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` (proyectos) | 1 columna | 2 columnas | 3 columnas |
+
+### Paso 3: Probalo en los 3 tamaños
+
+Como en la Clase 28: **F12** y después **Ctrl + Shift + M**. Arriba elegí un celular (*iPhone 12 Pro*), después una tablet (*iPad Mini*) y al final cerrá el modo dispositivo para verlo como en la compu.
+
+![El portfolio en el celular](desarrollo/img/clase29/04-celular.png)
+*En el celular, el menú y la presentación quedan uno abajo del otro, y nada se sale de la pantalla.*
+
+![Las tarjetas en la tablet](desarrollo/img/clase29/05-tarjetas-tablet.png)
+*En la tablet, las tarjetas pasan a 2 columnas. En la compu son 3 y en el celular, 1.*
+
+En cada tamaño, fijate que:
+
+- No haya que mover la pantalla para los costados
+- El texto se lea sin hacer zoom
+- Los botones se puedan tocar fácil con el dedo
+
+### Paso 4: Probar todo
+
+1. Tiene tu nombre, tu color, tu emoji y tus proyectos
+2. Cada link del menú baja a su sección
+3. Los botones cambian de color al pasar el mouse
+4. Se ve bien en el celular, la tablet y la compu
+5. Si lo publicaste en la Clase 27, subí el `index.html` nuevo a tu repositorio: en uno o dos minutos se actualiza en GitHub Pages. En la Clase 30 lo presentamos
+
+### Estructura final
+
+```
+portfolio/
+└── index.html   (HTML con las clases de Tailwind, sin archivo CSS)
+```
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| La página se ve sin estilos, con el texto pelado | Falta la línea de Tailwind o no hay internet. Revisá que el `<script>` esté adentro del `<head>` y que estés conectado |
+| Una clase no hace nada | Está mal escrita (`bg-indgo-600`) o el número no existe (`bg-indigo-650`). Buscala en la documentación |
+| Cambié el color y quedó una parte con el viejo | Se reemplazó una sola vez. Repetí Ctrl + H con **Reemplazar todo** |
+| En el celular las tarjetas siguen de a 3 | Escribiste `grid-cols-3` sin `lg:`, y una clase sin prefijo vale en todas las pantallas. Dejá `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` |
+| Un link del menú no baja a su sección | El `href` y el `id` no coinciden. Tienen que ser iguales, con el `#` solo en el `href`: `href="#proyectos"` e `id="proyectos"` |
+| GitHub Pages muestra la versión vieja | Tarda uno o dos minutos en actualizarse. Esperá y recargá con **Ctrl + F5** |
+
+### Extras
+
+**Tarjetas que se levantan:** sumale estas clases al `div` de cada tarjeta para que suba un poquito al pasar el mouse:
+
+```html
+<div class="bg-white rounded-xl shadow p-6 transition hover:-translate-y-1 hover:shadow-lg">
+```
+
+**Una imagen en vez del emoji:** guardá un dibujo o avatar tuyo en la carpeta (mejor que una foto, porque la página es pública) y cambiá el `div` del emoji por:
+
+```html
+<img src="avatar.png" alt="Mi avatar" class="w-40 h-40 shrink-0 rounded-full object-cover">
+```
+
+## Ejercicio
+
+> Consigna: Dejá tu portfolio listo, con tu nombre, tu color y al menos 3 proyectos tuyos, y asegurate de que se vea bien en el celular, la tablet y la compu.
+
+**Pistas:**
+1. Primero los textos, después el color y al final los proyectos
+2. Probalo en modo dispositivo después de cada cambio grande
+3. Pedile a un compañero que lo mire en su celular: si algo se ve raro, arreglalo antes de la Clase 30
+
+## Recursos
+
+- [Documentación de Tailwind](https://tailwindcss.com/docs)
+- [Los colores de Tailwind](https://tailwindcss.com/docs/colors)
+- [Diseño responsive en Tailwind](https://tailwindcss.com/docs/responsive-design)
+- [Tailwind Play](https://play.tailwindcss.com/), para probar clases en el navegador
+- [Modo dispositivo de Chrome](https://developer.chrome.com/docs/devtools/device-mode?hl=es)
