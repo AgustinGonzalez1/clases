@@ -1,0 +1,200 @@
+---
+title: "Clase 32: Multijugador con Amigos 👨‍👩‍👧‍👦"
+mision: "Armar un lobby donde cada jugador elige su equipo pisando una plataforma y aparece en la base de su equipo."
+---
+
+# Clase 32: Multijugador con Amigos 👨‍👩‍👧‍👦
+
+Armamos un juego por equipos: todos arrancan en un lobby, eligen Rojo o Azul pisando una plataforma y aparecen en su base.
+
+## Objetivos
+
+- Crear equipos con **Teams**
+- Armar un lobby y una base para cada equipo con **SpawnLocation**
+- Cambiar de equipo desde un script, con `jugador.Team` y `LoadCharacter`
+- Probar con 2 jugadores y usar el chat de equipo
+
+## Contenido
+
+### 🚩 Parte 1: Los equipos
+
+> 📝 **Qué es Teams:** el servicio que guarda los equipos del juego. Cada **Team** de adentro es un equipo, con su nombre y su color. Apenas hay equipos, la tabla de jugadores los muestra separados.
+
+### Paso 1: Crear los equipos
+
+En un mundo nuevo (**Baseplate**), en el Explorer pasás el mouse por **Teams**, tocás el **+** y elegís **Team**. Lo hacés 3 veces.
+
+![Insertar un Team](roblox/img/clase32/01-insertar-team.png)
+*El + aparece al pasar el mouse por Teams.*
+
+### Paso 2: Configurarlos
+
+Cada equipo tiene estas propiedades:
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Name** ✏️ | `Lobby`, `Rojo` y `Azul` | El nombre que se ve en la tabla de jugadores |
+| **TeamColor** ✏️ | `White`, `Bright red` y `Bright blue` | El color del equipo. Une al equipo con su SpawnLocation |
+| **AutoAssignable** ✏️ | ✔ solo en `Lobby` | Si Roblox mete solo a los jugadores que entran. Así todos arrancan en `Lobby` |
+
+Las demás (Archivable) quedan como vienen.
+
+![Propiedades de un equipo](roblox/img/clase32/02-propiedades-team.png)
+*El equipo Rojo: AutoAssignable apagado, su nombre y su color.*
+
+> ⚠️ Cada equipo necesita un **TeamColor distinto**. Si dos tienen el mismo color, Roblox los confunde.
+
+### 🏠 Parte 2: El lobby y las bases
+
+### Paso 1: El lobby
+
+1. La **SpawnLocation** que trae la Baseplate es el lobby: la renombrás `SpawnLobby`
+2. Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **Folder**, la renombrás `Lobby`
+3. Adentro de `Lobby`, dos **Part** delante del SpawnLobby: `PlataformaRoja` y `PlataformaAzul`
+
+| Propiedad | Valor | Para qué sirve |
+|---|---|---|
+| **Size** | `8, 1, 8` | Grande, para pisarla fácil |
+| **Position** | `-8, 0.5, -16` la roja y `8, 0.5, -16` la azul | Una al lado de la otra, adelante del lobby |
+| **Color** | Rojo o azul | Que se note a qué equipo lleva |
+| **Material** | `Neon` | La hace brillar |
+| **Anchored** | `true` | Queda fija |
+
+### Paso 2: Las bases
+
+Click derecho en **Workspace** → Insert Object (**Insertar objeto**) → **SpawnLocation**, la renombrás `BaseRoja`. Repetís para `BaseAzul`. Las ponés lejos del lobby, por ejemplo en `-40, 0.5, -80` y `40, 0.5, -80`, y las pintás del color de su equipo.
+
+Como en la Clase 27, la SpawnLocation tiene estas propiedades propias:
+
+| Propiedad | Sección | Valor | Para qué sirve |
+|---|---|---|---|
+| **Duration** | Campo de fuerza | `10` | Segundos de escudo al aparecer |
+| **AllowTeamChangeOnTouch** | Equipos | ✗ | Si al tocarla te cambia de equipo. Lo hacemos con el script |
+| **Neutral** ✏️ | Equipos | ✗ (`false`) | Apagado: solo aparecen acá los de su equipo |
+| **TeamColor** ✏️ | Equipos | `Bright red` (la roja) y `Bright blue` (la azul) | De qué equipo es la base: el mismo color que el Team |
+
+En el `SpawnLobby` también apagás **Neutral** y le ponés **TeamColor** `White`, el color del equipo `Lobby`.
+
+![Propiedades de la base roja](roblox/img/clase32/04-propiedades-spawn.png)
+*Neutral apagado y TeamColor igual al del equipo Rojo.*
+
+> ⚠️ Si el `SpawnLobby` queda en **Neutral**, sirve para todos los equipos, y a veces los jugadores reaparecen en el lobby en vez de en su base.
+
+![El lobby y las bases](roblox/img/clase32/03-mapa.png)
+*Abajo, el lobby con las dos plataformas; al fondo, las dos bases.*
+
+### 📜 Parte 3: El script
+
+### Paso 1: El script ElegirEquipo
+
+Click derecho en **ServerScriptService** → Insert Object (**Insertar objeto**) → **Script**, lo renombrás `ElegirEquipo`:
+
+```lua
+local Players = game:GetService("Players")      -- servicio que maneja a los jugadores
+local Teams = game:GetService("Teams")          -- servicio que guarda los equipos
+
+local lobby = workspace:WaitForChild("Lobby")   -- la carpeta con las plataformas
+
+local function unirAlEquipo(plataforma, equipo)
+    plataforma.Touched:Connect(function(parteQueToco)    -- cuando alguien pisa la plataforma
+        local jugador = Players:GetPlayerFromCharacter(parteQueToco.Parent)  -- busca que jugador la piso
+        if jugador and jugador.Team ~= equipo then       -- si es un jugador y todavia no esta en ese equipo
+            jugador.Team = equipo                        -- lo pasa al equipo
+            jugador:LoadCharacter()                      -- y lo hace aparecer en la base de su equipo
+        end
+    end)
+end
+
+unirAlEquipo(lobby.PlataformaRoja, Teams.Rojo)   -- la plataforma roja lleva al equipo Rojo
+unirAlEquipo(lobby.PlataformaAzul, Teams.Azul)   -- la plataforma azul lleva al equipo Azul
+```
+
+- `unirAlEquipo` recibe una plataforma y un equipo. La usamos dos veces, una por plataforma, para no escribir lo mismo dos veces
+- `GetPlayerFromCharacter` busca qué jugador pisó, como con las monedas de la Clase 30
+- `jugador.Team ~= equipo`: si ya está en ese equipo, no hace nada. Sin esto, cada parte del cuerpo que toca la plataforma lo volvería a cambiar
+- `jugador.Team = equipo` lo pasa de equipo. La tabla se actualiza sola
+
+> 📝 **Qué es LoadCharacter:** hace aparecer de nuevo al personaje del jugador, como si recién entrara. Aparece en una SpawnLocation de su equipo.
+
+### Paso 2: Probarlo
+
+**Play**: arrancás en el lobby, en el equipo `Lobby`. Pisás la plataforma roja y aparecés en la base roja, con el escudo, y en la tabla pasás a `Rojo`.
+
+![Elegir equipo](roblox/img/clase32/05-elegir-equipo.gif)
+*Al pisar la plataforma roja, el jugador pasa a Rojo y aparece en su base.*
+
+### 💬 Parte 4: Jugar con amigos
+
+### Paso 1: El chat de equipo
+
+Roblox ya trae un chat de equipo, sin programar nada. Abrís el chat con **/** y escribís **/t** + espacio: aparece **[Equipo]** y lo que mandes solo lo leen los de tu equipo. Para volver al chat de todos, apretás **Retroceso** con la caja vacía.
+
+![Chat de equipo](roblox/img/clase32/08-chat-equipo.png)
+*Con [Equipo], el mensaje sale con [Team] adelante.*
+
+> ⚠️ Para chatear con otros jugadores, Roblox pide la **verificación de edad**. Sin ella, cada uno ve solo sus propios mensajes. En Studio, el chat entre los jugadores de prueba puede no andar: se prueba con un amigo en el juego publicado.
+
+### Paso 2: Probar todo con 2 jugadores
+
+1. Arriba a la izquierda, en el menú de **Probar**, elegís **Servidor y clientes** y ponés **2** jugadores
+2. Tocás ▶. Se abren dos ventanas, una por jugador
+3. Con uno pisás la plataforma roja y con el otro la azul
+
+![Servidor y clientes](roblox/img/clase32/06-servidor-clientes.png)
+*Servidor y clientes, y la cantidad de jugadores en 2.*
+
+![Dos jugadores](roblox/img/clase32/07-dos-jugadores.png)
+*Cada jugador en su equipo y en su base, y la tabla igual en las dos ventanas.*
+
+Para terminar, en una de las ventanas: **Prueba → Finalizar sesión**.
+
+### Estructura final en el Explorer
+
+```
+Workspace
+  ├── Lobby (Folder)
+  │     ├── PlataformaAzul (Part)
+  │     └── PlataformaRoja (Part)
+  ├── BaseAzul (SpawnLocation)
+  ├── BaseRoja (SpawnLocation)
+  └── SpawnLobby (SpawnLocation)
+ServerScriptService
+  └── ElegirEquipo (Script)
+Teams
+  ├── Azul (Team)
+  ├── Lobby (Team)
+  └── Rojo (Team)
+```
+
+![Estructura final en el Explorer](roblox/img/clase32/09-explorer-final.png)
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| Al pisar la plataforma, reaparezco en el lobby | El `SpawnLobby` está en **Neutral** y sirve para todos. Apagá **Neutral** y ponele **TeamColor** `White` |
+| Arranco en Rojo o en Azul, y no en el lobby | **AutoAssignable** está prendido en otro equipo. Dejalo prendido solo en `Lobby` |
+| Cambio de equipo, pero no aparezco en la base | El **TeamColor** de la base no es igual al del equipo. Tienen que ser el mismo color |
+| Error rojo `Rojo is not a valid member of Teams` | El nombre del Team no es igual al del script. Fijate mayúsculas y tildes: `Rojo` y `Azul` |
+| Los mensajes del chat no le llegan al otro jugador | Hace falta la verificación de edad de Roblox, y en Studio puede no andar. Probalo con un amigo en el juego publicado |
+
+### Extras
+
+**Sin código:** una SpawnLocation con **AllowTeamChangeOnTouch** prendido te cambia al equipo de su **TeamColor** apenas la tocás. Probá hacer las plataformas así.
+
+**Un tercer equipo:** sumá un equipo `Verde`, con su plataforma, su base y una línea más en el script.
+
+## Ejercicio
+
+> Consigna: Armá un lobby donde cada jugador elige su equipo pisando una plataforma y aparece en la base de su equipo.
+
+**Pistas:**
+1. Tres equipos en **Teams**, y **AutoAssignable** prendido solo en `Lobby`
+2. Las SpawnLocation con **Neutral** apagado y el mismo **TeamColor** que su equipo
+3. Probalo con **Servidor y clientes** y 2 jugadores
+
+## Recursos
+
+- [Teams](https://create.roblox.com/docs/players/teams)
+- [SpawnLocation](https://create.roblox.com/docs/reference/engine/classes/SpawnLocation)
+- [Player.LoadCharacter](https://create.roblox.com/docs/reference/engine/classes/Player#LoadCharacter)
