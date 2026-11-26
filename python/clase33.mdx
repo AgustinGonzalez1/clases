@@ -1,0 +1,220 @@
+---
+title: "Clase 33: ¡A Construir el Juego! (Parte 1) 👷"
+mision: "Implementar al personaje principal y sus movimientos."
+---
+
+# Clase 33: ¡A Construir el Juego! (Parte 1) 👷
+
+Empezamos a cerrar el proyecto final: le ponemos nombre al juego y mejoramos cómo se mueve y cómo aguanta los golpes el personaje.
+
+## Objetivos
+
+- Ponerle nombre a tu juego
+- Moverse con las flechas **y** con WASD
+- Correr con Shift
+- Quedar invencible (y titilando) un rato después de un golpe
+
+## Contenido
+
+### 🏷️ Parte 1: El nombre de tu juego
+
+### Paso 1: Copiar el juego
+
+Hacé una copia de `clase32.py` y llamala `clase33.py`. Todo lo de hoy va en la copia.
+
+### Paso 2: La variable TITULO
+
+En `# ===== CONFIGURACIÓN =====`, cambiá la línea del `set_caption` por estas dos:
+
+```python
+TITULO = "LA GRAN ESCAPADA"  # el nombre de tu juego
+pygame.display.set_caption(TITULO)
+```
+
+- `TITULO` va en mayúsculas, como `ANCHO` y `ALTO`: es un valor que no cambia durante el juego
+- `set_caption` lo muestra arriba, en la barra de la ventana (antes decía "Clase 24")
+
+### Paso 3: El título en el menú
+
+En el menú, cambiá el texto fijo por la variable:
+
+```python
+texto_titulo = fuente.render(TITULO, True, COLOR_MONEDA)
+```
+
+- Antes decía `"ESQUIVA Y RECOGE"`. Ahora, si cambiás `TITULO`, cambia en los dos lugares a la vez
+
+![El menú con el título nuevo](python/img/clase33/01-menu.png)
+*El menú ya muestra el nombre del juego.*
+
+### ⌨️ Parte 2: Moverse con WASD y correr
+
+### Paso 1: Agregar las letras
+
+En `elif estado == "jugando":`, cambiá los 4 `if` de las flechas:
+
+```python
+if teclas[pygame.K_LEFT] or teclas[pygame.K_a]:    # flecha izquierda o A
+    jugador_x -= jugador_velocidad
+    moviendo = True
+    mirando_izquierda = True
+if teclas[pygame.K_RIGHT] or teclas[pygame.K_d]:   # flecha derecha o D
+    jugador_x += jugador_velocidad
+    moviendo = True
+    mirando_izquierda = False
+if teclas[pygame.K_UP] or teclas[pygame.K_w]:      # flecha arriba o W
+    jugador_y -= jugador_velocidad
+    moviendo = True
+if teclas[pygame.K_DOWN] or teclas[pygame.K_s]:    # flecha abajo o S
+    jugador_y += jugador_velocidad
+    moviendo = True
+```
+
+- `or` da verdadero si **alguna** de las dos teclas está apretada
+- `pygame.K_a`, `pygame.K_w`, `pygame.K_s` y `pygame.K_d` son las letras, en minúscula
+- Lo de adentro de cada `if` no cambia
+
+### Paso 2: Correr con Shift
+
+Justo abajo de `teclas = pygame.key.get_pressed()`, agregá:
+
+```python
+if teclas[pygame.K_LSHIFT]:      # Shift izquierdo apretado
+    jugador_velocidad = 10       # corre
+else:
+    jugador_velocidad = 6        # camina
+```
+
+- `pygame.K_LSHIFT` es el Shift de la izquierda
+- Va **antes** de los 4 `if`, así ya se mueven con la velocidad nueva
+- El 6 es la velocidad que ya tenía el jugador
+
+![El personaje caminando con WASD](python/img/clase33/02-wasd.gif)
+*Con D va a la derecha (con Shift, más rápido), con W sube, con A va a la izquierda (y se da vuelta) y con S baja.*
+
+### 🛡️ Parte 3: Invencible después de un golpe
+
+Ahora, cuando un enemigo te toca, volvés al centro. Si justo hay otro enemigo ahí, perdés otra vida enseguida. Lo arreglamos con 2 segundos de invencibilidad.
+
+### Paso 1: La variable invencible
+
+En `# ===== JUGADOR =====`, abajo de `jugador_velocidad`, agregá:
+
+```python
+invencible = 0  # cuadros que faltan para poder perder otra vida
+```
+
+Y en `reiniciar()`, sumala al `global` y ponela en 0:
+
+```python
+global jugador_x, jugador_y, vidas, puntaje, enemigos, moneda_x, moneda_y, velocidad_enemigo, invencible
+```
+
+```python
+velocidad_enemigo = 3
+invencible = 0
+```
+
+- `invencible` cuenta **cuadros**. El juego va a 60 cuadros por segundo (`reloj.tick(60)`), así que 120 cuadros son 2 segundos
+- Con 0, el jugador puede perder vidas, como siempre
+- Va en `reiniciar()` para que al jugar de nuevo no arranque invencible
+
+### Paso 2: No perder vidas mientras dura
+
+Buscá el `for` que revisa el choque con los enemigos y dejalo así:
+
+```python
+if invencible > 0:
+    invencible -= 1      # baja 1 por cuadro: 120 cuadros = 2 segundos
+
+for enemigo in enemigos:
+    rect_enemigo = pygame.Rect(enemigo["x"], enemigo["y"], enemigo_tamano, enemigo_tamano)
+    if rect_jugador.colliderect(rect_enemigo) and invencible == 0:
+        vidas -= 1
+        invencible = 120     # 2 segundos sin perder vidas
+        jugador_x, jugador_y = 400, 300
+        if vidas <= 0:
+            estado = "gameover"
+            if puntaje > record:
+                record = puntaje
+                guardar_record(record)
+        break
+```
+
+- Cada cuadro, si `invencible` es más de 0, le resta 1, hasta llegar a 0
+- `and invencible == 0`: solo pierde vida si choca **y** no es invencible
+- Al perder una vida, `invencible = 120` arranca la cuenta de nuevo
+- Lo demás (volver al centro, el game over y el `break` de la Clase 32) queda igual
+
+### Paso 3: Que titile
+
+Buscá el `pantalla.blit(imagen, ...)` del jugador y metelo adentro de un `if`:
+
+```python
+if invencible % 10 < 5:      # 5 cuadros se ve, 5 no: titila
+    pantalla.blit(imagen, (jugador_x, jugador_y))
+```
+
+- `%` da el resto de dividir por 10, así que siempre es un número del 0 al 9
+- Del 0 al 4 se dibuja y del 5 al 9 no: el personaje aparece y desaparece
+- Con `invencible` en 0, el resto es 0 y se dibuja siempre
+
+### Paso 4: Probar todo
+
+Abrí `clase33.py` y probá:
+
+1. La ventana y el menú muestran tu título
+2. Se mueve con las flechas y con W, A, S y D, y con Shift corre
+3. Dejate tocar por un enemigo: perdés **una** vida, volvés al centro y el personaje titila 2 segundos
+4. Mientras titila, los enemigos te pueden tocar y no perdés vidas
+
+![El personaje titilando después de un golpe](python/img/clase33/03-invencible.gif)
+*El enemigo lo toca, las vidas bajan de 3 a 2 y el personaje titila en el centro sin perder más vidas.*
+
+### Estructura final de la carpeta
+
+```
+python clases/
+  ├── clase33.py
+  ├── records.txt
+  ├── imagenes/
+  │     ├── caminar1.png
+  │     └── caminar2.png
+  └── sonidos/
+        └── moneda.mp3
+```
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| `AttributeError: module 'pygame' has no attribute 'K_A'` | La letra va en minúscula: `pygame.K_a` |
+| Con Shift no corre | El `if` del Shift quedó abajo de los 4 `if` del movimiento. Subilo justo abajo de `teclas = pygame.key.get_pressed()` |
+| Siempre corre, aunque no apriete Shift | Falta el `else` con `jugador_velocidad = 6` |
+| Al chocar pierde todas las vidas de golpe | Falta `and invencible == 0` en el `if` del choque, o falta `invencible = 120` adentro |
+| Después del primer golpe nunca más pierde vidas | Falta el `invencible -= 1`, así que nunca vuelve a 0 |
+| Al jugar de nuevo con R, arranca titilando | Falta `invencible` en el `global` de `reiniciar()`, así que el `invencible = 0` de adentro no cambia la de afuera. Sumala al `global` |
+| El personaje desapareció | El `pantalla.blit` del jugador quedó afuera del `if`, o el `if` dice `> 5` en vez de `< 5` |
+| No cambia nada | Ejecutaste `clase32.py` en vez de `clase33.py`, o no guardaste el archivo |
+
+### Extras
+
+**Correr con los dos Shift:** sumá el de la derecha con `or`:
+
+```python
+if teclas[pygame.K_LSHIFT] or teclas[pygame.K_RSHIFT]:
+```
+
+## Ejercicio
+
+> Consigna: Hacé que el juego sea tuyo: ponele tu título, movete con flechas y WASD, corré con Shift y quedá invencible después de cada golpe.
+
+**Pistas:**
+1. Probá otros números: ¿cuánto querés que dure la invencibilidad? (`120` = 2 segundos, `180` = 3)
+2. Cambiá el `10` y el `5` del titileo: ¿qué pasa con `% 20 < 10`?
+3. Si correr es muy fácil, bajá el `10` del Shift a `8`
+
+## Recursos
+
+- [pygame.key — constantes de las teclas](https://www.pygame.org/docs/ref/key.html)
+- [Operadores aritméticos de Python (`%`)](https://docs.python.org/es/3/reference/expressions.html#binary-arithmetic-operations)
