@@ -1,0 +1,265 @@
+---
+title: "Clase 30: ¡Presentación del Portfolio! 🎤"
+mision: "Compartir el enlace de tu portfolio y recibir feedback."
+---
+
+# Clase 30: ¡Presentación del Portfolio! 🎤
+
+Le damos los últimos retoques al portfolio de la Clase 29, lo subimos a GitHub con git, lo publicamos y lo mostramos.
+
+## Objetivos
+
+- Sumar un menú hamburguesa para el celular con un poquito de JavaScript
+- Subir el portfolio a un repositorio nuevo con `git` desde la terminal
+- Publicarlo en GitHub Pages y compartir el link
+- Presentarlo y dar y recibir feedback
+
+## Contenido
+
+### ✨ Parte 1: Los últimos retoques
+
+### Paso 1: Tarjetas que se levantan
+
+En la Clase 29 quedó como extra. Sumale estas clases al `div` de **cada** tarjeta de proyecto:
+
+```html
+<div class="bg-white rounded-xl shadow p-6 transition hover:-translate-y-1 hover:shadow-lg">
+```
+
+| Clase | Para qué sirve |
+|---|---|
+| `transition` | Que el cambio sea suave y no de golpe |
+| `hover:-translate-y-1` | Al pasar el mouse, la tarjeta sube 4 px |
+| `hover:shadow-lg` | Al pasar el mouse, la sombra se agranda |
+
+### Paso 2: El botón hamburguesa ☰
+
+En el celular, el menú ocupa lugar arriba de todo. Lo escondemos detrás de un botón ☰, como en casi todas las páginas. Cambiá el `<nav>` entero por este:
+
+```html
+<nav class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+  <a href="#inicio" class="text-xl font-bold text-indigo-600">Agus.dev</a>
+  <!-- Boton hamburguesa: solo se ve en el celular -->
+  <button id="boton-menu" class="md:hidden text-2xl px-2">☰</button>
+  <!-- Los links: escondidos en el celular, en fila desde la tablet -->
+  <div id="menu" class="hidden md:flex w-full md:w-auto mt-2 md:mt-0 md:gap-6">
+    <a href="#sobre-mi" class="block py-2 md:py-0 hover:text-indigo-600">Sobre mí</a>
+    <a href="#proyectos" class="block py-2 md:py-0 hover:text-indigo-600">Proyectos</a>
+    <a href="#contacto" class="block py-2 md:py-0 hover:text-indigo-600">Contacto</a>
+  </div>
+</nav>
+```
+
+- `md:hidden` en el botón: se ve en el celular y desde la tablet desaparece
+- `hidden md:flex` en el menú: al revés, escondido en el celular y en fila desde la tablet
+- `w-full` hace que el menú abierto baje a su propio renglón, abajo del nombre (por el `flex-wrap` del `nav`)
+- `block py-2` pone cada link en su renglón y con espacio para tocarlo con el dedo
+- Si ya cambiaste el color en la Clase 29, poné el tuyo en vez de `indigo`
+
+### Paso 3: Que el botón funcione
+
+Todavía el botón no hace nada. En la misma carpeta creá `script.js`:
+
+```js
+// Buscamos el boton y el menu por su id
+const $botonMenu = document.querySelector("#boton-menu");
+const $menu = document.querySelector("#menu");
+
+// Cada vez que tocamos el boton, el menu aparece o se esconde
+$botonMenu.addEventListener("click", () => {
+  $menu.classList.toggle("hidden");
+});
+```
+
+Y en el `index.html`, justo antes de `</body>`:
+
+```html
+<!-- JavaScript: siempre al final del body -->
+<script src="script.js"></script>
+```
+
+- `querySelector` y `addEventListener` son los de la Clase 20
+- `classList.toggle("hidden")` es de la Clase 21: si el menú tiene la clase `hidden`, se la saca, y si no la tiene, se la pone
+- Usamos la clase `hidden` de Tailwind, así que no hace falta CSS nuevo
+
+### Paso 4: Probalo
+
+Con **F12** y **Ctrl + Shift + M** (Clase 28), elegí un celular:
+
+![El botón hamburguesa en el celular](desarrollo/img/clase30/01-menu-cerrado.png)
+*En el celular, el menú está escondido y arriba a la derecha aparece el botón ☰.*
+
+![El menú abierto](desarrollo/img/clase30/02-menu-abierto.png)
+*Al tocar ☰, los links aparecen uno abajo del otro. Al tocarlo de nuevo, se esconden.*
+
+En la tablet y la compu, el botón no se ve y el menú queda en fila, como antes.
+
+### 🐙 Parte 2: Subirlo a GitHub con git
+
+### Paso 1: Abrí la terminal en la carpeta
+
+> 📝 **Qué es git:** un programa que guarda "fotos" de tu proyecto (los **commits**) y las sube a GitHub. Hasta ahora subíamos los archivos desde la página de GitHub; con git se hace con 3 comandos y queda el historial de cada cambio.
+
+1. En VS Code: **Archivo → Abrir carpeta** y elegí `portfolio`
+2. **Terminal → Nueva terminal**: se abre abajo, ya parada en la carpeta
+
+### Paso 2: Decile a git quién sos
+
+Solo la primera vez en cada compu. Con tu usuario de GitHub y el mail de tu cuenta:
+
+```bash
+git config --global user.name "tu-usuario"
+git config --global user.email "tu-mail@ejemplo.com"
+```
+
+- Este nombre aparece en cada commit que hagas
+- Si ya lo hiciste en esta compu, salteá este paso
+
+### Paso 3: El primer commit
+
+```bash
+git init
+git add .
+git commit -m "Mi portfolio"
+```
+
+| Comando | Para qué sirve |
+|---|---|
+| `git init` | Convierte la carpeta en un repositorio: git empieza a mirarla (crea una carpeta oculta `.git`) |
+| `git add .` | Elige qué va en la próxima foto. El `.` quiere decir "todo lo de esta carpeta" |
+| `git commit -m "..."` | Saca la foto, con un mensaje que cuenta qué cambiaste |
+
+> 💡 `git status` te dice en qué estado está todo. Si no sabés qué pasó, escribilo.
+
+### Paso 4: Creá el repositorio en GitHub
+
+1. Entrá a [github.com](https://github.com) con tu cuenta
+2. Arriba a la derecha, **+ → New repository**
+3. **Repository name:** `portfolio`
+4. Dejalo en **Public** (GitHub Pages gratis necesita que sea público)
+5. **No** tildes "Add a README": el repositorio tiene que quedar vacío, porque los archivos los subimos nosotros
+6. **Create repository**
+
+### Paso 5: Subilo
+
+GitHub te muestra los comandos en **"…or push an existing repository from the command line"**. Copialos con el botón 📋 y pegalos en la terminal. Son estos, con tu usuario:
+
+```bash
+git remote add origin https://github.com/tu-usuario/portfolio.git
+git branch -M main
+git push -u origin main
+```
+
+| Comando | Para qué sirve |
+|---|---|
+| `git remote add origin ...` | Le dice a git a qué repositorio de GitHub subir. `origin` es el apodo de ese link |
+| `git branch -M main` | Le pone `main` de nombre a la rama (git a veces la crea como `master`) |
+| `git push -u origin main` | Sube los commits a GitHub. El `-u` hace que la próxima vez alcance con `git push` |
+
+- La primera vez se abre el navegador para que entres a GitHub: tocá **Sign in with your browser** y autorizá
+- Recargá la página del repositorio: tienen que aparecer `index.html` y `script.js`
+
+### 🚀 Parte 3: Publicar y presentar
+
+### Paso 1: Prendé GitHub Pages
+
+Como en la Clase 27:
+
+1. En el repositorio, **Settings → Pages**
+2. En **Branch**, elegí `main` y la carpeta `/ (root)` → **Save**
+3. Esperá uno o dos minutos y recargá: arriba aparece el link
+
+Tu portfolio queda en:
+
+```
+https://tu-usuario.github.io/portfolio/
+```
+
+Abrilo también en tu celular y probá el botón ☰.
+
+### Paso 2: Si cambiás algo después
+
+Cada vez que mejores el portfolio, son 3 comandos:
+
+```bash
+git add .
+git commit -m "Cambio el color del menu"
+git push
+```
+
+- En uno o dos minutos se actualiza en GitHub Pages
+- El mensaje del commit cuenta qué cambiaste: así después encontrás cada cambio en el historial
+
+### Paso 3: La presentación
+
+Cada uno tiene **2 minutos** para mostrar su portfolio en el proyector, desde el link publicado:
+
+1. Quién sos (la sección de inicio)
+2. Tu proyecto favorito y por qué
+3. Qué fue lo más difícil de armar
+
+Los compañeros dan feedback con lo de la Clase 28:
+
+- **Una cosa que te gustó:** algo concreto ("el color del botón", "las tarjetas que suben")
+- **Una cosa para mejorar:** con respeto y explicando por qué ("el texto gris sobre celeste cuesta leerlo")
+
+### Paso 4: Probar todo
+
+1. En el celular aparece ☰, abre y cierra el menú
+2. En la compu el menú está en fila y las tarjetas suben al pasar el mouse
+3. En GitHub, el repositorio `portfolio` tiene `index.html` y `script.js`
+4. El link `https://tu-usuario.github.io/portfolio/` abre tu portfolio, también desde el celular
+5. Compartiste tu link y recibiste feedback
+
+### Estructura final
+
+```
+portfolio/
+├── .git/        (oculta: la crea git init, ahí guarda los commits)
+├── index.html   (HTML con Tailwind y el menú hamburguesa)
+└── script.js    (abre y cierra el menú)
+```
+
+### Problemas comunes
+
+| Problema | Solución |
+|---|---|
+| El botón ☰ no hace nada | El `<script>` no está o el nombre está mal. Revisá que esté antes de `</body>` y que diga `script.js`, igual que el archivo. Mirá la consola (F12) por errores |
+| El menú no aparece en la compu | Falta `md:flex` en el `div` del menú. Tiene que decir `hidden md:flex` |
+| `Author identity unknown` al hacer commit | Git no sabe quién sos. Hacé el Paso 2 de la Parte 2 y repetí el commit |
+| `fatal: not a git repository` | La terminal no está en la carpeta del portfolio o falta `git init`. Abrí la carpeta con **Archivo → Abrir carpeta** y abrí una terminal nueva |
+| `error: src refspec main does not match any` | No hay ningún commit todavía. Hacé `git add .` y `git commit` antes del `push` |
+| `remote origin already exists` | Ya pegaste el `remote add` antes. Seguí con los otros dos comandos |
+| `rejected` o `fetch first` al hacer push | El repositorio de GitHub no estaba vacío (tildaste el README). Borralo y crealo de nuevo sin tildar nada |
+| Aviso `LF will be replaced by CRLF` | Es solo un aviso de Windows sobre los finales de línea. No pasa nada, seguí |
+| GitHub Pages muestra la versión vieja | Tarda uno o dos minutos. Esperá y recargá con **Ctrl + F5** |
+
+### Extras
+
+**Que el menú se cierre al tocar un link:** en el celular, después de tocar un link el menú queda abierto. Sumá esto al final de `script.js`:
+
+```js
+// Al tocar cualquier link del menu, lo escondemos
+$menu.addEventListener("click", () => {
+  $menu.classList.add("hidden");
+});
+```
+
+**Mirá el historial:** `git log --oneline` muestra todos tus commits, del más nuevo al más viejo.
+
+## Ejercicio
+
+> Consigna: Publicá tu portfolio con el menú hamburguesa, compartí el link con la clase y dale feedback a 2 compañeros (una cosa que te gustó y una para mejorar).
+
+**Pistas:**
+1. Primero que el ☰ ande en tu compu, después git
+2. Si un comando de git da error, buscalo en Problemas comunes
+3. Con el feedback que recibas, hacé un cambio y subilo con `add`, `commit` y `push`
+
+## Recursos
+
+- [Git: primeros pasos (en español)](https://git-scm.com/book/es/v2/Fundamentos-de-Git-Obteniendo-un-repositorio-Git)
+- [Crear un repositorio en GitHub](https://docs.github.com/es/repositories/creating-and-managing-repositories/creating-a-new-repository)
+- [GitHub Pages](https://docs.github.com/es/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+- [classList en MDN](https://developer.mozilla.org/es/docs/Web/API/Element/classList)
+- [Diseño responsive en Tailwind](https://tailwindcss.com/docs/responsive-design)
